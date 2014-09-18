@@ -33,18 +33,45 @@ public class INF2015_Projet {
                 Autre cycle => MESSAGE D'ERREUR
         */
         for(int i = 0; i < taille; i++) {
-            if(tabEntree.getJSONObject(i).get("cycle") != "2012-2014") {
+            if(tabEntree.getJSONObject(i).get("cycle") == "2012-2014") {
+                
+            } else {
                 //message d'erreur
             }
         }
         
         /* 2)   Activité complétée entre 1er avril 2012 et le 1er avril 2014 inclusivement
                 À l'extérieur des intervalles => MESSAGE D'ERREUR + activité ignorée des calculs
+                Les dates sont indiquées en format ISO-8601
         */
         
         /* 3)   Activité appartenant à un des catégories reconnues
                 Activité non reconnue => MESSAGE D'ERREUR + activité ignorée des calculs
         */
+        String[] categoriesReconnues = {"cours", 
+                                        "atelier", 
+                                        "séminaire",
+                                        "colloque", 
+                                        "conférence",
+                                        "lecture dirigée", 
+                                        "présentation", 
+                                        "groupe de discussion", 
+                                        "projet de recherche", 
+                                        "rédaction professionnelle"};
+        
+        for(int i = 0; i < taille; i++) {   //taille du fichier d'entrée
+            for(int j = 0; j < tabEntree.getJSONObject(i).getJSONArray("activites").size(); j++) {  //taille du tableau «activités»
+                for(int k = 0; k < categoriesReconnues.length; k++) {    //taille du tableau des catégories
+                    String categorie = tabEntree.getJSONObject(i).getJSONArray("activites").getJSONObject(j).getString("categorie");
+                    
+                    if(categorie.equals(categoriesReconnues[k])) {
+
+                    } else {
+                        //message d'erreur + ignoré
+                    }
+                }
+            }   
+        }
         
         /* 4)   « heures_transferees_du_cycle_precedent » à utiliser dans le calcul d'heures courrant
                 Nombre positif et inférieur à 7
