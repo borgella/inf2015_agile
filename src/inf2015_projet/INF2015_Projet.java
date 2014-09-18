@@ -10,7 +10,7 @@ import net.sf.json.JSONArray;
 
 /**
  *
- * @author Chelny
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class INF2015_Projet {
 
@@ -28,6 +28,17 @@ public class INF2015_Projet {
         
         // II- Vérifications
         int taille = tabEntree.size();
+        int totalHeures = 0;
+        String[] categoriesReconnues = {"cours", 
+                                        "atelier", 
+                                        "séminaire",
+                                        "colloque", 
+                                        "conférence",
+                                        "lecture dirigée", 
+                                        "présentation", 
+                                        "groupe de discussion", 
+                                        "projet de recherche", 
+                                        "rédaction professionnelle"};
         
         /* 1)   Cycle 2012-2014
                 Autre cycle => MESSAGE D'ERREUR
@@ -45,20 +56,9 @@ public class INF2015_Projet {
                 Les dates sont indiquées en format ISO-8601
         */
         
-        /* 3)   Activité appartenant à un des catégories reconnues
+        /* 3)   Activité appartenant à une des catégories reconnues
                 Activité non reconnue => MESSAGE D'ERREUR + activité ignorée des calculs
         */
-        String[] categoriesReconnues = {"cours", 
-                                        "atelier", 
-                                        "séminaire",
-                                        "colloque", 
-                                        "conférence",
-                                        "lecture dirigée", 
-                                        "présentation", 
-                                        "groupe de discussion", 
-                                        "projet de recherche", 
-                                        "rédaction professionnelle"};
-        
         for(int i = 0; i < taille; i++) {   //taille du fichier d'entrée
             for(int j = 0; j < tabEntree.getJSONObject(i).getJSONArray("activites").size(); j++) {  //taille du tableau «activités»
                 for(int k = 0; k < categoriesReconnues.length; k++) {    //taille du tableau des catégories
@@ -76,7 +76,19 @@ public class INF2015_Projet {
         /* 4)   « heures_transferees_du_cycle_precedent » à utiliser dans le calcul d'heures courrant
                 Nombre positif et inférieur à 7
                 Si nombre supérieur à 7 => MESSAGE D'ERREUR + 7 heures seulement seront calculés
-        */    
+        */   
+        for(int i = 0; i < taille; i++) {
+            int heuresTransferees = tabEntree.getJSONObject(i).getInt("heures_transferees_du_cycle_precedent");
+            
+            if(heuresTransferees > 0) {
+                if(heuresTransferees < 7) {
+                    totalHeures = totalHeures + heuresTransferees;
+                } else {
+                    //message d'erreur
+                    totalHeures = totalHeures + 7;
+                }
+            }
+        }
         
         /* 5)   Minimum 40 heures déclarées dans le cycle, aucun max
                 Inférieur à 40 heures => MESSAGE D'ERREUR
