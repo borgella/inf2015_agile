@@ -12,7 +12,7 @@ import net.sf.json.JSONArray;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class INF2015_Projet {
+public class FormationContinue {
 
     /**
      * @param args the command line arguments
