@@ -12,15 +12,15 @@ import java.util.ArrayList;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class DeclarationDeFormation {
-    private final String numeroDepermis;
+    private final String numeroDePermis;
     private final String cycle;
     private final int heuresTransferees;
     private ArrayList <Activite> activites;
     
-    public DeclarationDeFormation(String numeroDepermis,String cycle, int heuresTransferees) {
-        this.numeroDepermis = numeroDepermis;
-        this.cycle = cycle.equals("2012-2014")? cycle :" ";
-        this.heuresTransferees = (heuresTransferees <= 7 && heuresTransferees >= 0)? heuresTransferees : 7;
+    public DeclarationDeFormation(String numeroDePermis, String cycle, int heuresTransferees) {
+        this.numeroDePermis = numeroDePermis;
+        this.cycle = cycle.equals("2012-2014") ? cycle : " ";
+        this.heuresTransferees = (heuresTransferees <= 7 && heuresTransferees >= 0) ? heuresTransferees : 7;
     }
     
     public void ajouterActivite(Activite nouvelleActivite) {
@@ -28,7 +28,7 @@ public class DeclarationDeFormation {
     }
     
     public String getNumeroDepermis(){
-        return numeroDepermis;
+        return numeroDePermis;
     }
     
     public String getCycle() {

@@ -16,12 +16,10 @@ public class Validateur {
     private boolean declarationComplete;
     private ArrayList <Activite> listeActivite;
   
-        
     public Validateur(){
         declarationComplete = false;
         listeActivite = new ArrayList<Activite>(5);
     }
-    
     
     public boolean validerLeCycle(String cycle){
         return cycle.equals("");
@@ -34,7 +32,7 @@ public class Validateur {
      */          
      public boolean validerLaDate(String date){
         int temporaire ; 
-        if((stringToInt(date.substring(5,7))>= 1 && stringToInt(date.substring(5,7))<=12) && (stringToInt(date.substring(8,10))>=1 && stringToInt(date.substring(8,10))<= 31)){
+        if((stringToInt(date.substring(5,7)) >= 1 && stringToInt(date.substring(5,7)) <= 12) && (stringToInt(date.substring(8,10)) >= 1 && stringToInt(date.substring(8,10)) <= 31)){
             date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);
         }else{
             return false;

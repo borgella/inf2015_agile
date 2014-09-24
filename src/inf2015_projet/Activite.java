@@ -10,18 +10,17 @@ package inf2015_projet;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Activite extends DeclarationDeFormation {  
-    private String description ;
+    private String description;
     private String categorie;
-    private int     heures;
-    private String  date;
+    private int heures;
+    private String date;
       
-    public Activite(String numeroDePermis, String cycle,int heuresTransferees,String[] listeActivite){
-        super(numeroDePermis,cycle,heuresTransferees);
+    public Activite(String numeroDePermis, String cycle, int heuresTransferees, String[] listeActivite){
+        super(numeroDePermis, cycle, heuresTransferees);
         this.description = listeActivite[0];
         this.categorie = listeActivite[1];
         this.heures = stringToInt(listeActivite[2]);
         this.date = listeActivite[3];
-        
     }
     
     /**
@@ -47,6 +46,10 @@ public class Activite extends DeclarationDeFormation {
         return this.heures;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getDate () {
         return this.date;
     }
