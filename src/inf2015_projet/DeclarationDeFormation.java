@@ -12,18 +12,23 @@ import java.util.ArrayList;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class DeclarationDeFormation {
-    
+    private final String numeroDepermis;
     private final String cycle;
     private final int heuresTransferees;
-    private ArrayList<Activite> activites;
+    private ArrayList <Activite> activites;
     
-    public DeclarationDeFormation(String cycle, int heuresTransferees) {
-        this.cycle = cycle;
-        this.heuresTransferees = heuresTransferees;
+    public DeclarationDeFormation(String numeroDepermis,String cycle, int heuresTransferees) {
+        this.numeroDepermis = numeroDepermis;
+        this.cycle = cycle.equals("2012-2014")? cycle :" ";
+        this.heuresTransferees = (heuresTransferees <= 7 && heuresTransferees >= 0)? heuresTransferees : 7;
     }
     
     public void ajouterActivite(Activite nouvelleActivite) {
         activites.add(nouvelleActivite);
+    }
+    
+    public String getNumeroDepermis(){
+        return numeroDepermis;
     }
     
     public String getCycle() {
