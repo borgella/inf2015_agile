@@ -5,6 +5,7 @@
  */
 package inf2015_projet;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 
@@ -19,7 +20,8 @@ public class FormationContinue {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        String entree;
+        String fichierEntree = args[0];
+        String fichierDestination = args[1];
         JSONArray tabEntree;
         int tailleEntree;
         int tailleActivites;
@@ -31,6 +33,7 @@ public class FormationContinue {
         int heures;
         String date;
         DeclarationDeFormation declaration;
+        Validateur validateur = new Validateur();
         Activite activite;
         /*int totalHeures;
         String[] categoriesReconnues= { "cours", 
@@ -49,8 +52,8 @@ public class FormationContinue {
         
         
         /*** I- Charger un fichier JSON et l'obtenir sous forme de String ***/
-        entree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
-        tabEntree = JSONArray.fromObject(entree);
+        fichierEntree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
+        tabEntree = JSONArray.fromObject(fichierEntree);
         
         tailleEntree = tabEntree.size();    // obtenir le nombre de déclarations d'activités de formation continue
         
@@ -164,6 +167,9 @@ public class FormationContinue {
         
         /***  III- Affichage du fichier de sortie ***/
         
+        FileWriter fichierSortie = new FileWriter(fichierDestination);
+        fichierSortie.write(validateur.produireRapport());
+        fichierSortie.close();
     }
     
 }

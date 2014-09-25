@@ -7,18 +7,19 @@
 package inf2015_projet;
 
 import java.util.ArrayList;
+import net.sf.json.JSONObject;
 
 /**
  *
  * @author df891101
  */
 public class Validateur {
-    private boolean declarationComplete;
-    private ArrayList <Activite> listeActivite;
+    private boolean formationIncomplete;
+    private ArrayList <String> messagesErreurs;
   
     public Validateur(){
-        declarationComplete = false;
-        listeActivite = new ArrayList<Activite>(5);
+        formationIncomplete = false;
+        messagesErreurs = new ArrayList();
     }
     
     public boolean validerLeCycle(String cycle){
@@ -49,6 +50,17 @@ public class Validateur {
     private int stringToInt(String number){
         Integer temporaire = new Integer(number);
         return temporaire;
+    }
+    
+    public String produireRapport() {
+        
+        JSONObject texteDeSortie = new JSONObject();
+        
+        texteDeSortie.accumulate("complet", !formationIncomplete);
+        texteDeSortie.accumulate("erreurs", messagesErreurs);
+        
+        return texteDeSortie.toString(2);
+        
     }
     
 }
