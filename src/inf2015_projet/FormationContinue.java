@@ -23,8 +23,8 @@ public class FormationContinue {
         String fichierEntree = args[0];
         String fichierDestination = args[1];
         JSONArray tabEntree;
-        int tailleEntree;
-        int tailleActivites;
+        int nombreEntrees;
+        int nombreActivites;
         String numeroDePermis;
         String cycle;
         int heuresTransferees;
@@ -32,11 +32,12 @@ public class FormationContinue {
         String categorie;
         int heures;
         String date;
+        String[] regroupementActivites;
         DeclarationDeFormation declaration;
         Validateur validateur = new Validateur();
         Activite activite;
         /*int totalHeures;
-        String[] categoriesReconnues= { "cours", 
+        String[] categoriesReconnues = {"cours", 
                                         "atelier", 
                                         "séminaire",
                                         "colloque", 
@@ -55,27 +56,30 @@ public class FormationContinue {
         fichierEntree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
         tabEntree = JSONArray.fromObject(fichierEntree);
         
-        tailleEntree = tabEntree.size();    // obtenir le nombre de déclarations d'activités de formation continue
+        nombreEntrees = tabEntree.size();    // obtenir le nombre de déclarations d'activités de formation continue
         
         // Obtenir chaque information de la chaine de caracteres JSON
-        for(int i = 0; i < tailleEntree; i++) {
-            tailleActivites = tabEntree.getJSONObject(i).getJSONArray("activites").size();  // obtenir le nombre d'activités par membre
+        for(int i = 0; i < nombreEntrees; i++) {
+            nombreActivites = tabEntree.getJSONObject(i).getJSONArray("activites").size();  // obtenir le nombre d'activités par membre
             
             numeroDePermis = tabEntree.getJSONObject(i).getString("numero_de_permis");
             cycle = tabEntree.getJSONObject(i).getString("cycle");
             heuresTransferees = tabEntree.getJSONObject(i).getInt("heures_transferees_du_cycle_precedent");
             
-            //*** APPEL A LA DECLARATION???
+            // Appel a la DeclarationDeFormation
             declaration = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
             
-            for(int j = 0; j < tailleActivites; j++) {
+            for(int j = 0; j < nombreActivites; j++) {
                 description = tabEntree.getJSONObject(i).getJSONArray("activites").getJSONObject(j).getString("description");
                 categorie = tabEntree.getJSONObject(i).getJSONArray("activites").getJSONObject(j).getString("categorie");
                 heures = tabEntree.getJSONObject(i).getJSONArray("activites").getJSONObject(j).getInt("heures");
                 date = tabEntree.getJSONObject(i).getJSONArray("activites").getJSONObject(j).getString("date");
                 
-                //*** APPEL A L'ACTIVITE???
-                //activite = new Activite(description, categorie, heures, date);
+                // Regrouper tous les information de l'activite dans un tableau
+                regroupementActivites = new String[] {description, categorie, Integer.toString(heures), date};
+               
+                // Appel a l'Activite
+                activite = new Activite(numeroDePermis, cycle, heuresTransferees, regroupementActivites);
             }
         }
         

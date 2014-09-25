@@ -66,15 +66,20 @@ public class Activite extends DeclarationDeFormation {
     public static int regroupementDesCategories(String categorie){
         int temporaire;
         switch(categorie){
-            case"cours":      case"atelier":
-            case"séminaire":  case"colloque":
-            case"conférence": case"lecture dirigée":
+            case "cours":      
+            case "atelier":
+            case "séminaire":  
+            case "colloque":
+            case "conférence": 
+            case "lecture dirigée":
                 temporaire = 1;
                 break;  
-            case"présentation": case"projet de recherche":
+            case "présentation": 
+            case "projet de recherche":
                 temporaire = 2;
                 break;
-            case"groupe de discussion": case"rédaction professionelle":
+            case "groupe de discussion": 
+            case "rédaction professionelle":
                 temporaire = 3;
                 break;
             default: temporaire = -1;
