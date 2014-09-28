@@ -24,7 +24,7 @@ public class FormationContinue {
         String entree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
         JSONArray tabEntree = JSONArray.fromObject(entree);
         
-        
+        // ici on va extraire les donnees du json.
         
         // II- Vérifications
         int heuresTransferees = 0;
