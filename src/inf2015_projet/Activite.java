@@ -15,8 +15,8 @@ public class Activite extends DeclarationDeFormation {
     private int     heures;
     private String  date;
       
-    public Activite(String numeroDePermis, String cycle,int heuresTransferees,String[] listeActivite){
-        super(numeroDePermis,cycle,heuresTransferees);
+    public Activite(DeclarationDeFormation membre,String[] listeActivite){
+        super(membre.getNumeroDepermis(),membre.getCycle(),membre.getHeuresTransferees());
         this.description = listeActivite[0];
         this.categorie = listeActivite[1];
         this.heures = stringToInt(listeActivite[2]);
@@ -31,6 +31,7 @@ public class Activite extends DeclarationDeFormation {
     public String getDescription() {
         return this.description;
     }
+    
     /**
      *
      * @return
@@ -81,6 +82,22 @@ public class Activite extends DeclarationDeFormation {
     }
     
     /**
+     * Cette methode valide la date de l'activite
+     * @param date
+     * @return 
+     */          
+     public boolean validerLaDate(String date){
+        int temporaire ; 
+        if((stringToInt(date.substring(5,7))>= 1 && stringToInt(date.substring(5,7))<=12) && (stringToInt(date.substring(8,10))>=1 && stringToInt(date.substring(8,10))<= 31)){
+            date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);
+        }else{
+            return false;
+        }
+        temporaire = stringToInt(date);
+        return temporaire >= 20120430 && temporaire <= 20140430;
+    }
+    
+    /**
      * Cette methode convertit un String en format date
      * @param number
      * @return int temporaire
@@ -89,6 +106,5 @@ public class Activite extends DeclarationDeFormation {
         Integer temporaire = new Integer(number);
         return temporaire;
     }
-
-       
+          
 }
