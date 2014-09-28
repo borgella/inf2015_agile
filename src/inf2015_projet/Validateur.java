@@ -107,18 +107,7 @@ public class Validateur {
         }
         return "Le(s) activite " + retour + " "+ message+ " Il manque " + nombreDHeuresErronee()+ " " + message2 ;
     }
-    
-    
-     /**
-     * Cette methode convertit un String en format date
-     * @param number
-     * @return int temporaire
-     */
-    private int stringToInt(String number){
-        Integer temporaire = new Integer(number);
-        return temporaire;
-    }
-    
+      
     
      public boolean formationComplete(){
         return heuresTotal >= 40 && validerLeCycle() ;
