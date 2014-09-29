@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class DeclarationDeFormation {
-    private final String numeroDepermis;
+    private final String numeroDePermis;
     private final String cycle;
     private static int heuresTransferees;
     private ArrayList <Activite> activites;
@@ -36,7 +36,7 @@ public class DeclarationDeFormation {
     }
 
     public String getNumeroDepermis(){
-        return numeroDepermis;
+        return numeroDePermis;
     }
 
     public String getCycle() {

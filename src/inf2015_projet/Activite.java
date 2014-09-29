@@ -10,10 +10,10 @@ package inf2015_projet;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Activite extends DeclarationDeFormation {  
-    private String description ;
+    private String description;
     private String categorie;
-    private int     heures;
-    private String  date;
+    private int heures;
+    private String date;
       
     public Activite(DeclarationDeFormation membre,String[] listeActivite){
         super(membre.getNumeroDepermis(),membre.getCycle(),membre.getHeuresTransferees());
@@ -21,7 +21,6 @@ public class Activite extends DeclarationDeFormation {
         this.categorie = listeActivite[1];
         this.heures = stringToInt(listeActivite[2]);
         this.date = listeActivite[3];
-        
     }
     
     /**
@@ -48,6 +47,10 @@ public class Activite extends DeclarationDeFormation {
         return this.heures;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getDate () {
         return this.date;
     }
@@ -64,15 +67,20 @@ public class Activite extends DeclarationDeFormation {
     public static int regroupementDesCategories(String categorie){
         int temporaire;
         switch(categorie){
-            case"cours":      case"atelier":
-            case"séminaire":  case"colloque":
-            case"conférence": case"lecture dirigée":
+            case "cours":      
+            case "atelier":
+            case "séminaire":  
+            case "colloque":
+            case "conférence": 
+            case "lecture dirigée":
                 temporaire = 1;
                 break;  
-            case"présentation": case"projet de recherche":
+            case "présentation": 
+            case "projet de recherche":
                 temporaire = 2;
                 break;
-            case"groupe de discussion": case"rédaction professionelle":
+            case "groupe de discussion": 
+            case "rédaction professionelle":
                 temporaire = 3;
                 break;
             default: temporaire = -1;
