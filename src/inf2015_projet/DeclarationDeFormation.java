@@ -12,30 +12,32 @@ import java.util.ArrayList;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class DeclarationDeFormation {
+
     private final String numeroDePermis;
     private final String cycle;
     private static int heuresTransferees;
-    private ArrayList <Activite> activites;
-    private ArrayList <Activite> activiteErronee;
-    public DeclarationDeFormation(String numeroDepermis,String cycle, int heuresTransferees) {
+    private ArrayList<Activite> activites;
+    private ArrayList<Activite> activiteErronee;
+
+    public DeclarationDeFormation(String numeroDepermis, String cycle, int heuresTransferees) {
         this.numeroDePermis = numeroDepermis;
         this.cycle = cycle;
-        this.heuresTransferees = heuresTransferees;           
-        activites = new ArrayList(1);  
+        this.heuresTransferees = heuresTransferees;
+        activites = new ArrayList(1);
         activiteErronee = new ArrayList(1);
     }
 
     public void ajouterActivite(Activite activite) {
         int temporaire = activite.regroupementDesCategories(activite.getCategorie());
-        if(activite.validerLaDate(activite.getDate())&& temporaire != -1){
+        if (activite.validerLaDate(activite.getDate()) && temporaire != -1) {
             activites.add(activite);
-        }else{
+        } else {
             activiteErronee.add(activite);
         }
 
     }
 
-    public String getNumeroDepermis(){
+    public String getNumeroDepermis() {
         return numeroDePermis;
     }
 
@@ -47,12 +49,12 @@ public class DeclarationDeFormation {
         return heuresTransferees;
     }
 
-    public ArrayList getActivites(){
+    public ArrayList getActivites() {
         return activites;
     }
-    
-    public ArrayList getActiviteErronee(){
+
+    public ArrayList getActiviteErronee() {
         return activiteErronee;
     }
-    
+
 }
