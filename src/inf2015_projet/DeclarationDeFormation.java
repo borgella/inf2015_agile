@@ -34,7 +34,6 @@ public class DeclarationDeFormation {
         } else {
             activiteErronee.add(activite);
         }
-
     }
 
     public String getNumeroDepermis() {

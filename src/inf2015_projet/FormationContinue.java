@@ -6,6 +6,10 @@
 package inf2015_projet;
 
 //import java.io.FileWriter;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 //import java.io.IOException;
 //import net.sf.json.JSONArray;
 /**
@@ -17,34 +21,46 @@ public class FormationContinue {
     // @param args the command line arguments
     public static void main(String[] args) {
 
-        /**
-         *
-         * // TODO code application logic here //String fichierEntree = args[0];
-         * // String fichierDestination = args[1]; JSONArray tabEntree; int
-         * nombreEntrees; int nombreActivites; String numeroDePermis; String
-         * cycle; int heuresTransferees; String description;
-         *
-         * // I- Charger un fichier JSON et l'obtenir sous forme de String
-         * //String entree = FileReader.loadFileIntoString("json/entree.json",
-         * "ISO-8601"); //JSONArray tabEntree = JSONArray.fromObject(entree);
-         *
-         * // ici on va extraire les donnees du json.
-         *
-         * // II- Vérifications int heuresTransferees = 0; int tailleEntree =
-         * tabEntree.size(); int totalHeures = 0; String categorie; int heures;
-         * String date; String[] regroupementActivites; DeclarationDeFormation
-         * declaration; Validateur validateur = new Validateur(); Activite
-         * activite; /*int totalHeures; String[] categoriesReconnues = {"cours",
-         * "atelier", "séminaire", "colloque", "conférence", "lecture dirigée",
-         * "présentation", "groupe de discussion", "projet de recherche",
-         * "rédaction professionnelle"}; String messageErreur;
-         */
-        /*  String sortie;
+        String fichierSource = args[0];
+        String fichierDestination = args[1];
+       
+        // Charger un fichier JSON et l'obtenir sous forme d'objet
+        String fichierEntree = FileReader.loadFileIntoString(fichierSource, "UTF-8");
+        JSONObject declarationJSON = JSONObject.fromObject(fichierEntree);
+        
+        String numeroDePermis = declarationJSON.getString("numero_de_permis");
+        String cycle = declarationJSON.getString("cycle");
+        int heuresTransferees = declarationJSON.getInt("heures_transferees_du_cycle_precedent");
+       
+        DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
+       
+        // obtenir le JSONArray qui contient les details des activités
+        JSONArray listeActivites = declarationJSON.getJSONArray("activites");
+
+        // boucler sur les JSONObjects dans le JSONArray
+        int nombreActivites = listeActivites.size();
+
+        for(int i = 0; i < nombreActivites; i++) {
+            String description = listeActivites.getJSONObject(i).getString("description");
+            String categorie = listeActivites.getJSONObject(i).getString("categorie");
+            int heures = listeActivites.getJSONObject(i).getInt("heures");
+            String date = listeActivites.getJSONObject(i).getString("date");
+            
+            // créer un objet Activite à partir du JSONObject courant
+            Activite uneActivite = new Activite(declarationDuMembre, listeActivites.getJSONObject(i));
+        
+            // ajouter l'activite courante dans la declaration
+            declarationDuMembre.ajouterActivite(uneActivite);
+            
+            // création et utilisation du validateur...
+            Validateur validation = new Validateur(uneActivite);
+        }
+ 
         
         
         
-         /** I- Charger un fichier JSON et l'obtenir sous forme de String 
-         fichierEntree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
+         /** I- Charger un fichier JSON et l'obtenir sous forme de String **/
+         /*fichierEntree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
          tabEntree = JSONArray.fromObject(fichierEntree);
         
          nombreEntrees = tabEntree.size();    // obtenir le nombre de déclarations d'activités de formation continue
@@ -142,11 +158,10 @@ public class FormationContinue {
          }
          }   
          }*/
-        /**
-         * * III- Affichage du fichier de sortie **
-         */
-       // FileWriter fichierSortie = new FileWriter(fichierDestination);
-        //fichierSortie.write(validateur.produireRapport());
-        // fichierSortie.close();
+        
+        /* Affichage du fichier de sortie */
+        //  FileWriter fichierSortie = new FileWriter(fichierDestination);
+        //  fichierSortie.write(validateur.produireRapport());
+        //  fichierSortie.close();
     }
 }

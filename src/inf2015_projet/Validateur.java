@@ -21,11 +21,17 @@ public class Validateur {
         heuresTotal = 0;
     }
 
+    /**  
+     *  Cycle 2012-2014
+     *  Autre cycle => MESSAGE D'ERREUR
+     *  
+     *  @return
+     */
     public boolean validerLeCycle() {
         return membre.getCycle().equals("2012-2014");
     }
-
-    public int nombreDHeuresErronee() {
+    
+    public int nombreDHeuresErronees() {
         Activite act;
         ArrayList<Activite> liste = membre.getActiviteErronee();
         int somme = 0;
@@ -35,7 +41,7 @@ public class Validateur {
         }
         return somme;
     }
-
+    
     public int nombreDHeuresCategorie1() {
         Activite act;
         ArrayList<Activite> liste = membre.getActivites();
@@ -48,7 +54,7 @@ public class Validateur {
         }
         return somme;
     }
-
+    
     public int nombreDHeuresCategorie2() {
         Activite act;
         ArrayList<Activite> liste = membre.getActivites();
@@ -61,7 +67,7 @@ public class Validateur {
         }
         return somme;
     }
-
+    
     public int nombreDHeuresCategorie3() {
         Activite act;
         ArrayList<Activite> liste = membre.getActivites();
@@ -74,8 +80,8 @@ public class Validateur {
         }
         return somme;
     }
-
-    public int heureTotalesFormation() {
+    
+    public int heuresTotalesFormation() {
         int somme1 = nombreDHeuresCategorie1();
         int somme2 = nombreDHeuresCategorie2();
         int somme3 = nombreDHeuresCategorie3();
@@ -105,7 +111,7 @@ public class Validateur {
         } else {
             return " ";
         }
-        return "Le(s) activite " + retour + " " + message + " Il manque " + nombreDHeuresErronee() + " " + message2;
+        return "Le(s) activite(s) " + retour + " " + message + " Il manque " + nombreDHeuresErronees() + " " + message2;
     }
 
     public boolean formationComplete() {
