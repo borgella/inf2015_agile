@@ -64,23 +64,18 @@ public class Activite extends DeclarationDeFormation {
     *   heures,elle retournera 3 si le minimum 17 heures et -1 si cette categorie
     *   n'est pas valide
     */
-    public static int regroupementDesCategories(String categorie){
+    public int regroupementDesCategories(String categorie){
         int temporaire;
         switch(categorie){
-            case "cours":      
-            case "atelier":
-            case "séminaire":  
-            case "colloque":
-            case "conférence": 
-            case "lecture dirigée":
+            case "cours": case "atelier":
+            case "séminaire": case "colloque":
+            case "conférence": case "lecture dirigée":
                 temporaire = 1;
                 break;  
-            case "présentation": 
-            case "projet de recherche":
+            case "présentation": case "projet de recherche":
                 temporaire = 2;
-                break;
-            case "groupe de discussion": 
-            case "rédaction professionelle":
+                break; 
+            case "groupe de discussion": case "rédaction professionelle":
                 temporaire = 3;
                 break;
             default: temporaire = -1;

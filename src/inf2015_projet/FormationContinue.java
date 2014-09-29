@@ -5,9 +5,9 @@
  */
 package inf2015_projet;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import net.sf.json.JSONArray;
+//import java.io.FileWriter;
+//import java.io.IOException;
+//import net.sf.json.JSONArray;
 
 /**
  *
@@ -15,13 +15,15 @@ import net.sf.json.JSONArray;
  */
 public class FormationContinue {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws IOException {
+    // @param args the command line arguments
+     
+    public static void main(String[] args)  {
+     
+        /**
+     *
         // TODO code application logic here
-        String fichierEntree = args[0];
-        String fichierDestination = args[1];
+        //String fichierEntree = args[0];
+      //  String fichierDestination = args[1];
         JSONArray tabEntree;
         int nombreEntrees;
         int nombreActivites;
@@ -31,8 +33,8 @@ public class FormationContinue {
         String description;
         
         // I- Charger un fichier JSON et l'obtenir sous forme de String
-        String entree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
-        JSONArray tabEntree = JSONArray.fromObject(entree);
+        //String entree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
+        //JSONArray tabEntree = JSONArray.fromObject(entree);
         
         // ici on va extraire les donnees du json.
         
@@ -59,17 +61,18 @@ public class FormationContinue {
                                         "projet de recherche", 
                                         "rédaction professionnelle"};
         String messageErreur;*/
-        String sortie;
+      /*  String sortie;
         
         
         
-        /*** I- Charger un fichier JSON et l'obtenir sous forme de String ***/
+        /** I- Charger un fichier JSON et l'obtenir sous forme de String 
         fichierEntree = FileReader.loadFileIntoString("json/entree.json", "ISO-8601");
         tabEntree = JSONArray.fromObject(fichierEntree);
         
         nombreEntrees = tabEntree.size();    // obtenir le nombre de déclarations d'activités de formation continue
         
         // Obtenir chaque information de la chaine de caracteres JSON
+        /*
         for(int i = 0; i < nombreEntrees; i++) {
             nombreActivites = tabEntree.getJSONObject(i).getJSONArray("activites").size();  // obtenir le nombre d'activités par membre
             
@@ -93,11 +96,11 @@ public class FormationContinue {
                 activite = new Activite(numeroDePermis, cycle, heuresTransferees, regroupementActivites);
             }
         }
+        */
         
-        
-        /***  II- Validations ***/
-        /*heures = 0;
-        totalHeures = 0;*/
+         // II- Validations ***/
+        //heures = 0;
+        //totalHeures = 0;*/
         
         /* 1)   Cycle 2012-2014
                 Autre cycle => MESSAGE D'ERREUR */
@@ -182,9 +185,11 @@ public class FormationContinue {
         
         /***  III- Affichage du fichier de sortie ***/
         
-        FileWriter fichierSortie = new FileWriter(fichierDestination);
-        fichierSortie.write(validateur.produireRapport());
-        fichierSortie.close();
-    }
+       // FileWriter fichierSortie = new FileWriter(fichierDestination);
+       //fichierSortie.write(validateur.produireRapport());
+       // fichierSortie.close();
     
-}
+   
+    
+} 
+

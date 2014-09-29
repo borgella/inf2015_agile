@@ -18,7 +18,7 @@ public class DeclarationDeFormation {
     private ArrayList <Activite> activites;
     private ArrayList <Activite> activiteErronee;
     public DeclarationDeFormation(String numeroDepermis,String cycle, int heuresTransferees) {
-        this.numeroDepermis = numeroDepermis;
+        this.numeroDePermis = numeroDepermis;
         this.cycle = cycle;
         this.heuresTransferees = heuresTransferees;           
         activites = new ArrayList(1);  
