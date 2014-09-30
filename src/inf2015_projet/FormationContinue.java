@@ -7,6 +7,8 @@ package inf2015_projet;
 
 //import java.io.FileWriter;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -19,14 +21,20 @@ import net.sf.json.JSONObject;
 public class FormationContinue {
 
     // @param args the command line arguments
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        String fichierSource = args[0];
-        String fichierDestination = args[1];
+        String fichierEntree = args[0];
+        String fichierSortie = args[1];
+        
+        // Choisir un numéro de fichier entre 0 et 99
+        fichierEntree = forcerFichierEntreePourTesterCategorieIndividuelle(0);
+        
+        // Pour pouvoir se référer à un seul fichier de sortie
+        fichierSortie = "json/sortie.json";
        
         // Charger un fichier JSON et l'obtenir sous forme d'objet
-        String fichierEntree = FileReader.loadFileIntoString(fichierSource, "UTF-8");
-        JSONObject declarationJSON = JSONObject.fromObject(fichierEntree);
+        String texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
+        JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
         
         String numeroDePermis = declarationJSON.getString("numero_de_permis");
         String cycle = declarationJSON.getString("cycle");
@@ -52,11 +60,11 @@ public class FormationContinue {
             // ajouter l'activite courante dans la declaration
             declarationDuMembre.ajouterActivite(uneActivite);
             
-            // création et utilisation du validateur...
-            Validateur validation = new Validateur(uneActivite);
+            
         }
  
-        
+        // création et utilisation du validateur...
+            Validateur validateur = new Validateur(declarationDuMembre);
         
         
          /** I- Charger un fichier JSON et l'obtenir sous forme de String **/
@@ -160,8 +168,50 @@ public class FormationContinue {
          }*/
         
         /* Affichage du fichier de sortie */
-        //  FileWriter fichierSortie = new FileWriter(fichierDestination);
-        //  fichierSortie.write(validateur.produireRapport());
-        //  fichierSortie.close();
+        FileWriter sortie = new FileWriter(fichierSortie);
+        sortie.write("{ \"Rapport_sur_le_fichier\":" + " \"" + fichierEntree + "\" }");
+        sortie.close();
     }
+    
+    
+    public static String forcerFichierEntreePourTesterCategorieIndividuelle(int numeroDeTest) {
+        String nomDuFichierVoulu = Integer.toString(numeroDeTest);
+        String fichierEntree = "json/testerCategoriesIndividuelles/" + nomDuFichierVoulu +".json";
+        System.out.println(fichierEntree);
+        return fichierEntree;
+        
+        /*
+        
+        I. CODE DU NUMÉRO DE FICHIER (où X est un chiffre entre 0 et 9:
+        
+            "cours": X
+            "atelier": 1X
+            "séminaire": 2X
+            "colloque": 3X
+            "conférence": 4X
+            "lecture dirigée": 5X
+            "présentation": 6X
+            "projet de recherche": 7X
+            "groupe de discussion": 8X
+            "rédaction professionelle": 9X
+        
+        II. SIGNIFICATION DE X:
+        
+            Note: À moins d'avis contraire, le cycle est valides et les heures 
+            transférées sont égales à 0.
+        
+            X = 0: heures = (min requis OU max permis) - 1
+            X = 1: heures = min requis OU max permis
+            X = 2: heures = (min requis OU max permis) + 1
+            X = 3: heures = 40
+            X = 4: heures = 41
+            X = 5: heures = 40 mais le cycle est invalide
+            X = 6: heures = 40 et il y a 7 heures transférées
+            X = 7: heures = 40 et il y a 8 heures transférées
+            X = 8: heures = 40 mais l'activité est complétée avant le 2012-04-01
+            X = 9: heures = 40 mais l'activité est complétée après le 2014-04-01
+        */
+        
+    }
+    
 }

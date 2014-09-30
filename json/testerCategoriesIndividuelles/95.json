@@ -1,0 +1,13 @@
+{
+	"numero_de_permis": "ABC123",
+	"cycle": "2010-2012",
+	"heures_transferees_du_cycle_precedent": 0,
+	"activites": [
+		{
+			"description": "DESCRIPTION_A",
+			"categorie": "rédaction professionnelle",
+			"heures": 40,
+			"date": "2012-04-01"
+		}
+	]
+}
