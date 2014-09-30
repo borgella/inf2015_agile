@@ -6,6 +6,7 @@
 package inf2015_projet;
 
 import java.util.ArrayList;
+import net.sf.json.JSONObject;
 
 /**
  *
@@ -14,23 +15,26 @@ import java.util.ArrayList;
 public class Validateur {
 
     private DeclarationDeFormation membre;
+    private boolean formationIncomplete;
+    private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
     public Validateur(DeclarationDeFormation membre) {
         this.membre = membre;
+        formationIncomplete = false;
+        messagesErreurs = new ArrayList();
         heuresTotal = 0;
     }
 
-    /**  
-     *  Cycle 2012-2014
-     *  Autre cycle => MESSAGE D'ERREUR
-     *  
-     *  @return
+    /**
+     * Cycle 2012-2014 Autre cycle => MESSAGE D'ERREUR
+     *
+     * @return
      */
     public boolean validerLeCycle() {
         return membre.getCycle().equals("2012-2014");
     }
-    
+
     public int nombreDHeuresErronees() {
         Activite act;
         ArrayList<Activite> liste = membre.getActiviteErronee();
@@ -41,7 +45,7 @@ public class Validateur {
         }
         return somme;
     }
-    
+
     public int nombreDHeuresCategorie1() {
         Activite act;
         ArrayList<Activite> liste = membre.getActivites();
@@ -54,7 +58,7 @@ public class Validateur {
         }
         return somme;
     }
-    
+
     public int nombreDHeuresCategorie2() {
         Activite act;
         ArrayList<Activite> liste = membre.getActivites();
@@ -67,7 +71,7 @@ public class Validateur {
         }
         return somme;
     }
-    
+
     public int nombreDHeuresCategorie3() {
         Activite act;
         ArrayList<Activite> liste = membre.getActivites();
@@ -80,7 +84,7 @@ public class Validateur {
         }
         return somme;
     }
-    
+
     public int heuresTotalesFormation() {
         int somme1 = nombreDHeuresCategorie1();
         int somme2 = nombreDHeuresCategorie2();
@@ -116,5 +120,12 @@ public class Validateur {
 
     public boolean formationComplete() {
         return heuresTotal >= 40 && validerLeCycle();
+    }
+
+    public String produireRapport() {
+        JSONObject texteDeSortie = new JSONObject();
+        texteDeSortie.accumulate("complet", !formationIncomplete);
+        texteDeSortie.accumulate("erreurs", messagesErreurs);
+        return texteDeSortie.toString(2);
     }
 }

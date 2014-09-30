@@ -94,9 +94,9 @@ public class Activite extends DeclarationDeFormation {
     }
 
     /**
-     * Activité complétée entre 1er avril 2012 et le 1er avril 2014 inclusivement
-     * À l'extérieur des intervalles => MESSAGE D'ERREUR + activité ignorée des calculs
-     * Les dates sont indiquées en format ISO-8601
+     * Activité complétée entre 1er avril 2012 et le 1er avril 2014
+     * inclusivement À l'extérieur des intervalles => MESSAGE D'ERREUR +
+     * activité ignorée des calculs Les dates sont indiquées en format ISO-8601
      *
      * @param date
      * @return
