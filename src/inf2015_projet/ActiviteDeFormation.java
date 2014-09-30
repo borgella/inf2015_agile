@@ -11,51 +11,35 @@ import net.sf.json.JSONObject;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class Activite extends DeclarationDeFormation {
+public class ActiviteDeFormation extends DeclarationDeFormation {
 
     private String description;
     private String categorie;
-    private int heures;
-    private String date;
+    private int dureeEnHeures;
+    private String dateCompletee;
 
-    public Activite(DeclarationDeFormation membre, JSONObject activiteJSON) {
-        super(membre.getNumeroDepermis(), membre.getCycle(), membre.getHeuresTransferees());
+    public ActiviteDeFormation(DeclarationDeFormation membre, JSONObject activiteJSON) {
+        super(membre.getNumeroDePermis(), membre.getCycle(), membre.getHeuresTransferees());
         this.description = activiteJSON.getString("description");
         this.categorie = activiteJSON.getString("categorie");
-        this.heures = activiteJSON.getInt("heures");
-        this.date = activiteJSON.getString("date");
+        this.dureeEnHeures = activiteJSON.getInt("heures");
+        this.dateCompletee = activiteJSON.getString("date");
     }
 
-    /**
-     *
-     * @return
-     */
     public String getDescription() {
         return this.description;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getCategorie() {
         return this.categorie;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getHeures() {
-        return this.heures;
+    public int getDureeEnHeures() {
+        return this.dureeEnHeures;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getDate() {
-        return this.date;
+    public String getDateCompletee() {
+        return this.dateCompletee;
     }
 
     /**
@@ -101,26 +85,16 @@ public class Activite extends DeclarationDeFormation {
      * @param date
      * @return
      */
-    public boolean validerLaDate(String date) {
-        int temporaire;
-        if ((stringToInt(date.substring(5, 7)) >= 1 && stringToInt(date.substring(5, 7)) <= 12) && (stringToInt(date.substring(8, 10)) >= 1 && stringToInt(date.substring(8, 10)) <= 31)) {
-            date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
-        } else {
-            return false;
-        }
-        temporaire = stringToInt(date);
-        return temporaire >= 20120430 && temporaire <= 20140430;
+    public boolean aDateCompleteeValide() {
+        int dateEnFormatEntier = convertirDateEnEntier(dateCompletee);
+        return dateEnFormatEntier >= 20120401 && dateEnFormatEntier <= 20140401;
     }
 
-    /**
-     * Cette methode convertit un String en format date
-     *
-     * @param number
-     * @return int temporaire
-     */
-    private int stringToInt(String number) {
-        Integer temporaire = new Integer(number);
-        return temporaire;
+    private static int convertirDateEnEntier(String date) {
+        String annee = date.substring(0, 4);
+        String mois = date.substring(5, 7);
+        String jour = date.substring(8, 10);
+        return Integer.parseInt(annee + mois + jour);
     }
 
 }

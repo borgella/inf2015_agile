@@ -16,27 +16,27 @@ public class DeclarationDeFormation {
     private final String numeroDePermis;
     private final String cycle;
     private static int heuresTransferees;
-    private ArrayList<Activite> activites;
-    private ArrayList<Activite> activiteErronee;
+    private ArrayList<ActiviteDeFormation> activitesAcceptees;
+    private ArrayList<ActiviteDeFormation> activitesRefusees;
 
     public DeclarationDeFormation(String numeroDepermis, String cycle, int heuresTransferees) {
         this.numeroDePermis = numeroDepermis;
         this.cycle = cycle;
         this.heuresTransferees = heuresTransferees;
-        activites = new ArrayList(1);
-        activiteErronee = new ArrayList(1);
+        activitesAcceptees = new ArrayList(1);
+        activitesRefusees = new ArrayList(1);
     }
 
-    public void ajouterActivite(Activite activite) {
+    public void ajouterActivite(ActiviteDeFormation activite) {
         int temporaire = activite.regroupementDesCategories(activite.getCategorie());
-        if (activite.validerLaDate(activite.getDate()) && temporaire != -1) {
-            activites.add(activite);
+        if (activite.aDateCompleteeValide() && temporaire != -1) {
+            activitesAcceptees.add(activite);
         } else {
-            activiteErronee.add(activite);
+            activitesRefusees.add(activite);
         }
     }
 
-    public String getNumeroDepermis() {
+    public String getNumeroDePermis() {
         return numeroDePermis;
     }
 
@@ -48,12 +48,12 @@ public class DeclarationDeFormation {
         return heuresTransferees;
     }
 
-    public ArrayList getActivites() {
-        return activites;
+    public ArrayList getActivitesAcceptees() {
+        return activitesAcceptees;
     }
 
-    public ArrayList getActiviteErronee() {
-        return activiteErronee;
+    public ArrayList getActivitesRefusees() {
+        return activitesRefusees;
     }
 
 }

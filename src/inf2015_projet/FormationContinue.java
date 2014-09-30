@@ -53,8 +53,8 @@ public class FormationContinue {
             int heures = listeActivites.getJSONObject(i).getInt("heures");
             String date = listeActivites.getJSONObject(i).getString("date");
 
-            // créer un objet Activite à partir du JSONObject courant
-            Activite uneActivite = new Activite(declarationDuMembre, listeActivites.getJSONObject(i));
+            // créer un objet ActiviteDeFormation à partir du JSONObject courant
+            ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
 
             // ajouter l'activite courante dans la declaration
             declarationDuMembre.ajouterActivite(uneActivite);
@@ -62,7 +62,7 @@ public class FormationContinue {
         }
 
         // création et utilisation du validateur...
-        Validateur validateur = new Validateur(declarationDuMembre);
+        ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
 
         /**
          * I- Charger un fichier JSON et l'obtenir sous forme de String *
@@ -93,12 +93,12 @@ public class FormationContinue {
          // Regrouper tous les information de l'activite dans un tableau
          regroupementActivites = new String[] {description, categorie, Integer.toString(heures), date};
                
-         // Appel a l'Activite
-         activite = new Activite(numeroDePermis, cycle, heuresTransferees, regroupementActivites);
+         // Appel a l'ActiviteDeFormation
+         activite = new ActiviteDeFormation(numeroDePermis, cycle, heuresTransferees, regroupementActivites);
          }
          }
          */
-         // II- Validations ***/
+        // II- Validations ***/
         //heures = 0;
         //totalHeures = 0;*/
         /* 1)   Cycle 2012-2014

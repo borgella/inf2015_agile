@@ -12,14 +12,14 @@ import net.sf.json.JSONObject;
  *
  * @author df891101
  */
-public class Validateur {
+public class ValidateurDeDeclaration {
 
     private DeclarationDeFormation membre;
     private boolean formationIncomplete;
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
-    public Validateur(DeclarationDeFormation membre) {
+    public ValidateurDeDeclaration(DeclarationDeFormation membre) {
         this.membre = membre;
         formationIncomplete = false;
         messagesErreurs = new ArrayList();
@@ -36,59 +36,33 @@ public class Validateur {
     }
 
     public int nombreDHeuresErronees() {
-        Activite act;
-        ArrayList<Activite> liste = membre.getActiviteErronee();
+        ActiviteDeFormation act;
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int somme = 0;
-        for (int i = 0; i < membre.getActiviteErronee().size(); ++i) {
+        for (int i = 0; i < membre.getActivitesRefusees().size(); ++i) {
             act = liste.get(i);
-            somme += act.getHeures();
+            somme += act.getDureeEnHeures();
         }
         return somme;
     }
 
-    public int nombreDHeuresCategorie1() {
-        Activite act;
-        ArrayList<Activite> liste = membre.getActivites();
+    public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
+        ActiviteDeFormation act;
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
         int somme = 0;
-        for (int i = 0; i < membre.getActivites().size(); ++i) {
+        for (int i = 0; i < membre.getActivitesAcceptees().size(); ++i) {
             act = liste.get(i);
-            if (act.regroupementDesCategories(act.getCategorie()) == 1) {
-                somme += act.getHeures();
-            }
-        }
-        return somme;
-    }
-
-    public int nombreDHeuresCategorie2() {
-        Activite act;
-        ArrayList<Activite> liste = membre.getActivites();
-        int somme = 0;
-        for (int i = 0; i < membre.getActivites().size(); ++i) {
-            act = liste.get(i);
-            if (act.regroupementDesCategories(act.getCategorie()) == 2) {
-                somme += act.getHeures();
-            }
-        }
-        return somme;
-    }
-
-    public int nombreDHeuresCategorie3() {
-        Activite act;
-        ArrayList<Activite> liste = membre.getActivites();
-        int somme = 0;
-        for (int i = 0; i < membre.getActivites().size(); ++i) {
-            act = liste.get(i);
-            if (act.regroupementDesCategories(act.getCategorie()) == 3) {
-                somme += act.getHeures();
+            if (act.regroupementDesCategories(act.getCategorie()) == codeDuRegroupement) {
+                somme += act.getDureeEnHeures();
             }
         }
         return somme;
     }
 
     public int heuresTotalesFormation() {
-        int somme1 = nombreDHeuresCategorie1();
-        int somme2 = nombreDHeuresCategorie2();
-        int somme3 = nombreDHeuresCategorie3();
+        int somme1 = nombreDHeuresSelonRegroupement(1);
+        int somme2 = nombreDHeuresSelonRegroupement(2);
+        int somme3 = nombreDHeuresSelonRegroupement(3);
         if (somme1 < 17 && somme1 != 0) {
             somme1 += membre.getHeuresTransferees();
         }
@@ -102,13 +76,13 @@ public class Validateur {
     }
 
     public String messageInvalide() {
-        Activite act;
-        ArrayList<Activite> liste = membre.getActiviteErronee();
+        ActiviteDeFormation act;
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         String retour = " ";
         String message = " est dans une categorie  non reconnue. Elle sera ignoree. ";
         String message2 = " heure(s) de formation pour completer le cycle .";
         if ((!(formationComplete())) && liste != null) {
-            for (int i = 0; i < membre.getActiviteErronee().size(); ++i) {
+            for (int i = 0; i < membre.getActivitesRefusees().size(); ++i) {
                 act = liste.get(i);
                 retour += act.getDescription() + " ";
             }
@@ -128,4 +102,5 @@ public class Validateur {
         texteDeSortie.accumulate("erreurs", messagesErreurs);
         return texteDeSortie.toString(2);
     }
+
 }
