@@ -44,21 +44,11 @@ public class FormationContinue {
         // obtenir le JSONArray qui contient les details des activités
         JSONArray listeActivites = declarationJSON.getJSONArray("activites");
 
-        // boucler sur les JSONObjects dans le JSONArray
-        int nombreActivites = listeActivites.size();
-
-        for (int i = 0; i < nombreActivites; i++) {
-            String description = listeActivites.getJSONObject(i).getString("description");
-            String categorie = listeActivites.getJSONObject(i).getString("categorie");
-            int heures = listeActivites.getJSONObject(i).getInt("heures");
-            String date = listeActivites.getJSONObject(i).getString("date");
-
-            // créer un objet ActiviteDeFormation à partir du JSONObject courant
+        for (int i = 0; i <  listeActivites.size(); i++) {
+           // créer un objet ActiviteDeFormation à partir du JSONObject courant
             ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
-
             // ajouter l'activite courante dans la declaration
             declarationDuMembre.ajouterActivite(uneActivite);
-
         }
 
         // création et utilisation du validateur...
