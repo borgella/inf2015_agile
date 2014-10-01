@@ -96,6 +96,34 @@ public class ValidateurDeDeclaration {
         return heuresTotal >= 40 && validerLeCycle();
     }
 
+    // Fonction à complétéer
+    public void produireMessagesDErreurs() {
+        ArrayList<ActiviteDeFormation> activitesInvalides = membre.getActivitesRefusees();
+
+        if (membre.getHeuresTransferees() < 0 || membre.getHeuresTransferees() > 7) {
+            messagesErreurs.add("Le nombre d'heures transférées" + membre.getHeuresTransferees() + " n'est pas valide.");
+        }
+
+        for (int i = 0; i < activitesInvalides.size(); i++) {
+            messagesErreurs.add("L'activité " + activitesInvalides.get(i) + " n'est pas une activité de formation valide.");
+        }
+
+        if (!formationComplete()) {
+            if (!validerLeCycle()) {
+                messagesErreurs.add("Le cycle " + membre.getCycle() + " n'est pas un cycle valide.");
+            }
+            if (heuresTotal < 40) {
+                messagesErreurs.add("Il manque " + (40 - heuresTotalesFormation()) + " heures de formation pour compléter le cycle.");
+            }
+        }
+
+        if (nombreDHeuresSelonRegroupement(1) < 17) {
+            messagesErreurs.add("Il manque " + (17 - nombreDHeuresSelonRegroupement(1))
+                    + " heures de formation de catégorie cours, atelier, séminaire, colloque, conférence ou lecture dirigée"
+                    + " pour compléter le cycle.");
+        }
+    }
+
     public String produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
         texteDeSortie.accumulate("complet", !formationIncomplete);

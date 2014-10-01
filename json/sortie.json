@@ -1,4 +1,7 @@
 {
   "complet": true,
-  "erreurs": []
+  "erreurs":   [
+    "Il manque 24 heures de formation pour compléter le cycle.",
+    "Il manque 1 heures de formation de catégorie cours, atelier, séminaire, colloque, conférence ou lecture dirigée pour compléter le cycle."
+  ]
 }

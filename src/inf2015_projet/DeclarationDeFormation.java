@@ -15,7 +15,7 @@ public class DeclarationDeFormation {
 
     private final String numeroDePermis;
     private final String cycle;
-    private static int heuresTransferees;
+    private int heuresTransferees;
     private ArrayList<ActiviteDeFormation> activitesAcceptees;
     private ArrayList<ActiviteDeFormation> activitesRefusees;
 

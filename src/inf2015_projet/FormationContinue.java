@@ -48,11 +48,16 @@ public class FormationContinue {
            // créer un objet ActiviteDeFormation à partir du JSONObject courant
             ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
             // ajouter l'activite courante dans la declaration
+            
+            //String message = validerActivite(activite)
+            
+            
             declarationDuMembre.ajouterActivite(uneActivite);
         }
 
         // création et utilisation du validateur...
         ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
+        validateur.produireMessagesDErreurs();
 
         /**
          * I- Charger un fichier JSON et l'obtenir sous forme de String *
