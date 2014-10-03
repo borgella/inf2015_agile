@@ -25,8 +25,11 @@ public class FormationContinue {
         String fichierEntree = args[0];
         String fichierSortie = args[1];
 
-        // Choisir un numéro de fichier entre 0 et 99
-        fichierEntree = forcerFichierEntreePourTesterCategorieIndividuelle(0);
+        // MÉTHODE DE TEST: Choisir un numéro de fichier entre 0 et 99
+        //fichierEntree = forcerFichierEntreePourTesterCategorieIndividuelle(0);
+        
+        // MÉTHODE DE TEST: Le seul argument qui fonctionne est 0
+        //fichierEntree = forcerFichierEntreePourTesterActivitesInvalides(0);
 
         // Pour pouvoir se référer à un seul fichier de sortie
         fichierSortie = "json/sortie.json";
@@ -44,14 +47,12 @@ public class FormationContinue {
         // obtenir le JSONArray qui contient les details des activités
         JSONArray listeActivites = declarationJSON.getJSONArray("activites");
 
-        for (int i = 0; i <  listeActivites.size(); i++) {
-           // créer un objet ActiviteDeFormation à partir du JSONObject courant
+        for (int i = 0; i < listeActivites.size(); i++) {
+            // créer un objet ActiviteDeFormation à partir du JSONObject courant
             ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
             // ajouter l'activite courante dans la declaration
-            
+
             //String message = validerActivite(activite)
-            
-            
             declarationDuMembre.ajouterActivite(uneActivite);
         }
 
@@ -205,4 +206,11 @@ public class FormationContinue {
          */
     }
 
+    // Le seul argument qui fonctionne pour l'instant est 0
+    public static String forcerFichierEntreePourTesterActivitesInvalides(int numeroDeTest) {
+        String nomDuFichierVoulu = Integer.toString(numeroDeTest);
+        String fichierEntree = "json/testerActivitesInvalides/" + nomDuFichierVoulu + ".json";
+        System.out.println(fichierEntree);
+        return fichierEntree;
+    }
 }

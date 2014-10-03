@@ -1,0 +1,13 @@
+{
+	"numero_de_permis": "ABC123",
+	"cycle": "2013-2014",
+	"heures_transferees_du_cycle_precedent": -1,
+	"activites": [
+		{
+			"description": "regarder les Simpsons",
+			"categorie": "divertissement",
+			"heures": -1,
+			"date": "2012-03-31"
+		}
+	]
+}
