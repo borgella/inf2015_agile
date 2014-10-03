@@ -97,30 +97,71 @@ public class ValidateurDeDeclaration {
     }
 
     // Fonction à complétéer
-    public void produireMessagesDErreurs() {
+    public void produireMessagesDErreur() {
         ArrayList<ActiviteDeFormation> activitesInvalides = membre.getActivitesRefusees();
 
-        if (membre.getHeuresTransferees() < 0 || membre.getHeuresTransferees() > 7) {
-            messagesErreurs.add("Le nombre d'heures transférées" + membre.getHeuresTransferees() + " n'est pas valide.");
+        if (!validerLeCycle()) {
+            messagesErreurs.add("Le cycle " + membre.getCycle() + " n'est pas un cycle valide.");
+        }
+
+        String premiereComposanteErreurHeuresTransferees = "Le nombre d'heures transférées ";
+        String deuxiemeComposanteErreurHeuresTransferees = " n'est pas valide: ";
+        if (membre.getHeuresTransferees() < 0) {
+            String composanteHeuresTransfereesNegatives = "0 heures transférées ont été utilisées lors des calculs.";
+            messagesErreurs.add(premiereComposanteErreurHeuresTransferees
+                    + membre.getHeuresTransferees() + deuxiemeComposanteErreurHeuresTransferees
+                    + composanteHeuresTransfereesNegatives);
+        }
+
+        if (membre.getHeuresTransferees() < 0) {
+            String composanteHeuresTransfereesEnSusDeSept = "7 heures transférées ont été utilisées lors des calculs.";
+            messagesErreurs.add(premiereComposanteErreurHeuresTransferees
+                    + membre.getHeuresTransferees() + deuxiemeComposanteErreurHeuresTransferees
+                    + composanteHeuresTransfereesEnSusDeSept);
         }
 
         for (int i = 0; i < activitesInvalides.size(); i++) {
-            messagesErreurs.add("L'activité " + activitesInvalides.get(i) + " n'est pas une activité de formation valide.");
-        }
+            ActiviteDeFormation activiteCourante = activitesInvalides.get(i);
+            String baseMessageErreurActivite = "L'activité " + activiteCourante.getDescription() + " n'est pas une activité de formation valide: ";
 
-        if (!formationComplete()) {
-            if (!validerLeCycle()) {
-                messagesErreurs.add("Le cycle " + membre.getCycle() + " n'est pas un cycle valide.");
+            String messageCumulatifErreurActivite = baseMessageErreurActivite;
+            String categorie = activiteCourante.getCategorie();
+            int nombreErreursParActivite = 0;
+            if (activiteCourante.regroupementDesCategories(categorie) == -1) {
+                nombreErreursParActivite++;
+                messageCumulatifErreurActivite += "la catégorie " + categorie + " n'est pas reconnue";
             }
-            if (heuresTotal < 40) {
-                messagesErreurs.add("Il manque " + (40 - heuresTotalesFormation()) + " heures de formation pour compléter le cycle.");
+
+            int dureeEnHeures = activiteCourante.getDureeEnHeures();
+            if (dureeEnHeures < 0) {
+                nombreErreursParActivite++;
+                if (nombreErreursParActivite > 1) {
+                    messageCumulatifErreurActivite += "; ";
+                }
+                messageCumulatifErreurActivite += "les heures d'une activité doivent être non négatives";
             }
+
+            if (!activiteCourante.aDateCompleteeValide()) {
+                nombreErreursParActivite++;
+                if (nombreErreursParActivite > 1) {
+                    messageCumulatifErreurActivite += "; ";
+                }
+                messageCumulatifErreurActivite += "la date de fin d'une activité doit se situer "
+                        + "entre le 1er avril 2012 et le 1er avril 2014, inclusivement";
+            }
+
+            messagesErreurs.add(messageCumulatifErreurActivite + '.');
+
         }
 
         if (nombreDHeuresSelonRegroupement(1) < 17) {
             messagesErreurs.add("Il manque " + (17 - nombreDHeuresSelonRegroupement(1))
-                    + " heures de formation de catégorie cours, atelier, séminaire, colloque, conférence ou lecture dirigée"
+                    + " heures de formation dans les catégorie cours, atelier, séminaire, colloque, conférence ou lecture dirigée"
                     + " pour compléter le cycle.");
+        }
+
+        if (heuresTotalesFormation() < 40) {
+            messagesErreurs.add("Il manque " + (40 - heuresTotalesFormation()) + " heures de formation pour compléter le cycle.");
         }
     }
 

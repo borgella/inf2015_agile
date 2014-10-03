@@ -57,7 +57,7 @@ public class FormationContinue {
 
         // création et utilisation du validateur...
         ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
-        validateur.produireMessagesDErreurs();
+        validateur.produireMessagesDErreur();
 
         /**
          * I- Charger un fichier JSON et l'obtenir sous forme de String *
