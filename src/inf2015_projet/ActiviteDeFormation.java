@@ -84,17 +84,26 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
      *
      * @param date
      * @return
-     */
-    public boolean aDateCompleteeValide() {
-        int dateEnFormatEntier = convertirDateEnEntier(dateCompletee);
-        return dateEnFormatEntier >= 20120401 && dateEnFormatEntier <= 20140401;
+     */       
+     public boolean aDateCompleteeValide(String date){
+        int temporaire ; 
+        if((toInt(date.substring(5,7))>=1 && toInt(date.substring(5,7))<=12)&&(toInt(date.substring(8,10))>=1 && toInt(date.substring(8,10))<= 31)){
+            date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);
+        }else{
+            return false;
+        }
+        temporaire = toInt(date);
+        return temporaire >= 20120430 && temporaire <= 20140430;
     }
-
-    private static int convertirDateEnEntier(String date) {
-        String annee = date.substring(0, 4);
-        String mois = date.substring(5, 7);
-        String jour = date.substring(8, 10);
-        return Integer.parseInt(annee + mois + jour);
+    
+    /**
+     * Cette methode convertit un String en format date
+     * @param number
+     * @return int temporaire
+     */
+    private int toInt(String number){
+        Integer temporaire = new Integer(number);
+        return temporaire;
     }
 
 }

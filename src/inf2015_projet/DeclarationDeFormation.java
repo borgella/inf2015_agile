@@ -29,7 +29,7 @@ public class DeclarationDeFormation {
 
     public void ajouterActivite(ActiviteDeFormation activite) {
         int temporaire = activite.regroupementDesCategories(activite.getCategorie());
-        if (activite.aDateCompleteeValide() && temporaire != -1) {
+        if (activite.aDateCompleteeValide(activite.getCategorie()) && temporaire != -1) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);

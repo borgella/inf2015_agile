@@ -58,8 +58,9 @@ public class FormationContinue {
 
         // création et utilisation du validateur...
         ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
-        validateur.produireMessagesDErreur();
-
+        declarationJSON = validateur.produireRapport();
+        System.out.println(declarationJSON);
+        
         /**
          * I- Charger un fichier JSON et l'obtenir sous forme de String *
          */
@@ -162,16 +163,16 @@ public class FormationContinue {
          }   
          }*/
         /* Affichage du fichier de sortie */
-        FileWriter sortie = new FileWriter(fichierSortie);
-        sortie.write(validateur.produireRapport());
-        sortie.close();
-    }
+        //FileWriter sortie = new FileWriter(fichierSortie);
+       // sortie.write(validateur.produireRapport());
+        //sortie.close();
+   // }
 
-    public static String forcerFichierEntreePourTesterCategorieIndividuelle(int numeroDeTest) {
-        String nomDuFichierVoulu = Integer.toString(numeroDeTest);
-        String fichierEntree = "json/testerCategoriesIndividuelles/" + nomDuFichierVoulu + ".json";
-        System.out.println(fichierEntree);
-        return fichierEntree;
+   // public static String forcerFichierEntreePourTesterCategorieIndividuelle(int numeroDeTest) {
+     //   String nomDuFichierVoulu = Integer.toString(numeroDeTest);
+     //   String fichierEntree = "json/testerCategoriesIndividuelles/" + nomDuFichierVoulu + ".json";
+     //   System.out.println(fichierEntree);
+      //  return fichierEntree;
 
         /*
         
@@ -207,10 +208,10 @@ public class FormationContinue {
     }
 
     // Le seul argument qui fonctionne pour l'instant est 0
-    public static String forcerFichierEntreePourTesterActivitesInvalides(int numeroDeTest) {
-        String nomDuFichierVoulu = Integer.toString(numeroDeTest);
-        String fichierEntree = "json/testerActivitesInvalides/" + nomDuFichierVoulu + ".json";
-        System.out.println(fichierEntree);
-        return fichierEntree;
-    }
+   // public static String forcerFichierEntreePourTesterActivitesInvalides(int numeroDeTest) {
+   //     String nomDuFichierVoulu = Integer.toString(numeroDeTest);
+   //     String fichierEntree = "json/testerActivitesInvalides/" + nomDuFichierVoulu + ".json";
+   //     System.out.println(fichierEntree);
+   //     return fichierEntree;
+   // }
 }

@@ -7,6 +7,7 @@ package inf2015_projet;
 
 import java.util.ArrayList;
 import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
 /**
  *
@@ -15,14 +16,12 @@ import net.sf.json.JSONObject;
 public class ValidateurDeDeclaration {
 
     private DeclarationDeFormation membre;
-    private boolean formationIncomplete;
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
     public ValidateurDeDeclaration(DeclarationDeFormation membre) {
         this.membre = membre;
-        formationIncomplete = false;
-        messagesErreurs = new ArrayList();
+        messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
     }
 
@@ -47,13 +46,13 @@ public class ValidateurDeDeclaration {
     }
 
     public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
-        ActiviteDeFormation act;
+        ActiviteDeFormation activite;
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
         int somme = 0;
-        for (int i = 0; i < membre.getActivitesAcceptees().size(); ++i) {
-            act = liste.get(i);
-            if (act.regroupementDesCategories(act.getCategorie()) == codeDuRegroupement) {
-                somme += act.getDureeEnHeures();
+        for (int i = 0; i < liste.size(); ++i) {
+            activite = liste.get(i);
+            if (activite.regroupementDesCategories(activite.getCategorie()) == codeDuRegroupement) {
+                somme += activite.getDureeEnHeures();
             }
         }
         return somme;
@@ -75,27 +74,8 @@ public class ValidateurDeDeclaration {
         return heuresTotal = somme1 + somme2 + somme3;
     }
 
-    public String messageInvalide() {
-        ActiviteDeFormation act;
-        ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
-        String retour = " ";
-        String message = " est dans une categorie  non reconnue. Elle sera ignoree. ";
-        String message2 = " heure(s) de formation pour completer le cycle .";
-        if ((!(formationComplete())) && liste != null) {
-            for (int i = 0; i < membre.getActivitesRefusees().size(); ++i) {
-                act = liste.get(i);
-                retour += act.getDescription() + " ";
-            }
-        } else {
-            return " ";
-        }
-        return "Le(s) activite(s) " + retour + " " + message + " Il manque " + nombreDHeuresErronees() + " " + message2;
-    }
-
-    public boolean formationComplete() {
-        return heuresTotal >= 40 && validerLeCycle();
-    }
-
+    
+/*
     // Fonction à complétéer
     public void produireMessagesDErreur() {
         ArrayList<ActiviteDeFormation> activitesInvalides = membre.getActivitesRefusees();
@@ -164,12 +144,101 @@ public class ValidateurDeDeclaration {
             messagesErreurs.add("Il manque " + (40 - heuresTotalesFormation()) + " heures de formation pour compléter le cycle.");
         }
     }
+*/ 
+    
+    public void messageErreurSiLeCycleEstInvalide(){
+        if(!validerLeCycle()){
+          messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront comptabilisees.");
+        }
+    
+    }
+    
+    public void messageErreurPourDateInvalide(){
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
+        int sommation = 0;
+        String retour,sortie; 
+        retour = sortie = " ";
+        if (liste != null) {
+            for (int i = 0; i < liste.size(); ++i) {
+              ActiviteDeFormation  activite = liste.get(i);
+                if(activite.regroupementDesCategories(activite.getCategorie()) !=1){
+                    retour += activite.getDescription() + " ";
+                    sommation += 1;
+                }             
+            }
+            if(sommation == 0 && !(retour.equals(" "))){
+                sortie +="La date de la categorie "+ retour +"est invalide . Elle sera ignoree des calculs.";
+                messagesErreurs.add(sortie);
+            }else if(!(retour.equals(" "))){
+                sortie +="Les dates des categories"+ retour +"sont invalides, elles seront ignorees des calculs.";
+                messagesErreurs.add(sortie);
+            }
+        }
+        
+    } 
+        
+    /**
+     *Ajoute a l'arraylist messageErreurs un message personalise si la categorie n est pas reconnue
+     */
+    public void messageInvalidePourCategorieNonReconnue() {
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
+        int sommation = 0;
+        String retour,sortie; 
+        retour = sortie = " ";
+        if (liste != null) {
+            for (int i = 0; i < liste.size(); ++i) {
+              ActiviteDeFormation  activite = liste.get(i);
+                if(activite.regroupementDesCategories(activite.getCategorie()) == -1){
+                    retour += activite.getDescription() + " ";
+                    sommation += 1;
+                }             
+            }
+           if(sommation == 0 && !(retour.equals(" "))){
+                sortie +="L'activite"+ retour +"est dans une categorie  non reconnue. Elle sera ignoree.";
+                messagesErreurs.add(sortie);
+            }else if(!(retour.equals(" "))){
+                sortie +="Les activites"+ retour +"sont dans des categories  non reconnues. Elle sont ignorees.";
+                messagesErreurs.add(sortie);
+            } 
+        } 
+        
+    }
 
-    public String produireRapport() {
+    public void messageErreurSiHeuresTransferesEstInvalide(){
+        if(membre.getHeuresTransferees() > 7){
+          messagesErreurs.add("Les Heures transferees ont depasse 7 heures, seulement 7 heures seront comptabilises.");
+        }else if(membre.getHeuresTransferees() < 0){
+            messagesErreurs.add("Les Heures transferees ne doivent pas etre negatives,elles seront ignorees des calculs.");
+        }
+    
+    }
+    
+    public void messageErreursPourHeuresErronees(){
+        String messageErrone = "";
+        if(nombreDHeuresErronees() > 0){
+        messageErrone +="Il manque "+ nombreDHeuresErronees() + "heures de formation pour completer le cycle." ;
+        messagesErreurs.add(messageErrone);
+        }
+    }
+    
+    public boolean formationComplete() {
+        return heuresTotal >= 40 && validerLeCycle();
+    }
+
+public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
-        texteDeSortie.accumulate("complet", !formationIncomplete);
-        texteDeSortie.accumulate("erreurs", messagesErreurs);
-        return texteDeSortie.toString(2);
+        JSONObject messageErrones = new JSONObject();
+        JSONArray tableauJson =  new JSONArray();
+        messageErreurSiLeCycleEstInvalide();
+        messageErreurPourDateInvalide();
+        messageInvalidePourCategorieNonReconnue();
+        messageErreurSiHeuresTransferesEstInvalide();
+        messageErreursPourHeuresErronees();
+        texteDeSortie.accumulate("complet", formationComplete());
+        messageErrones.accumulate("erreurs", messagesErreurs);
+        tableauJson.add(messageErrones);
+        texteDeSortie.accumulate("erreurs",tableauJson);
+        return texteDeSortie;
     }
 
 }
