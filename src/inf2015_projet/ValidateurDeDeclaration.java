@@ -232,16 +232,19 @@ public class ValidateurDeDeclaration {
     public boolean formationComplete() {
         return heuresTotal >= 40 && validerLeCycle();
     }
-
-public JSONObject produireRapport() {
-        JSONObject texteDeSortie = new JSONObject();
-        JSONObject messageErrones = new JSONObject();
-        JSONArray tableauJson =  new JSONArray();
+public void appelsDesMethodesDesMessagesInvalides(){
         messageErreurSiLeCycleEstInvalide();
         messageErreurPourDateInvalide();
         messageInvalidePourCategorieNonReconnue();
         messageErreurSiHeuresTransferesEstInvalide();
         messageErreursPourHeuresErronees();
+}
+
+public JSONObject produireRapport() {
+        JSONObject texteDeSortie = new JSONObject();
+        JSONObject messageErrones = new JSONObject();
+        JSONArray tableauJson =  new JSONArray();
+        appelsDesMethodesDesMessagesInvalides();
         String message = leMessageInvalide(messagesErreurs);
         texteDeSortie.accumulate("complet", formationComplete());
         messageErrones.accumulate("erreurs", message);
