@@ -221,6 +221,14 @@ public class ValidateurDeDeclaration {
         }
     }
     
+    public String leMessageInvalide(ArrayList message){
+     String retour = " ";
+     for (int i = 0; i < message.size(); ++i) {
+           retour += message.get(i);
+        }
+     return retour;
+    }
+    
     public boolean formationComplete() {
         return heuresTotal >= 40 && validerLeCycle();
     }
@@ -234,8 +242,9 @@ public JSONObject produireRapport() {
         messageInvalidePourCategorieNonReconnue();
         messageErreurSiHeuresTransferesEstInvalide();
         messageErreursPourHeuresErronees();
+        String message = leMessageInvalide(messagesErreurs);
         texteDeSortie.accumulate("complet", formationComplete());
-        messageErrones.accumulate("erreurs", messagesErreurs);
+        messageErrones.accumulate("erreurs", message);
         tableauJson.add(messageErrones);
         texteDeSortie.accumulate("erreurs",tableauJson);
         return texteDeSortie;
