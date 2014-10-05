@@ -160,7 +160,6 @@ public class ValidateurDeDeclaration {
         }
     }
     
-    
     public JSONArray leMessageInvalide(ArrayList message) {
         JSONArray tab = new JSONArray();
         for (int i = 0; i < message.size(); ++i) {
