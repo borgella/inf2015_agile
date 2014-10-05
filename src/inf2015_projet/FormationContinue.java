@@ -6,6 +6,7 @@
 package inf2015_projet;
 
 //import java.io.FileWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -23,7 +24,7 @@ public class FormationContinue {
 
 
         // Charger un fichier JSON et l'obtenir sous forme d'objet
-        String texteEntree = FileReader.loadFileIntoString("json/test.json", "UTF-8");
+        String texteEntree = FileReader.loadFileIntoString("json/testerActivitesInvalides/0.json", "UTF-8");
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
 
         String numeroDePermis = declarationJSON.getString("numero_de_permis");
@@ -49,6 +50,9 @@ public class FormationContinue {
         declarationJSON = validateur.produireRapport();
         System.out.println(declarationJSON);
        
-       
+        FileWriter sortie = new FileWriter(args[1]);
+        sortie.write(declarationJSON.toString(2));
+        sortie.close();
+        
     }
 }

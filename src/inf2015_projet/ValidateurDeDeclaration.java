@@ -74,107 +74,117 @@ public class ValidateurDeDeclaration {
         return heuresTotal = somme1 + somme2 + somme3;
     }
 
-        public void messageErreurSiLeCycleEstInvalide(){
-        if(!validerLeCycle()){
-          messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront comptabilisees. ");
+    public void messageErreurSiLeCycleEstInvalide() {
+        if (!validerLeCycle()) {
+            messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront comptabilisees. ");
         }
-    
+
     }
-    
-    public void messageErreurPourDateInvalide(){
+
+    public void messageErreurPourDateInvalide() {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
-        String retour,sortie; 
+        String retour, sortie;
         retour = sortie = "";
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
-              ActiviteDeFormation  activite = liste.get(i);
-                if(activite.regroupementDesCategories(activite.getCategorie()) == 1){
+                ActiviteDeFormation activite = liste.get(i);
+                if (activite.regroupementDesCategories(activite.getCategorie()) == 1) {
                     retour += activite.getDescription() + " ";
                     sommation += 1;
-                }             
+                }
             }
-            if(sommation > 0 && !(retour.equals(""))){
-                sortie +="La date de la categorie "+ retour +"est invalide . Elle sera ignoree des calculs. ";
+            if (sommation > 0 && !(retour.equals(""))) {
+                sortie += "La date de la categorie " + retour + "est invalide . Elle sera ignoree des calculs. ";
                 messagesErreurs.add(sortie);
-            }else if(!(retour.equals(""))){
-                sortie +="Les dates des categories"+ retour +"sont invalides, elles seront ignorees des calculs. ";
+            } else if (!(retour.equals(""))) {
+                sortie += "Les dates des categories" + retour + "sont invalides, elles seront ignorees des calculs. ";
                 messagesErreurs.add(sortie);
             }
         }
-        
-    } 
-        
+
+    }
+
     /**
-     *Ajoute a l'arraylist messageErreurs un message personalise si la categorie n est pas reconnue
+     * Ajoute a l'arraylist messageErreurs un message personalise si la
+     * categorie n est pas reconnue
      */
     public void messageInvalidePourCategorieNonReconnue() {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
-        String retour,sortie; 
+        String retour, sortie;
         retour = sortie = "";
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
-              ActiviteDeFormation  activite = liste.get(i);
-                if(activite.regroupementDesCategories(activite.getCategorie()) == -1){
+                ActiviteDeFormation activite = liste.get(i);
+                if (activite.regroupementDesCategories(activite.getCategorie()) == -1) {
                     retour += activite.getDescription() + " ";
                     sommation += 1;
-                }             
+                }
             }
-           if(sommation > 0 && !(retour.equals(""))){
-                sortie +="L'activite "+ retour +"est dans une categorie  non reconnue. Elle sera ignoree. ";
+            if (sommation > 0 && !(retour.equals(""))) {
+                sortie += "L'activite " + retour + "est dans une categorie  non reconnue. Elle sera ignoree. ";
                 messagesErreurs.add(sortie);
-            }else if(!(retour.equals(""))){
-                sortie +="Les activites "+ retour +"sont dans des categories  non reconnues. Elle sont ignorees. ";
+            } else if (!(retour.equals(""))) {
+                sortie += "Les activites " + retour + "sont dans des categories  non reconnues. Elle sont ignorees. ";
                 messagesErreurs.add(sortie);
-            } 
-        } 
-        
+            }
+        }
+
     }
 
-    public void messageErreurSiHeuresTransferesEstInvalide(){
-        if(membre.getHeuresTransferees() > 7){
-          messagesErreurs.add("Les Heures transferees ont depasse 7 heures, seulement 7 heures seront comptabilises. ");
-        }else if(membre.getHeuresTransferees() < 0){
+    public void messageErreurSiHeuresTransferesEstInvalide() {
+        if (membre.getHeuresTransferees() > 7) {
+            messagesErreurs.add("Les Heures transferees ont depasse 7 heures, seulement 7 heures seront comptabilises. ");
+        } else if (membre.getHeuresTransferees() < 0) {
             messagesErreurs.add("Les Heures transferees ne doivent pas etre negatives,elles seront ignorees des calculs. ");
         }
-    
+
     }
-    
-    public void messageErreursPourHeuresErronees(){
+
+    public void messageErreursPourHeuresErronees() {
         String messageErrone = "";
-        if(nombreDHeuresErronees() > 0){
-        messageErrone +="Il manque "+ nombreDHeuresErronees() + " heures de formation pour completer le cycle. " ;
-        messagesErreurs.add(messageErrone);
+        if (nombreDHeuresErronees() > 0) {
+            messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour completer le cycle. ";
+            messagesErreurs.add(messageErrone);
         }
     }
-    
-    public JSONArray leMessageInvalide(ArrayList message){
-     JSONArray tab = new JSONArray();   
+
+    public JSONArray leMessageInvalide(ArrayList message) {
+        JSONArray tab = new JSONArray();
         for (int i = 0; i < message.size(); ++i) {
-           tab.add(message.get(i));
+            tab.add(message.get(i));
         }
-     return tab;
+        return tab;
+    }
+
+    // La formation est complète ssi le cycle est valide et si les heures totales sont au moins 40, 
+    // dont au moins 17 dans le regroupement #1 dees catégories (groupe des 6 catégories).
+    public boolean formationComplete() {
+        return heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17);
     }
     
-    public boolean formationComplete() {
-        return heuresTotal >= 40 && validerLeCycle();
-    }
-public void appelsDesMethodesDesMessagesInvalides(){
+    /*
+     public boolean formationComplete() {
+     return heuresTotal >= 40 && validerLeCycle();
+     }
+     */
+
+    public void appelsDesMethodesDesMessagesInvalides() {
         messageErreurSiLeCycleEstInvalide();
         messageErreurPourDateInvalide();
         messageInvalidePourCategorieNonReconnue();
         messageErreurSiHeuresTransferesEstInvalide();
         messageErreursPourHeuresErronees();
-}
+    }
 
-public JSONObject produireRapport() {
+    public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
         JSONObject messageErrones = new JSONObject();
         appelsDesMethodesDesMessagesInvalides();
-        JSONArray tableauJson =  leMessageInvalide(messagesErreurs);
+        JSONArray tableauJson = leMessageInvalide(messagesErreurs);
         texteDeSortie.accumulate("complet", formationComplete());
-        texteDeSortie.accumulate("erreurs",tableauJson);
+        texteDeSortie.accumulate("erreurs", tableauJson);
         return texteDeSortie;
     }
 
