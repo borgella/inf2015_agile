@@ -185,7 +185,8 @@ public class ValidateurDeDeclaration {
         messageErreurPourDateInvalide();
         messageInvalidePourCategorieNonReconnue();
         messageErreurSiHeuresTransferesEstInvalide();
-        messageErreurPourHeuresErronees();
+        messageErreurPourHeuresManquantes();
+        //messageErreurPourHeuresErronees();
     }
 
     public JSONObject produireRapport() {
