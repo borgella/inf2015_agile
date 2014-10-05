@@ -151,6 +151,15 @@ public class ValidateurDeDeclaration {
         }
     }
     
+    public void messageErreurPourHeuresInsuffisantesSixCategories () {
+        String messageHeuresManquantes = "";
+        int nombreDHeuresSixCategories = nombreDHeuresSelonRegroupement(1);
+        if (nombreDHeuresSixCategories < 17) {
+            messageHeuresManquantes += "En particulier, il manque " + (17 - nombreDHeuresSixCategories) 
+                    + " heure(s) de formation à compléter parmi les catégories suivantes: cours, atelier, séminaire, colloque, conférence ou lecture dirigée. ";
+            messagesErreurs.add(messageHeuresManquantes);
+        }
+    }
     
     public void messageErreurPourHeuresErronees() {
         String messageErrone = "";
@@ -186,6 +195,7 @@ public class ValidateurDeDeclaration {
         messageInvalidePourCategorieNonReconnue();
         messageErreurSiHeuresTransferesEstInvalide();
         messageErreurPourHeuresManquantes();
+        messageErreurPourHeuresInsuffisantesSixCategories();
         //messageErreurPourHeuresErronees();
     }
 
