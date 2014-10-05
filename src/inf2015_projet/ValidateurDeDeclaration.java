@@ -94,7 +94,7 @@ public class ValidateurDeDeclaration {
                     sommation += 1;
                 }             
             }
-            if(sommation == 0 && !(retour.equals(" "))){
+            if(sommation > 0 && !(retour.equals(" "))){
                 sortie +="La date de la categorie "+ retour +"est invalide . Elle sera ignoree des calculs.";
                 messagesErreurs.add(sortie);
             }else if(!(retour.equals(" "))){
@@ -121,7 +121,7 @@ public class ValidateurDeDeclaration {
                     sommation += 1;
                 }             
             }
-           if(sommation == 0 && !(retour.equals(" "))){
+           if(sommation > 0 && !(retour.equals(" "))){
                 sortie +="L'activite"+ retour +"est dans une categorie  non reconnue. Elle sera ignoree.";
                 messagesErreurs.add(sortie);
             }else if(!(retour.equals(" "))){
