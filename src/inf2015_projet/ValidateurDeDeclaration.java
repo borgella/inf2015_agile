@@ -89,7 +89,7 @@ public class ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
               ActiviteDeFormation  activite = liste.get(i);
-                if(activite.regroupementDesCategories(activite.getCategorie()) !=1){
+                if(activite.regroupementDesCategories(activite.getCategorie()) == 1){
                     retour += activite.getDescription() + " ";
                     sommation += 1;
                 }             
