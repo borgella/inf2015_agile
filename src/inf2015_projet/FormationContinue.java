@@ -25,8 +25,8 @@ public class FormationContinue {
 
         // Charger un fichier JSON et l'obtenir sous forme d'objet
         //String texteEntree = FileReader.loadFileIntoString("entree.json", "UTF-8");
-        String texteEntree = FileReader.loadFileIntoString("json/testerCategoriesIndividuelles/0.json", "UTF-8");
-        //String texteEntree = FileReader.loadFileIntoString("json/testerActivitesInvalides/0.json", "UTF-8");
+        String texteEntree = FileReader.loadFileIntoString("json/testerCategoriesIndividuelles/62.json", "UTF-8");
+        //String texteEntree = FileReader.loadFileIntoString("json/testerActivitesInvalides/0.json", "UTF-8");  
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
 
         String numeroDePermis = declarationJSON.getString("numero_de_permis");

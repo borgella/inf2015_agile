@@ -57,7 +57,18 @@ public class ValidateurDeDeclaration {
         }
         return somme;
     }
-
+    
+    private int obtenirHeuresTransfereesEffectives() {
+        int heuresTransferees = membre.getHeuresTransferees();
+        int heuresEffectives = heuresTransferees;
+        if (heuresTransferees < 0) {
+            heuresEffectives = 0;
+        } else if (heuresTransferees > 7) {
+            heuresEffectives = 7;
+        }
+        return heuresEffectives;
+    }
+    
     public int heuresTotalesFormation() {
         int somme1 = nombreDHeuresSelonRegroupement(1);
         int somme2 = nombreDHeuresSelonRegroupement(2);
