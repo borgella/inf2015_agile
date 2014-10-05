@@ -89,7 +89,27 @@ public class ValidateurDeDeclaration {
         return heuresTotal = somme1 + somme2 + somme3;
     }
     
-    public int heuresBrutesParCategorie(String categorie) {
+    public int heuresEffectivesParCategoriePourActivitesValides(String categorie) {
+        int nombreDHeuresMaximum = 0;
+        int heuresEffectives;
+        
+        if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
+            nombreDHeuresMaximum = 23;
+        } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
+            nombreDHeuresMaximum = 17;
+        }
+        
+        int heuresBrutes = heuresBrutesParCategoriePourActivitesValides(categorie);
+        
+        if (nombreDHeuresMaximum > 0) {
+            heuresEffectives = nombreDHeuresMaximum > heuresBrutes ? heuresBrutes : nombreDHeuresMaximum;
+        } else {
+            heuresEffectives = heuresBrutes;    // Pour les membres du regroupement de six catégories
+        }
+        return heuresEffectives;
+    }
+    
+    public int heuresBrutesParCategoriePourActivitesValides(String categorie) {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
         if (!liste.isEmpty()) {
