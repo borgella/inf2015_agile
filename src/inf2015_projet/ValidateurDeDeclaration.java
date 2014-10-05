@@ -144,17 +144,17 @@ public class ValidateurDeDeclaration {
     public void messageErreursPourHeuresErronees(){
         String messageErrone = "";
         if(nombreDHeuresErronees() > 0){
-        messageErrone +="Il manque "+ nombreDHeuresErronees() + "heures de formation pour completer le cycle." ;
+        messageErrone +="Il manque "+ nombreDHeuresErronees() + " heures de formation pour completer le cycle." ;
         messagesErreurs.add(messageErrone);
         }
     }
     
-    public String leMessageInvalide(ArrayList message){
-     String retour = " ";
-     for (int i = 0; i < message.size(); ++i) {
-           retour += message.get(i);
+    public JSONArray leMessageInvalide(ArrayList message){
+     JSONArray tab = new JSONArray();   
+        for (int i = 0; i < message.size(); ++i) {
+           tab.add(message.get(i));
         }
-     return retour;
+     return tab;
     }
     
     public boolean formationComplete() {
@@ -171,12 +171,9 @@ public void appelsDesMethodesDesMessagesInvalides(){
 public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
         JSONObject messageErrones = new JSONObject();
-        JSONArray tableauJson =  new JSONArray();
         appelsDesMethodesDesMessagesInvalides();
-        String message = leMessageInvalide(messagesErreurs);
+        JSONArray tableauJson =  leMessageInvalide(messagesErreurs);
         texteDeSortie.accumulate("complet", formationComplete());
-        messageErrones.accumulate("erreurs", message);
-        tableauJson.add(messageErrones);
         texteDeSortie.accumulate("erreurs",tableauJson);
         return texteDeSortie;
     }
