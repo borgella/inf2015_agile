@@ -74,6 +74,19 @@ public class ValidateurDeDeclaration {
     }
     
     public int heuresTotalesFormation() {
+        int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
+        int heuresPresentation = heuresEffectivesParCategoriePourActivitesValides("présentation");
+        int heuresDiscussion = heuresEffectivesParCategoriePourActivitesValides("groupe de discussion");
+        int heuresRecherche = heuresEffectivesParCategoriePourActivitesValides("projet de recherche");
+        int heuresRedaction = heuresEffectivesParCategoriePourActivitesValides("rédaction professionnelle");
+
+        return heuresTotal = heuresSixCategoriesEtTransferees
+                                + heuresPresentation + heuresDiscussion
+                                + heuresRecherche + heuresRedaction;
+    }
+    
+    /*
+    public int heuresTotalesFormation() {
         int somme1 = nombreDHeuresSelonRegroupement(1);
         int somme2 = nombreDHeuresSelonRegroupement(2);
         int somme3 = nombreDHeuresSelonRegroupement(3);
@@ -88,6 +101,7 @@ public class ValidateurDeDeclaration {
         }
         return heuresTotal = somme1 + somme2 + somme3;
     }
+    */
     
     public int heuresEffectivesParCategoriePourActivitesValides(String categorie) {
         int nombreDHeuresMaximum = 0;
@@ -100,7 +114,7 @@ public class ValidateurDeDeclaration {
         }
         
         int heuresBrutes = heuresBrutesParCategoriePourActivitesValides(categorie);
-        
+
         if (nombreDHeuresMaximum > 0) {
             heuresEffectives = nombreDHeuresMaximum > heuresBrutes ? heuresBrutes : nombreDHeuresMaximum;
         } else {
