@@ -142,6 +142,15 @@ public class ValidateurDeDeclaration {
 
     }
 
+    public void messageErreurPourHeuresErronees() {
+        String messageErrone = "";
+        if (nombreDHeuresErronees() > 0) {
+            messageErrone += "Il manque un total de " + (40 - heuresTotalesFormation()) + " heures de formation pour completer le cycle. ";
+            messagesErreurs.add(messageErrone);
+        }
+    }
+    
+    /*
     public void messageErreursPourHeuresErronees() {
         String messageErrone = "";
         if (nombreDHeuresErronees() > 0) {
@@ -149,7 +158,8 @@ public class ValidateurDeDeclaration {
             messagesErreurs.add(messageErrone);
         }
     }
-
+    */
+    
     public JSONArray leMessageInvalide(ArrayList message) {
         JSONArray tab = new JSONArray();
         for (int i = 0; i < message.size(); ++i) {
@@ -175,7 +185,7 @@ public class ValidateurDeDeclaration {
         messageErreurPourDateInvalide();
         messageInvalidePourCategorieNonReconnue();
         messageErreurSiHeuresTransferesEstInvalide();
-        messageErreursPourHeuresErronees();
+        messageErreurPourHeuresErronees();
     }
 
     public JSONObject produireRapport() {
