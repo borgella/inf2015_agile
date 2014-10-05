@@ -58,7 +58,11 @@ public class ValidateurDeDeclaration {
         return somme;
     }
     
-    private int obtenirHeuresTransfereesEffectives() {
+    private int heuresTotalesPourRegroupementDesSixCategories() {
+        return (nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives()); 
+    }
+    
+    private int heuresTransfereesEffectives() {
         int heuresTransferees = membre.getHeuresTransferees();
         int heuresEffectives = heuresTransferees;
         if (heuresTransferees < 0) {
@@ -155,19 +159,23 @@ public class ValidateurDeDeclaration {
 
     public void messageErreurPourHeuresManquantes() {
         String messageHeuresManquantes = "";
-        int heuresTotalesDeFormation = heuresTotalesFormation();
-        if (heuresTotalesDeFormation < 40) {
-            messageHeuresManquantes += "Il manque un total de " + (40 - heuresTotalesDeFormation) + " heures de formation pour completer le cycle. ";
+        int heuresManquantesEnGeneral = 40 - heuresTotalesFormation();
+        int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
+        if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
+            int heuresManquantesPourLeCycle = 
+                    heuresManquantesEnGeneral > heuresManquantesSixCategories ? heuresManquantesEnGeneral : heuresManquantesSixCategories;
+            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
         }
     }
     
     public void messageErreurPourHeuresInsuffisantesSixCategories () {
         String messageHeuresManquantes = "";
-        int nombreDHeuresSixCategories = nombreDHeuresSelonRegroupement(1);
-        if (nombreDHeuresSixCategories < 17) {
-            messageHeuresManquantes += "En particulier, il manque " + (17 - nombreDHeuresSixCategories) 
-                    + " heure(s) de formation à compléter parmi les catégories suivantes: cours, atelier, séminaire, colloque, conférence ou lecture dirigée. ";
+        int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
+        if (heuresManquantesSixCategories > 0) {
+            messageHeuresManquantes += "En particulier, il manque " + heuresManquantesSixCategories 
+                    + " heure(s) de formation à compléter parmi les catégories suivantes: "
+                    + "cours, atelier, séminaire, colloque, conférence ou lecture dirigée.";
             messagesErreurs.add(messageHeuresManquantes);
         }
     }
