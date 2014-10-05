@@ -88,7 +88,21 @@ public class ValidateurDeDeclaration {
         }
         return heuresTotal = somme1 + somme2 + somme3;
     }
-
+    
+    public int heuresBrutesParCategorie(String categorie) {
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
+        int heuresTotales = 0;
+        if (!liste.isEmpty()) {
+            for (int i = 0; i < liste.size(); ++i) {
+                ActiviteDeFormation activite = liste.get(i);
+                if (activite.getCategorie().equals(categorie)) {
+                    heuresTotales += activite.getDureeEnHeures();
+                }
+            }
+        }
+        return heuresTotales;
+    }
+    
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront comptabilisees. ");
