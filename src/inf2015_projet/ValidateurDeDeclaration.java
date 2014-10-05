@@ -76,7 +76,7 @@ public class ValidateurDeDeclaration {
 
         public void messageErreurSiLeCycleEstInvalide(){
         if(!validerLeCycle()){
-          messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront comptabilisees.");
+          messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront comptabilisees. ");
         }
     
     }
@@ -85,7 +85,7 @@ public class ValidateurDeDeclaration {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour,sortie; 
-        retour = sortie = " ";
+        retour = sortie = "";
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
               ActiviteDeFormation  activite = liste.get(i);
@@ -94,11 +94,11 @@ public class ValidateurDeDeclaration {
                     sommation += 1;
                 }             
             }
-            if(sommation > 0 && !(retour.equals(" "))){
-                sortie +="La date de la categorie "+ retour +"est invalide . Elle sera ignoree des calculs.";
+            if(sommation > 0 && !(retour.equals(""))){
+                sortie +="La date de la categorie "+ retour +"est invalide . Elle sera ignoree des calculs. ";
                 messagesErreurs.add(sortie);
-            }else if(!(retour.equals(" "))){
-                sortie +="Les dates des categories"+ retour +"sont invalides, elles seront ignorees des calculs.";
+            }else if(!(retour.equals(""))){
+                sortie +="Les dates des categories"+ retour +"sont invalides, elles seront ignorees des calculs. ";
                 messagesErreurs.add(sortie);
             }
         }
@@ -112,7 +112,7 @@ public class ValidateurDeDeclaration {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour,sortie; 
-        retour = sortie = " ";
+        retour = sortie = "";
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
               ActiviteDeFormation  activite = liste.get(i);
@@ -121,11 +121,11 @@ public class ValidateurDeDeclaration {
                     sommation += 1;
                 }             
             }
-           if(sommation > 0 && !(retour.equals(" "))){
-                sortie +="L'activite"+ retour +"est dans une categorie  non reconnue. Elle sera ignoree.";
+           if(sommation > 0 && !(retour.equals(""))){
+                sortie +="L'activite "+ retour +"est dans une categorie  non reconnue. Elle sera ignoree. ";
                 messagesErreurs.add(sortie);
-            }else if(!(retour.equals(" "))){
-                sortie +="Les activites"+ retour +"sont dans des categories  non reconnues. Elle sont ignorees.";
+            }else if(!(retour.equals(""))){
+                sortie +="Les activites "+ retour +"sont dans des categories  non reconnues. Elle sont ignorees. ";
                 messagesErreurs.add(sortie);
             } 
         } 
@@ -134,9 +134,9 @@ public class ValidateurDeDeclaration {
 
     public void messageErreurSiHeuresTransferesEstInvalide(){
         if(membre.getHeuresTransferees() > 7){
-          messagesErreurs.add("Les Heures transferees ont depasse 7 heures, seulement 7 heures seront comptabilises.");
+          messagesErreurs.add("Les Heures transferees ont depasse 7 heures, seulement 7 heures seront comptabilises. ");
         }else if(membre.getHeuresTransferees() < 0){
-            messagesErreurs.add("Les Heures transferees ne doivent pas etre negatives,elles seront ignorees des calculs.");
+            messagesErreurs.add("Les Heures transferees ne doivent pas etre negatives,elles seront ignorees des calculs. ");
         }
     
     }
@@ -144,7 +144,7 @@ public class ValidateurDeDeclaration {
     public void messageErreursPourHeuresErronees(){
         String messageErrone = "";
         if(nombreDHeuresErronees() > 0){
-        messageErrone +="Il manque "+ nombreDHeuresErronees() + " heures de formation pour completer le cycle." ;
+        messageErrone +="Il manque "+ nombreDHeuresErronees() + " heures de formation pour completer le cycle. " ;
         messagesErreurs.add(messageErrone);
         }
     }
