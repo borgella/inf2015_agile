@@ -93,7 +93,7 @@ public class ValidateurDeDeclaration {
                     + composanteHeuresTransfereesNegatives);
         }
 
-        if (membre.getHeuresTransferees() < 0) {
+        if (membre.getHeuresTransferees() > 7) {
             String composanteHeuresTransfereesEnSusDeSept = "7 heures transférées ont été utilisées lors des calculs.";
             messagesErreurs.add(premiereComposanteErreurHeuresTransferees
                     + membre.getHeuresTransferees() + deuxiemeComposanteErreurHeuresTransferees

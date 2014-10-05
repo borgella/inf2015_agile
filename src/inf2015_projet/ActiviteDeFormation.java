@@ -67,7 +67,7 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
                 temporaire = 2;
                 break;
             case "groupe de discussion":
-            case "rédaction professionelle":
+            case "rédaction professionnelle":
                 temporaire = 3;
                 break;
             default:
@@ -93,7 +93,7 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
             return false;
         }
         temporaire = toInt(date);
-        return temporaire >= 20120430 && temporaire <= 20140430;
+        return temporaire >= 20120401 && temporaire <= 20140401;
     }
     
     /**

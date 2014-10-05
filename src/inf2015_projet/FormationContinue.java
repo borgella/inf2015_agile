@@ -163,19 +163,18 @@ public class FormationContinue {
          }   
          }*/
         /* Affichage du fichier de sortie */
-        //FileWriter sortie = new FileWriter(fichierSortie);
-       // sortie.write(validateur.produireRapport());
-        //sortie.close();
-   // }
+        FileWriter sortie = new FileWriter(fichierSortie);
+        sortie.write(declarationJSON.toString(2));
+        sortie.close();
+   }
 
-   // public static String forcerFichierEntreePourTesterCategorieIndividuelle(int numeroDeTest) {
-     //   String nomDuFichierVoulu = Integer.toString(numeroDeTest);
-     //   String fichierEntree = "json/testerCategoriesIndividuelles/" + nomDuFichierVoulu + ".json";
-     //   System.out.println(fichierEntree);
-      //  return fichierEntree;
-
+   public static String forcerFichierEntreePourTesterCategorieIndividuelle(int numeroDeTest) {
+        String nomDuFichierVoulu = Integer.toString(numeroDeTest);
+        String fichierEntree = "json/testerCategoriesIndividuelles/" + nomDuFichierVoulu + ".json";
+        System.out.println(fichierEntree);
+        return fichierEntree;
+   
         /*
-        
          I. CODE DU NUMÉRO DE FICHIER (où X est un chiffre entre 0 et 9:
         
          "cours": X
@@ -207,11 +206,11 @@ public class FormationContinue {
          */
     }
 
-    // Le seul argument qui fonctionne pour l'instant est 0
-   // public static String forcerFichierEntreePourTesterActivitesInvalides(int numeroDeTest) {
-   //     String nomDuFichierVoulu = Integer.toString(numeroDeTest);
-   //     String fichierEntree = "json/testerActivitesInvalides/" + nomDuFichierVoulu + ".json";
-   //     System.out.println(fichierEntree);
-   //     return fichierEntree;
-   // }
+   // Le seul argument qui fonctionne pour l'instant est 0
+   public static String forcerFichierEntreePourTesterActivitesInvalides(int numeroDeTest) {
+        String nomDuFichierVoulu = Integer.toString(numeroDeTest);
+        String fichierEntree = "json/testerActivitesInvalides/" + nomDuFichierVoulu + ".json";
+        System.out.println(fichierEntree);
+        return fichierEntree;
+    }
 }
