@@ -139,7 +139,7 @@ public class ValidateurDeDeclaration {
     
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront comptabilisees. ");
+            messagesErreurs.add("Le cycle n'est pas valide et vos heures ne seront pas comptabilisees.");
         }
 
     }
@@ -158,10 +158,10 @@ public class ValidateurDeDeclaration {
                 }
             }
             if (sommation > 0 && !(retour.equals(""))) {
-                sortie += "La date de la categorie " + retour + "est invalide . Elle sera ignoree des calculs. ";
+                sortie += "La date de la categorie " + retour + "est invalide. Elle sera ignoree des calculs.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
-                sortie += "Les dates des categories" + retour + "sont invalides, elles seront ignorees des calculs. ";
+                sortie += "Les dates des categories " + retour + "sont invalides, elles seront ignorees des calculs.";
                 messagesErreurs.add(sortie);
             }
         }
@@ -186,10 +186,10 @@ public class ValidateurDeDeclaration {
                 }
             }
             if (sommation > 0 && !(retour.equals(""))) {
-                sortie += "L'activite " + retour + "est dans une categorie  non reconnue. Elle sera ignoree. ";
+                sortie += "L'activite " + retour + "est dans une categorie  non reconnue. Elle sera ignoree.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
-                sortie += "Les activites " + retour + "sont dans des categories  non reconnues. Elle sont ignorees. ";
+                sortie += "Les activites " + retour + "sont dans des categories non reconnues. Elle sont ignorees.";
                 messagesErreurs.add(sortie);
             }
         }
@@ -198,9 +198,9 @@ public class ValidateurDeDeclaration {
 
     public void messageErreurSiHeuresTransferesEstInvalide() {
         if (membre.getHeuresTransferees() > 7) {
-            messagesErreurs.add("Les Heures transferees ont depasse 7 heures, seulement 7 heures seront comptabilises. ");
+            messagesErreurs.add("Les heures transferees ont depasse 7 heures, seulement 7 heures seront comptabilisees.");
         } else if (membre.getHeuresTransferees() < 0) {
-            messagesErreurs.add("Les Heures transferees ne doivent pas etre negatives,elles seront ignorees des calculs. ");
+            messagesErreurs.add("Les heures transferees ne doivent pas etre negatives, elles seront ignorees des calculs.");
         }
 
     }
@@ -231,7 +231,7 @@ public class ValidateurDeDeclaration {
     public void messageErreurPourHeuresErronees() {
         String messageErrone = "";
         if (nombreDHeuresErronees() > 0) {
-            messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour completer le cycle. ";
+            messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour completer le cycle.";
             messagesErreurs.add(messageErrone);
         }
     }
@@ -247,7 +247,7 @@ public class ValidateurDeDeclaration {
     // La formation est complète ssi le cycle est valide et si les heures totales sont au moins 40, 
     // dont au moins 17 dans le regroupement #1 dees catégories (groupe des 6 catégories).
     public boolean formationComplete() {
-        return heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17);
+        return heuresTotal >= 40 && validerLeCycle();
     }
     
     /*

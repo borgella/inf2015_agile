@@ -41,17 +41,13 @@ public class FormationContinue {
         for (int i = 0; i < listeActivites.size(); i++) {
             // créer un objet ActiviteDeFormation à partir du JSONObject courant
             ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
+            
             // ajouter l'activite courante dans la declaration
-
             //String message = validerActivite(activite)
             declarationDuMembre.ajouterActivite(uneActivite);
         }
 
-        // création et utilisation du validateur...
-        ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
-        declarationJSON = validateur.produireRapport();
-        System.out.println(declarationJSON);
-       
+        // Écrire le fichier de sortie
         FileWriter sortie = new FileWriter("sortie.json");
         sortie.write(declarationJSON.toString(2));
         sortie.close();
