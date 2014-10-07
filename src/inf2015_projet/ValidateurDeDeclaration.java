@@ -135,7 +135,7 @@ public class ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 ActiviteDeFormation activite = liste.get(i);
-                if (activite.regroupementDesCategories(activite.getCategorie()) == 1) {
+                if (activite.regroupementDesCategories(activite.getCategorie()) != 1) {
                     retour += activite.getDescription() + " ";
                     sommation += 1;
                 }
@@ -149,6 +149,16 @@ public class ValidateurDeDeclaration {
             }
         }
 
+    }
+    
+    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+        int nombreDeDescriptions = descriptions.size();
+        String phraseDeRetour = descriptions.get(0);
+        for (int i = 1; i < nombreDeDescriptions - 1; i++) {
+            phraseDeRetour += ", " + descriptions.get(i);
+        }
+        phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
+        return phraseDeRetour;
     }
 
     /**
