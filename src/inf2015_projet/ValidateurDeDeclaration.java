@@ -121,7 +121,7 @@ public class ValidateurDeDeclaration {
 
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Le seul cycle supporté est 2012-2014.");
+            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2012-2014 est accepté.");
         }
 
     }
@@ -145,10 +145,10 @@ public class ValidateurDeDeclaration {
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
 
             if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les dates des activités " + retour + "sont invalides. Ces activités seront ignorées des calculs.";
+                sortie += "Les dates des activités " + retour + "sont invalides. Ces activités seront ignorées.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
-                sortie += "La date de l'activité " + retour + "est invalide. L'activité sera ignorée des calculs.";
+                sortie += "La date de l'activité " + retour + "est invalide. L'activité sera ignorée.";
                 messagesErreurs.add(sortie);
             }
         }
@@ -206,9 +206,9 @@ public class ValidateurDeDeclaration {
 
     public void messageErreurSiHeuresTransferesEstInvalide() {
         if (membre.getHeuresTransferees() > 7) {
-            messagesErreurs.add("Les heures transférées ont dépasse 7 heures, seulement 7 heures seront comptabilisees.");
+            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
         } else if (membre.getHeuresTransferees() < 0) {
-            messagesErreurs.add("Les heures transférées ne doivent pas etre negatives, elles seront ignorees des calculs.");
+            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. Ce nombre sera comptabilisé comme 0.");
         }
 
     }
@@ -239,7 +239,7 @@ public class ValidateurDeDeclaration {
     public void messageErreurPourHeuresErronees() {
         String messageErrone = "";
         if (nombreDHeuresErronees() > 0) {
-            messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour completer le cycle.";
+            messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour compléter le cycle.";
             messagesErreurs.add(messageErrone);
         }
     }
