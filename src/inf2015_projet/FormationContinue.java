@@ -21,20 +21,16 @@ public class FormationContinue {
 
     // @param args the command line arguments
     public static void main(String[] args) throws IOException {
-        
+
         String fichierEntree = args[0];
         String fichierSortie = args[1];
-
-        // Charger un fichier JSON et l'obtenir sous forme d'objet
-        String texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
-        //String texteEntree = FileReader.loadFileIntoString("json/testerCategoriesIndividuelles/60.json", "UTF-8");
-        //String texteEntree = FileReader.loadFileIntoString("json/testerActivitesInvalides/0.json", "UTF-8");  
+        String texteEntree = " ";
+        // Charger un fichier JSON et l'obtenir sous forme d'objetif
+        texteEntree   = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
-
         String numeroDePermis = declarationJSON.getString("numero_de_permis");
         String cycle = declarationJSON.getString("cycle");
         int heuresTransferees = declarationJSON.getInt("heures_transferees_du_cycle_precedent");
-
         DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
 
         // obtenir le JSONArray qui contient les details des activités
