@@ -247,7 +247,7 @@ public class ValidateurDeDeclaration {
     // La formation est complète ssi le cycle est valide et si les heures totales sont au moins 40, 
     // dont au moins 17 dans le regroupement #1 dees catégories (groupe des 6 catégories).
     public boolean formationComplete() {
-        return heuresTotal >= 40 && validerLeCycle();
+        return heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17);
     }
     
     /*
