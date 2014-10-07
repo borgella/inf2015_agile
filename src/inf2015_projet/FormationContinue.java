@@ -21,11 +21,13 @@ public class FormationContinue {
 
     // @param args the command line arguments
     public static void main(String[] args) throws IOException {
-
+        
+        String fichierEntree = args[0];
+        String fichierSortie = args[1];
 
         // Charger un fichier JSON et l'obtenir sous forme d'objet
-        //String texteEntree = FileReader.loadFileIntoString("entree.json", "UTF-8");
-        String texteEntree = FileReader.loadFileIntoString("json/testerCategoriesIndividuelles/60.json", "UTF-8");
+        String texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
+        //String texteEntree = FileReader.loadFileIntoString("json/testerCategoriesIndividuelles/60.json", "UTF-8");
         //String texteEntree = FileReader.loadFileIntoString("json/testerActivitesInvalides/0.json", "UTF-8");  
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
 
@@ -41,16 +43,21 @@ public class FormationContinue {
         for (int i = 0; i < listeActivites.size(); i++) {
             // créer un objet ActiviteDeFormation à partir du JSONObject courant
             ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
-            
+
             // ajouter l'activite courante dans la declaration
             //String message = validerActivite(activite)
             declarationDuMembre.ajouterActivite(uneActivite);
         }
 
+        // création et utilisation du validateur...
+        ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
+        declarationJSON = validateur.produireRapport();
+        System.out.println(declarationJSON);
+
         // Écrire le fichier de sortie
-        FileWriter sortie = new FileWriter("sortie.json");
+        FileWriter sortie = new FileWriter(fichierSortie);
         sortie.write(declarationJSON.toString(2));
         sortie.close();
-        
+
     }
 }
