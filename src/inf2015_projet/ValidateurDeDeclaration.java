@@ -253,7 +253,7 @@ public class ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 ActiviteDeFormation activite = liste.get(i);
-                if (activite.getDureeEnHeures() < 0) {
+                if (activite.getDureeEnHeures() < 1) {
                     descriptionsDesActivites.add(activite.getDescription());
                     sommation += 1;
                 }
@@ -261,10 +261,10 @@ public class ValidateurDeDeclaration {
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
         } 
         if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les heures des activités " + retour + " sont négatives. Elles ont été  ignorées dans les calculs.";
+                sortie += "Les heures des activités " + retour + " sont invalides. Ces activités seront ignorées.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
-                sortie += "L'heure de l'activité " + retour + " est négative. Elle sera ignorée.";
+                sortie += "Les heures de l'activité " + retour + " sont invalides. Cette activité sera ignorée.";
                 messagesErreurs.add(sortie);
             }
     }
