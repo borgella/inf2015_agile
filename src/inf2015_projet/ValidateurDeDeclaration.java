@@ -130,7 +130,7 @@ public class ValidateurDeDeclaration {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
-        retour = sortie = "";
+         sortie = "";
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
@@ -244,6 +244,31 @@ public class ValidateurDeDeclaration {
         }
     }
 
+    public void messageErreurPourHeuresActivitesNegatif() {
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
+        int sommation = 0;
+        String retour, sortie;
+        retour = sortie = "";
+        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
+        if (liste != null) {
+            for (int i = 0; i < liste.size(); ++i) {
+                ActiviteDeFormation activite = liste.get(i);
+                if (activite.getDureeEnHeures() < 0) {
+                    descriptionsDesActivites.add(activite.getDescription());
+                    sommation += 1;
+                }
+            }
+            retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
+        } 
+        if (sommation > 1 && !(retour.equals(""))) {
+                sortie += "Les heures des activités " + retour + " sont négatives. Elles ont été  ignorées dans les calculs.";
+                messagesErreurs.add(sortie);
+            } else if (!(retour.equals(""))) {
+                sortie += "L'heure de l'activité " + retour + " est négative. Elle sera ignorée.";
+                messagesErreurs.add(sortie);
+            }
+    }
+    
     public JSONArray leMessageInvalide(ArrayList message) {
         JSONArray tab = new JSONArray();
         for (int i = 0; i < message.size(); ++i) {
@@ -266,6 +291,7 @@ public class ValidateurDeDeclaration {
             messageErreurSiHeuresTransferesEstInvalide();
             messageErreurPourHeuresManquantes();
             messageErreurPourHeuresInsuffisantesSixCategories();
+            messageErreurPourHeuresActivitesNegatif();
         }
 
     }
