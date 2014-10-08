@@ -145,10 +145,10 @@ public class ValidateurDeDeclaration {
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
 
             if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les dates des activités " + retour + "sont invalides. Ces activités seront ignorées.";
+                sortie += "Les dates des activités " + retour + " sont invalides. Ces activités seront ignorées.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
-                sortie += "La date de l'activité " + retour + "est invalide. L'activité sera ignorée.";
+                sortie += "La date de l'activité " + retour + " est invalide. L'activité sera ignorée.";
                 messagesErreurs.add(sortie);
             }
         }
@@ -286,12 +286,12 @@ public class ValidateurDeDeclaration {
     public void appelsDesMethodesDesMessagesInvalides() {
         messageErreurSiLeCycleEstInvalide();
         if (validerLeCycle()) {
-            messageErreurPourDateInvalide();
-            messageInvalidePourCategorieNonReconnue();
             messageErreurSiHeuresTransferesEstInvalide();
+            messageInvalidePourCategorieNonReconnue();
+            messageErreurPourHeuresActivitesNegatif();
+            messageErreurPourDateInvalide();
             messageErreurPourHeuresManquantes();
             messageErreurPourHeuresInsuffisantesSixCategories();
-            messageErreurPourHeuresActivitesNegatif();
         }
 
     }
