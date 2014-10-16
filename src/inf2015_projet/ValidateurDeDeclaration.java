@@ -89,11 +89,7 @@ public class ValidateurDeDeclaration {
         int nombreDHeuresMaximum = 0;
         int heuresEffectives;
 
-        if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
-            nombreDHeuresMaximum = 23;
-        } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
-            nombreDHeuresMaximum = 17;
-        }
+        nombreDHeuresMaximum = maximumHeuresSelonCategorie(categorie);
 
         int heuresBrutes = heuresBrutesParCategoriePourActivitesValides(categorie);
 
@@ -103,6 +99,16 @@ public class ValidateurDeDeclaration {
             heuresEffectives = heuresBrutes;
         }
         return heuresEffectives;
+    }
+
+    private int maximumHeuresSelonCategorie(String categorie) {
+        int nombreMaximumHeures = Integer.MAX_VALUE;
+        if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
+            nombreMaximumHeures = 23;
+        } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
+            nombreMaximumHeures = 17;
+        }
+        return nombreMaximumHeures;
     }
 
     public int heuresBrutesParCategoriePourActivitesValides(String categorie) {
