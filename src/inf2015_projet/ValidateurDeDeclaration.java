@@ -75,30 +75,20 @@ public class ValidateurDeDeclaration {
 
     public int heuresTotalesFormation() {
         int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
-        int heuresPresentation = heuresEffectivesParCategoriePourActivitesValides("présentation");
-        int heuresDiscussion = heuresEffectivesParCategoriePourActivitesValides("groupe de discussion");
-        int heuresRecherche = heuresEffectivesParCategoriePourActivitesValides("projet de recherche");
-        int heuresRedaction = heuresEffectivesParCategoriePourActivitesValides("rédaction professionnelle");
+        int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
+        int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
+        int heuresRecherche = heuresEffectivesSelonCategorie("projet de recherche");
+        int heuresRedaction = heuresEffectivesSelonCategorie("rédaction professionnelle");
 
         return heuresTotal = heuresSixCategoriesEtTransferees
                 + heuresPresentation + heuresDiscussion
                 + heuresRecherche + heuresRedaction;
     }
 
-    public int heuresEffectivesParCategoriePourActivitesValides(String categorie) {
-        int nombreDHeuresMaximum = 0;
-        int heuresEffectives;
-
-        nombreDHeuresMaximum = maximumHeuresSelonCategorie(categorie);
-
-        int heuresBrutes = heuresBrutesParCategoriePourActivitesValides(categorie);
-
-        if (nombreDHeuresMaximum > 0) {
-            heuresEffectives = nombreDHeuresMaximum > heuresBrutes ? heuresBrutes : nombreDHeuresMaximum;
-        } else {
-            heuresEffectives = heuresBrutes;
-        }
-        return heuresEffectives;
+    public int heuresEffectivesSelonCategorie(String categorie) {
+        int heuresBrutes = heuresBrutesSelonCategorie(categorie);
+        int maximumHeures = maximumHeuresSelonCategorie(categorie);
+        return (heuresBrutes > maximumHeures? maximumHeures : heuresBrutes); 
     }
 
     private int maximumHeuresSelonCategorie(String categorie) {
@@ -111,7 +101,7 @@ public class ValidateurDeDeclaration {
         return nombreMaximumHeures;
     }
 
-    public int heuresBrutesParCategoriePourActivitesValides(String categorie) {
+    public int heuresBrutesSelonCategorie(String categorie) {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
         if (!liste.isEmpty()) {
