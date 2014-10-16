@@ -33,6 +33,10 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
     public String getCategorie() {
         return this.categorie;
     }
+    
+    public boolean estDansCategorie(String categorie) {
+        return categorie.equals(this.categorie);
+    }
 
     public int getDureeEnHeures() {
         return this.dureeEnHeures;

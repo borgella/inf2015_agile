@@ -90,6 +90,17 @@ public class ValidateurDeDeclaration {
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
         return (heuresBrutes > maximumHeures? maximumHeures : heuresBrutes); 
     }
+    
+    private int heuresBrutesSelonCategorie(String categorie) {
+        ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
+        int heuresTotales = 0;
+        for (ActiviteDeFormation activiteCourante: liste) {
+            if (activiteCourante.estDansCategorie(categorie)) {
+                heuresTotales += activiteCourante.getDureeEnHeures();
+            }
+        }
+        return heuresTotales;
+    }
 
     private int maximumHeuresSelonCategorie(String categorie) {
         int nombreMaximumHeures = Integer.MAX_VALUE;
@@ -99,20 +110,6 @@ public class ValidateurDeDeclaration {
             nombreMaximumHeures = 17;
         }
         return nombreMaximumHeures;
-    }
-
-    public int heuresBrutesSelonCategorie(String categorie) {
-        ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
-        int heuresTotales = 0;
-        if (!liste.isEmpty()) {
-            for (int i = 0; i < liste.size(); ++i) {
-                ActiviteDeFormation activite = liste.get(i);
-                if (activite.getCategorie().equals(categorie)) {
-                    heuresTotales += activite.getDureeEnHeures();
-                }
-            }
-        }
-        return heuresTotales;
     }
 
     public void messageErreurSiLeCycleEstInvalide() {
