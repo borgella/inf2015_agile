@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package inf2015_projet;
+package declaration;
 
+import inf2015_projet.ActiviteDeFormation;
 import java.util.ArrayList;
 
 /**

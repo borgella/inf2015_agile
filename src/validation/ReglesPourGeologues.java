@@ -6,7 +6,7 @@
 package validation;
 
 import inf2015_projet.ActiviteDeFormation;
-import inf2015_projet.DeclarationDeFormation;
+import declaration.DeclarationDeFormation;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

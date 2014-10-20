@@ -5,6 +5,7 @@
  */
 package inf2015_projet;
 
+import declaration.DeclarationDeFormation;
 import net.sf.json.JSONObject;
 
 /**
