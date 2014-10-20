@@ -5,7 +5,6 @@
  */
 package declaration;
 
-import inf2015_projet.ActiviteDeFormation;
 import java.util.ArrayList;
 
 /**
