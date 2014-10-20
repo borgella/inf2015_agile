@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package inf2015_projet;
+package validation;
 
+import inf2015_projet.ActiviteDeFormation;
+import inf2015_projet.DeclarationDeFormation;
 import java.util.ArrayList;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONArray;
