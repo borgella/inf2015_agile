@@ -13,11 +13,11 @@ import java.util.ArrayList;
  */
 public class DeclarationDeFormation {
 
-    private final String numeroDePermis;
-    private final String cycle;
-    private int heuresTransferees;
-    private ArrayList<ActiviteDeFormation> activitesAcceptees;
-    private ArrayList<ActiviteDeFormation> activitesRefusees;
+    protected final String numeroDePermis;
+    protected final String cycle;
+    protected int heuresTransferees;
+    protected ArrayList<ActiviteDeFormation> activitesAcceptees;
+    protected ArrayList<ActiviteDeFormation> activitesRefusees;
 
     public DeclarationDeFormation(String numeroDepermis, String cycle, int heuresTransferees) {
         this.numeroDePermis = numeroDepermis;
