@@ -17,9 +17,9 @@ import net.sf.json.JSONArray;
  */
 public class ValidateurDeDeclaration {
 
-    private DeclarationDeFormation membre;
-    private ArrayList<String> messagesErreurs;
-    private int heuresTotal;
+    protected DeclarationDeFormation membre;
+    protected ArrayList<String> messagesErreurs;
+    protected int heuresTotal;
 
     public ValidateurDeDeclaration(DeclarationDeFormation membre) {
         this.membre = membre;
@@ -60,11 +60,11 @@ public class ValidateurDeDeclaration {
         return somme;
     }
 
-    private int heuresTotalesPourRegroupementDesSixCategories() {
+    protected int heuresTotalesPourRegroupementDesSixCategories() {
         return (nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives());
     }
 
-    private int heuresTransfereesEffectives() {
+    protected int heuresTransfereesEffectives() {
         int heuresTransferees = membre.getHeuresTransferees();
         int heuresEffectives = heuresTransferees;
         if (heuresTransferees < 0) {
@@ -93,7 +93,7 @@ public class ValidateurDeDeclaration {
         return (heuresBrutes > maximumHeures? maximumHeures : heuresBrutes); 
     }
     
-    private int heuresBrutesSelonCategorie(String categorie) {
+    protected int heuresBrutesSelonCategorie(String categorie) {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
         for (ActiviteDeFormation activiteCourante: liste) {
@@ -104,7 +104,7 @@ public class ValidateurDeDeclaration {
         return heuresTotales;
     }
 
-    private int maximumHeuresSelonCategorie(String categorie) {
+    protected int maximumHeuresSelonCategorie(String categorie) {
         int nombreMaximumHeures = Integer.MAX_VALUE;
         if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
             nombreMaximumHeures = 23;
@@ -150,7 +150,7 @@ public class ValidateurDeDeclaration {
 
     }
 
-    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+    protected String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
         int nombreDeDescriptions = descriptions.size();
         String phraseDeRetour = "";
         if (nombreDeDescriptions > 0) {
