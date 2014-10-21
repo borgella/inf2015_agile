@@ -13,7 +13,7 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author User
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class ReglesPourPsychologues extends ValidateurDeDeclaration {
     

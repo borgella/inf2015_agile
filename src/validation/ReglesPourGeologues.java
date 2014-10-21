@@ -13,7 +13,7 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author User
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class ReglesPourGeologues extends ValidateurDeDeclaration {
     
@@ -22,7 +22,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
     }
     
     public boolean validerLeCycle() {
-        return membre.getCycle().equals("2012-2014");
+        return membre.getCycle().equals("2013-2016");
     }
 
     public int nombreDHeuresErronees() {
@@ -92,6 +92,18 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
         }
         return heuresTotales;
     }
+    
+    protected int minimumHeuresSelonCategorie(String categorie) {
+        int nombreMinimumHeures = Integer.MIN_VALUE;
+        if (categorie.equals("cours")) {
+            nombreMinimumHeures = 22;
+        } else if (categorie.equals("projet de recherche")) {
+            nombreMinimumHeures = 3;
+        } else if (categorie.equals("groupe de discussion")) {
+            nombreMinimumHeures = 1;
+        }
+        return nombreMinimumHeures;
+    }
 
     protected int maximumHeuresSelonCategorie(String categorie) {
         int nombreMaximumHeures = Integer.MAX_VALUE;
@@ -105,7 +117,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
 
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2012-2014 est accepté.");
+            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2013-2016 est accepté.");
         }
 
     }
@@ -114,7 +126,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
-         sortie = "";
+        sortie = "";
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {

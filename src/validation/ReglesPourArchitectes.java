@@ -13,7 +13,7 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author User
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class ReglesPourArchitectes extends ValidateurDeDeclaration {
     
@@ -22,7 +22,9 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
     }
     
     public boolean validerLeCycle() {
-        return membre.getCycle().equals("2012-2014");
+        return  membre.getCycle().equals("2008-2010") ||
+                membre.getCycle().equals("2010-2012") ||
+                membre.getCycle().equals("2012-2014");
     }
 
     public int nombreDHeuresErronees() {
@@ -105,7 +107,7 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
 
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2012-2014 est accepté.");
+            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul les cycles 2008-2010, 2010-2012 et 2012-2014 sont acceptés.");
         }
 
     }
@@ -114,7 +116,7 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
-         sortie = "";
+        sortie = "";
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {

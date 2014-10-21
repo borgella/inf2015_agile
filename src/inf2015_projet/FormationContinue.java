@@ -5,14 +5,14 @@
  */
 package inf2015_projet;
 
-//import java.io.FileWriter;
+import declaration.ActiviteDeFormation;
+import declaration.DeclarationDeFormation;
 import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import validation.ValidateurDeDeclaration;
 
-//import java.io.IOException;
-//import net.sf.json.JSONArray;
 /**
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella

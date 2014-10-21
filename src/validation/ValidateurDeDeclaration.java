@@ -13,7 +13,7 @@ import net.sf.json.JSONArray;
 
 /**
  *
- * @author df891101
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class ValidateurDeDeclaration {
 
