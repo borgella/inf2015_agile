@@ -24,28 +24,36 @@ public class FormationContinue {
 
         String fichierEntree = args[0];
         String fichierSortie = args[1];
-        String texteEntree = " ";
+        
         // Charger un fichier JSON et l'obtenir sous forme d'objetif
-        texteEntree   = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
+        String texteEntree = " ";
+        texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
+        
         String numeroDePermis = declarationJSON.getString("numero_de_permis");
+        String ordre = declarationJSON.getString("ordre");
         String cycle = declarationJSON.getString("cycle");
         int heuresTransferees = declarationJSON.getInt("heures_transferees_du_cycle_precedent");
-        DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
+        
+        //DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
+        DeclarationDeFormation declarationDuMembre;
+        
+        if(ordre.equals("géologues")) {
+            declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle);
+        } else {
+            declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle, heuresTransferees);
+        }
 
         // obtenir le JSONArray qui contient les details des activités
         JSONArray listeActivites = declarationJSON.getJSONArray("activites");
 
         for (int i = 0; i < listeActivites.size(); i++) {
-            // créer un objet ActiviteDeFormation à partir du JSONObject courant
             ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
-
-            // ajouter l'activite courante dans la declaration
             //String message = validerActivite(activite)
             declarationDuMembre.ajouterActivite(uneActivite);
         }
 
-        // création et utilisation du validateur...
+        // Valider les données reçues
         ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
         declarationJSON = validateur.produireRapport();
         System.out.println(declarationJSON);

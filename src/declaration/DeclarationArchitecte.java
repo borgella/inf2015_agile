@@ -11,7 +11,7 @@ package declaration;
  */
 public class DeclarationArchitecte extends DeclarationDeFormation {
     
-    public DeclarationArchitecte(String numeroDepermis, String cycle, int heuresTransferees) {
-        super(numeroDepermis, cycle, heuresTransferees);
+    public DeclarationArchitecte(String numeroDepermis, String ordre, String cycle, int heuresTransferees) {
+        super(numeroDepermis, ordre, cycle, heuresTransferees);
     }
 }

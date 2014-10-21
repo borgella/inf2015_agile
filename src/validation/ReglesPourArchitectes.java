@@ -16,15 +16,15 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class ReglesPourArchitectes extends ValidateurDeDeclaration {
-    
+
     public ReglesPourArchitectes(DeclarationDeFormation membre) {
         super(membre);
     }
-    
+
     public boolean validerLeCycle() {
-        return  membre.getCycle().equals("2008-2010") ||
-                membre.getCycle().equals("2010-2012") ||
-                membre.getCycle().equals("2012-2014");
+        return membre.getCycle().equals("2008-2010")
+                || membre.getCycle().equals("2010-2012")
+                || membre.getCycle().equals("2012-2014");
     }
 
     public int nombreDHeuresErronees() {
@@ -81,13 +81,13 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
     public int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return (heuresBrutes > maximumHeures? maximumHeures : heuresBrutes); 
+        return (heuresBrutes > maximumHeures ? maximumHeures : heuresBrutes);
     }
-    
+
     protected int heuresBrutesSelonCategorie(String categorie) {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
-        for (ActiviteDeFormation activiteCourante: liste) {
+        for (ActiviteDeFormation activiteCourante : liste) {
             if (activiteCourante.estDansCategorie(categorie)) {
                 heuresTotales += activiteCourante.getDureeEnHeures();
             }
@@ -149,7 +149,7 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
             for (int i = 1; i < nombreDeDescriptions - 1; i++) {
                 phraseDeRetour += ", " + descriptions.get(i);
             }
-            
+
             if (nombreDeDescriptions > 1) {
                 phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
             }
@@ -245,16 +245,16 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
                 }
             }
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-        } 
+        }
         if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les heures des activités " + retour + " sont invalides. Ces activités seront ignorées.";
-                messagesErreurs.add(sortie);
-            } else if (!(retour.equals(""))) {
-                sortie += "Les heures de l'activité " + retour + " sont invalides. Cette activité sera ignorée.";
-                messagesErreurs.add(sortie);
-            }
+            sortie += "Les heures des activités " + retour + " sont invalides. Ces activités seront ignorées.";
+            messagesErreurs.add(sortie);
+        } else if (!(retour.equals(""))) {
+            sortie += "Les heures de l'activité " + retour + " sont invalides. Cette activité sera ignorée.";
+            messagesErreurs.add(sortie);
+        }
     }
-    
+
     public JSONArray leMessageInvalide(ArrayList message) {
         JSONArray tab = new JSONArray();
         for (int i = 0; i < message.size(); ++i) {
@@ -263,10 +263,19 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
         return tab;
     }
 
-    // La formation est complète ssi le cycle est valide et si les heures totales sont au moins 40, 
+    // La formation est complète si le cycle est valide et si les heures totales sont au moins 40 
+    // (42 heures pour les cycles 2008-2010 et 2010-2012), 
     // dont au moins 17 dans le regroupement #1 dees catégories (groupe des 6 catégories).
     public boolean formationComplete() {
-        return heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17);
+        boolean heuresTotauxValides;    // heures valides selon le cycle
+        
+        if(membre.getCycle().equals("2008-2010") || membre.getCycle().equals("2010-2012")) {
+            heuresTotauxValides = (heuresTotal >= 42 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17));
+        } else {
+            heuresTotauxValides = (heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17));
+        }
+        
+        return heuresTotauxValides;
     }
 
     public void appelsDesMethodesDesMessagesInvalides() {
@@ -279,7 +288,6 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
             messageErreurPourHeuresManquantes();
             messageErreurPourHeuresInsuffisantesSixCategories();
         }
-
     }
 
     public JSONObject produireRapport() {

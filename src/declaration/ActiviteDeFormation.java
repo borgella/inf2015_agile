@@ -5,7 +5,9 @@
  */
 package declaration;
 
-import declaration.DeclarationDeFormation;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import net.sf.json.JSONObject;
 
 /**
@@ -20,7 +22,7 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
     private String dateCompletee;
 
     public ActiviteDeFormation(DeclarationDeFormation membre, JSONObject activiteJSON) {
-        super(membre.getNumeroDePermis(), membre.getCycle(), membre.getHeuresTransferees());
+        super(membre.getNumeroDePermis(), membre.getOrdre(), membre.getCycle(), membre.getHeuresTransferees());
         this.description = activiteJSON.getString("description");
         this.categorie = activiteJSON.getString("categorie");
         this.dureeEnHeures = activiteJSON.getInt("heures");
@@ -34,7 +36,7 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
     public String getCategorie() {
         return this.categorie;
     }
-    
+
     public boolean estDansCategorie(String categorie) {
         return categorie.equals(this.categorie);
     }
@@ -89,24 +91,45 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
      *
      * @param date
      * @return
-     */       
-     public boolean aDateCompleteeValide(String date){
-        int temporaire ; 
-        if((toInt(date.substring(5,7))>=1 && toInt(date.substring(5,7))<=12)&&(toInt(date.substring(8,10))>=1 && toInt(date.substring(8,10))<= 31)){
-            date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);
-        }else{
+     */
+    public boolean aDateCompleteeValide(String date/*, String intervalleMinimum, String intervalleMaximum*/) {
+        String intervalleMinimum = "2012-04-01";
+        String intervalleMaximum = "2014-04-01";
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        
+        Date dateIntervalleMinimum = null;
+        Date dateIntervalleMaximum = null;
+        Date dateLue = null;
+        
+        try {
+            dateIntervalleMinimum = df.parse(intervalleMinimum);
+            dateIntervalleMaximum = df.parse(intervalleMaximum);
+            dateLue = df.parse(date);
+        } catch(ParseException e) {
+            e.getMessage();
+        }
+        
+        return (dateLue.after(dateIntervalleMinimum) || (dateLue.equals(dateIntervalleMinimum)) 
+                && (dateLue.before(dateIntervalleMaximum) || dateLue.equals(dateIntervalleMaximum)));
+
+        /*int temporaire;
+        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
+            date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+        } else {
             return false;
         }
         temporaire = toInt(date);
-        return temporaire >= 20120401 && temporaire <= 20140401;
+        return temporaire >= 20120401 && temporaire <= 20140401;*/
     }
-    
+
     /**
      * Cette methode convertit un String en format date
+     *
      * @param number
      * @return int temporaire
      */
-    private int toInt(String number){
+    private int toInt(String number) {
         Integer temporaire = new Integer(number);
         return temporaire;
     }
