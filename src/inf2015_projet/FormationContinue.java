@@ -38,7 +38,7 @@ public class FormationContinue {
         //DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
         DeclarationDeFormation declarationDuMembre;
         
-        if(ordre.equals("géologues")) {
+        if(!ordre.equals("architectes")) {
             declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle);
         } else {
             declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle, heuresTransferees);
