@@ -50,7 +50,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
     }
 
     protected int heuresTotalesPourRegroupementDesSixCategories() {
-        return (nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives());
+        return (nombreDHeuresSelonRegroupement(1)/* + heuresTransfereesEffectives()*/);
     }
 
     /*protected int heuresTransfereesEffectives() {
@@ -131,7 +131,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 ActiviteDeFormation activite = liste.get(i);
-                if (!activite.aDateCompleteeValide(activite.getDateCompletee())) {
+                if (!activite.dateActivitesCompleteesValides(activite.getDateCompletee())) {
                     descriptionsDesActivites.add(activite.getDescription());
                     //retour += activite.getDescription() + " ";
                     sommation += 1;
@@ -200,18 +200,18 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
 
     }
 
-    public void messageErreurSiHeuresTransferesEstInvalide() {
+    /*public void messageErreurSiHeuresTransferesEstInvalide() {
         if (membre.getHeuresTransferees() > 7) {
             messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
         } else if (membre.getHeuresTransferees() < 0) {
             messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. Ce nombre sera comptabilisé comme 0.");
         }
 
-    }
+    }*/
 
     public void messageErreurPourHeuresManquantes() {
         String messageHeuresManquantes = "";
-        int heuresManquantesEnGeneral = 40 - heuresTotalesFormation();
+        int heuresManquantesEnGeneral = 55 - heuresTotalesFormation();
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
             int heuresManquantesPourLeCycle
@@ -282,7 +282,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
     public void appelsDesMethodesDesMessagesInvalides() {
         messageErreurSiLeCycleEstInvalide();
         if (validerLeCycle()) {
-            messageErreurSiHeuresTransferesEstInvalide();
+            //messageErreurSiHeuresTransferesEstInvalide();
             messageInvalidePourCategorieNonReconnue();
             messageErreurPourHeuresActivitesNegatif();
             messageErreurPourDateInvalide();

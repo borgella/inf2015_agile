@@ -119,7 +119,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 ActiviteDeFormation activite = liste.get(i);
-                if (!activite.aDateCompleteeValide(activite.getDateCompletee())) {
+                if (!activite.dateActivitesCompleteesValides(activite.getDateCompletee())) {
                     descriptionsDesActivites.add(activite.getDescription());
                     //retour += activite.getDescription() + " ";
                     sommation += 1;

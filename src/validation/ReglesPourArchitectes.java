@@ -121,7 +121,7 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 ActiviteDeFormation activite = liste.get(i);
-                if (!activite.aDateCompleteeValide(activite.getDateCompletee())) {
+                if (!activite.dateActivitesCompleteesValides(activite.getDateCompletee())) {
                     descriptionsDesActivites.add(activite.getDescription());
                     //retour += activite.getDescription() + " ";
                     sommation += 1;
@@ -201,7 +201,14 @@ public class ReglesPourArchitectes extends ValidateurDeDeclaration {
 
     public void messageErreurPourHeuresManquantes() {
         String messageHeuresManquantes = "";
-        int heuresManquantesEnGeneral = 40 - heuresTotalesFormation();
+        int heuresManquantesEnGeneral;
+        
+        if(membre.getCycle().equals("2008-2010") || membre.getCycle().equals("2010-2012")) {
+            heuresManquantesEnGeneral = 42 - heuresTotalesFormation();
+        } else {
+            heuresManquantesEnGeneral = 40 - heuresTotalesFormation();
+        }
+        
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
             int heuresManquantesPourLeCycle

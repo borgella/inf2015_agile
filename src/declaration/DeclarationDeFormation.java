@@ -40,7 +40,7 @@ public class DeclarationDeFormation {
     public void ajouterActivite(ActiviteDeFormation activite) {
         int temporaire = activite.regroupementDesCategories(activite.getCategorie());
         int verifierHeures = activite.getDureeEnHeures();
-        if (activite.aDateCompleteeValide(activite.getDateCompletee()) && temporaire != -1 && verifierHeures > 0) {
+        if (activite.dateActivitesCompleteesValides(activite.getDateCompletee()) && temporaire != -1 && verifierHeures > 0) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);

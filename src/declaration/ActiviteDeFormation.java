@@ -89,10 +89,10 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
      * inclusivement À l'extérieur des intervalles => MESSAGE D'ERREUR +
      * activité ignorée des calculs Les dates sont indiquées en format ISO-8601
      *
-     * @param date
+     * @param date 
      * @return
      */
-    public boolean aDateCompleteeValide(String date/*, String intervalleMinimum, String intervalleMaximum*/) {
+    public boolean dateActivitesCompleteesValides(String date/*, String intervalleMinimum, String intervalleMaximum*/) {
         String intervalleMinimum = "2012-04-01";
         String intervalleMaximum = "2014-04-01";
 
