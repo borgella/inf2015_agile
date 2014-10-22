@@ -18,7 +18,7 @@
 - Casses des identifiants : 
 	- _PascalCase_ pour les noms de classes
 	- _camelCase_ pour tout autre identifiant
-- Tout identifiant est écrit en **Français**, sauf pour les préfixes _get_ et _set_ pour les accesseurs et les mutateurs
+- Tout identifiant est écrit en **Français**, sauf pour les préfixes _get_ et _set_ pour les accesseurs et les mutateurs, respectivement
 
 ###Mise en page du code 
 
@@ -29,7 +29,7 @@
 	- Le paquetage dans lequel se trouve la classe
     - Les importations
     - Les attributs d'une classe
-    - Chaque méthode d'une classe (pas de ligne d'espacement après celle-ci)
+    - Chaque méthode d'une classe (pas de ligne d'espacement après la dernière méthode d'une classe)
     
 ---
 _Dernière révision: le 22 octobre, 2014_
