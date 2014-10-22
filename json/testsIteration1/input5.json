@@ -1,0 +1,43 @@
+{
+  "numero_de_permis": "A0001",
+  "cycle": "2012-2014",
+  "heures_transferees_du_cycle_precedent": 2,
+  "activites": [
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 14,
+      "date": "2013-03-20"
+    },
+    {
+      "description": "Amélioration de la profession",
+      "categorie": "projet de recherche",
+      "heures": 8,
+      "date": "2013-01-01"
+    },
+    {
+      "description": "Rédaction pour le magazine Architecture moderne",
+      "categorie": "rédaction professionnelle",
+      "heures": 6,
+      "date": "2012-10-22"
+    },
+    {
+      "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
+      "categorie": "groupe de discussion",
+      "heures": 6,
+      "date": "2013-04-01"
+    },
+    {
+      "description": "Présentation de la profession d'architecte au Cégep de Limoilou",
+      "categorie": "présentation",
+      "heures": 2,
+      "date": "2012-12-15"
+    },
+    {
+      "description": "Architecture moderne - visite de la Thaïlande",
+      "categorie": "visite",
+      "heures": 2,
+      "date": "2013-11-11"
+    }
+  ]
+}
