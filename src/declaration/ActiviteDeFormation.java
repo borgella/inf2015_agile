@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package declaration;
 
 import java.text.ParseException;
@@ -35,10 +31,6 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
 
     public String getCategorie() {
         return this.categorie;
-    }
-
-    public boolean estDansCategorie(String categorie) {
-        return categorie.equals(this.categorie);
     }
 
     public int getDureeEnHeures() {
@@ -84,6 +76,10 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
         return temporaire;
     }
     
+    public boolean estDansCategorie(String categorie) {
+        return categorie.equals(this.categorie);
+    }
+    
     public boolean aCategorieValide() {
         String categorie = this.categorie;
         return (categorie.equals("cours") || categorie.equals("atelier") 
@@ -92,7 +88,7 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
                 || categorie.equals("présentation") || categorie.equals("projet de recherche")    
                 || categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle"));
     }
-
+    
     /**
      * Activité complétée entre 1er avril 2012 et le 1er avril 2014
      * inclusivement À l'extérieur des intervalles => MESSAGE D'ERREUR +
@@ -101,7 +97,7 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
      * @param date 
      * @return
      */
-    public boolean dateActivitesCompleteesValides(String date/*, String intervalleMinimum, String intervalleMaximum*/) {
+    public boolean dateActivitesCompleteesValides(String date/*, String intervalleMin, String intervalleMax*/) {
         String intervalleMinimum = "2012-04-01";
         String intervalleMaximum = "2014-04-01";
 
@@ -123,7 +119,8 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
                 && (dateLue.before(dateIntervalleMaximum) || dateLue.equals(dateIntervalleMaximum)));
 
         /*int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
+        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
+            && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
             date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         } else {
             return false;
