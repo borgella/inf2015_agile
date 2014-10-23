@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package declaration;
 
 import java.util.ArrayList;
@@ -38,9 +34,7 @@ public class DeclarationDeFormation {
     }
 
     public void ajouterActivite(ActiviteDeFormation activite) {
-        int temporaire = activite.regroupementDesCategories(activite.getCategorie());
-        int verifierHeures = activite.getDureeEnHeures();
-        if (activite.dateActivitesCompleteesValides() && temporaire != -1 && verifierHeures > 0) {
+        if (activite.dateActivitesCompleteesValides() && activite.aCategorieValide()) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);
