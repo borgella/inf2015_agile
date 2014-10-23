@@ -83,6 +83,15 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
         }
         return temporaire;
     }
+    
+    public boolean aCategorieValide() {
+        String categorie = this.categorie;
+        return (categorie.equals("cours") || categorie.equals("atelier") 
+                || categorie.equals("séminaire") || categorie.equals("colloque")
+                || categorie.equals("conférence") || categorie.equals("lecture dirigée")
+                || categorie.equals("présentation") || categorie.equals("projet de recherche")    
+                || categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle"));
+    }
 
     /**
      * Activité complétée entre 1er avril 2012 et le 1er avril 2014
