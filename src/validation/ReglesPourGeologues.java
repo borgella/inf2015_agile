@@ -21,7 +21,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
         super(membre);
     }
 
-    public boolean validerLeCycle() {                                                                                                            
+    public boolean validerLeCycle() {
         return membre.getCycle().equals("2013-2016");
     }
 
@@ -54,16 +54,15 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
     }
 
     /*protected int heuresTransfereesEffectives() {
-        int heuresTransferees = membre.getHeuresTransferees();
-        int heuresEffectives = heuresTransferees;
-        if (heuresTransferees < 0) {
-            heuresEffectives = 0;
-        } else if (heuresTransferees > 7) {
-            heuresEffectives = 7;
-        }
-        return heuresEffectives;
-    }*/
-
+     int heuresTransferees = membre.getHeuresTransferees();
+     int heuresEffectives = heuresTransferees;
+     if (heuresTransferees < 0) {
+     heuresEffectives = 0;
+     } else if (heuresTransferees > 7) {
+     heuresEffectives = 7;
+     }
+     return heuresEffectives;
+     }*/
     public int heuresTotalesFormation() {
         int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
         int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
@@ -106,15 +105,14 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
     }
 
     /*protected int maximumHeuresSelonCategorie(String categorie) {
-        int nombreMaximumHeures = Integer.MAX_VALUE;
-        if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
-            nombreMaximumHeures = 23;
-        } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
-            nombreMaximumHeures = 17;
-        }
-        return nombreMaximumHeures;
-    }*/
-
+     int nombreMaximumHeures = Integer.MAX_VALUE;
+     if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
+     nombreMaximumHeures = 23;
+     } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
+     nombreMaximumHeures = 17;
+     }
+     return nombreMaximumHeures;
+     }*/
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2013-2016 est accepté.");
@@ -131,7 +129,7 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 ActiviteDeFormation activite = liste.get(i);
-                if (!activite.dateActivitesCompleteesValides(activite.getDateCompletee())) {
+                if (!activite.dateActivitesCompleteesValides()) {
                     descriptionsDesActivites.add(activite.getDescription());
                     //retour += activite.getDescription() + " ";
                     sommation += 1;
@@ -201,14 +199,13 @@ public class ReglesPourGeologues extends ValidateurDeDeclaration {
     }
 
     /*public void messageErreurSiHeuresTransferesEstInvalide() {
-        if (membre.getHeuresTransferees() > 7) {
-            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
-        } else if (membre.getHeuresTransferees() < 0) {
-            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. Ce nombre sera comptabilisé comme 0.");
-        }
+     if (membre.getHeuresTransferees() > 7) {
+     messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
+     } else if (membre.getHeuresTransferees() < 0) {
+     messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. Ce nombre sera comptabilisé comme 0.");
+     }
 
-    }*/
-
+     }*/
     public void messageErreurPourHeuresManquantes() {
         String messageHeuresManquantes = "";
         int heuresManquantesEnGeneral = 55 - heuresTotalesFormation();

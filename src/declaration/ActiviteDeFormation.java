@@ -97,7 +97,8 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
      * @param date 
      * @return
      */
-    public boolean dateActivitesCompleteesValides(String date/*, String intervalleMin, String intervalleMax*/) {
+    public boolean dateActivitesCompleteesValides(/*String intervalleMin, String intervalleMax*/) {
+        String date = this.dateCompletee;
         String intervalleMinimum = "2012-04-01";
         String intervalleMaximum = "2014-04-01";
 

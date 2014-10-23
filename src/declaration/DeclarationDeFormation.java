@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class DeclarationDeFormation {
-
+    
     protected final String numeroDePermis;
     protected final String ordre;
     protected final String cycle;
@@ -40,7 +40,7 @@ public class DeclarationDeFormation {
     public void ajouterActivite(ActiviteDeFormation activite) {
         int temporaire = activite.regroupementDesCategories(activite.getCategorie());
         int verifierHeures = activite.getDureeEnHeures();
-        if (activite.dateActivitesCompleteesValides(activite.getDateCompletee()) && temporaire != -1 && verifierHeures > 0) {
+        if (activite.dateActivitesCompleteesValides() && temporaire != -1 && verifierHeures > 0) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);

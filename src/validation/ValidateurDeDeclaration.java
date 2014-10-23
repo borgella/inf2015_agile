@@ -130,7 +130,7 @@ public class ValidateurDeDeclaration {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 ActiviteDeFormation activite = liste.get(i);
-                if (!activite.dateActivitesCompleteesValides(activite.getDateCompletee())) {
+                if (!activite.dateActivitesCompleteesValides()) {
                     descriptionsDesActivites.add(activite.getDescription());
                     //retour += activite.getDescription() + " ";
                     sommation += 1;
