@@ -103,14 +103,14 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
         return nombreMaximumHeures;
     }
 
-    public void messageErreurSiLeCycleEstInvalide() {
+    public void ecrireMessageDErreurPourCycleInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2012-2014 est accepté.");
         }
 
     }
 
-    public void messageErreurPourDateInvalide() {
+    public void ecrireMessageDErreurPourDateInvalide() {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
@@ -159,7 +159,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
      * Ajoute a l'arraylist messageErreurs un message personalise si la
      * categorie n est pas reconnue
      */
-    public void messageInvalidePourCategorieNonReconnue() {
+    public void ecrireMessageDErreurPourCategorieNonReconnue() {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
@@ -188,7 +188,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
 
     }
 
-    public void messageErreurSiHeuresTransferesEstInvalide() {
+    public void ecrireMessageDErreurPourHeuresTransfereesInvalides() {
         if (membre.getHeuresTransferees() > 7) {
             messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
         } else if (membre.getHeuresTransferees() < 0) {
@@ -197,7 +197,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
 
     }
 
-    public void messageErreurPourHeuresManquantes() {
+    public void ecrireMessageDErreurPourHeuresManquantesTotales() {
         String messageHeuresManquantes = "";
         int heuresManquantesEnGeneral = 40 - heuresTotalesFormation();
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
@@ -209,7 +209,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
         }
     }
 
-    public void messageErreurPourHeuresInsuffisantesSixCategories() {
+    public void ecrireMessageDErreurPourHeuresManquantesSixCategories() {
         String messageHeuresManquantes = "";
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesSixCategories > 0) {
@@ -220,7 +220,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
         }
     }
 
-    public void messageErreurPourHeuresErronees() {
+    public void ecrireMessageDErreurPourHeuresErronees() {
         String messageErrone = "";
         if (nombreDHeuresErronees() > 0) {
             messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour compléter le cycle.";
@@ -228,7 +228,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
         }
     }
 
-    public void messageErreurPourHeuresActivitesNegatif() {
+    public void ecrireMessageDErreurPourHeuresInvalidesDesActivites() {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
@@ -267,15 +267,15 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
         return heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17);
     }
 
-    public void appelsDesMethodesDesMessagesInvalides() {
-        messageErreurSiLeCycleEstInvalide();
+    public void ecrireMessagesDErreurs() {
+        ecrireMessageDErreurPourCycleInvalide();
         if (validerLeCycle()) {
-            messageErreurSiHeuresTransferesEstInvalide();
-            messageInvalidePourCategorieNonReconnue();
-            messageErreurPourHeuresActivitesNegatif();
-            messageErreurPourDateInvalide();
-            messageErreurPourHeuresManquantes();
-            messageErreurPourHeuresInsuffisantesSixCategories();
+            ecrireMessageDErreurPourHeuresTransfereesInvalides();
+            ecrireMessageDErreurPourCategorieNonReconnue();
+            ecrireMessageDErreurPourHeuresInvalidesDesActivites();
+            ecrireMessageDErreurPourDateInvalide();
+            ecrireMessageDErreurPourHeuresManquantesTotales();
+            ecrireMessageDErreurPourHeuresManquantesSixCategories();
         }
 
     }
@@ -283,7 +283,7 @@ public class ReglesPourPsychologues extends ValidateurDeDeclaration {
     public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
         JSONObject messageErrones = new JSONObject();
-        appelsDesMethodesDesMessagesInvalides();
+        ecrireMessagesDErreurs();
         JSONArray tableauJson = leMessageInvalide(messagesErreurs);
         texteDeSortie.accumulate("complet", formationComplete());
         texteDeSortie.accumulate("erreurs", tableauJson);
