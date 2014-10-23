@@ -308,5 +308,9 @@ public class ValidateurDeDeclaration {
     private int max(int nombre1, int nombre2) {
         return nombre1 > nombre2 ? nombre1 : nombre2;
     }
+    
+    private int min(int nombre1, int nombre2) {
+        return nombre1 < nombre2 ? nombre1 : nombre2;
+    }
 
 }
