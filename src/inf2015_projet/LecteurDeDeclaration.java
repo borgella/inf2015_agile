@@ -26,9 +26,10 @@ public class LecteurDeDeclaration {
         return erreurDeFormatDetectee;
     }
     
-    public String extraireChampsTexte (String nomChamps) {
+    public String extraireChampsTexte(String nomChamps) {
         try {
            String champsTexte = declaration.getString(nomChamps);
+           System.out.println("champsTexte String");
            return champsTexte;
         } catch (Exception e) {
             erreurDeFormatDetectee = true;
@@ -36,9 +37,10 @@ public class LecteurDeDeclaration {
         }
     }
     
-    public int extraireChampsNumerique (String nomChamps) {
+    public int extraireChampsNumerique(String nomChamps) {
         try {
            int champsNumerique = declaration.getInt(nomChamps);
+           System.out.println("champsTexte int");
            return champsNumerique;
         } catch (Exception e) {
             erreurDeFormatDetectee = true;
@@ -46,9 +48,10 @@ public class LecteurDeDeclaration {
         }
     }
     
-    public JSONArray extraireChampsTableau (String nomTableau) {
+    public JSONArray extraireChampsTableau(String nomTableau) {
         try {
            JSONArray champsTableau = declaration.getJSONArray(nomTableau);
+           System.out.println("champsTexte Tableau");
            return champsTableau;
         } catch (Exception e) {
             erreurDeFormatDetectee = true;

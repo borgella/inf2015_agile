@@ -30,10 +30,12 @@ public class FormationContinue {
         texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
         
-        String numeroDePermis = declarationJSON.getString("numero_de_permis");
-        String ordre = declarationJSON.getString("ordre");
-        String cycle = declarationJSON.getString("cycle");
-        int heuresTransferees = declarationJSON.getInt("heures_transferees_du_cycle_precedent");
+        LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
+        
+        String numeroDePermis = lecteur.extraireChampsTexte("numero_de_permis");
+        String ordre = lecteur.extraireChampsTexte("ordre");
+        String cycle = lecteur.extraireChampsTexte("cycle");
+        int heuresTransferees = lecteur.extraireChampsNumerique("heures_transferees_du_cycle_precedent");
         
         //DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
         DeclarationDeFormation declarationDuMembre;
@@ -45,22 +47,29 @@ public class FormationContinue {
         }
 
         // obtenir le JSONArray qui contient les details des activités
-        JSONArray listeActivites = declarationJSON.getJSONArray("activites");
+        JSONArray listeActivites = lecteur.extraireChampsTableau("activites");
 
         for (int i = 0; i < listeActivites.size(); i++) {
             ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
             //String message = validerActivite(activite)
             declarationDuMembre.ajouterActivite(uneActivite);
         }
+        
+        JSONObject sortieJSON;
+        
+        if (!lecteur.erreurDeFormatDetectee()) {
+            sortieJSON = lecteur.produireRapportEnCasDErreur();
+        } else {
+            // Valider les données reçues
+            ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
+            sortieJSON = validateur.produireRapport();
+        }
 
-        // Valider les données reçues
-        ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
-        declarationJSON = validateur.produireRapport();
-        System.out.println(declarationJSON);
+        System.out.println(sortieJSON);
 
         // Écrire le fichier de sortie
         FileWriter sortie = new FileWriter(fichierSortie);
-        sortie.write(declarationJSON.toString(2));
+        sortie.write(sortieJSON.toString(2));
         sortie.close();
 
     }
