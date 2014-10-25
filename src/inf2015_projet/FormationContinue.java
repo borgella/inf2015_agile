@@ -24,45 +24,49 @@ public class FormationContinue {
 
         String fichierEntree = args[0];
         String fichierSortie = args[1];
-        
+
         // Charger un fichier JSON et l'obtenir sous forme d'objetif
         String texteEntree = " ";
         texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
-        
+
         LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
-        
-        String numeroDePermis = lecteur.extraireChampsTexte("numero_de_permis");
-        String ordre = lecteur.extraireChampsTexte("ordre");
-        String cycle = lecteur.extraireChampsTexte("cycle");
-        int heuresTransferees = lecteur.extraireChampsNumerique("heures_transferees_du_cycle_precedent");
-        
-        //DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
-        DeclarationDeFormation declarationDuMembre;
-        
-        if(!ordre.equals("architectes")) {
-            declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle);
-        } else {
-            declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle, heuresTransferees);
-        }
 
-        // obtenir le JSONArray qui contient les details des activités
-        JSONArray listeActivites = lecteur.extraireChampsTableau("activites");
-
-        for (int i = 0; i < listeActivites.size(); i++) {
-            ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
-            //String message = validerActivite(activite)
-            declarationDuMembre.ajouterActivite(uneActivite);
-        }
-        
         JSONObject sortieJSON;
-        
-        if (!lecteur.erreurDeFormatDetectee()) {
-            sortieJSON = lecteur.produireRapportEnCasDErreur();
+
+        if (lecteur.erreurDeFormatDetectee()) {
+            sortieJSON = lecteur.produireRapportFormatInvalide();
         } else {
+
+            String numeroDePermis = declarationJSON.getString("numero_de_permis");
+            String ordre = declarationJSON.getString("ordre");
+            String cycle = declarationJSON.getString("cycle");
+            int heuresTransferees;
+            JSONArray listeActivites = declarationJSON.getJSONArray("activites");
+
+            //DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
+            DeclarationDeFormation declarationDuMembre;
+
+            if (!ordre.equals("architectes")) {
+                declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle);
+            } else {
+                heuresTransferees = declarationJSON.getInt("heures_transferees_du_cycle_precedent");
+                declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle, heuresTransferees);
+            }
+
+            // obtenir le JSONArray qui contient les details des activités
+            
+
+            for (int i = 0; i < listeActivites.size(); i++) {
+                ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
+                //String message = validerActivite(activite)
+                declarationDuMembre.ajouterActivite(uneActivite);
+            }
+
             // Valider les données reçues
             ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
             sortieJSON = validateur.produireRapport();
+
         }
 
         System.out.println(sortieJSON);
