@@ -252,7 +252,7 @@ public class LecteurDeDeclaration {
     private static boolean dateAComposantesNumeriquesValides(String date) {
         String anneeEnTexte = date.substring(0, 4);
         String moisEnTexte = date.substring(5, 7);
-        String jourEnTexte = date.substring(9,10);
+        String jourEnTexte = date.substring(8,10);
         return dateAUneAnneeValide(anneeEnTexte) 
                 && dateAUnMoisValide(moisEnTexte) 
                 && dateAUnJourValide(jourEnTexte);
