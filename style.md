@@ -30,8 +30,8 @@
     - Les importations
     - Les attributs d'une classe
     - Chaque méthode d'une classe 
-- À l'intérieur des parenthèses, les éléments distincts sont séparés par exactement une espace; il n'y a pas d'espace adjacente aux parenthèses 
-- La paire de de parenthèses pour les arguments d'une méthode est adjacente au nom de la méthode mais séparée d'une accolade ouvrante par exactemeent une espace 
+- À l'intérieur des parenthèses, les éléments distincts sont séparés par exactement une espace; il n'y a pas d'espace adjacente aux parenthèses (e.g. _(a + b == c)_)
+- La paire de parenthèses pour les arguments d'une méthode est adjacente au nom de la méthode mais séparée d'une accolade ouvrante par exactement une espace (e.g. _public void apppeler(String numeroDeTelephone) {[...]_)
 
 ###Modèle d'une classe avec méthode
 ```
@@ -44,7 +44,7 @@ public classe Telephone {
 		this.marque = marque;
 	}
 	
-	public appeler(String numeroDeTelephone) {
+	public void appeler(String numeroDeTelephone) {
 		System.out.println("Dring dring");
 	}
 }
