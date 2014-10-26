@@ -8,7 +8,7 @@
 ###Structure des classes
 - Une classe par fichier
 - Une documentation _Javadoc_ avec les noms des auteurs de la classe, sauf dans le cas des classes utilisées sous licence (e.g. _FileReader.java_) 
-- En ordre d’apparition dans la classe, on trouve :
+- En ordre d’apparition dans la classe, on trouve les éléments suivants (s'ils existent) :
 	- Les attributs statiques
 	- Les attributs d’instance
 	- Les constructeurs
@@ -25,11 +25,11 @@
 - Indentation : 4 espaces par niveau
 - Taille maximale d’une ligne de code : 120 caractères
 - Taille maximale d’une méthode : 10 lignes
-- Une ligne d'espacement avant _et_ après les groupes d'éléments suivants :
+- Une ligne d'espacement entre les éléments ou ensembles d'éléments suivants :
 	- Le paquetage dans lequel se trouve la classe
     - Les importations
     - Les attributs d'une classe
-    - Chaque méthode d'une classe (pas de ligne d'espacement après la dernière méthode d'une classe)
+    - Chaque méthode d'une classe 
     
 ---
-_Dernière révision: le 22 octobre, 2014_
+_Dernière révision: le 26 octobre, 2014_
