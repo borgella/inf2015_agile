@@ -40,7 +40,7 @@ public classe Telephone {
 	static String fonctionnalite = "Faire des appels";
 	String marque;
 
-	public Telephone (String marque) {
+	public Telephone(String marque) {
 		this.marque = marque;
 	}
 	
