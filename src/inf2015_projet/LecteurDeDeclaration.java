@@ -49,9 +49,40 @@ public class LecteurDeDeclaration {
         }
     }
 
-    // TODO: Verifier le format de chacune des 5 caractères
     private boolean numeroDePermisReconnu(String numeroDePermis) {
-        return (numeroDePermis.length() == 5);
+        return numeroDePermisALongueurValide(numeroDePermis)
+                && numeroDePermisAContenuValide(numeroDePermis);
+    }
+    
+    private boolean numeroDePermisALongueurValide(String numeroDePermis) {
+        return numeroDePermis.length() == 5;
+    }
+    
+    private boolean numeroDePermisAContenuValide(String numeroDePermis) {
+        return numeroDePermisAPremierCaractereValide(numeroDePermis)
+                && numeroDePermisTermineParQuatreChiffres(numeroDePermis);
+    }
+    
+    private boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
+        char premierCaractere = numeroDePermis.charAt(0);
+        return premierCaractere == 'A' || premierCaractere == 'R' 
+                || premierCaractere == 'S' || premierCaractere == 'Z';
+    }
+
+    private boolean numeroDePermisTermineParQuatreChiffres(String numeroDePermis) {
+        boolean caracteresValides = true;
+        for (int i = 1; i < 5; i++) {
+            char caractereCourant = numeroDePermis.charAt(i);
+            if (!caractereEstUnChiffre(caractereCourant)) {
+                caracteresValides = false;
+                break;
+            }
+        }
+        return caracteresValides;
+    }
+    
+    private boolean caractereEstUnChiffre(char caractere) {
+        return '0' <= caractere && caractere <= '9';
     }
 
     private boolean formatAcceptePourOrdre() {
