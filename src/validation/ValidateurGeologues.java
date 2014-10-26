@@ -27,6 +27,7 @@ public class ValidateurGeologues extends ValidateurDeDeclaration {
     
     /**
      * Intervalles permises d'une activité selon son cycle
+     * @param activite
      */
     public void intervallesActivitesCompleteesValides(ActiviteDeFormation activite) {
         String date = activite.getDateCompletee();
