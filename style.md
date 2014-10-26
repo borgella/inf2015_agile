@@ -9,7 +9,7 @@
 - Une classe par fichier
 - Une documentation _Javadoc_ avec les noms des auteurs de la classe, sauf dans le cas des classes utilisées sous licence (e.g. _FileReader.java_) 
 - En ordre d’apparition dans la classe, on trouve les éléments suivants (s'ils existent) :
-	- Les attributs statiques
+    - Les attributs statiques
 	- Les attributs d’instance
 	- Les constructeurs
 	- Les autres méthodes
@@ -30,8 +30,8 @@
     - Les importations
     - Les attributs d'une classe
     - Chaque méthode d'une classe 
-- À l'intérieur des parenthèses, les éléments distincts sont séparés par exactement une espace; il n'y a pas d'espace adjacente aux parenthèses (e.g. _(a + b == c)_)
-- La paire de parenthèses pour les arguments d'une méthode est adjacente au nom de la méthode mais séparée d'une accolade ouvrante par exactement une espace (e.g. _public void apppeler(String numeroDeTelephone) {[...]_)
+- À l'intérieur des parenthèses, les éléments distincts sont séparés par exactement une espace; il n'y a pas d'espace adjacente aux parenthèses (e.g. `(a + b == c)` )
+- La paire de parenthèses pour les arguments d'une méthode est adjacente au nom de la méthode mais séparée d'une accolade ouvrante par exactement une espace (e.g. `public void apppeler(String numeroDeTelephone) {` [...])
 
 ###Modèle d'une classe avec méthode
 ```
