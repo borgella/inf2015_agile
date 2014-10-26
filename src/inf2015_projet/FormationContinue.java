@@ -35,9 +35,10 @@ public class FormationContinue {
         JSONObject sortieJSON;
 
         if (lecteur.erreurDeFormatDetectee()) {
-            sortieJSON = lecteur.produireRapportFormatInvalide();
+            // DEBOGGAGE
+            System.out.println("ERREUR DE FORMAT");
+            sortieJSON = lecteur.produireRapportPourErreurDeFormat();
         } else {
-
             String numeroDePermis = declarationJSON.getString("numero_de_permis");
             String ordre = declarationJSON.getString("ordre");
             String cycle = declarationJSON.getString("cycle");
@@ -62,7 +63,6 @@ public class FormationContinue {
                 //String message = validerActivite(activite)
                 declarationDuMembre.ajouterActivite(uneActivite);
             }
-
             // Valider les données reçues
             ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
             sortieJSON = validateur.produireRapport();

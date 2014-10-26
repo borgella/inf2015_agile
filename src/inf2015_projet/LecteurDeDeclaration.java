@@ -15,172 +15,202 @@ import net.sf.json.JSONObject;
 public class LecteurDeDeclaration {
 
     private final JSONObject declaration;
-    private boolean erreurDeFormatDetectee;
 
     public LecteurDeDeclaration(JSONObject declarationJSON) {
         declaration = declarationJSON;
     }
 
     public boolean erreurDeFormatDetectee() {
-       
-        return formatAcceptePourNumeroDePermis()
-                && formatAcceptePourOrdre()
-                && formatAcceptePourCycle();
+        return !formatAcceptePourNumeroDePermis()
+                || !formatAcceptePourOrdre()
+                || !formatAcceptePourCycle()
+                || !formatAcceptePourHeuresTransfereesSelonOrdre()
+                || !formatAcceptePourTableauActivites();
     }
 
-    public boolean formatAcceptePourNumeroDePermis() {
-        try {
-            String numeroDePermis = declaration.getString("numero_de_permis");
+    private boolean formatAcceptePourNumeroDePermis() {
+        boolean formatAccepte;
+        String champsNumeroDePermis = "numero_de_permis";
+        if (champsTexteExiste(champsNumeroDePermis)) {
+            String numeroDePermis = declaration.getString(champsNumeroDePermis);
             return numeroDePermisReconnu(numeroDePermis);
-        } catch (Exception e) {
-            return false;
+        } else {
+            formatAccepte = false;
         }
+        return formatAccepte;
     }
-    
-    private boolean numeroDePermisReconnu(String numeroDePermis) {
-        // AJOUTER FONCTION PREMIER CARACTERE
-        return (numeroDePermis.length() >= 5);
-    }
-    
-    public boolean formatAcceptePourOrdre() {
+
+    private boolean champsTexteExiste(String nomChamps) {
         try {
-            String ordre = declaration.getString("ordre");
-            return ordreReconnu(ordre);
+            declaration.getString(nomChamps);
+            return true;
         } catch (Exception e) {
             return false;
         }
     }
-    
+
+    // TODO: Verifier le format de chacune des 5 caractères
+    private boolean numeroDePermisReconnu(String numeroDePermis) {
+        return (numeroDePermis.length() == 5);
+    }
+
+    private boolean formatAcceptePourOrdre() {
+        boolean formatAccepte;
+        String champsOrdre = "ordre";
+        if (champsTexteExiste(champsOrdre)) {
+            String ordre = declaration.getString(champsOrdre);
+            formatAccepte = ordreReconnu(ordre);
+        } else {
+            formatAccepte = false;
+        }
+        return formatAccepte;
+    }
+
     private boolean ordreReconnu(String ordre) {
         return ordre.equals("architectes")
-               || ordre.equals("géologues")
-               || ordre.equals("psychologues");
+                || ordre.equals("géologues")
+                || ordre.equals("psychologues");
     }
-    
-    public boolean formatAcceptePourCycle() {
+
+    private boolean formatAcceptePourCycle() {
+        String champsCycle = "cycle";
+        return champsTexteExiste(champsCycle);
+    }
+
+    private boolean formatAcceptePourHeuresTransfereesSelonOrdre() {
+        boolean formatAccepte;
+        String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
+        String ordre = declaration.getString("ordre");
+        if (ordre.equals("architectes")) {
+            formatAccepte = champsNumeriqueExiste(champsHeuresTransferees);
+        } else {
+            formatAccepte = true;
+        }
+        return formatAccepte;
+    }
+
+    private boolean champsNumeriqueExiste(String nomChamps) {
         try {
-            String cycle = declaration.getString("cycle");
-            return cycleReconnu(cycle);
+            declaration.getInt(nomChamps);
+            return true;
         } catch (Exception e) {
             return false;
         }
     }
-    
-    private boolean cycleReconnu(String cycle) {
-        // AJOUTER FONCTION PREMIER CARACTERE
-        return (cycle.length() >= 9);
+
+    private boolean formatAcceptePourTableauActivites() {
+        boolean formatAccepte;
+        String champsActivites = "activites";
+        if (champsTableauJSONExiste(champsActivites)) {
+            JSONArray activites = declaration.getJSONArray(champsActivites);
+            formatAccepte = formatAcceptePourChaqueActivite(activites);
+        } else {
+            formatAccepte = false;
+        }
+        return formatAccepte;
     }
-    
-    public boolean formatAcceptePourHeuresTransferees() {
+
+    private boolean champsTableauJSONExiste(String nomChamps) {
         try {
-           int heuresTransferees = declaration.getInt("heures_transferees_du_cycle_precedent");
-           return true;
+            declaration.getJSONArray(nomChamps);
+            return true;
         } catch (Exception e) {
             return false;
         }
     }
-    
-    public boolean champsCycleExiste() {
-        return !extraireChampsTexte("cycle").equals("invalide");
-    }
 
-    public boolean champsOrdreExiste() {
-        return !extraireChampsTexte("ordre").equals("invalide");
-    }
-
-    // A revoir, bogue potentiel avec les heures transferees = -1 sur la declaration
-    public boolean champsHeuresTransfereesExisteSiArchitecte() {
-        String ordre = extraireChampsTexte("ordre");
-        return !ordre.equals("architecte") || (extraireChampsNumerique("heuresTransferees") != -1);
-    }
-
-    public boolean champsActivitesExiste() {
-        JSONArray tableauJSON = extraireChampsTableau("activites");
-        return !tableauJSON.isEmpty();
-    }
-    
-    public boolean champsPropresAuxActivitesExistent() {
-        boolean champsManquant = false;
-        JSONArray tableauJSON = extraireChampsTableau("activites");
-        for (int i = 0; i < tableauJSON.size(); i++) {
-            if (true) {
+    private boolean formatAcceptePourChaqueActivite(JSONArray activites) {
+        boolean formatAccepte = true;  
+        for (int i = 0; i < activites.size(); i++) {
+            JSONObject activiteCourante = activites.getJSONObject(i);
+            if (!formatAcceptePourActivite(activiteCourante)) {
+                formatAccepte = false;
                 break;
             }
         }
-        return !champsManquant;
-    }
-    
-    public boolean champsPropresAuxActivitesExistent(int indice) {
-        return champsDescriptionPourActiviteExiste(indice)
-                && champsCategoriePourActiviteExiste(indice)
-                && champsHeuresPourActiviteExiste(indice)
-                && champsDatePourActiviteExiste(indice);
-    }
-    
-    public boolean champsDescriptionPourActiviteExiste(int indice) {
-        
-        return !extraireChampsTexte("description").equals("invalide");
-    }
-    
-    public boolean champsCategoriePourActiviteExiste(int indice) {
-        return !extraireChampsTexte("categorie").equals("invalide");
-    }
-    
-    public boolean champsHeuresPourActiviteExiste(int indice) {
-        return !extraireChampsTexte("heures").equals("invalide");
-    }
-    
-    public boolean champsDatePourActiviteExiste(int indice) {
-        return !extraireChampsTexte("date").equals("invalide");
+        return formatAccepte;
     }
 
-    public String extraireChampsTexte(String nomChamps) {
+    private boolean formatAcceptePourActivite(JSONObject activite) {
+        return formatAcceptePourDescription(activite)
+                && formatAcceptePourCategorie(activite)
+                && formatAcceptePourHeures(activite)
+                && formatAcceptePourDate(activite);
+    }
+
+    private boolean formatAcceptePourDescription(JSONObject activite) {
+        boolean formatAccepte;
+        String champsDescription = "description";
+        if (champsTexteExistePourActivite(champsDescription, activite)) {
+            String description = activite.getString(champsDescription);
+            formatAccepte = descriptionReconnu(description);
+        } else {
+            formatAccepte = false;
+        }
+        return formatAccepte;
+    }
+
+    private boolean champsTexteExistePourActivite(String nomChamps, JSONObject activite) {
         try {
-            String champsTexte = declaration.getString(nomChamps);
-            return champsTexte;
+            activite.getString(nomChamps);
+            return true;
         } catch (Exception e) {
-            return "Invalide";
+            return false;
         }
     }
 
-    // A revoir, utilise un code de retour...
-    public int extraireChampsNumerique(String nomChamps) {
+    private boolean descriptionReconnu(String description) {
+        return description.length() > 20;
+    }
+
+    private boolean formatAcceptePourCategorie(JSONObject activite) {
+        String champsCategorie = "categorie";
+        return champsTexteExistePourActivite(champsCategorie, activite);
+    }
+
+    private boolean formatAcceptePourHeures(JSONObject activite) {
+        boolean formatAccepte;
+        String champsHeures = "heures";
+        if (champsNumeriqueExistePourActivite(champsHeures, activite)) {
+            int heures = activite.getInt(champsHeures);
+            formatAccepte = heuresValidesPourActivite(heures);
+        } else {
+            formatAccepte = false;
+        }
+        return formatAccepte;
+    }
+
+    private boolean champsNumeriqueExistePourActivite(String nomChamps, JSONObject activite) {
         try {
-            int champsNumerique = declaration.getInt(nomChamps);
-            return champsNumerique;
+            activite.getInt(nomChamps);
+            return true;
         } catch (Exception e) {
-            return 0;
+            return false;
         }
     }
 
-    public JSONArray extraireChampsTableau(String nomTableau) {
-        try {
-            JSONArray champsTableau = declaration.getJSONArray(nomTableau);
-            return champsTableau;
-        } catch (Exception e) {
-            return new JSONArray();
-        }
-    }
-    
-    public String extraireChampsTexteObjectJSON(String nomChamps, JSONObject objetJSON) {
-        try {
-            String champsTexte = objetJSON.getString(nomChamps);
-            return champsTexte;
-        } catch (Exception e) {
-            return "Invalide";
-        }
-    }
-    
-     public int extraireChampsNumeriqueObjectJSON(String nomChamps, JSONObject objetJSON) {
-        try {
-            int champsNumerique = objetJSON.getInt(nomChamps);
-            return champsNumerique;
-        } catch (Exception e) {
-            return -1;
-        }
+    private boolean heuresValidesPourActivite(int heures) {
+        return heures > 0;
     }
 
-    public JSONObject produireRapportFormatInvalide() {
+    private boolean formatAcceptePourDate(JSONObject activite) {
+        boolean formatAccepte;
+        String champsDate = "date";
+        if (champsTexteExistePourActivite(champsDate, activite)) {
+            String date = activite.getString(champsDate);
+            formatAccepte = dateEnFormatISO8601(date);
+        } else {
+            formatAccepte = false;
+        }
+        return formatAccepte;
+    }
+
+    // TODO: Fonctionnalité!
+    private boolean dateEnFormatISO8601(String date) {
+        return true;
+    }
+
+    public JSONObject produireRapportPourErreurDeFormat() {
         JSONObject texteDeSortie = new JSONObject();
         texteDeSortie.accumulate("complet", false);
         texteDeSortie.accumulate("erreurs", messageDErreurPourDeclarationInvalide());
