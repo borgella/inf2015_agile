@@ -10,7 +10,7 @@
 - Une documentation _Javadoc_ avec les noms des auteurs de la classe, sauf dans le cas des classes utilisées sous licence (e.g. _FileReader.java_) 
 - En ordre d’apparition dans la classe, on trouve les éléments suivants (s'ils existent) :
     - Les attributs statiques
-	- Les attributs d’instance
+    - Les attributs d’instance
 	- Les constructeurs
 	- Les autres méthodes
 
@@ -18,7 +18,7 @@
 - Casses des identifiants : 
 	- _PascalCase_ pour les noms de classes
 	- _camelCase_ pour tout autre identifiant
-- Tout identifiant est écrit en **Français** (mais sans accent), sauf pour les préfixes _get_ et _set_ pour les accesseurs et les mutateurs, respectivement
+- Tout identifiant est écrit en **Français** (sans accent), sauf pour les préfixes _get_ et _set_ pour les accesseurs et les mutateurs, respectivement
 
 ###Mise en page du code 
 
@@ -31,7 +31,7 @@
     - Les attributs d'une classe
     - Chaque méthode d'une classe 
 - À l'intérieur des parenthèses, les éléments distincts sont séparés par exactement une espace; il n'y a pas d'espace adjacente aux parenthèses (e.g. `(a + b == c)` )
-- La paire de parenthèses pour les arguments d'une méthode est adjacente au nom de la méthode mais séparée d'une accolade ouvrante par exactement une espace (e.g. `public void apppeler(String numeroDeTelephone) {` [...])
+- La paire de parenthèses pour les arguments d'une méthode est adjacente au nom de la méthode mais séparée d'une accolade ouvrante par exactement une espace (e.g. `public void apppeler(String numeroDeTelephone) {` )
 
 ###Modèle d'une classe avec méthode
 ```
@@ -47,6 +47,7 @@ public classe Telephone {
 	public void appeler(String numeroDeTelephone) {
 		System.out.println("Dring dring");
 	}
+	
 }
 ```
 ---
