@@ -9,7 +9,7 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author Vanou
+ * @author Jean Mary
  */
 public class Geologue{
     private final String numeroDePermis;
