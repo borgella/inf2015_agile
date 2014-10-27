@@ -28,16 +28,6 @@ public class ValidateurArchitecte {
                 || architecte.getCycle().equals("2012-2014");
     }
 
-    public int nombreDHeuresErronees() {
-        ArrayList<JSONObject> liste = architecte.getActivitesRefusees();
-        int somme = 0;
-        for (int i = 0; i < liste.size(); ++i) {
-            JSONObject activite = liste.get(i);
-            somme += activite.getInt("heures");
-        }
-        return somme;
-    }
-
     public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
         ArrayList<JSONObject> liste = architecte.getActivitesAcceptees();
         int somme = 0;
@@ -67,10 +57,15 @@ public class ValidateurArchitecte {
 
     public int heuresTotalesFormation() {
         int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
+        System.out.println(heuresSixCategoriesEtTransferees);
         int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
+        System.out.println(heuresPresentation);
         int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
+        System.out.println(heuresDiscussion);
         int heuresRecherche = heuresEffectivesSelonCategorie("projet de recherche");
+        System.out.println(heuresRecherche);
         int heuresRedaction = heuresEffectivesSelonCategorie("rédaction professionnelle");
+        System.out.println(heuresRedaction);
 
         return heuresTotal = heuresSixCategoriesEtTransferees
                 + heuresPresentation + heuresDiscussion
@@ -80,9 +75,7 @@ public class ValidateurArchitecte {
     public int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return min(heuresBrutes, maximumHeures);
-        
-        
+        return min(heuresBrutes, maximumHeures);  
     }
     
     private int max(int nombre1, int nombre2) {
@@ -102,6 +95,7 @@ public class ValidateurArchitecte {
                 heuresTotales += activiteCourante.getInt("heures");
             }
         }
+        System.out.println("Heures brutes selon categorie " + categorie + ": " + heuresTotales);
         return heuresTotales;
     }
 
@@ -211,7 +205,7 @@ public class ValidateurArchitecte {
 
     public void messageErreurPourHeuresManquantes() {
         String messageHeuresManquantes = "";
-        int heuresManquantesEnGeneral = 40 - heuresTotalesFormation();
+        int heuresManquantesEnGeneral = nombreDHeuresRequisParCycle() - heuresTotalesFormation();
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
             int heuresManquantesPourLeCycle
@@ -219,6 +213,17 @@ public class ValidateurArchitecte {
             messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
         }
+    }
+    
+    public int nombreDHeuresRequisParCycle() {
+        String cycle = architecte.getCycle();
+        int nombreDHeuresRequis;
+        if (cycle.equals("2012-2014")) {
+            nombreDHeuresRequis = 40;
+        } else {
+            nombreDHeuresRequis = 42;
+        }
+        return nombreDHeuresRequis;
     }
 
     public void messageErreurPourHeuresInsuffisantesSixCategories() {
@@ -229,14 +234,6 @@ public class ValidateurArchitecte {
                     + " heure(s) de formation à compléter parmi les catégories suivantes: "
                     + "cours, atelier, séminaire, colloque, conférence et lecture dirigée.";
             messagesErreurs.add(messageHeuresManquantes);
-        }
-    }
-
-    public void messageErreurPourHeuresErronees() {
-        String messageErrone = "";
-        if (nombreDHeuresErronees() > 0) {
-            messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour compléter le cycle.";
-            messagesErreurs.add(messageErrone);
         }
     }
 
@@ -274,7 +271,16 @@ public class ValidateurArchitecte {
     }
 
     public boolean formationComplete() {
-        return heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17);
+        boolean critereSixCategories = nombreDHeuresSelonRegroupement(1) >= 17;
+        boolean critereCycle = validerLeCycle();
+        boolean critereDHeuresTotales;
+        String cycle = architecte.getCycle();
+        if (cycle.equals("2012-2014")) {
+            critereDHeuresTotales = heuresTotal >= 40;
+        } else {
+            critereDHeuresTotales = heuresTotal >= 42;
+        }
+        return critereSixCategories && critereCycle && critereDHeuresTotales;
     }
 
     public void appelsDesMethodesDesMessagesInvalides() {

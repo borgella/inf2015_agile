@@ -12,8 +12,6 @@ import net.sf.json.JSONObject;
 public class Architecte{
     private String numeroDePermis;
     private String cycle;
-    //private String ordre;
-    private String categorie; // pour eviter un bogue car je ne comprends pas encore son utilite
     private int   heuresTransferees;
     private ArrayList <JSONObject> activitesAcceptees;
     private ArrayList<JSONObject> activitesRefusees;
@@ -29,7 +27,7 @@ public class Architecte{
     public void ajouterActivite(JSONObject activite) {
         if (cycle.equals("2008-2010")) {
             ajouterActivitePourArchitecte08_10(activite);
-        } else if (cycle.equals("2010-2014")) {
+        } else if (cycle.equals("2010-2012")) {
             ajouterActivitePourArchitecte10_12(activite);
         } else {    // Cycle 2012-2014
             ajouterActivitePourArchitecte12_14(activite);
@@ -37,10 +35,9 @@ public class Architecte{
     }
     
     public void ajouterActivitePourArchitecte12_14(JSONObject activite) {
-        this.categorie = activite.getString("categorie"); // a enlever soon
-        int temporaire = regroupementDesCategories(activite.getString("categorie"));
-        int heures = activite.getInt("heures");
-        if (dateValidePourCycle2012_2014(activite.getString("date")) && temporaire != -1 && heures > 0) {
+        String categorie = activite.getString("categorie");
+        int temporaire = regroupementDesCategories(categorie);
+        if (dateValidePourCycle2012_2014(activite.getString("date")) && temporaire != -1) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);
@@ -48,10 +45,9 @@ public class Architecte{
     }
 
     public void ajouterActivitePourArchitecte10_12(JSONObject activite) {
-        this.categorie = activite.getString("categorie"); // a enlever soon
-        int temporaire = regroupementDesCategories(activite.getString("categorie"));
-        int heures = activite.getInt("heures");
-        if (dateValidePourCycle2010_2012(activite.getString("date")) && temporaire != -1 && heures > 0) {
+        String categorie = activite.getString("categorie");
+        int temporaire = regroupementDesCategories(categorie);
+        if (dateValidePourCycle2010_2012(activite.getString("date")) && temporaire != -1) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);
@@ -59,10 +55,9 @@ public class Architecte{
     }
 
    public void ajouterActivitePourArchitecte08_10(JSONObject activite) {
-       this.categorie = activite.getString("categorie"); // a enlever soon
-        int temporaire = regroupementDesCategories(activite.getString("categorie"));
-        int heures = activite.getInt("heures");
-        if (dateValidePourCycle2008_2010(activite.getString("date")) && temporaire != -1 && heures > 0) {
+        String categorie = activite.getString("categorie");
+        int temporaire = regroupementDesCategories(categorie);
+        if (dateValidePourCycle2008_2010(activite.getString("date")) && temporaire != -1) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);
@@ -108,7 +103,7 @@ public class Architecte{
      }
      
     public boolean dateValidePourCycle(String date){
-        boolean dateValide = false;
+        boolean dateValide;
         if (cycle.equals("2008-2010")) {
             dateValide = dateValidePourCycle2008_2010(date);
         } else if (cycle.equals("2010-2012")) {
