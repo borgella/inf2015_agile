@@ -1,4 +1,3 @@
-
 package inf2015_projet;
 
 import net.sf.json.JSONArray;
