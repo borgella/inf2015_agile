@@ -48,7 +48,7 @@ public class FormationContinue {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
                     geologue.ajouterActivitePourMembre(uneActivite);
                 }
-                ValidateurGeologues validateur = new ValidateurGeologues(geologue);
+                ValidateurGeologue validateur = new ValidateurGeologue(geologue);
                 sortieJSON = validateur.produireRapport();
             } else {
                 Psychologue psychologue = new Psychologue(declarationJSON);
@@ -56,7 +56,7 @@ public class FormationContinue {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
                     psychologue.ajouterActivitePourPsychologue(uneActivite);
                 }
-                ValidateurPsychologues validateur = new ValidateurPsychologues(psychologue);
+                ValidateurPsychologue validateur = new ValidateurPsychologue(psychologue);
                 sortieJSON = validateur.produireRapport();
             }
             

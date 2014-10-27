@@ -1,11 +1,6 @@
 package validation;
 
-import declaration.ActiviteDeFormation;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import professionnels.Psychologue;
 
@@ -13,13 +8,13 @@ import professionnels.Psychologue;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class ValidateurPsychologues {
+public class ValidateurPsychologue {
 
     private Psychologue membre;
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
-    public ValidateurPsychologues(Psychologue psychologue) {
+    public ValidateurPsychologue(Psychologue psychologue) {
         this.membre = psychologue;
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
@@ -27,48 +22,6 @@ public class ValidateurPsychologues {
 
     public boolean validerLeCycle() {
         return membre.getCycle().equals("2010-2015");
-    }
-
-    /**
-     * Intervalles permises d'une activité selon son cycle
-     */
-    public void intervallesActivitesCompleteesValides(ActiviteDeFormation activite) {
-        String date = activite.getDateCompletee();
-
-        if (membre.getCycle().equals("2010-2015")) {
-            dateActivitesCompleteesValides(date, "2010-01-01", "2015-01-01");
-        }
-    }
-
-    /**
-     * Le cycle "2010-2015" pourra contenir des activités effectuées du 1er
-     * janvier 2010 et le 1er janvier 2015 inclusivement
-     *
-     * Date invalide => MESSAGE D'ERREUR + activité ignorée des calculs Les
-     * dates sont indiquées en format ISO-8601
-     *
-     * @param date
-     * @param intervalleMinimum
-     * @param intervalleMaximum
-     * @return true si la date se trouve dans les intervalles
-     */
-    public boolean dateActivitesCompleteesValides(String date, String intervalleMinimum, String intervalleMaximum) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date dateIntervalleMinimum = null;
-        Date dateIntervalleMaximum = null;
-        Date dateLue = null;
-
-        try {
-            dateIntervalleMinimum = df.parse(intervalleMinimum);
-            dateIntervalleMaximum = df.parse(intervalleMaximum);
-            dateLue = df.parse(date);
-        } catch (ParseException e) {
-            e.getMessage();
-        }
-
-        return (dateLue.after(dateIntervalleMinimum) || (dateLue.equals(dateIntervalleMinimum))
-                && (dateLue.before(dateIntervalleMaximum) || dateLue.equals(dateIntervalleMaximum)));
     }
 
     /**

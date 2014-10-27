@@ -1,10 +1,6 @@
 package validation;
 
-import declaration.ActiviteDeFormation;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import professionnels.Geologue;
@@ -13,13 +9,13 @@ import professionnels.Geologue;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class ValidateurGeologues {
+public class ValidateurGeologue {
 
     private Geologue membre;
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
-    public ValidateurGeologues(Geologue geologue) {
+    public ValidateurGeologue(Geologue geologue) {
         this.membre = geologue;
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
@@ -74,51 +70,7 @@ public class ValidateurGeologues {
         }
         return heuresTotales;
     }
-
-    /**
-     * Intervalles permises d'une activité selon son cycle
-     *
-     * @param activite
-     */
-    public void intervallesActivitesCompleteesValides(ActiviteDeFormation activite) {
-        String date = activite.getDateCompletee();
-
-        if (membre.getCycle().equals("2013-2016")) {
-            dateActivitesCompleteesValides(date, "2013-06-01", "2016-06-01");
-        }
-    }
-
-    /**
-     * Le cycle "2013-2016" pourra contenir des activités effectuées du 1er juin
-     * 2013 et le 1er juin 2016 inclusivement
-     *
-     * Date invalide => MESSAGE D'ERREUR + activité ignorée des calculs Les
-     * dates sont indiquées en format ISO-8601
-     *
-     * @param date
-     * @param intervalleMinimum
-     * @param intervalleMaximum
-     * @return true si la date se trouve dans les intervalles
-     */
-    public boolean dateActivitesCompleteesValides(String date, String intervalleMinimum, String intervalleMaximum) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date dateIntervalleMinimum = null;
-        Date dateIntervalleMaximum = null;
-        Date dateLue = null;
-
-        try {
-            dateIntervalleMinimum = df.parse(intervalleMinimum);
-            dateIntervalleMaximum = df.parse(intervalleMaximum);
-            dateLue = df.parse(date);
-        } catch (ParseException e) {
-            e.getMessage();
-        }
-
-        return (dateLue.after(dateIntervalleMinimum) || (dateLue.equals(dateIntervalleMinimum))
-                && (dateLue.before(dateIntervalleMaximum) || dateLue.equals(dateIntervalleMaximum)));
-    }
-
+    
     /**
      * Les géologues doivent effectuer un minimum de 55 heures de formation
      * continue dans un cycle.
