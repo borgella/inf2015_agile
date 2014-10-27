@@ -25,8 +25,7 @@ public class ValidateurPsychologue {
     }
 
     /**
-     * Les psychologues doivent effectuer un minimum de 90 heures de formation
-     * continue dans un cycle.
+     * Les psychologues doivent effectuer un minimum de 90 heures de formation continue dans un cycle.
      *
      * @param nombreDHeures
      * @return
@@ -36,8 +35,7 @@ public class ValidateurPsychologue {
     }
 
     /**
-     * Un minimum de 25 heures par cycle sont nécessaires dans la catégorie
-     * "cours"
+     * Un minimum de 25 heures par cycle sont nécessaires dans la catégorie "cours"
      *
      * @param categorie
      * @return
@@ -154,8 +152,7 @@ public class ValidateurPsychologue {
     }
 
     /**
-     * Ajoute a l'arraylist messageErreurs un message personalise si la
-     * categorie n est pas reconnue
+     * Ajoute a l'arraylist messageErreurs un message personalise si la categorie n est pas reconnue
      */
     public void messageInvalidePourCategorieNonReconnue() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
@@ -191,8 +188,8 @@ public class ValidateurPsychologue {
         int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
         if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0) {
             int heuresManquantesPourLeCycle = max(heuresManquantesEnGeneral, heuresManquantesCours);
-            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + 
-                    " heure(s) de formation pour compléter le cycle.";
+            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle
+                    + " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
         }
     }

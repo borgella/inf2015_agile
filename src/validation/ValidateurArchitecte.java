@@ -1,16 +1,16 @@
 package validation;
+
 import professionnels.Architecte;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-
 /**
  *
- * @author Jean Mary Borgella
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-
 public class ValidateurArchitecte {
+
     private Architecte membre;
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
@@ -20,8 +20,6 @@ public class ValidateurArchitecte {
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
     }
-
-    
 
     public boolean validerLeCycle() {
         return membre.getCycle().equals("2008-2010")
@@ -71,9 +69,9 @@ public class ValidateurArchitecte {
     public int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return min(heuresBrutes, maximumHeures);  
+        return min(heuresBrutes, maximumHeures);
     }
-    
+
     private int max(int nombre1, int nombre2) {
         return nombre1 > nombre2 ? nombre1 : nombre2;
     }
@@ -81,11 +79,11 @@ public class ValidateurArchitecte {
     private int min(int nombre1, int nombre2) {
         return nombre1 < nombre2 ? nombre1 : nombre2;
     }
-    
+
     private int heuresBrutesSelonCategorie(String categorie) {
         ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
-        for (JSONObject activiteCourante: liste) {
+        for (JSONObject activiteCourante : liste) {
             String categorieCourante = activiteCourante.getString("categorie");
             if (categorieCourante.equals(categorie)) {
                 heuresTotales += activiteCourante.getInt("heures");
@@ -96,7 +94,7 @@ public class ValidateurArchitecte {
 
     private int maximumHeuresSelonCategorie(String categorie) {
         int nombreMaximumHeures = Integer.MAX_VALUE;
-        if(categorie.equals("présentation") || categorie.equals("projet de recherche")) {
+        if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
             nombreMaximumHeures = 23;
         } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
             nombreMaximumHeures = 17;
@@ -116,7 +114,7 @@ public class ValidateurArchitecte {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
-         sortie = "";
+        sortie = "";
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
@@ -149,7 +147,7 @@ public class ValidateurArchitecte {
             for (int i = 1; i < nombreDeDescriptions - 1; i++) {
                 phraseDeRetour += ", " + descriptions.get(i);
             }
-            
+
             if (nombreDeDescriptions > 1) {
                 phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
             }
@@ -158,8 +156,7 @@ public class ValidateurArchitecte {
     }
 
     /**
-     * Ajoute a l'arraylist messageErreurs un message personalise si la
-     * categorie n est pas reconnue
+     * Ajoute a l'arraylist messageErreurs un message personalise si la categorie n est pas reconnue
      */
     public void messageInvalidePourCategorieNonReconnue() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
@@ -209,7 +206,7 @@ public class ValidateurArchitecte {
             messagesErreurs.add(messageHeuresManquantes);
         }
     }
-    
+
     public int nombreDHeuresRequisParCycle() {
         String cycle = membre.getCycle();
         int nombreDHeuresRequis;
@@ -247,16 +244,16 @@ public class ValidateurArchitecte {
                 }
             }
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-        } 
+        }
         if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les heures des activités " + retour + " sont invalides. Ces activités seront ignorées.";
-                messagesErreurs.add(sortie);
-            } else if (!(retour.equals(""))) {
-                sortie += "Les heures de l'activité " + retour + " sont invalides. Cette activité sera ignorée.";
-                messagesErreurs.add(sortie);
-            }
+            sortie += "Les heures des activités " + retour + " sont invalides. Ces activités seront ignorées.";
+            messagesErreurs.add(sortie);
+        } else if (!(retour.equals(""))) {
+            sortie += "Les heures de l'activité " + retour + " sont invalides. Cette activité sera ignorée.";
+            messagesErreurs.add(sortie);
+        }
     }
-    
+
     public JSONArray leMessageInvalide(ArrayList message) {
         JSONArray tab = new JSONArray();
         for (int i = 0; i < message.size(); ++i) {

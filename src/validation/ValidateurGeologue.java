@@ -70,10 +70,9 @@ public class ValidateurGeologue {
         }
         return heuresTotales;
     }
-    
+
     /**
-     * Les géologues doivent effectuer un minimum de 55 heures de formation
-     * continue dans un cycle.
+     * Les géologues doivent effectuer un minimum de 55 heures de formation continue dans un cycle.
      *
      * @param nombreDHeures
      * @return
@@ -83,10 +82,9 @@ public class ValidateurGeologue {
     }
 
     /**
-     * Un minimum de 22 heures par cycle sont nécessaires dans la catégorie
-     * "cours" Un minimum de 3 heures par cycle sont nécessaires dans la
-     * catégorie "projet de recherche" Un minimum d'une heure par cycle est
-     * nécessaire dans la catégorie "groupe de discussion"
+     * Un minimum de 22 heures par cycle sont nécessaires dans la catégorie "cours" Un minimum de 3 heures par cycle
+     * sont nécessaires dans la catégorie "projet de recherche" Un minimum d'une heure par cycle est nécessaire dans la
+     * catégorie "groupe de discussion"
      *
      * @param categorie
      * @return
@@ -159,8 +157,7 @@ public class ValidateurGeologue {
     }
 
     /**
-     * Ajoute a l'arraylist messageErreurs un message personalise si la
-     * categorie n est pas reconnue
+     * Ajoute a l'arraylist messageErreurs un message personalise si la categorie n est pas reconnue
      */
     public void messageInvalidePourCategorieNonReconnue() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
@@ -196,11 +193,11 @@ public class ValidateurGeologue {
         int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
         int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");
-        
+
         int maximum1 = max(heuresManquantesEnGeneral, heuresManquantesCours);
         int maximum2 = max(maximum1, heuresManquantesRecherche);
         int maximum3 = max(maximum2, heuresManquantesDiscussion);
-        
+
         if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0 || heuresManquantesRecherche > 0 || heuresManquantesDiscussion > 0) {
             int heuresManquantesPourLeCycle = maximum3;
             messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + " heure(s) de formation pour compléter le cycle.";
@@ -217,7 +214,7 @@ public class ValidateurGeologue {
             messagesErreurs.add(messageHeuresManquantes);
         }
     }
-    
+
     public void messageErreurPourHeuresInsuffisantesRecherche() {
         String messageHeuresManquantes = "";
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
@@ -227,7 +224,7 @@ public class ValidateurGeologue {
             messagesErreurs.add(messageHeuresManquantes);
         }
     }
-    
+
     public void messageErreurPourHeuresInsuffisantesDiscussion() {
         String messageHeuresManquantes = "";
         int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");

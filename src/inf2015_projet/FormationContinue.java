@@ -7,9 +7,8 @@ import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-
 /**
- *  @author Chelny Duplan, Jason Drake, Jean Mary Borgella
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class FormationContinue {
 
@@ -59,11 +58,9 @@ public class FormationContinue {
                 ValidateurPsychologue validateur = new ValidateurPsychologue(psychologue);
                 sortieJSON = validateur.produireRapport();
             }
-            
+
         }
 
-        System.out.println(sortieJSON);
-        
         // Écrire le fichier de sortie 
         FileWriter sortie = new FileWriter(fichierSortie);
         sortie.write(sortieJSON.toString(2));

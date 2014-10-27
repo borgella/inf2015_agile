@@ -48,24 +48,24 @@ public class LecteurDeDeclaration {
         return numeroDePermisALongueurValide(numeroDePermis)
                 && numeroDePermisAContenuValide(numeroDePermis);
     }
-    
+
     private static boolean numeroDePermisALongueurValide(String numeroDePermis) {
         return numeroDePermis.length() == 5;
     }
-    
+
     private static boolean numeroDePermisAContenuValide(String numeroDePermis) {
         return numeroDePermisAPremierCaractereValide(numeroDePermis)
                 && numeroDePermisTermineParQuatreChiffres(numeroDePermis);
     }
-    
+
     private static boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
         char premierCaractere = numeroDePermis.charAt(0);
-        return premierCaractere == 'A' || premierCaractere == 'R' 
+        return premierCaractere == 'A' || premierCaractere == 'R'
                 || premierCaractere == 'S' || premierCaractere == 'Z';
     }
 
     private static boolean numeroDePermisTermineParQuatreChiffres(String numeroDePermis) {
-        String finDeNumeroDePermis = numeroDePermis.substring(1,5);
+        String finDeNumeroDePermis = numeroDePermis.substring(1, 5);
         return texteEstNumerique(finDeNumeroDePermis);
     }
 
@@ -73,7 +73,7 @@ public class LecteurDeDeclaration {
         try {
             Integer.parseInt(texte);
             return true;
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
@@ -144,7 +144,7 @@ public class LecteurDeDeclaration {
     }
 
     private static boolean formatAcceptePourChaqueActivite(JSONArray activites) {
-        boolean formatAccepte = true;  
+        boolean formatAccepte = true;
         for (int i = 0; i < activites.size(); i++) {
             JSONObject activiteCourante = activites.getJSONObject(i);
             if (!formatAcceptePourActivite(activiteCourante)) {
@@ -233,30 +233,30 @@ public class LecteurDeDeclaration {
     private static boolean dateEnFormatReconnu(String date) {
         return dateALongueurValide(date) && dateAContenuValide(date);
     }
-    
+
     private static boolean dateALongueurValide(String date) {
         return date.length() == 10;
     }
-    
+
     private static boolean dateAContenuValide(String date) {
         return dateASeperateursValides(date) && dateAComposantesNumeriquesValides(date);
     }
-    
+
     private static boolean dateASeperateursValides(String date) {
         char premierTiret = date.charAt(4);
         char deuxiemeTiret = date.charAt(7);
         return premierTiret == '-' && deuxiemeTiret == '-';
-    } 
-    
+    }
+
     private static boolean dateAComposantesNumeriquesValides(String date) {
         String anneeEnTexte = date.substring(0, 4);
         String moisEnTexte = date.substring(5, 7);
-        String jourEnTexte = date.substring(8,10);
-        return dateAUneAnneeValide(anneeEnTexte) 
-                && dateAUnMoisValide(moisEnTexte) 
+        String jourEnTexte = date.substring(8, 10);
+        return dateAUneAnneeValide(anneeEnTexte)
+                && dateAUnMoisValide(moisEnTexte)
                 && dateAUnJourValide(jourEnTexte);
-    } 
-    
+    }
+
     private static boolean dateAUneAnneeValide(String anneeEnTexte) {
         boolean anneeValide;
         if (texteEstNumerique(anneeEnTexte)) {
@@ -266,8 +266,8 @@ public class LecteurDeDeclaration {
             anneeValide = false;
         }
         return anneeValide;
-    } 
-    
+    }
+
     private static boolean dateAUnMoisValide(String moisEnTexte) {
         boolean moisValide;
         if (texteEstNumerique(moisEnTexte)) {
@@ -277,8 +277,8 @@ public class LecteurDeDeclaration {
             moisValide = false;
         }
         return moisValide;
-    } 
-    
+    }
+
     private static boolean dateAUnJourValide(String jourEnTexte) {
         boolean jourValide;
         if (texteEstNumerique(jourEnTexte)) {
@@ -288,7 +288,7 @@ public class LecteurDeDeclaration {
             jourValide = false;
         }
         return jourValide;
-    } 
+    }
 
     public JSONObject produireRapportPourErreurDeFormat() {
         JSONObject texteDeSortie = new JSONObject();

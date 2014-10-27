@@ -5,7 +5,7 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author Jean Mary
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Psychologue {
 
@@ -42,7 +42,7 @@ public class Psychologue {
             temporaire = 2;
         } else if (troisiemeCategorie(categorie) == 3) {
             temporaire = 3;
-        } 
+        }
         return temporaire;
     }
 
@@ -57,15 +57,15 @@ public class Psychologue {
     public int deuxiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("atelier") || categorie.equals("séminaire")
-                || categorie.equals("colloque") || categorie.equals("lecture dirigée") 
-                || categorie.equals("présentation") || categorie.equals("groupe de discussion") 
+                || categorie.equals("colloque") || categorie.equals("lecture dirigée")
+                || categorie.equals("présentation") || categorie.equals("groupe de discussion")
                 || categorie.equals("projet de recherche")
                 || categorie.equals("rédaction professionnelle")) {
             temporaire = 2;
         }
         return temporaire;
     }
-    
+
     public int troisiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("conférence")) {
