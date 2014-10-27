@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class ValidateurPsychologues extends ValidateurDeDeclaration {
+public class ValidateurPsychologues extends ValidateurMembreProfessionnel {
     public ValidateurPsychologues(DeclarationDeFormation membre) {
         super(membre);
     }

@@ -1,9 +1,14 @@
 package inf2015_projet;
 
+import professionnels.Psychologue;
+import professionnels.Geologue;
+import professionnels.Architecte;
+import validation.ValidateurArchitecte;
 import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import validation.ValidateurGeologues;
 
 /**
  * * * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
@@ -46,6 +51,8 @@ public class FormationContinue {
                 for (int i = 0; i < listeActivites.size(); i++) {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
                     geologue.ajouterActivitePourGeologue(uneActivite);
+                    ValidateurGeologues validateur = new ValidateurGeologues(geologue);
+                    sortieJSON = validateur.produireRapport();
                 }
             } else {
                 Psychologue psychologue = new Psychologue(declarationJSON);

@@ -1,4 +1,5 @@
-package inf2015_projet;
+package validation;
+import professionnels.Architecte;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -57,15 +58,10 @@ public class ValidateurArchitecte {
 
     public int heuresTotalesFormation() {
         int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
-        System.out.println(heuresSixCategoriesEtTransferees);
         int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
-        System.out.println(heuresPresentation);
         int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
-        System.out.println(heuresDiscussion);
         int heuresRecherche = heuresEffectivesSelonCategorie("projet de recherche");
-        System.out.println(heuresRecherche);
         int heuresRedaction = heuresEffectivesSelonCategorie("rédaction professionnelle");
-        System.out.println(heuresRedaction);
 
         return heuresTotal = heuresSixCategoriesEtTransferees
                 + heuresPresentation + heuresDiscussion
@@ -95,7 +91,6 @@ public class ValidateurArchitecte {
                 heuresTotales += activiteCourante.getInt("heures");
             }
         }
-        System.out.println("Heures brutes selon categorie " + categorie + ": " + heuresTotales);
         return heuresTotales;
     }
 

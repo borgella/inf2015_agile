@@ -1,5 +1,5 @@
 
- package inf2015_projet;
+ package professionnels;
 
 import java.util.ArrayList;
 import net.sf.json.JSONObject;

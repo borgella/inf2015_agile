@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package inf2015_projet;
+package professionnels;
+
 import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
@@ -32,7 +28,7 @@ public class Geologue{
     public void ajouterActivitePourGeologue(JSONObject activite) {
         int temporaire = regroupementDesCategories(activite.getString("categorie"));
         int heures = activite.getInt("heures");
-        if (dateValidePourlesGeologues(activite.getString("date")) && temporaire != -1 && heures > 0) {
+        if (dateValidePourGeologues(activite.getString("date")) && temporaire != -1 && heures > 0) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);
@@ -45,8 +41,6 @@ public class Geologue{
             temporaire = 1;
         }else if(deuxiemeCategorie(categorie) == 2){
             temporaire = 2;
-        }else if(troisiemeCategorie(categorie) == 3){
-            temporaire = 3;
         }
         return temporaire;
     }
@@ -54,9 +48,9 @@ public class Geologue{
     public int premiereCategorie(String categorie){
         int temporaire = 0;
         switch (categorie) {
-            case "cours": case "atelier":
-            case "séminaire": case "colloque":
-            case "conférence": case "lecture dirigée":
+            case "atelier": case "séminaire":
+            case "colloque": case "conférence":
+            case "lecture dirigée": case "présentation": case "rédaction professionnelle":
                 temporaire = 1;
             break;    
         }
@@ -65,22 +59,14 @@ public class Geologue{
     
     public int deuxiemeCategorie(String categorie){
         int temporaire = 0;
-            if(categorie.equals("présentation") || categorie.equals("projet de recherche")){
+            if(categorie.equals("cours") || categorie.equals("projet de recherche") 
+                    || categorie.equals("groupe de discussion") ){
                 temporaire = 2;
             }
         return temporaire;
     }
     
-     public int troisiemeCategorie(String categorie){
-         int temporaire = 0;
-            if(categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")){
-                temporaire = 3;
-            }
-         return temporaire;
-     }  
-    
-             
-     public boolean dateValidePourlesGeologues(String date){
+    public boolean dateValidePourGeologues(String date){
         int temporaire ; 
         if((toInt(date.substring(5,7))>=1 && toInt(date.substring(5,7))<=12)&&(toInt(date.substring(8,10))>=1 && toInt(date.substring(8,10))<= 31)){
             date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);
@@ -88,7 +74,7 @@ public class Geologue{
             return false;
         }
         temporaire = toInt(date);
-        return temporaire >= 20100101 && temporaire <= 20150101;
+        return temporaire >= 20130601 && temporaire <= 20160601;
     }
     
   
@@ -97,4 +83,15 @@ public class Geologue{
         return temporaire;
     }
     
+    
+    public String getCycle(){
+        return this.cycle;
+    }
+    
+    public ArrayList getActivitesRefusees(){
+        return this.activitesRefusees;
+    }
+    public ArrayList getActivitesAcceptees(){
+        return this.activitesAcceptees;
+    }
 }

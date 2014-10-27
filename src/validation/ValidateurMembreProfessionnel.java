@@ -10,13 +10,13 @@ import net.sf.json.JSONArray;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class ValidateurDeDeclaration {
+public class ValidateurMembreProfessionnel {
 
     protected DeclarationDeFormation membre;
     protected ArrayList<String> messagesErreurs;
     protected int heuresTotal;
 
-    public ValidateurDeDeclaration(DeclarationDeFormation membre) {
+    public ValidateurMembreProfessionnel(DeclarationDeFormation membre) {
         this.membre = membre;
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
