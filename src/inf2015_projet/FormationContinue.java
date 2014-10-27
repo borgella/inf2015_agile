@@ -1,17 +1,15 @@
 package inf2015_projet;
 
-import professionnels.Psychologue;
-import professionnels.Geologue;
-import professionnels.Architecte;
-import validation.ValidateurArchitecte;
+import professionnels.*;
+import validation.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import validation.ValidateurGeologues;
+
 
 /**
- * * * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
+ *  @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class FormationContinue {
 
@@ -28,12 +26,10 @@ public class FormationContinue {
 
         LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
 
-        //TODO: ajouter les fonctions aux 'ifs' pour pouvoir enlever null
-        JSONObject sortieJSON = null;
+        JSONObject sortieJSON;
 
         if (lecteur.erreurDeFormatDetectee()) {
-            // DEBOGGAGE
-            System.out.println("ERREUR DE FORMAT");
+            System.out.println("Erreur: Éxecution términée, car le fichier contient des données invalides.");
             sortieJSON = lecteur.produireRapportPourErreurDeFormat();
         } else {
             JSONArray listeActivites = declarationJSON.getJSONArray("activites");
@@ -51,16 +47,19 @@ public class FormationContinue {
                 for (int i = 0; i < listeActivites.size(); i++) {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
                     geologue.ajouterActivitePourMembre(uneActivite);
-                    ValidateurGeologues validateur = new ValidateurGeologues(geologue);
-                    sortieJSON = validateur.produireRapport();
                 }
+                ValidateurGeologues validateur = new ValidateurGeologues(geologue);
+                sortieJSON = validateur.produireRapport();
             } else {
                 Psychologue psychologue = new Psychologue(declarationJSON);
                 for (int i = 0; i < listeActivites.size(); i++) {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
                     psychologue.ajouterActivitePourPsychologue(uneActivite);
                 }
+                ValidateurPsychologues validateur = new ValidateurPsychologues(psychologue);
+                sortieJSON = validateur.produireRapport();
             }
+            
         }
 
         System.out.println(sortieJSON);
