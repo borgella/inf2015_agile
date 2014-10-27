@@ -26,6 +26,16 @@ public class Architecte{
         activitesRefusees = new ArrayList<>(1);       
     }
     
+    public void ajouterActivite(JSONObject activite) {
+        if (cycle.equals("2008-2010")) {
+            ajouterActivitePourArchitecte08_10(activite);
+        } else if (cycle.equals("2010-2014")) {
+            ajouterActivitePourArchitecte10_12(activite);
+        } else {    // Cycle 2012-2014
+            ajouterActivitePourArchitecte12_14(activite);
+        }
+    }
+    
     public void ajouterActivitePourArchitecte12_14(JSONObject activite) {
         this.categorie = activite.getString("categorie"); // a enlever soon
         int temporaire = regroupementDesCategories(activite.getString("categorie"));
