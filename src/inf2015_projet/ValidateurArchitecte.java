@@ -123,6 +123,7 @@ public class ValidateurArchitecte {
     }
 
     public void messageErreurPourDateInvalide() {
+        String cycle = architecte.getCycle();
         ArrayList<JSONObject> liste = architecte.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
@@ -131,7 +132,7 @@ public class ValidateurArchitecte {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 JSONObject activite = liste.get(i);
-                if (!architecte.dateValidePourCycle2010_2012(activite.getString("date"))) {
+                if (!architecte.dateValidePourCycle(activite.getString("date"))) {
                     descriptionsDesActivites.add(activite.getString("description"));
                     //retour += activite.getDescription() + " ";
                     sommation += 1;

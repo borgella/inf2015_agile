@@ -13,9 +13,9 @@ import net.sf.json.JSONObject;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class ValidateurArchitectes extends ValidateurDeDeclaration {
+public class ValidateurArchitecteCLONE extends ValidateurDeDeclaration {
 
-    public ValidateurArchitectes(DeclarationDeFormation membre) {
+    public ValidateurArchitecteCLONE(DeclarationDeFormation membre) {
         super(membre);
     }
     

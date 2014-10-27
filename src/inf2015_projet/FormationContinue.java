@@ -60,7 +60,7 @@ public class FormationContinue {
         
         // Écrire le fichier de sortie 
         FileWriter sortie = new FileWriter(fichierSortie);
-        sortie.write(declarationJSON.toString(2));
+        sortie.write(sortieJSON.toString(2));
         sortie.close();
     }
 }

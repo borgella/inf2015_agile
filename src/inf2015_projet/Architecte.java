@@ -106,6 +106,18 @@ public class Architecte{
             }
          return temporaire;
      }
+     
+    public boolean dateValidePourCycle(String date){
+        boolean dateValide = false;
+        if (cycle.equals("2008-2010")) {
+            dateValide = dateValidePourCycle2008_2010(date);
+        } else if (cycle.equals("2010-2012")) {
+            dateValide = dateValidePourCycle2010_2012(date);
+        } else {    // Cycle 2012-2014
+            dateValide = dateValidePourCycle2012_2014(date);
+        }
+        return dateValide;
+    } 
     
     public boolean dateValidePourCycle2012_2014(String date){
         int temporaire ; 
