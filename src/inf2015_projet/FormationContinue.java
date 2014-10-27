@@ -37,11 +37,7 @@ public class FormationContinue {
                 Architecte architecte = new Architecte(declarationJSON);
                 for (int i = 0; i < listeActivites.size(); i++) {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
-                    if (architecte.getCycle().equals("2010-2012")) {
-                        architecte.ajouterActivitePourArchitecte10_12(uneActivite);
-                    } else {
-                        architecte.ajouterActivitePourArchitecte08_10(uneActivite);
-                    }
+                    architecte.ajouterActivite(uneActivite);
                 }
                 ValidateurArchitecte validateur = new ValidateurArchitecte(architecte);
                 sortieJSON = validateur.produireRapport();

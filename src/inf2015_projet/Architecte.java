@@ -77,7 +77,6 @@ public class Architecte{
         }else if(troisiemeCategorie(categorie) == 3){
             temporaire = 3;
         }
-        System.out.println("REGROUPEMENT DES CATEGORIES: " + temporaire);
         return temporaire;
     }
 
@@ -107,10 +106,6 @@ public class Architecte{
             }
          return temporaire;
      }
-    
-    public boolean estDansCategorie(String categorie) {
-        return categorie.equals(this.categorie);
-    }
     
     public boolean dateValidePourCycle2012_2014(String date){
         int temporaire ; 

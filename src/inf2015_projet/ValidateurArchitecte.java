@@ -44,7 +44,6 @@ public class ValidateurArchitecte {
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
             if (architecte.regroupementDesCategories(activite.getString("categorie")) == codeDuRegroupement) {
-                System.out.println("addition de..");
                 somme += activite.getInt("heures");
             }
         }
@@ -68,15 +67,10 @@ public class ValidateurArchitecte {
 
     public int heuresTotalesFormation() {
         int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
-        System.out.println(heuresSixCategoriesEtTransferees);
         int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
-        System.out.println(heuresPresentation);
         int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
-        System.out.println(heuresDiscussion);
         int heuresRecherche = heuresEffectivesSelonCategorie("projet de recherche");
-        System.out.println(heuresRecherche);
         int heuresRedaction = heuresEffectivesSelonCategorie("rédaction professionnelle");
-        System.out.println(heuresRedaction);
 
         return heuresTotal = heuresSixCategoriesEtTransferees
                 + heuresPresentation + heuresDiscussion
@@ -86,14 +80,25 @@ public class ValidateurArchitecte {
     public int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return (heuresBrutes > maximumHeures? maximumHeures : heuresBrutes); 
+        return min(heuresBrutes, maximumHeures);
+        
+        
+    }
+    
+    private int max(int nombre1, int nombre2) {
+        return nombre1 > nombre2 ? nombre1 : nombre2;
+    }
+
+    private int min(int nombre1, int nombre2) {
+        return nombre1 < nombre2 ? nombre1 : nombre2;
     }
     
     private int heuresBrutesSelonCategorie(String categorie) {
         ArrayList<JSONObject> liste = architecte.getActivitesAcceptees();
         int heuresTotales = 0;
         for (JSONObject activiteCourante: liste) {
-            if (architecte.estDansCategorie(activiteCourante.getString("categorie"))) {
+            String categorieCourante = activiteCourante.getString("categorie");
+            if (categorieCourante.equals(categorie)) {
                 heuresTotales += activiteCourante.getInt("heures");
             }
         }
