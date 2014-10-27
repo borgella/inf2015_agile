@@ -172,7 +172,8 @@ public class ValidateurPsychologue {
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
 
             if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. Elles seront ignorées.";
+                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. "
+                        + "Elles seront ignorées.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
                 sortie += "L'activité " + retour + " est dans une catégorie non reconnue. Elle sera ignorée.";

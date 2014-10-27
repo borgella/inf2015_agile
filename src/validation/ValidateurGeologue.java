@@ -105,7 +105,8 @@ public class ValidateurGeologue {
 
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2013-2016 est accepté.");
+            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
+                    + "Seul le cycle 2013-2016 est accepté.");
         }
 
     }
@@ -177,7 +178,8 @@ public class ValidateurGeologue {
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
 
             if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. Elles seront ignorées.";
+                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. "
+                        + "Elles seront ignorées.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
                 sortie += "L'activité " + retour + " est dans une catégorie non reconnue. Elle sera ignorée.";
@@ -198,9 +200,11 @@ public class ValidateurGeologue {
         int maximum2 = max(maximum1, heuresManquantesRecherche);
         int maximum3 = max(maximum2, heuresManquantesDiscussion);
 
-        if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0 || heuresManquantesRecherche > 0 || heuresManquantesDiscussion > 0) {
+        if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0 
+                || heuresManquantesRecherche > 0 || heuresManquantesDiscussion > 0) {
             int heuresManquantesPourLeCycle = maximum3;
-            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + " heure(s) de formation pour compléter le cycle.";
+            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + 
+                    " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
         }
     }

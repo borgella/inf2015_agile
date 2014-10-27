@@ -104,7 +104,8 @@ public class ValidateurArchitecte {
 
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2012-2014 est accepté.");
+            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
+                    + "Seul le cycle 2012-2014 est accepté.");
         }
 
     }
@@ -176,7 +177,8 @@ public class ValidateurArchitecte {
             retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
 
             if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. Elles seront ignorées.";
+                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. "
+                        + "Elles seront ignorées.";
                 messagesErreurs.add(sortie);
             } else if (!(retour.equals(""))) {
                 sortie += "L'activité " + retour + " est dans une catégorie non reconnue. Elle sera ignorée.";
@@ -188,9 +190,11 @@ public class ValidateurArchitecte {
 
     public void messageErreurSiHeuresTransferesEstInvalide() {
         if (membre.getHeuresTransferees() > 7) {
-            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
+            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. "
+                    + "Seulement 7 heures seront comptabilisées.");
         } else if (membre.getHeuresTransferees() < 0) {
-            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. Ce nombre sera comptabilisé comme 0.");
+            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. "
+                    + "Ce nombre sera comptabilisé comme 0.");
         }
 
     }
@@ -201,8 +205,9 @@ public class ValidateurArchitecte {
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
             int heuresManquantesPourLeCycle
-                    = heuresManquantesEnGeneral > heuresManquantesSixCategories ? heuresManquantesEnGeneral : heuresManquantesSixCategories;
-            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + " heure(s) de formation pour compléter le cycle.";
+                    = max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
+            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + 
+                    " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
         }
     }

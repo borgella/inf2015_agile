@@ -70,7 +70,8 @@ public class Geologue {
 
     public boolean dateValidePourMembre(String date) {
         int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
+        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
+                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
             date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         } else {
             return false;

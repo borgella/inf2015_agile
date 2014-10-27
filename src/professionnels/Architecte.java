@@ -120,7 +120,8 @@ public class Architecte {
 
     public boolean dateValidePourCycle2012_2014(String date) {
         int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
+        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
+                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
             date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         } else {
             return false;
@@ -131,7 +132,8 @@ public class Architecte {
 
     public boolean dateValidePourCycle2010_2012(String date) {
         int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
+        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
+                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
             date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         } else {
             return false;
@@ -142,7 +144,8 @@ public class Architecte {
 
     public boolean dateValidePourCycle2008_2010(String date) {
         int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
+        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
+                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
             date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
         } else {
             return false;
