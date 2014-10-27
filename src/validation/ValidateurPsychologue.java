@@ -214,9 +214,8 @@ public class ValidateurPsychologue {
 
     private boolean formationComplete() {
         boolean critereCours = nombreDHeuresSelonRegroupement(1) >= 25;
-        boolean critereCycle = validerLeCycle();
         boolean critereDHeuresTotales = heuresTotal >= 90;
-        return critereCours && critereCycle && critereDHeuresTotales;
+        return validerLeCycle() && critereCours && critereDHeuresTotales;
     }
 
 }

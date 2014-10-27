@@ -42,7 +42,7 @@ public class ValidateurArchitecte {
     private void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
-                    + "Seul le cycle 2012-2014 est accepté.");
+                    + "Seuls les cycles 2008-2010, 2010-2012 et 2012-2014 sont acceptés.");
         }
     }
 

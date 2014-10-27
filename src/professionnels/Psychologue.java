@@ -66,7 +66,7 @@ public class Psychologue {
         return temporaire;
     }
 
-    private int troisiemeCategorie(String categorie) {
+    public int troisiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("conférence")) {
             temporaire = 3;

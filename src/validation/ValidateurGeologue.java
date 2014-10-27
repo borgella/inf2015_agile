@@ -141,8 +141,9 @@ public class ValidateurGeologue {
         int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
         int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");
-        int grandMaximum = maximumParmisQuatre(heuresManquantesEnGeneral, heuresManquantesCours,
-                heuresManquantesRecherche, heuresManquantesDiscussion);
+        // Le nombre d'heures manquantes est la somme des heures manquantes par catégorie, si supérieure au total brut
+        int grandMaximum = maximumParmisQuatreSansNuls(heuresManquantesEnGeneral, heuresManquantesCours,
+                 heuresManquantesRecherche, heuresManquantesDiscussion);
         ecrireMessageErreurPourHeuresManquantesSiApplicable(grandMaximum);
     }
 
@@ -183,12 +184,22 @@ public class ValidateurGeologue {
         }
         return heuresTotales;
     }
-
-    private int maximumParmisQuatre(int n1, int n2, int n3, int n4) {
-        int premierMaximum = max(n1, n2);
-        int deuxiemeMaximum = max(premierMaximum, n3);
-        int grandMaximum = max(deuxiemeMaximum, n4);
-        return grandMaximum;
+    
+    // Donne le maximum entre un "grand nombre" et trois autres nombres non négatifs
+    private int maximumParmisQuatreSansNuls(int grandNombre, int nombreUn, int nombreDeux, int nombreTrois) {
+        int grandNombreNonNegatif = rendrePositifOuNul(grandNombre);
+        int nombreUnNonNegatif = rendrePositifOuNul(nombreUn);
+        int nombreDeuxNonNegatif = rendrePositifOuNul(nombreDeux);
+        int nombreTroisNonNegatif = rendrePositifOuNul(nombreTrois);
+        return max(grandNombreNonNegatif, nombreUnNonNegatif + nombreDeuxNonNegatif + nombreTroisNonNegatif);
+    }
+    
+    private int rendrePositifOuNul(int nombre) {
+        int nombrePositifOuNul = nombre;
+        if (nombre < 0) {
+            nombrePositifOuNul = 0;
+        }
+        return nombrePositifOuNul;
     }
 
     private int max(int nombre1, int nombre2) {
