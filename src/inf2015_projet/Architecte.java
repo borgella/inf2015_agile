@@ -25,6 +25,17 @@ public class Architecte{
         activitesAcceptees = new ArrayList<>(1);
         activitesRefusees = new ArrayList<>(1);       
     }
+    
+    public void ajouterActivitePourArchitecte12_14(JSONObject activite) {
+        this.categorie = activite.getString("categorie"); // a enlever soon
+        int temporaire = regroupementDesCategories(activite.getString("categorie"));
+        int heures = activite.getInt("heures");
+        if (dateValidePourCycle2012_2014(activite.getString("date")) && temporaire != -1 && heures > 0) {
+            activitesAcceptees.add(activite);
+        } else {
+            activitesRefusees.add(activite);
+        }
+    }
 
     public void ajouterActivitePourArchitecte10_12(JSONObject activite) {
         this.categorie = activite.getString("categorie"); // a enlever soon
@@ -90,6 +101,17 @@ public class Architecte{
         return categorie.equals(this.categorie);
     }
     
+    public boolean dateValidePourCycle2012_2014(String date){
+        int temporaire ; 
+        if((toInt(date.substring(5,7))>=1 && toInt(date.substring(5,7))<=12)&&(toInt(date.substring(8,10))>=1 && toInt(date.substring(8,10))<= 31)){
+            date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);
+        }else{
+            return false;
+        }
+        temporaire = toInt(date);
+        return temporaire >= 20120401 && temporaire <= 20140401;
+    }
+    
      
      public boolean dateValidePourCycle2010_2012(String date){
         int temporaire ; 
@@ -99,7 +121,7 @@ public class Architecte{
             return false;
         }
         temporaire = toInt(date);
-        return temporaire >= 20120401 && temporaire <= 20140401;
+        return temporaire >= 20100401 && temporaire <= 20120401;
     }
      
     public boolean dateValidePourCycle2008_2010(String date){
@@ -110,7 +132,7 @@ public class Architecte{
             return false;
         }
         temporaire = toInt(date);
-        return temporaire >= 20080401 && temporaire <= 20100401;
+        return temporaire >= 20080401 && temporaire <= 20100701;
     } 
     
 
