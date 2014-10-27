@@ -170,7 +170,7 @@ public class ValidateurGeologues {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 JSONObject activite = liste.get(i);
-                if (!membre.dateValidePourGeologues(activite.getString("date"))) {
+                if (!membre.dateValidePourMembre(activite.getString("date"))) {
                     descriptionsDesActivites.add(activite.getString("description"));
                     //retour += activite.getDescription() + " ";
                     sommation += 1;

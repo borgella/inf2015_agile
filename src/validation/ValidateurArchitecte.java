@@ -11,12 +11,12 @@ import net.sf.json.JSONObject;
  */
 
 public class ValidateurArchitecte {
-    private Architecte architecte;
+    private Architecte membre;
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
     public ValidateurArchitecte(Architecte architecte) {
-        this.architecte = architecte;
+        this.membre = architecte;
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
     }
@@ -24,17 +24,17 @@ public class ValidateurArchitecte {
     
 
     public boolean validerLeCycle() {
-        return architecte.getCycle().equals("2008-2010")
-                || architecte.getCycle().equals("2010-2012")
-                || architecte.getCycle().equals("2012-2014");
+        return membre.getCycle().equals("2008-2010")
+                || membre.getCycle().equals("2010-2012")
+                || membre.getCycle().equals("2012-2014");
     }
 
     public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
-        ArrayList<JSONObject> liste = architecte.getActivitesAcceptees();
+        ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int somme = 0;
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
-            if (architecte.regroupementDesCategories(activite.getString("categorie")) == codeDuRegroupement) {
+            if (membre.regroupementDesCategories(activite.getString("categorie")) == codeDuRegroupement) {
                 somme += activite.getInt("heures");
             }
         }
@@ -46,7 +46,7 @@ public class ValidateurArchitecte {
     }
 
     private int heuresTransfereesEffectives() {
-        int heuresTransferees = architecte.getHeuresTransferees();
+        int heuresTransferees = membre.getHeuresTransferees();
         int heuresEffectives = heuresTransferees;
         if (heuresTransferees < 0) {
             heuresEffectives = 0;
@@ -83,7 +83,7 @@ public class ValidateurArchitecte {
     }
     
     private int heuresBrutesSelonCategorie(String categorie) {
-        ArrayList<JSONObject> liste = architecte.getActivitesAcceptees();
+        ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
         for (JSONObject activiteCourante: liste) {
             String categorieCourante = activiteCourante.getString("categorie");
@@ -112,8 +112,8 @@ public class ValidateurArchitecte {
     }
 
     public void messageErreurPourDateInvalide() {
-        String cycle = architecte.getCycle();
-        ArrayList<JSONObject> liste = architecte.getActivitesRefusees();
+        String cycle = membre.getCycle();
+        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
          sortie = "";
@@ -121,7 +121,7 @@ public class ValidateurArchitecte {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 JSONObject activite = liste.get(i);
-                if (!architecte.dateValidePourCycle(activite.getString("date"))) {
+                if (!membre.dateValidePourCycle(activite.getString("date"))) {
                     descriptionsDesActivites.add(activite.getString("description"));
                     //retour += activite.getDescription() + " ";
                     sommation += 1;
@@ -162,7 +162,7 @@ public class ValidateurArchitecte {
      * categorie n est pas reconnue
      */
     public void messageInvalidePourCategorieNonReconnue() {
-        ArrayList<JSONObject> liste = architecte.getActivitesRefusees();
+        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
         sortie = "";
@@ -170,7 +170,7 @@ public class ValidateurArchitecte {
         if (liste != null) {
             for (int i = 0; i < liste.size(); ++i) {
                 JSONObject activite = liste.get(i);
-                if (architecte.regroupementDesCategories(activite.getString("categorie")) == -1) {
+                if (membre.regroupementDesCategories(activite.getString("categorie")) == -1) {
                     descriptionsDesActivites.add(activite.getString("description"));
                     sommation += 1;
                 }
@@ -190,9 +190,9 @@ public class ValidateurArchitecte {
     }
 
     public void messageErreurSiHeuresTransferesEstInvalide() {
-        if (architecte.getHeuresTransferees() > 7) {
+        if (membre.getHeuresTransferees() > 7) {
             messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
-        } else if (architecte.getHeuresTransferees() < 0) {
+        } else if (membre.getHeuresTransferees() < 0) {
             messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. Ce nombre sera comptabilisé comme 0.");
         }
 
@@ -211,7 +211,7 @@ public class ValidateurArchitecte {
     }
     
     public int nombreDHeuresRequisParCycle() {
-        String cycle = architecte.getCycle();
+        String cycle = membre.getCycle();
         int nombreDHeuresRequis;
         if (cycle.equals("2012-2014")) {
             nombreDHeuresRequis = 40;
@@ -233,7 +233,7 @@ public class ValidateurArchitecte {
     }
 
     public void messageErreurPourHeuresActivitesNegatif() {
-        ArrayList<JSONObject> liste = architecte.getActivitesRefusees();
+        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
         retour = sortie = "";
@@ -269,7 +269,7 @@ public class ValidateurArchitecte {
         boolean critereSixCategories = nombreDHeuresSelonRegroupement(1) >= 17;
         boolean critereCycle = validerLeCycle();
         boolean critereDHeuresTotales;
-        String cycle = architecte.getCycle();
+        String cycle = membre.getCycle();
         if (cycle.equals("2012-2014")) {
             critereDHeuresTotales = heuresTotal >= 40;
         } else {

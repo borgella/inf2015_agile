@@ -42,7 +42,7 @@ public class FormationContinue {
                 Architecte architecte = new Architecte(declarationJSON);
                 for (int i = 0; i < listeActivites.size(); i++) {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
-                    architecte.ajouterActivite(uneActivite);
+                    architecte.ajouterActivitePourMembre(uneActivite);
                 }
                 ValidateurArchitecte validateur = new ValidateurArchitecte(architecte);
                 sortieJSON = validateur.produireRapport();
@@ -50,7 +50,7 @@ public class FormationContinue {
                 Geologue geologue = new Geologue(declarationJSON);
                 for (int i = 0; i < listeActivites.size(); i++) {
                     JSONObject uneActivite = listeActivites.getJSONObject(i);
-                    geologue.ajouterActivitePourGeologue(uneActivite);
+                    geologue.ajouterActivitePourMembre(uneActivite);
                     ValidateurGeologues validateur = new ValidateurGeologues(geologue);
                     sortieJSON = validateur.produireRapport();
                 }

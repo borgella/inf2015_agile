@@ -25,10 +25,10 @@ public class Geologue{
 
     
     
-    public void ajouterActivitePourGeologue(JSONObject activite) {
+    public void ajouterActivitePourMembre(JSONObject activite) {
         int temporaire = regroupementDesCategories(activite.getString("categorie"));
         int heures = activite.getInt("heures");
-        if (dateValidePourGeologues(activite.getString("date")) && temporaire != -1 && heures > 0) {
+        if (dateValidePourMembre(activite.getString("date")) && temporaire != -1 && heures > 0) {
             activitesAcceptees.add(activite);
         } else {
             activitesRefusees.add(activite);
@@ -66,7 +66,7 @@ public class Geologue{
         return temporaire;
     }
     
-    public boolean dateValidePourGeologues(String date){
+    public boolean dateValidePourMembre(String date){
         int temporaire ; 
         if((toInt(date.substring(5,7))>=1 && toInt(date.substring(5,7))<=12)&&(toInt(date.substring(8,10))>=1 && toInt(date.substring(8,10))<= 31)){
             date = date.substring(0,4) + date.substring(5,7) + date.substring(8,10);

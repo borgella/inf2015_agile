@@ -24,7 +24,7 @@ public class Architecte{
         activitesRefusees = new ArrayList<>(1);       
     }
     
-    public void ajouterActivite(JSONObject activite) {
+    public void ajouterActivitePourMembre(JSONObject activite) {
         if (cycle.equals("2008-2010")) {
             ajouterActivitePourArchitecte08_10(activite);
         } else if (cycle.equals("2010-2012")) {
