@@ -25,9 +25,7 @@ public class FormationContinue {
         String fichierEntree = args[0];
         String fichierSortie = args[1];
 
-        // Charger un fichier JSON et l'obtenir sous forme d'objetif
-        String texteEntree = " ";
-        texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
+        String texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
         JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
 
         LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
@@ -45,7 +43,6 @@ public class FormationContinue {
             int heuresTransferees;
             JSONArray listeActivites = declarationJSON.getJSONArray("activites");
 
-            //DeclarationDeFormation declarationDuMembre = new DeclarationDeFormation(numeroDePermis, cycle, heuresTransferees);
             DeclarationDeFormation declarationDuMembre;
 
             if (!ordre.equals("architectes")) {
@@ -55,15 +52,11 @@ public class FormationContinue {
                 declarationDuMembre = new DeclarationDeFormation(numeroDePermis, ordre, cycle, heuresTransferees);
             }
 
-            // obtenir le JSONArray qui contient les details des activités
-            
-
             for (int i = 0; i < listeActivites.size(); i++) {
                 ActiviteDeFormation uneActivite = new ActiviteDeFormation(declarationDuMembre, listeActivites.getJSONObject(i));
-                //String message = validerActivite(activite)
                 declarationDuMembre.ajouterActivite(uneActivite);
             }
-            // Valider les données reçues
+
             ValidateurDeDeclaration validateur = new ValidateurDeDeclaration(declarationDuMembre);
             sortieJSON = validateur.produireRapport();
 
