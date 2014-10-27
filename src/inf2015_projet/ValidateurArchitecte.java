@@ -20,9 +20,12 @@ public class ValidateurArchitecte {
         heuresTotal = 0;
     }
 
+    
 
     public boolean validerLeCycle() {
-        return architecte.getCycle().equals("2012-2014")|| architecte.getCycle().equals("2008-2010");
+        return architecte.getCycle().equals("2008-2010")
+                || architecte.getCycle().equals("2010-2012")
+                || architecte.getCycle().equals("2012-2014");
     }
 
     public int nombreDHeuresErronees() {
@@ -41,6 +44,7 @@ public class ValidateurArchitecte {
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
             if (architecte.regroupementDesCategories(activite.getString("categorie")) == codeDuRegroupement) {
+                System.out.println("addition de..");
                 somme += activite.getInt("heures");
             }
         }
@@ -48,7 +52,7 @@ public class ValidateurArchitecte {
     }
 
     private int heuresTotalesPourRegroupementDesSixCategories() {
-        return (nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives());
+        return nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives();
     }
 
     private int heuresTransfereesEffectives() {
@@ -64,10 +68,15 @@ public class ValidateurArchitecte {
 
     public int heuresTotalesFormation() {
         int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
+        System.out.println(heuresSixCategoriesEtTransferees);
         int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
+        System.out.println(heuresPresentation);
         int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
+        System.out.println(heuresDiscussion);
         int heuresRecherche = heuresEffectivesSelonCategorie("projet de recherche");
+        System.out.println(heuresRecherche);
         int heuresRedaction = heuresEffectivesSelonCategorie("rédaction professionnelle");
+        System.out.println(heuresRedaction);
 
         return heuresTotal = heuresSixCategoriesEtTransferees
                 + heuresPresentation + heuresDiscussion

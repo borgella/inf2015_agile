@@ -1,4 +1,3 @@
-
 package declaration;
 
 import java.text.ParseException;
@@ -75,26 +74,26 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
         }
         return temporaire;
     }
-    
+
     public boolean estDansCategorie(String categorie) {
         return categorie.equals(this.categorie);
     }
-    
+
     public boolean aCategorieValide() {
         String categorie = this.categorie;
-        return (categorie.equals("cours") || categorie.equals("atelier") 
+        return (categorie.equals("cours") || categorie.equals("atelier")
                 || categorie.equals("séminaire") || categorie.equals("colloque")
                 || categorie.equals("conférence") || categorie.equals("lecture dirigée")
-                || categorie.equals("présentation") || categorie.equals("projet de recherche")    
+                || categorie.equals("présentation") || categorie.equals("projet de recherche")
                 || categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle"));
     }
-    
+
     /**
      * Activité complétée entre 1er avril 2012 et le 1er avril 2014
      * inclusivement À l'extérieur des intervalles => MESSAGE D'ERREUR +
      * activité ignorée des calculs Les dates sont indiquées en format ISO-8601
      *
-     * @param date 
+     * @param date
      * @return
      */
     public boolean dateActivitesCompleteesValides(/*String intervalleMin, String intervalleMax*/) {
@@ -103,31 +102,31 @@ public class ActiviteDeFormation extends DeclarationDeFormation {
         String intervalleMaximum = "2014-04-01";
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         Date dateIntervalleMinimum = null;
         Date dateIntervalleMaximum = null;
         Date dateLue = null;
-        
+
         try {
             dateIntervalleMinimum = df.parse(intervalleMinimum);
             dateIntervalleMaximum = df.parse(intervalleMaximum);
             dateLue = df.parse(date);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             e.getMessage();
         }
-        
-        return (dateLue.after(dateIntervalleMinimum) || (dateLue.equals(dateIntervalleMinimum)) 
+
+        return (dateLue.after(dateIntervalleMinimum) || (dateLue.equals(dateIntervalleMinimum))
                 && (dateLue.before(dateIntervalleMaximum) || dateLue.equals(dateIntervalleMaximum)));
 
         /*int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
-            && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
-            date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
-        } else {
-            return false;
-        }
-        temporaire = toInt(date);
-        return temporaire >= 20120401 && temporaire <= 20140401;*/
+         if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
+         && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
+         date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
+         } else {
+         return false;
+         }
+         temporaire = toInt(date);
+         return temporaire >= 20120401 && temporaire <= 20140401;*/
     }
 
     /**

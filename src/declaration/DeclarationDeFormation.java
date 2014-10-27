@@ -1,4 +1,3 @@
-
 package declaration;
 
 import java.util.ArrayList;

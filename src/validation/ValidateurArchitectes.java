@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package validation;
 
 import declaration.ActiviteDeFormation;
@@ -23,24 +18,46 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
     public ValidateurArchitectes(DeclarationDeFormation membre) {
         super(membre);
     }
+    
+    public void validerFormation() {
+        validerCycle();
+        if (cycleEstValide()) {
+            validerHeuresTransferees();
+            validerCategoriesDesActivites();
+            validerDatesDesActivites();
+            validerHeuresDeFormation();
+            validerHeuresDeFormationPourSixCategories();
+        }
+    }
 
-    public boolean validerLeCycle() {
+    public boolean cycleEstValide() {
         return membre.getCycle().equals("2008-2010")
                 || membre.getCycle().equals("2010-2012")
                 || membre.getCycle().equals("2012-2014");
     }
+    
+    public int heuresTotalesFormation() {
+        int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
+        int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
+        int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
+        int heuresRecherche = heuresEffectivesSelonCategorie("projet de recherche");
+        int heuresRedaction = heuresEffectivesSelonCategorie("rédaction professionnelle");
 
-    public int nombreDHeuresErronees() {
-        ActiviteDeFormation act;
-        ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
-        int somme = 0;
-        for (int i = 0; i < membre.getActivitesRefusees().size(); ++i) {
-            act = liste.get(i);
-            somme += act.getDureeEnHeures();
-        }
-        return somme;
+        return heuresTotal = heuresSixCategoriesEtTransferees
+                + heuresPresentation + heuresDiscussion
+                + heuresRecherche + heuresRedaction;
     }
-
+    
+    protected int maximumHeuresSelonCategorie(String categorie) {
+        int nombreMaximumHeures = Integer.MAX_VALUE;
+        if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
+            nombreMaximumHeures = 23;
+        } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
+            nombreMaximumHeures = 17;
+        }
+        return nombreMaximumHeures;
+    }
+    
     public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
         ActiviteDeFormation activite;
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesAcceptees();
@@ -69,18 +86,6 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
         return heuresEffectives;
     }
 
-    public int heuresTotalesFormation() {
-        int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
-        int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
-        int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
-        int heuresRecherche = heuresEffectivesSelonCategorie("projet de recherche");
-        int heuresRedaction = heuresEffectivesSelonCategorie("rédaction professionnelle");
-
-        return heuresTotal = heuresSixCategoriesEtTransferees
-                + heuresPresentation + heuresDiscussion
-                + heuresRecherche + heuresRedaction;
-    }
-
     public int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
@@ -98,16 +103,6 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
         return heuresTotales;
     }
 
-    protected int maximumHeuresSelonCategorie(String categorie) {
-        int nombreMaximumHeures = Integer.MAX_VALUE;
-        if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
-            nombreMaximumHeures = 23;
-        } else if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
-            nombreMaximumHeures = 17;
-        }
-        return nombreMaximumHeures;
-    }
-    
     /**
      * Intervalles permises d'une activité selon son cycle
      */
@@ -158,14 +153,14 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
                 && (dateLue.before(dateIntervalleMaximum) || dateLue.equals(dateIntervalleMaximum)));
     }
 
-    public void ecrireMessageDErreurPourCycleInvalide() {
-        if (!validerLeCycle()) {
+    public void validerCycle() {
+        if (!cycleEstValide()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul les cycles 2008-2010, 2010-2012 et 2012-2014 sont acceptés.");
         }
 
     }
 
-    public void ecrireMessageDErreurPourDateInvalide() {
+    public void validerDatesDesActivites() {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
@@ -193,27 +188,11 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
         }
     }
 
-    protected String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
-        int nombreDeDescriptions = descriptions.size();
-        String phraseDeRetour = "";
-        if (nombreDeDescriptions > 0) {
-            phraseDeRetour += descriptions.get(0);
-            for (int i = 1; i < nombreDeDescriptions - 1; i++) {
-                phraseDeRetour += ", " + descriptions.get(i);
-            }
-
-            if (nombreDeDescriptions > 1) {
-                phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
-            }
-        }
-        return phraseDeRetour;
-    }
-
     /**
      * Ajoute a l'arraylist messageErreurs un message personalise si la
      * categorie n est pas reconnue
      */
-    public void ecrireMessageDErreurPourCategorieNonReconnue() {
+    public void validerCategoriesDesActivites() {
         ArrayList<ActiviteDeFormation> liste = membre.getActivitesRefusees();
         int sommation = 0;
         String retour, sortie;
@@ -242,16 +221,17 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
 
     }
 
-    public void ecrireMessageDErreurPourHeuresTransfereesInvalides() {
+    public void validerHeuresTransferees() {
         if (membre.getHeuresTransferees() > 7) {
-            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.");
+            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. "
+                    + "Seulement 7 heures seront comptabilisées.");
         } else if (membre.getHeuresTransferees() < 0) {
-            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. Ce nombre sera comptabilisé comme 0.");
+            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. "
+                    + "Ce nombre sera comptabilisé comme 0.");
         }
-
     }
 
-    public void ecrireMessageDErreurPourHeuresManquantesTotales() {
+    public void validerHeuresDeFormation() {
         String messageHeuresManquantes = "";
         int heuresManquantesEnGeneral;
         
@@ -270,7 +250,7 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
         }
     }
 
-    public void ecrireMessageDErreurPourHeuresManquantesSixCategories() {
+    public void validerHeuresDeFormationPourSixCategories() {
         String messageHeuresManquantes = "";
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesSixCategories > 0) {
@@ -278,14 +258,6 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
                     + " heure(s) de formation à compléter parmi les catégories suivantes: "
                     + "cours, atelier, séminaire, colloque, conférence et lecture dirigée.";
             messagesErreurs.add(messageHeuresManquantes);
-        }
-    }
-
-    public void ecrireMessageDErreurPourHeuresErronees() {
-        String messageErrone = "";
-        if (nombreDHeuresErronees() > 0) {
-            messageErrone += "Il manque " + nombreDHeuresErronees() + " heures de formation pour compléter le cycle.";
-            messagesErreurs.add(messageErrone);
         }
     }
 
@@ -314,14 +286,6 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
         }
     }
 
-    public JSONArray leMessageInvalide(ArrayList message) {
-        JSONArray tab = new JSONArray();
-        for (int i = 0; i < message.size(); ++i) {
-            tab.add(message.get(i));
-        }
-        return tab;
-    }
-
     /**
      * La formation est complète si le cycle est valide et si les heures totales sont au moins 40 
      * (42 heures pour les cycles 2008-2010 et 2010-2012), 
@@ -333,33 +297,12 @@ public class ValidateurArchitectes extends ValidateurDeDeclaration {
         boolean heuresTotauxValides;    // heures valides selon le cycle
         
         if(membre.getCycle().equals("2008-2010") || membre.getCycle().equals("2010-2012")) {
-            heuresTotauxValides = (heuresTotal >= 42 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17));
+            heuresTotauxValides = (heuresTotal >= 42 && cycleEstValide() && (nombreDHeuresSelonRegroupement(1) >= 17));
         } else {
-            heuresTotauxValides = (heuresTotal >= 40 && validerLeCycle() && (nombreDHeuresSelonRegroupement(1) >= 17));
+            heuresTotauxValides = (heuresTotal >= 40 && cycleEstValide() && (nombreDHeuresSelonRegroupement(1) >= 17));
         }
         
         return heuresTotauxValides;
     }
 
-    public void ecrireMessagesDErreurs() {
-        ecrireMessageDErreurPourCycleInvalide();
-        if (validerLeCycle()) {
-            ecrireMessageDErreurPourHeuresTransfereesInvalides();
-            ecrireMessageDErreurPourCategorieNonReconnue();
-            ecrireMessageDErreurPourHeuresInvalidesDesActivites();
-            ecrireMessageDErreurPourDateInvalide();
-            ecrireMessageDErreurPourHeuresManquantesTotales();
-            ecrireMessageDErreurPourHeuresManquantesSixCategories();
-        }
-    }
-
-    public JSONObject produireRapport() {
-        JSONObject texteDeSortie = new JSONObject();
-        JSONObject messageErrones = new JSONObject();
-        ecrireMessagesDErreurs();
-        JSONArray tableauJson = leMessageInvalide(messagesErreurs);
-        texteDeSortie.accumulate("complet", formationComplete());
-        texteDeSortie.accumulate("erreurs", tableauJson);
-        return texteDeSortie;
-    }
 }

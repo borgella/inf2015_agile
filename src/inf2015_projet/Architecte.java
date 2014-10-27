@@ -77,6 +77,7 @@ public class Architecte{
         }else if(troisiemeCategorie(categorie) == 3){
             temporaire = 3;
         }
+        System.out.println("REGROUPEMENT DES CATEGORIES: " + temporaire);
         return temporaire;
     }
 
