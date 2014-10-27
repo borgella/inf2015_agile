@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package validation;
 
 import declaration.DeclarationDeFormation;
@@ -21,7 +16,7 @@ public class ValidateurGeologues extends ValidateurDeDeclaration {
         super(membre);
     }
 
-    public boolean validerLeCycle() {
+    public boolean cycleEstValide() {
         return membre.getCycle().equals("2013-2016");
     }
     
@@ -86,7 +81,7 @@ public class ValidateurGeologues extends ValidateurDeDeclaration {
      * @return 
      */
     protected int minimumHeuresSelonCategorie(String categorie) {
-        int nombreMinimumHeures = Integer.MIN_VALUE;
+        int nombreMinimumHeures = 0;
         
         if (categorie.equals("cours")) {
             nombreMinimumHeures = 22;
