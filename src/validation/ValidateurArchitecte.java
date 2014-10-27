@@ -22,13 +22,13 @@ public class ValidateurArchitecte {
 
     public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
-        appelsDesMethodesDesMessagesInvalides();
+        construireMessagesDErreur();
         texteDeSortie.accumulate("complet", formationComplete());
         texteDeSortie.accumulate("erreurs", messagesErreurs);
         return texteDeSortie;
     }
 
-    public void appelsDesMethodesDesMessagesInvalides() {
+    private void construireMessagesDErreur() {
         messageErreurSiLeCycleEstInvalide();
         if (validerLeCycle()) {
             messageErreurSiHeuresTransferesEstInvalide();
@@ -39,20 +39,20 @@ public class ValidateurArchitecte {
         }
     }
 
-    public void messageErreurSiLeCycleEstInvalide() {
+    private void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
                     + "Seul le cycle 2012-2014 est accepté.");
         }
     }
 
-    public boolean validerLeCycle() {
+    private boolean validerLeCycle() {
         return membre.getCycle().equals("2008-2010")
                 || membre.getCycle().equals("2010-2012")
                 || membre.getCycle().equals("2012-2014");
     }
 
-    public void messageErreurSiHeuresTransferesEstInvalide() {
+    private void messageErreurSiHeuresTransferesEstInvalide() {
         if (membre.getHeuresTransferees() > 7) {
             messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. "
                     + "Seulement 7 heures seront comptabilisées.");
@@ -62,7 +62,7 @@ public class ValidateurArchitecte {
         }
     }
 
-    public void messageInvalidePourCategorieNonReconnue() {
+    private void messageInvalidePourCategorieNonReconnue() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
@@ -117,7 +117,7 @@ public class ValidateurArchitecte {
         messagesErreurs.add(messageSortie);
     }
 
-    public void messageErreurPourDateInvalide() {
+    private void messageErreurPourDateInvalide() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
@@ -149,19 +149,18 @@ public class ValidateurArchitecte {
         messagesErreurs.add(messageSortie);
     }
 
-    public void messageErreurPourHeuresManquantes() {
-        String messageHeuresManquantes = "";
+    private void messageErreurPourHeuresManquantes() {
         int heuresManquantesEnGeneral = nombreDHeuresRequisParCycle() - heuresTotalesFormation();
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
             int heuresManquantesPourLeCycle = max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
-            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle
+            String messageHeuresManquantes =  "Il manque un total de " + heuresManquantesPourLeCycle
                     + " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
         }
     }
 
-    public int nombreDHeuresRequisParCycle() {
+    private int nombreDHeuresRequisParCycle() {
         String cycle = membre.getCycle();
         int nombreDHeuresRequis;
         if (cycle.equals("2012-2014")) {
@@ -172,7 +171,7 @@ public class ValidateurArchitecte {
         return nombreDHeuresRequis;
     }
 
-    public int heuresTotalesFormation() {
+    private int heuresTotalesFormation() {
         int heuresSixCategoriesEtTransferees = heuresTotalesPourRegroupementDesSixCategories();
         int heuresPresentation = heuresEffectivesSelonCategorie("présentation");
         int heuresDiscussion = heuresEffectivesSelonCategorie("groupe de discussion");
@@ -188,7 +187,7 @@ public class ValidateurArchitecte {
         return nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives();
     }
 
-    public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
+    private int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
         ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int somme = 0;
         for (int i = 0; i < liste.size(); ++i) {
@@ -211,7 +210,7 @@ public class ValidateurArchitecte {
         return heuresEffectives;
     }
 
-    public int heuresEffectivesSelonCategorie(String categorie) {
+    private int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
         return min(heuresBrutes, maximumHeures);
@@ -247,7 +246,7 @@ public class ValidateurArchitecte {
         return nombre1 > nombre2 ? nombre1 : nombre2;
     }
 
-    public void messageErreurPourHeuresInsuffisantesSixCategories() {
+    private void messageErreurPourHeuresInsuffisantesSixCategories() {
         String messageHeuresManquantes = "";
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesSixCategories > 0) {
@@ -258,7 +257,7 @@ public class ValidateurArchitecte {
         }
     }
 
-    public boolean formationComplete() {
+    private boolean formationComplete() {
         boolean critereSixCategories = nombreDHeuresSelonRegroupement(1) >= 17;
         boolean critereDHeuresTotales;
         String cycle = membre.getCycle();

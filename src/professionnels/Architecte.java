@@ -33,7 +33,7 @@ public class Architecte {
         }
     }
 
-    public void ajouterActivitePourArchitecte12_14(JSONObject activite) {
+    private void ajouterActivitePourArchitecte12_14(JSONObject activite) {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2012_2014(activite.getString("date")) && temporaire != -1) {
@@ -43,7 +43,7 @@ public class Architecte {
         }
     }
 
-    public void ajouterActivitePourArchitecte10_12(JSONObject activite) {
+    private void ajouterActivitePourArchitecte10_12(JSONObject activite) {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2010_2012(activite.getString("date")) && temporaire != -1) {
@@ -53,7 +53,7 @@ public class Architecte {
         }
     }
 
-    public void ajouterActivitePourArchitecte08_10(JSONObject activite) {
+    private void ajouterActivitePourArchitecte08_10(JSONObject activite) {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2008_2010(activite.getString("date")) && temporaire != -1) {
@@ -75,7 +75,7 @@ public class Architecte {
         return temporaire;
     }
 
-    public int premiereCategorie(String categorie) {
+    private int premiereCategorie(String categorie) {
         int temporaire = 0;
         switch (categorie) {
             case "cours": case "atelier":
@@ -87,7 +87,7 @@ public class Architecte {
         return temporaire;
     }
 
-    public int deuxiemeCategorie(String categorie) {
+    private int deuxiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("présentation") || categorie.equals("projet de recherche")) {
             temporaire = 2;
@@ -95,7 +95,7 @@ public class Architecte {
         return temporaire;
     }
 
-    public int troisiemeCategorie(String categorie) {
+    private int troisiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
             temporaire = 3;
@@ -115,7 +115,7 @@ public class Architecte {
         return dateValide;
     }
 
-    public boolean dateValidePourCycle2012_2014(String date) {
+    private boolean dateValidePourCycle2012_2014(String date) {
         int temporaire;
         if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
                 && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
@@ -127,7 +127,7 @@ public class Architecte {
         return temporaire >= 20120401 && temporaire <= 20140401;
     }
 
-    public boolean dateValidePourCycle2010_2012(String date) {
+    private boolean dateValidePourCycle2010_2012(String date) {
         int temporaire;
         if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
                 && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
@@ -139,7 +139,7 @@ public class Architecte {
         return temporaire >= 20100401 && temporaire <= 20120401;
     }
 
-    public boolean dateValidePourCycle2008_2010(String date) {
+    private boolean dateValidePourCycle2008_2010(String date) {
         int temporaire;
         if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
                 && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {

@@ -46,7 +46,7 @@ public class Psychologue {
         return temporaire;
     }
 
-    public int premiereCategorie(String categorie) {
+    private int premiereCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("cours")) {
             temporaire = 1;
@@ -54,7 +54,7 @@ public class Psychologue {
         return temporaire;
     }
 
-    public int deuxiemeCategorie(String categorie) {
+    private int deuxiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("atelier") || categorie.equals("séminaire")
                 || categorie.equals("colloque") || categorie.equals("lecture dirigée")
@@ -66,7 +66,7 @@ public class Psychologue {
         return temporaire;
     }
 
-    public int troisiemeCategorie(String categorie) {
+    private int troisiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("conférence")) {
             temporaire = 3;

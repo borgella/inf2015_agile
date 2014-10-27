@@ -43,7 +43,7 @@ public class Geologue {
         return temporaire;
     }
 
-    public int premiereCategorie(String categorie) {
+    private int premiereCategorie(String categorie) {
         int temporaire = 0;
         switch (categorie) {
             case "atelier": case "séminaire": case "colloque": 
@@ -55,7 +55,7 @@ public class Geologue {
         return temporaire;
     }
 
-    public int deuxiemeCategorie(String categorie) {
+    private int deuxiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("cours") || categorie.equals("projet de recherche")
                 || categorie.equals("groupe de discussion")) {

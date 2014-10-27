@@ -20,37 +20,143 @@ public class ValidateurPsychologue {
         heuresTotal = 0;
     }
 
-    public boolean validerLeCycle() {
+    public JSONObject produireRapport() {
+        JSONObject texteDeSortie = new JSONObject();
+        construireMessagesDErreur();
+        texteDeSortie.accumulate("complet", formationComplete());
+        texteDeSortie.accumulate("erreurs", messagesErreurs);
+        return texteDeSortie;
+    }
+
+    private void construireMessagesDErreur() {
+        messageErreurSiLeCycleEstInvalide();
+        if (validerLeCycle()) {
+            messageInvalidePourCategorieNonReconnue();
+            messageErreurPourDateInvalide();
+            messageErreurPourHeuresManquantes();
+            messageErreurPourHeuresInsuffisantesCours();
+        }
+    }
+
+    private void messageErreurSiLeCycleEstInvalide() {
+        if (!validerLeCycle()) {
+            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
+                    + "Seul le cycle 2010-2015 est accepté.");
+        }
+    }
+
+    private boolean validerLeCycle() {
         return membre.getCycle().equals("2010-2015");
     }
 
-    /**
-     * Les psychologues doivent effectuer un minimum de 90 heures de formation continue dans un cycle.
-     *
-     * @param nombreDHeures
-     * @return
-     */
-    public boolean minimumHeuresFormationCycle(int nombreDHeures) {
-        return nombreDHeures >= 90;
-    }
-
-    /**
-     * Un minimum de 25 heures par cycle sont nécessaires dans la catégorie "cours"
-     *
-     * @param categorie
-     * @return
-     */
-    protected int minimumHeuresSelonCategorie(String categorie) {
-        int nombreMinimumHeures = Integer.MIN_VALUE;
-
-        if (categorie.equals("cours")) {
-            nombreMinimumHeures = 25;
+    private void messageInvalidePourCategorieNonReconnue() {
+        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
+        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste);
+        int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
+        String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
+        if (nombreDActivitesNonReconnues > 0) {
+            ecrireMessageDErreurPourCategoriesNonReconnues(nombreDActivitesNonReconnues, activitesErronees);
         }
-
-        return nombreMinimumHeures;
     }
 
-    public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
+    private ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste) {
+        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
+        for (int i = 0; i < liste.size(); ++i) {
+            JSONObject activite = liste.get(i);
+            int codeRegroupement = membre.regroupementDesCategories(activite.getString("categorie"));
+            if (codeRegroupement == -1) {
+                descriptionsDesActivites.add(activite.getString("description"));
+            }
+        }
+        return descriptionsDesActivites;
+    }
+
+    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+        int nombreDeDescriptions = descriptions.size();
+        String phraseDeRetour = "";
+        if (nombreDeDescriptions > 0) {
+            phraseDeRetour = construirePhraseAvecDescriptions(descriptions);
+        }
+        return phraseDeRetour;
+    }
+
+    private String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
+        String phraseDeRetour = descriptions.get(0);
+        int nombreDeDescriptions = descriptions.size();
+        for (int i = 1; i < nombreDeDescriptions - 1; i++) {
+            phraseDeRetour += ", " + descriptions.get(i);
+        }
+        if (nombreDeDescriptions > 1) {
+            phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
+        }
+        return phraseDeRetour;
+    }
+
+    private void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
+        String messageSortie;
+        if (nombreDActivites > 1) {
+            messageSortie = "Les activités " + activitesErronees + " sont dans des catégories non reconnues. "
+                    + "Elles seront ignorées.";
+        } else {
+            messageSortie = "L'activité " + activitesErronees + " est dans une catégorie non reconnue. "
+                    + "Elle sera ignorée.";
+        }
+        messagesErreurs.add(messageSortie);
+    }
+
+    private void messageErreurPourDateInvalide() {
+        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
+        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste);
+        int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
+        String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
+        if (nombreDActivitesNonReconnues > 0) {
+            ecrireMessageDErreurPourDatesInvalides(nombreDActivitesNonReconnues, activitesErronees);
+        }
+    }
+
+    private ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste) {
+        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
+        for (int i = 0; i < liste.size(); ++i) {
+            JSONObject activite = liste.get(i);
+            if (!membre.dateValidePourMembre(activite.getString("date"))) {
+                descriptionsDesActivites.add(activite.getString("description"));
+            }
+        }
+        return descriptionsDesActivites;
+    }
+
+    private void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees) {
+        String messageSortie;
+        if (nombreDActivites > 1) {
+            messageSortie = "Les dates des activités " + activitesErronees + " sont invalides. "
+                    + "Ces activités seront ignorées.";
+        } else {
+            messageSortie = "La date de l'activité " + activitesErronees + " est invalide. L'activité sera ignorée.";
+        }
+        messagesErreurs.add(messageSortie);
+    }
+
+    private void messageErreurPourHeuresManquantes() {
+        int heuresManquantesEnGeneral = 90 - heuresTotalesFormation();
+        int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
+        if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0) {
+            int heuresManquantesPourLeCycle = max(heuresManquantesEnGeneral, heuresManquantesCours);
+            String messageHeuresManquantes = "Il manque un total de " + heuresManquantesPourLeCycle
+                    + " heure(s) de formation pour compléter le cycle.";
+            messagesErreurs.add(messageHeuresManquantes);
+        }
+    }
+
+    private int heuresTotalesFormation() {
+        int heuresHuitCategories = nombreDHeuresSelonRegroupement(2);
+        int heuresCours = heuresBrutesSelonCategorie("cours");
+        int heuresConference = heuresEffectivesSelonCategorie("conférence");
+
+        return heuresTotal = heuresHuitCategories
+                + heuresCours + heuresConference;
+    }
+
+    private int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
         ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int somme = 0;
         for (int i = 0; i < liste.size(); ++i) {
@@ -60,29 +166,6 @@ public class ValidateurPsychologue {
             }
         }
         return somme;
-    }
-
-    public int heuresTotalesFormation() {
-        int heuresHuitCategories = nombreDHeuresSelonRegroupement(2);
-        int heuresCours = heuresBrutesSelonCategorie("cours");
-        int heuresConference = heuresEffectivesSelonCategorie("conférence");
-
-        return heuresTotal = heuresHuitCategories
-                + heuresCours + heuresConference;
-    }
-
-    public int heuresEffectivesSelonCategorie(String categorie) {
-        int heuresBrutes = heuresBrutesSelonCategorie(categorie);
-        int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return min(heuresBrutes, maximumHeures);
-    }
-
-    private int max(int nombre1, int nombre2) {
-        return nombre1 > nombre2 ? nombre1 : nombre2;
-    }
-
-    private int min(int nombre1, int nombre2) {
-        return nombre1 < nombre2 ? nombre1 : nombre2;
     }
 
     private int heuresBrutesSelonCategorie(String categorie) {
@@ -97,105 +180,29 @@ public class ValidateurPsychologue {
         return heuresTotales;
     }
 
-    public void messageErreurSiLeCycleEstInvalide() {
-        if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
-                    + "Seul le cycle 2010-2015 est accepté.");
-        }
-
+    private int heuresEffectivesSelonCategorie(String categorie) {
+        int heuresBrutes = heuresBrutesSelonCategorie(categorie);
+        int maximumHeures = maximumHeuresSelonCategorie(categorie);
+        return min(heuresBrutes, maximumHeures);
     }
 
-    public void messageErreurPourDateInvalide() {
-        String cycle = membre.getCycle();
-        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        int sommation = 0;
-        String retour, sortie;
-        sortie = "";
-        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
-        if (liste != null) {
-            for (int i = 0; i < liste.size(); ++i) {
-                JSONObject activite = liste.get(i);
-                if (!membre.dateValidePourMembre(activite.getString("date"))) {
-                    descriptionsDesActivites.add(activite.getString("description"));
-                    //retour += activite.getDescription() + " ";
-                    sommation += 1;
-                }
-            }
-
-            retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-
-            if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les dates des activités " + retour + " sont invalides. Ces activités seront ignorées.";
-                messagesErreurs.add(sortie);
-            } else if (!(retour.equals(""))) {
-                sortie += "La date de l'activité " + retour + " est invalide. L'activité sera ignorée.";
-                messagesErreurs.add(sortie);
-            }
-        }
-
+    private int max(int nombre1, int nombre2) {
+        return nombre1 > nombre2 ? nombre1 : nombre2;
     }
 
-    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
-        int nombreDeDescriptions = descriptions.size();
-        String phraseDeRetour = "";
-        if (nombreDeDescriptions > 0) {
-            phraseDeRetour += descriptions.get(0);
-            for (int i = 1; i < nombreDeDescriptions - 1; i++) {
-                phraseDeRetour += ", " + descriptions.get(i);
-            }
-
-            if (nombreDeDescriptions > 1) {
-                phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
-            }
-        }
-        return phraseDeRetour;
+    private int min(int nombre1, int nombre2) {
+        return nombre1 < nombre2 ? nombre1 : nombre2;
     }
 
-    /**
-     * Ajoute a l'arraylist messageErreurs un message personalise si la categorie n est pas reconnue
-     */
-    public void messageInvalidePourCategorieNonReconnue() {
-        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        int sommation = 0;
-        String retour, sortie;
-        sortie = "";
-        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
-        if (liste != null) {
-            for (int i = 0; i < liste.size(); ++i) {
-                JSONObject activite = liste.get(i);
-                if (membre.regroupementDesCategories(activite.getString("categorie")) == -1) {
-                    descriptionsDesActivites.add(activite.getString("description"));
-                    sommation += 1;
-                }
-            }
-
-            retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-
-            if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. "
-                        + "Elles seront ignorées.";
-                messagesErreurs.add(sortie);
-            } else if (!(retour.equals(""))) {
-                sortie += "L'activité " + retour + " est dans une catégorie non reconnue. Elle sera ignorée.";
-                messagesErreurs.add(sortie);
-            }
+    private int maximumHeuresSelonCategorie(String categorie) {
+        int nombreMaximumHeures = Integer.MAX_VALUE;
+        if (categorie.equals("conférence")) {
+            nombreMaximumHeures = 15;
         }
-
+        return nombreMaximumHeures;
     }
 
-    public void messageErreurPourHeuresManquantes() {
-        String messageHeuresManquantes = "";
-        int heuresManquantesEnGeneral = 90 - heuresTotalesFormation();
-        int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
-        if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0) {
-            int heuresManquantesPourLeCycle = max(heuresManquantesEnGeneral, heuresManquantesCours);
-            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle
-                    + " heure(s) de formation pour compléter le cycle.";
-            messagesErreurs.add(messageHeuresManquantes);
-        }
-    }
-
-    public void messageErreurPourHeuresInsuffisantesCours() {
+    private void messageErreurPourHeuresInsuffisantesCours() {
         String messageHeuresManquantes = "";
         int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
         if (heuresManquantesCours > 0) {
@@ -205,39 +212,11 @@ public class ValidateurPsychologue {
         }
     }
 
-    public boolean formationComplete() {
+    private boolean formationComplete() {
         boolean critereCours = nombreDHeuresSelonRegroupement(1) >= 25;
         boolean critereCycle = validerLeCycle();
         boolean critereDHeuresTotales = heuresTotal >= 90;
         return critereCours && critereCycle && critereDHeuresTotales;
     }
 
-    public void appelsDesMethodesDesMessagesInvalides() {
-        messageErreurSiLeCycleEstInvalide();
-        if (validerLeCycle()) {
-            messageInvalidePourCategorieNonReconnue();
-            messageErreurPourDateInvalide();
-            messageErreurPourHeuresManquantes();
-            messageErreurPourHeuresInsuffisantesCours();
-        }
-
-    }
-
-    public JSONObject produireRapport() {
-        JSONObject texteDeSortie = new JSONObject();
-        appelsDesMethodesDesMessagesInvalides();
-        texteDeSortie.accumulate("complet", formationComplete());
-        texteDeSortie.accumulate("erreurs", messagesErreurs);
-        return texteDeSortie;
-    }
-
-    protected int maximumHeuresSelonCategorie(String categorie) {
-        int nombreMaximumHeures = Integer.MAX_VALUE;
-
-        if (categorie.equals("conférence")) {
-            nombreMaximumHeures = 15;
-        }
-
-        return nombreMaximumHeures;
-    }
 }
