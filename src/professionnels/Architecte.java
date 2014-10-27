@@ -78,12 +78,9 @@ public class Architecte {
     public int premiereCategorie(String categorie) {
         int temporaire = 0;
         switch (categorie) {
-            case "cours":
-            case "atelier":
-            case "séminaire":
-            case "colloque":
-            case "conférence":
-            case "lecture dirigée":
+            case "cours": case "atelier":
+            case "séminaire": case "colloque":
+            case "conférence": case "lecture dirigée":
                 temporaire = 1;
                 break;
         }
@@ -106,7 +103,7 @@ public class Architecte {
         return temporaire;
     }
 
-    public boolean dateValidePourCycle(String date) {
+    public boolean dateValidePourMembre(String date) {
         boolean dateValide;
         if (cycle.equals("2008-2010")) {
             dateValide = dateValidePourCycle2008_2010(date);

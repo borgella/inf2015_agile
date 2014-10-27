@@ -2,7 +2,6 @@ package validation;
 
 import professionnels.Architecte;
 import java.util.ArrayList;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -21,37 +20,156 @@ public class ValidateurArchitecte {
         heuresTotal = 0;
     }
 
+    public JSONObject produireRapport() {
+        JSONObject texteDeSortie = new JSONObject();
+        appelsDesMethodesDesMessagesInvalides();
+        texteDeSortie.accumulate("complet", formationComplete());
+        texteDeSortie.accumulate("erreurs", messagesErreurs);
+        return texteDeSortie;
+    }
+
+    public void appelsDesMethodesDesMessagesInvalides() {
+        messageErreurSiLeCycleEstInvalide();
+        if (validerLeCycle()) {
+            messageErreurSiHeuresTransferesEstInvalide();
+            messageInvalidePourCategorieNonReconnue();
+            messageErreurPourDateInvalide();
+            messageErreurPourHeuresManquantes();
+            messageErreurPourHeuresInsuffisantesSixCategories();
+        }
+    }
+
+    public void messageErreurSiLeCycleEstInvalide() {
+        if (!validerLeCycle()) {
+            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
+                    + "Seul le cycle 2012-2014 est accepté.");
+        }
+    }
+
     public boolean validerLeCycle() {
         return membre.getCycle().equals("2008-2010")
                 || membre.getCycle().equals("2010-2012")
                 || membre.getCycle().equals("2012-2014");
     }
 
-    public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
-        ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
-        int somme = 0;
+    public void messageErreurSiHeuresTransferesEstInvalide() {
+        if (membre.getHeuresTransferees() > 7) {
+            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. "
+                    + "Seulement 7 heures seront comptabilisées.");
+        } else if (membre.getHeuresTransferees() < 0) {
+            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. "
+                    + "Ce nombre sera comptabilisé comme 0.");
+        }
+    }
+
+    public void messageInvalidePourCategorieNonReconnue() {
+        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
+        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste);
+        int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
+        String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
+        if (nombreDActivitesNonReconnues > 0) {
+            ecrireMessageDErreurPourCategoriesNonReconnues(nombreDActivitesNonReconnues, activitesErronees);
+        }
+    }
+
+    private ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste) {
+        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
-            if (membre.regroupementDesCategories(activite.getString("categorie")) == codeDuRegroupement) {
-                somme += activite.getInt("heures");
+            int codeRegroupement = membre.regroupementDesCategories(activite.getString("categorie"));
+            if (codeRegroupement == -1) {
+                descriptionsDesActivites.add(activite.getString("description"));
             }
         }
-        return somme;
+        return descriptionsDesActivites;
     }
 
-    private int heuresTotalesPourRegroupementDesSixCategories() {
-        return nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives();
-    }
-
-    private int heuresTransfereesEffectives() {
-        int heuresTransferees = membre.getHeuresTransferees();
-        int heuresEffectives = heuresTransferees;
-        if (heuresTransferees < 0) {
-            heuresEffectives = 0;
-        } else if (heuresTransferees > 7) {
-            heuresEffectives = 7;
+    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+        int nombreDeDescriptions = descriptions.size();
+        String phraseDeRetour = "";
+        if (nombreDeDescriptions > 0) {
+            phraseDeRetour = construirePhraseAvecDescriptions(descriptions);
         }
-        return heuresEffectives;
+        return phraseDeRetour;
+    }
+
+    private String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
+        String phraseDeRetour = descriptions.get(0);
+        int nombreDeDescriptions = descriptions.size();
+        for (int i = 1; i < nombreDeDescriptions - 1; i++) {
+            phraseDeRetour += ", " + descriptions.get(i);
+        }
+        if (nombreDeDescriptions > 1) {
+            phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
+        }
+        return phraseDeRetour;
+    }
+
+    private void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
+        String messageSortie;
+        if (nombreDActivites > 1) {
+            messageSortie = "Les activités " + activitesErronees + " sont dans des catégories non reconnues. "
+                    + "Elles seront ignorées.";
+        } else {
+            messageSortie = "L'activité " + activitesErronees + " est dans une catégorie non reconnue. "
+                    + "Elle sera ignorée.";
+        }
+        messagesErreurs.add(messageSortie);
+    }
+
+    public void messageErreurPourDateInvalide() {
+        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
+        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste);
+        int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
+        String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
+        if (nombreDActivitesNonReconnues > 0) {
+            ecrireMessageDErreurPourDatesInvalides(nombreDActivitesNonReconnues, activitesErronees);
+        }
+    }
+
+    private ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste) {
+        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
+        for (int i = 0; i < liste.size(); ++i) {
+            JSONObject activite = liste.get(i);
+            if (!membre.dateValidePourMembre(activite.getString("date"))) {
+                descriptionsDesActivites.add(activite.getString("description"));
+            }
+        }
+        return descriptionsDesActivites;
+    }
+
+    private void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees) {
+        String messageSortie;
+        if (nombreDActivites > 1) {
+            messageSortie = "Les dates des activités " + activitesErronees + " sont invalides. "
+                    + "Ces activités seront ignorées.";
+        } else {
+            messageSortie = "La date de l'activité " + activitesErronees + " est invalide. L'activité sera ignorée.";
+        }
+        messagesErreurs.add(messageSortie);
+    }
+
+    public void messageErreurPourHeuresManquantes() {
+        String messageHeuresManquantes = "";
+        int heuresManquantesEnGeneral = nombreDHeuresRequisParCycle() - heuresTotalesFormation();
+        int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
+        if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
+            int heuresManquantesPourLeCycle = max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
+            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle
+                    + " heure(s) de formation pour compléter le cycle.";
+            messagesErreurs.add(messageHeuresManquantes);
+        }
+    }
+
+    public int nombreDHeuresRequisParCycle() {
+        String cycle = membre.getCycle();
+        int nombreDHeuresRequis;
+        if (cycle.equals("2012-2014")) {
+            nombreDHeuresRequis = 40;
+        } else {
+            nombreDHeuresRequis = 42;
+        }
+        return nombreDHeuresRequis;
     }
 
     public int heuresTotalesFormation() {
@@ -66,18 +184,37 @@ public class ValidateurArchitecte {
                 + heuresRecherche + heuresRedaction;
     }
 
+    private int heuresTotalesPourRegroupementDesSixCategories() {
+        return nombreDHeuresSelonRegroupement(1) + heuresTransfereesEffectives();
+    }
+
+    public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
+        ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
+        int somme = 0;
+        for (int i = 0; i < liste.size(); ++i) {
+            JSONObject activite = liste.get(i);
+            if (membre.regroupementDesCategories(activite.getString("categorie")) == codeDuRegroupement) {
+                somme += activite.getInt("heures");
+            }
+        }
+        return somme;
+    }
+
+    private int heuresTransfereesEffectives() {
+        int heuresTransferees = membre.getHeuresTransferees();
+        int heuresEffectives = heuresTransferees;
+        if (heuresTransferees < 0) {
+            heuresEffectives = 0;
+        } else if (heuresTransferees > 7) {
+            heuresEffectives = 7;
+        }
+        return heuresEffectives;
+    }
+
     public int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
         return min(heuresBrutes, maximumHeures);
-    }
-
-    private int max(int nombre1, int nombre2) {
-        return nombre1 > nombre2 ? nombre1 : nombre2;
-    }
-
-    private int min(int nombre1, int nombre2) {
-        return nombre1 < nombre2 ? nombre1 : nombre2;
     }
 
     private int heuresBrutesSelonCategorie(String categorie) {
@@ -102,125 +239,12 @@ public class ValidateurArchitecte {
         return nombreMaximumHeures;
     }
 
-    public void messageErreurSiLeCycleEstInvalide() {
-        if (!validerLeCycle()) {
-            messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
-                    + "Seul le cycle 2012-2014 est accepté.");
-        }
-
+    private int min(int nombre1, int nombre2) {
+        return nombre1 < nombre2 ? nombre1 : nombre2;
     }
 
-    public void messageErreurPourDateInvalide() {
-        String cycle = membre.getCycle();
-        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        int sommation = 0;
-        String retour, sortie;
-        sortie = "";
-        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
-        if (liste != null) {
-            for (int i = 0; i < liste.size(); ++i) {
-                JSONObject activite = liste.get(i);
-                if (!membre.dateValidePourCycle(activite.getString("date"))) {
-                    descriptionsDesActivites.add(activite.getString("description"));
-                    //retour += activite.getDescription() + " ";
-                    sommation += 1;
-                }
-            }
-
-            retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-
-            if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les dates des activités " + retour + " sont invalides. Ces activités seront ignorées.";
-                messagesErreurs.add(sortie);
-            } else if (!(retour.equals(""))) {
-                sortie += "La date de l'activité " + retour + " est invalide. L'activité sera ignorée.";
-                messagesErreurs.add(sortie);
-            }
-        }
-
-    }
-
-    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
-        int nombreDeDescriptions = descriptions.size();
-        String phraseDeRetour = "";
-        if (nombreDeDescriptions > 0) {
-            phraseDeRetour += descriptions.get(0);
-            for (int i = 1; i < nombreDeDescriptions - 1; i++) {
-                phraseDeRetour += ", " + descriptions.get(i);
-            }
-
-            if (nombreDeDescriptions > 1) {
-                phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
-            }
-        }
-        return phraseDeRetour;
-    }
-
-    /**
-     * Ajoute a l'arraylist messageErreurs un message personalise si la categorie n est pas reconnue
-     */
-    public void messageInvalidePourCategorieNonReconnue() {
-        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        int sommation = 0;
-        String retour, sortie;
-        sortie = "";
-        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
-        if (liste != null) {
-            for (int i = 0; i < liste.size(); ++i) {
-                JSONObject activite = liste.get(i);
-                if (membre.regroupementDesCategories(activite.getString("categorie")) == -1) {
-                    descriptionsDesActivites.add(activite.getString("description"));
-                    sommation += 1;
-                }
-            }
-
-            retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-
-            if (sommation > 1 && !(retour.equals(""))) {
-                sortie += "Les activités " + retour + " sont dans des catégories non reconnues. "
-                        + "Elles seront ignorées.";
-                messagesErreurs.add(sortie);
-            } else if (!(retour.equals(""))) {
-                sortie += "L'activité " + retour + " est dans une catégorie non reconnue. Elle sera ignorée.";
-                messagesErreurs.add(sortie);
-            }
-        }
-
-    }
-
-    public void messageErreurSiHeuresTransferesEstInvalide() {
-        if (membre.getHeuresTransferees() > 7) {
-            messagesErreurs.add("Le nombre d'heures transférées est supérieur à 7. "
-                    + "Seulement 7 heures seront comptabilisées.");
-        } else if (membre.getHeuresTransferees() < 0) {
-            messagesErreurs.add("Le nombre d'heures transférées est inférieur à 0. "
-                    + "Ce nombre sera comptabilisé comme 0.");
-        }
-
-    }
-
-    public void messageErreurPourHeuresManquantes() {
-        String messageHeuresManquantes = "";
-        int heuresManquantesEnGeneral = nombreDHeuresRequisParCycle() - heuresTotalesFormation();
-        int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
-        if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
-            int heuresManquantesPourLeCycle
-                    = max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
-            messageHeuresManquantes += "Il manque un total de " + heuresManquantesPourLeCycle + 
-                    " heure(s) de formation pour compléter le cycle.";
-            messagesErreurs.add(messageHeuresManquantes);
-        }
-    }
-
-    public int nombreDHeuresRequisParCycle() {
-        String cycle = membre.getCycle();
-        int nombreDHeuresRequis;
-        if (cycle.equals("2012-2014")) {
-            nombreDHeuresRequis = 40;
-        } else {
-            nombreDHeuresRequis = 42;
-        }
-        return nombreDHeuresRequis;
+    private int max(int nombre1, int nombre2) {
+        return nombre1 > nombre2 ? nombre1 : nombre2;
     }
 
     public void messageErreurPourHeuresInsuffisantesSixCategories() {
@@ -234,42 +258,8 @@ public class ValidateurArchitecte {
         }
     }
 
-    public void messageErreurPourHeuresActivitesNegatif() {
-        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        int sommation = 0;
-        String retour, sortie;
-        retour = sortie = "";
-        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
-        if (liste != null) {
-            for (int i = 0; i < liste.size(); ++i) {
-                JSONObject activite = liste.get(i);
-                if (activite.getInt("heures") < 1) {
-                    descriptionsDesActivites.add(activite.getString("description"));
-                    sommation += 1;
-                }
-            }
-            retour = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-        }
-        if (sommation > 1 && !(retour.equals(""))) {
-            sortie += "Les heures des activités " + retour + " sont invalides. Ces activités seront ignorées.";
-            messagesErreurs.add(sortie);
-        } else if (!(retour.equals(""))) {
-            sortie += "Les heures de l'activité " + retour + " sont invalides. Cette activité sera ignorée.";
-            messagesErreurs.add(sortie);
-        }
-    }
-
-    public JSONArray leMessageInvalide(ArrayList message) {
-        JSONArray tab = new JSONArray();
-        for (int i = 0; i < message.size(); ++i) {
-            tab.add(message.get(i));
-        }
-        return tab;
-    }
-
     public boolean formationComplete() {
         boolean critereSixCategories = nombreDHeuresSelonRegroupement(1) >= 17;
-        boolean critereCycle = validerLeCycle();
         boolean critereDHeuresTotales;
         String cycle = membre.getCycle();
         if (cycle.equals("2012-2014")) {
@@ -277,30 +267,7 @@ public class ValidateurArchitecte {
         } else {
             critereDHeuresTotales = heuresTotal >= 42;
         }
-        return critereSixCategories && critereCycle && critereDHeuresTotales;
-    }
-
-    public void appelsDesMethodesDesMessagesInvalides() {
-        messageErreurSiLeCycleEstInvalide();
-        if (validerLeCycle()) {
-            messageErreurSiHeuresTransferesEstInvalide();
-            messageInvalidePourCategorieNonReconnue();
-            messageErreurPourHeuresActivitesNegatif();
-            messageErreurPourDateInvalide();
-            messageErreurPourHeuresManquantes();
-            messageErreurPourHeuresInsuffisantesSixCategories();
-        }
-
-    }
-
-    public JSONObject produireRapport() {
-        JSONObject texteDeSortie = new JSONObject();
-        JSONObject messageErrones = new JSONObject();
-        appelsDesMethodesDesMessagesInvalides();
-        JSONArray tableauJson = leMessageInvalide(messagesErreurs);
-        texteDeSortie.accumulate("complet", formationComplete());
-        texteDeSortie.accumulate("erreurs", tableauJson);
-        return texteDeSortie;
+        return validerLeCycle() && critereSixCategories && critereDHeuresTotales;
     }
 
 }

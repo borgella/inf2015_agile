@@ -46,13 +46,9 @@ public class Geologue {
     public int premiereCategorie(String categorie) {
         int temporaire = 0;
         switch (categorie) {
-            case "atelier":
-            case "séminaire":
-            case "colloque":
-            case "conférence":
-            case "lecture dirigée":
-            case "présentation":
-            case "rédaction professionnelle":
+            case "atelier": case "séminaire": case "colloque": 
+            case "conférence": case "lecture dirigée":
+            case "présentation": case "rédaction professionnelle":
                 temporaire = 1;
                 break;
         }
