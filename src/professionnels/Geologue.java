@@ -7,7 +7,7 @@ import net.sf.json.JSONObject;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class Geologue {
+public class Geologue extends Membre {
 
     private final String numeroDePermis;
     private final String ordre;
@@ -16,6 +16,7 @@ public class Geologue {
     private ArrayList<JSONObject> activitesRefusees;
 
     public Geologue(JSONObject activiteJson) {
+        super(activiteJson);
         this.numeroDePermis = activiteJson.getString("numero_de_permis");
         this.cycle = activiteJson.getString("cycle");
         this.ordre = activiteJson.getString("ordre");

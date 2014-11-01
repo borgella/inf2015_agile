@@ -7,7 +7,7 @@ import net.sf.json.JSONObject;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class Psychologue extends Membre {
+public class Podiatre extends Membre {
 
     private final String numeroDePermis;
     private final String ordre;
@@ -15,18 +15,17 @@ public class Psychologue extends Membre {
     private ArrayList<JSONObject> activitesAcceptees;
     private ArrayList<JSONObject> activitesRefusees;
 
-    public Psychologue(JSONObject activiteJson) {
+    public Podiatre(JSONObject activiteJson) {
         super(activiteJson);
         this.numeroDePermis = activiteJson.getString("numero_de_permis");
         this.cycle = activiteJson.getString("cycle");
         this.ordre = activiteJson.getString("ordre");
-        activitesAcceptees = new ArrayList<JSONObject>(1);
-        activitesRefusees = new ArrayList<JSONObject>(1);
+        activitesAcceptees = new ArrayList<>(1);
+        activitesRefusees = new ArrayList<>(1);
     }
 
-    public void ajouterActivitePourPsychologue(JSONObject activite) {
-        String categorie = activite.getString("categorie");
-        int temporaire = regroupementDesCategories(categorie);
+    public void ajouterActivitePourMembre(JSONObject activite) {
+        int temporaire = regroupementDesCategories(activite.getString("categorie"));
         int heures = activite.getInt("heures");
         if (dateValidePourMembre(activite.getString("date")) && temporaire != -1 && heures > 0) {
             activitesAcceptees.add(activite);
@@ -41,36 +40,27 @@ public class Psychologue extends Membre {
             temporaire = 1;
         } else if (deuxiemeCategorie(categorie) == 2) {
             temporaire = 2;
-        } else if (troisiemeCategorie(categorie) == 3) {
-            temporaire = 3;
         }
         return temporaire;
     }
 
     private int premiereCategorie(String categorie) {
         int temporaire = 0;
-        if (categorie.equals("cours")) {
-            temporaire = 1;
+        switch (categorie) {
+            case "atelier": case "séminaire": case "colloque": 
+            case "conférence": case "lecture dirigée":
+            case "présentation": case "rédaction professionnelle":
+                temporaire = 1;
+                break;
         }
         return temporaire;
     }
 
     private int deuxiemeCategorie(String categorie) {
         int temporaire = 0;
-        if (categorie.equals("atelier") || categorie.equals("séminaire")
-                || categorie.equals("colloque") || categorie.equals("lecture dirigée")
-                || categorie.equals("présentation") || categorie.equals("groupe de discussion")
-                || categorie.equals("projet de recherche")
-                || categorie.equals("rédaction professionnelle")) {
+        if (categorie.equals("cours") || categorie.equals("projet de recherche")
+                || categorie.equals("groupe de discussion")) {
             temporaire = 2;
-        }
-        return temporaire;
-    }
-
-    public int troisiemeCategorie(String categorie) {
-        int temporaire = 0;
-        if (categorie.equals("conférence")) {
-            temporaire = 3;
         }
         return temporaire;
     }
@@ -84,7 +74,7 @@ public class Psychologue extends Membre {
             return false;
         }
         temporaire = toInt(date);
-        return temporaire >= 20100101 && temporaire <= 20150101;
+        return temporaire >= 20130601 && temporaire <= 20160601;
     }
 
     private int toInt(String number) {

@@ -7,7 +7,7 @@ import net.sf.json.JSONObject;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class Architecte {
+public class Architecte extends Membre {
 
     private String numeroDePermis;
     private String cycle;
@@ -16,6 +16,7 @@ public class Architecte {
     private ArrayList<JSONObject> activitesRefusees;
 
     public Architecte(JSONObject activiteJson) {
+        super(activiteJson);
         this.numeroDePermis = activiteJson.getString("numero_de_permis");
         this.cycle = activiteJson.getString("cycle");
         this.heuresTransferees = activiteJson.getInt("heures_transferees_du_cycle_precedent");
