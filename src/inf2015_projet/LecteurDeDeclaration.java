@@ -44,7 +44,7 @@ public class LecteurDeDeclaration {
         }
     }
 
-    private static boolean numeroDePermisReconnu(String numeroDePermis) {
+    private boolean numeroDePermisReconnu(String numeroDePermis) {
         return numeroDePermisALongueurValide(numeroDePermis)
                 && numeroDePermisAContenuValide(numeroDePermis);
     }
@@ -53,15 +53,41 @@ public class LecteurDeDeclaration {
         return numeroDePermis.length() == 5;
     }
 
-    private static boolean numeroDePermisAContenuValide(String numeroDePermis) {
+    private boolean numeroDePermisAContenuValide(String numeroDePermis) {
         return numeroDePermisAPremierCaractereValide(numeroDePermis)
                 && numeroDePermisTermineParQuatreChiffres(numeroDePermis);
     }
 
-    private static boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
-        char premierCaractere = numeroDePermis.charAt(0);
+    private boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
+        boolean validiteNumeroDePermis = false;
+        String numeroPermisArchitectes = "/([A|T]{1}[0-9]{4})/";
+        String numeroPermisPsychologues = "/([0-9]{5}[-][0-9]{2})/";
+        String numeroPermisGeologues = "/([A-Z]{2}[0-9]{4})/";
+        String numeroPermisPodiatres = "/([0-9]{5})/";
+        
+        if(declaration.getString("ordre").equals("architectes")) {
+            if(numeroDePermis.matches(numeroPermisArchitectes)) {
+                validiteNumeroDePermis = true;
+            }
+        } else if (declaration.getString("ordre").equals("psychologues")) {
+            if(numeroDePermis.matches(numeroPermisPsychologues)) {
+                validiteNumeroDePermis = true;
+            }
+        } else if (declaration.getString("ordre").equals("geologues")) {
+            if(numeroDePermis.matches(numeroPermisGeologues)) {
+                validiteNumeroDePermis = true;
+            }
+        } else {
+            if(numeroDePermis.matches(numeroPermisPodiatres)) {
+                validiteNumeroDePermis = true;
+            }
+        }
+        
+        return validiteNumeroDePermis;
+        
+        /*char premierCaractere = numeroDePermis.charAt(0);
         return premierCaractere == 'A' || premierCaractere == 'R'
-                || premierCaractere == 'S' || premierCaractere == 'Z';
+                || premierCaractere == 'S' || premierCaractere == 'Z';*/
     }
 
     private static boolean numeroDePermisTermineParQuatreChiffres(String numeroDePermis) {
