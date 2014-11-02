@@ -15,15 +15,12 @@ import java.util.TreeMap;
 public class Statistiques {
     boolean declarationTraitee;
     boolean declarationInvalideOuIncomplete;
-    String sexeDeclaree;
-    int activitesValides;
+    int sexeDeclaree;
     TreeMap<String, Integer> activitesValidesParCategorie;
     
     public Statistiques() {
         declarationTraitee = false;
         declarationInvalideOuIncomplete = false;
-        String sexeDeclaree = "Aucun";
-        int activitesValides = 0;
         activitesValidesParCategorie = new TreeMap<>();
         etablirCategoriesReconnues(activitesValidesParCategorie);
     }
@@ -46,5 +43,23 @@ public class Statistiques {
         }
        return categories;
     }
+    
+    private void enregistrerDeclarationTraitee() {
+        declarationTraitee = true;
+    }
+    
+    private void enregistrerDeclarationInvalideOuIncomplete() {
+        declarationInvalideOuIncomplete = true;
+    }
+    
+    private void enregistrerSexeDeclaree(int codeSexe) {
+        sexeDeclaree = codeSexe;  
+    }
+    
+    private void enregistrerActiviteValideParCategorie(String categorie) {
+        Integer activitesValideSelonCategorie = activitesValidesParCategorie.get(categorie);
+        activitesValideSelonCategorie++;
+    }
+    
   
 }
