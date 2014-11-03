@@ -14,63 +14,88 @@ import java.io.IOException;
  */
 public class StatistiquesCD {
     
-    private static int compteurNombreTotalDeclarationsTraitees = 0;
-    private static int compteurNombreTotalDeclarationsCompletes = 0;
-    private static int compteurNombreTotalDeclarationsIncompletes = 0;
-    private static int compteurNombreTotalDeclarationsHommes = 0;
-    private static int compteurNombreTotalDeclarationsFemmes = 0;
-    private static int compteurNombreTotalDeclarationsSexeInconnu = 0;
-    private static int compteurNombreTotalActivitesValidesDeclarations = 0;
-    private static int compteurNombreActivitesValidesCategories = 0;
+    private int compteurNombreTotalDeclarationsTraitees = 0;
+    private int compteurNombreTotalDeclarationsCompletes = 0;
+    private int compteurNombreTotalDeclarationsIncompletes = 0;
+    private int compteurNombreTotalDeclarationsHommes = 0;
+    private int compteurNombreTotalDeclarationsFemmes = 0;
+    private int compteurNombreTotalDeclarationsSexeInconnu = 0;
+    private int compteurNombreTotalActivitesValidesDeclarations = 0;
+    private int compteurNombreActivitesValidesCategories = 0;
+    
+    /* Declarations Traitees */
+    public void incrementeTotalDeclarationsTraitees() {
+        compteurNombreTotalDeclarationsTraitees++;
+    }
     
     public int nombreTotalDeclarationsTraitees() {
-        compteurNombreTotalDeclarationsTraitees++;
-        
         return compteurNombreTotalDeclarationsTraitees;
     }
     
-    public int nombreTotalDeclarationsCompletes() {
+    /* Declarations Completes */
+    public void incrementeTotalDeclarationsCompletes() {
         compteurNombreTotalDeclarationsCompletes++;
-        
+    }
+    
+    public int nombreTotalDeclarationsCompletes() {
         return compteurNombreTotalDeclarationsCompletes;
     }
     
-    public int nombreTotalDeclarationsIncompletes() {
+    /* Declarations Incompletes */
+    public void incrementeTotalDeclarationsIncompletes() {
         compteurNombreTotalDeclarationsIncompletes++;
-        
+    }
+    
+    public int nombreTotalDeclarationsIncompletes() {
         return compteurNombreTotalDeclarationsIncompletes;
     }
     
-    public int nombreTotalDeclarationsHommes() {
+    /* Declarations Hommes */
+    public void incrementeTotalDeclarationsHommes() {
         compteurNombreTotalDeclarationsHommes++;
-        
+    }
+    
+    public int nombreTotalDeclarationsHommes() {
         return compteurNombreTotalDeclarationsHommes;
     }
     
-    public int nombreTotalDeclarationsFemmes() {
+    /* Declarations Femmes */
+    public void incrementeTotalDeclarationsFemmes() {
         compteurNombreTotalDeclarationsFemmes++;
-        
+    }
+    
+    public int nombreTotalDeclarationsFemmes() {
         return compteurNombreTotalDeclarationsFemmes;
     }
     
-    public int nombreTotalDeclarationsSexeInconnu() {
+    /* Declarations Sexe Inconnu */
+    public void incrementeTotalDeclarationsSexeInconnu() {
         compteurNombreTotalDeclarationsSexeInconnu++;
-        
+    }
+    
+    public int nombreTotalDeclarationsSexeInconnu() {
         return compteurNombreTotalDeclarationsSexeInconnu;
     }
     
-    public int nombreTotalActivitesValidesDeclarations() {
+    /* Activites Valides dans les declarations */
+    public void incrementeTotalActivitesValidesDeclarations() {
         compteurNombreTotalActivitesValidesDeclarations++;
-        
+    }
+    
+    public int nombreTotalActivitesValidesDeclarations() {
         return compteurNombreTotalActivitesValidesDeclarations;
     }
     
-    public int nombreActivitesValidesCategories() {
+    /* Activites Valides dans les categories */
+    public void incrementeActivitesValidesCategories() {
         compteurNombreActivitesValidesCategories++;
-        
+    }
+    
+    public int nombreActivitesValidesCategories() {
         return compteurNombreActivitesValidesCategories;
     }
     
+    /* Fichier de sortie */
     @Override
     public String toString() {
         return  "Nombre total de déclarations traitées: " + nombreTotalDeclarationsTraitees() + "\n" +
@@ -89,6 +114,7 @@ public class StatistiquesCD {
         ecriture.close();
     }
     
+    /* Reinitialisation des valeurs */
     public void reinitialiserValeursStatistiques() {
         compteurNombreTotalDeclarationsTraitees = 0;
         compteurNombreTotalDeclarationsCompletes = 0;
