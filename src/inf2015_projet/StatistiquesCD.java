@@ -13,116 +13,120 @@ import java.io.IOException;
  * @author Chelny
  */
 public class StatistiquesCD {
-    
-    private int compteurNombreTotalDeclarationsTraitees = 0;
-    private int compteurNombreTotalDeclarationsCompletes = 0;
-    private int compteurNombreTotalDeclarationsIncompletes = 0;
-    private int compteurNombreTotalDeclarationsHommes = 0;
-    private int compteurNombreTotalDeclarationsFemmes = 0;
-    private int compteurNombreTotalDeclarationsSexeInconnu = 0;
-    private int compteurNombreTotalActivitesValidesDeclarations = 0;
-    private int compteurNombreActivitesValidesCategories = 0;
-    
-    /* Declarations Traitees */
+
+    private int compteurNombreTotalDeclarationsTraitees;
+    private int compteurNombreTotalDeclarationsCompletes;
+    private int compteurNombreTotalDeclarationsIncompletes;
+    private int compteurNombreTotalDeclarationsHommes;
+    private int compteurNombreTotalDeclarationsFemmes;
+    private int compteurNombreTotalDeclarationsSexeInconnu;
+    private int compteurNombreTotalActivitesValidesDeclarations;
+    private int compteurNombreActivitesValidesCategories;
+
+    public StatistiquesCD() {
+        this.compteurNombreTotalDeclarationsTraitees = 0;
+        this.compteurNombreTotalDeclarationsCompletes = 0;
+        this.compteurNombreTotalDeclarationsIncompletes = 0;
+        this.compteurNombreTotalDeclarationsHommes = 0;
+        this.compteurNombreTotalDeclarationsFemmes = 0;
+        this.compteurNombreTotalDeclarationsSexeInconnu = 0;
+        this.compteurNombreTotalActivitesValidesDeclarations = 0;
+        this.compteurNombreActivitesValidesCategories = 0;
+    }
+
     public void incrementeTotalDeclarationsTraitees() {
-        compteurNombreTotalDeclarationsTraitees++;
+        this.compteurNombreTotalDeclarationsTraitees++;
     }
     
-    public int nombreTotalDeclarationsTraitees() {
-        return compteurNombreTotalDeclarationsTraitees;
-    }
-    
-    /* Declarations Completes */
     public void incrementeTotalDeclarationsCompletes() {
-        compteurNombreTotalDeclarationsCompletes++;
+        this.compteurNombreTotalDeclarationsCompletes++;
     }
-    
-    public int nombreTotalDeclarationsCompletes() {
-        return compteurNombreTotalDeclarationsCompletes;
-    }
-    
-    /* Declarations Incompletes */
+
     public void incrementeTotalDeclarationsIncompletes() {
-        compteurNombreTotalDeclarationsIncompletes++;
+        this.compteurNombreTotalDeclarationsIncompletes++;
     }
     
-    public int nombreTotalDeclarationsIncompletes() {
-        return compteurNombreTotalDeclarationsIncompletes;
-    }
-    
-    /* Declarations Hommes */
     public void incrementeTotalDeclarationsHommes() {
-        compteurNombreTotalDeclarationsHommes++;
+        this.compteurNombreTotalDeclarationsHommes++;
     }
     
-    public int nombreTotalDeclarationsHommes() {
-        return compteurNombreTotalDeclarationsHommes;
-    }
-    
-    /* Declarations Femmes */
     public void incrementeTotalDeclarationsFemmes() {
-        compteurNombreTotalDeclarationsFemmes++;
+        this.compteurNombreTotalDeclarationsFemmes++;
     }
     
-    public int nombreTotalDeclarationsFemmes() {
-        return compteurNombreTotalDeclarationsFemmes;
-    }
-    
-    /* Declarations Sexe Inconnu */
     public void incrementeTotalDeclarationsSexeInconnu() {
-        compteurNombreTotalDeclarationsSexeInconnu++;
+        this.compteurNombreTotalDeclarationsSexeInconnu++;
     }
     
-    public int nombreTotalDeclarationsSexeInconnu() {
-        return compteurNombreTotalDeclarationsSexeInconnu;
-    }
-    
-    /* Activites Valides dans les declarations */
     public void incrementeTotalActivitesValidesDeclarations() {
-        compteurNombreTotalActivitesValidesDeclarations++;
+        this.compteurNombreTotalActivitesValidesDeclarations++;
     }
     
-    public int nombreTotalActivitesValidesDeclarations() {
-        return compteurNombreTotalActivitesValidesDeclarations;
-    }
-    
-    /* Activites Valides dans les categories */
     public void incrementeActivitesValidesCategories() {
-        compteurNombreActivitesValidesCategories++;
+        this.compteurNombreActivitesValidesCategories++;
     }
     
-    public int nombreActivitesValidesCategories() {
-        return compteurNombreActivitesValidesCategories;
+    /* Getters */
+    public int getNombreTotalDeclarationsTraitees() {
+        return this.compteurNombreTotalDeclarationsTraitees;
+    }
+
+    public int getNombreTotalDeclarationsCompletes() {
+        return this.compteurNombreTotalDeclarationsCompletes;
+    }
+
+    public int getNombreTotalDeclarationsIncompletes() {
+        return this.compteurNombreTotalDeclarationsIncompletes;
+    }
+
+    public int getNombreTotalDeclarationsHommes() {
+        return this.compteurNombreTotalDeclarationsHommes;
     }
     
+    public int getNombreTotalDeclarationsFemmes() {
+        return this.compteurNombreTotalDeclarationsFemmes;
+    }
+
+    public int getNombreTotalDeclarationsSexeInconnu() {
+        return this.compteurNombreTotalDeclarationsSexeInconnu;
+    }
+    
+    public int getNombreTotalActivitesValidesDeclarations() {
+        return this.compteurNombreTotalActivitesValidesDeclarations;
+    }
+    
+    public int getNombreActivitesValidesCategories() {
+        return this.compteurNombreActivitesValidesCategories;
+    }
+
     /* Fichier de sortie */
     @Override
     public String toString() {
-        return  "Nombre total de déclarations traitées: " + nombreTotalDeclarationsTraitees() + "\n" +
-                "Nombre total de déclarations complètes: " + nombreTotalDeclarationsCompletes() + "\n" +
-                "Nombre total de déclarations incomplètes: " + nombreTotalDeclarationsIncompletes() + "\n" +
-                "Nombre total de déclarations faites par des hommes: " + nombreTotalDeclarationsHommes() + "\n" +
-                "Nombre total de déclarations faites par des femmes: " + nombreTotalDeclarationsFemmes() + "\n" +
-                "Nombre total de déclarations faites par des gens de sexe inconnu: " + nombreTotalDeclarationsSexeInconnu() + "\n" +
-                "Nombre total d'activités valides dans les déclarations: " + nombreTotalActivitesValidesDeclarations() + "\n" +
-                "Nombre d'activités valides par catégorie: " + nombreActivitesValidesCategories();
+        return "Nombre total de déclarations traitées: " + getNombreTotalDeclarationsTraitees() + "\n"
+                + "Nombre total de déclarations complètes: " + getNombreTotalDeclarationsCompletes() + "\n"
+                + "Nombre total de déclarations incomplètes: " + getNombreTotalDeclarationsIncompletes() + "\n"
+                + "Nombre total de déclarations faites par des hommes: " + getNombreTotalDeclarationsHommes() + "\n"
+                + "Nombre total de déclarations faites par des femmes: " + getNombreTotalDeclarationsFemmes() + "\n"
+                + "Nombre total de déclarations faites par des gens de sexe inconnu: " + getNombreTotalDeclarationsSexeInconnu() + "\n"
+                + "Nombre total d'activités valides dans les déclarations: " + getNombreTotalActivitesValidesDeclarations() + "\n"
+                + "Nombre d'activités valides par catégorie: " + getNombreActivitesValidesCategories();
     }
-    
+
     public void ecritureFichierStatistiques() throws IOException {
         FileWriter ecriture = new FileWriter("INF2015_Statistiques.txt");
         ecriture.write(toString());
         ecriture.close();
     }
-    
+
     /* Reinitialisation des valeurs */
     public void reinitialiserValeursStatistiques() {
-        compteurNombreTotalDeclarationsTraitees = 0;
-        compteurNombreTotalDeclarationsCompletes = 0;
-        compteurNombreTotalDeclarationsIncompletes = 0;
-        compteurNombreTotalDeclarationsHommes = 0;
-        compteurNombreTotalDeclarationsFemmes = 0;
-        compteurNombreTotalDeclarationsSexeInconnu = 0;
-        compteurNombreTotalActivitesValidesDeclarations = 0;
-        compteurNombreActivitesValidesCategories = 0;
+        this.compteurNombreTotalDeclarationsTraitees = 0;
+        this.compteurNombreTotalDeclarationsCompletes = 0;
+        this.compteurNombreTotalDeclarationsIncompletes = 0;
+        this.compteurNombreTotalDeclarationsHommes = 0;
+        this.compteurNombreTotalDeclarationsFemmes = 0;
+        this.compteurNombreTotalDeclarationsSexeInconnu = 0;
+        this.compteurNombreTotalActivitesValidesDeclarations = 0;
+        this.compteurNombreActivitesValidesCategories = 0;
     }
 }
