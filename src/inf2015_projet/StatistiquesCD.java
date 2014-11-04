@@ -8,6 +8,7 @@ package inf2015_projet;
 import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONObject;
+import professionnels.Membre;
 import validation.ValidateurArchitecte;
 import validation.ValidateurGeologue;
 import validation.ValidateurPodiatre;
@@ -19,7 +20,6 @@ import validation.ValidateurPsychologue;
  */
 public class StatistiquesCD {
 
-    LecteurDeDeclaration lecteur;
     ValidateurArchitecte architecte;
     ValidateurGeologue geologue;
     ValidateurPodiatre podiatre;
@@ -68,8 +68,8 @@ public class StatistiquesCD {
         }
     }
     
-    public void nombreTotalDeclarationsCompletes() {
-        if(architecte.produireRapport().containsKey("complet") 
+    public void nombreTotalDeclarationsCompletes(/*Membre membre*/) {
+        if(architecte.produireRapport().containsKey("complet") // membre.produireRapport().containsKey("complet")
                 || geologue.produireRapport().containsKey("complet")
                 || podiatre.produireRapport().containsKey("complet")
                 || psychologue.produireRapport().containsKey("complet")) {
@@ -77,9 +77,9 @@ public class StatistiquesCD {
         }
     }
     
-    public void nombreTotalDeclarationsIncompletes() {
+    public void nombreTotalDeclarationsIncompletes(LecteurDeDeclaration lecteur/*, Membre membre*/) {
         if(lecteur.erreurDeFormatDetectee()
-                || architecte.produireRapport().containsKey("erreurs") 
+                || architecte.produireRapport().containsKey("erreurs")  // membre.produireRapport().containsKey("complet")
                 || geologue.produireRapport().containsKey("erreurs")
                 || podiatre.produireRapport().containsKey("erreurs")
                 || psychologue.produireRapport().containsKey("erreurs")) {
@@ -87,23 +87,23 @@ public class StatistiquesCD {
         }
     }
     
-    public void nombreDeclarationsFaitsSelonSexePersonne(JSONObject declaration) {
-        if(declaration.getString("sexe").equals("homme")) {
+    public void nombreDeclarationsFaitsSelonSexePersonne(JSONObject declaration/*, Membre membre*/) {
+        if(declaration.getString("sexe").equals("homme")) { //membre.getSexe().equals("homme")
             compteurDeclarationsHommes++;
-        } else if(declaration.getString("sexe").equals("femme")) {
+        } else if(declaration.getString("sexe").equals("femme")) {  //membre.getSexe().equals("femme")
             compteurDeclarationsFemmes++;
         } else {
             compteurDeclarationsSexeInconnu++;
         }
     }
     
-    public void nombreActivitesValidesDeclarations() {
+    public void nombreActivitesValidesDeclarations(LecteurDeDeclaration lecteur) {
         if(lecteur.produireRapportPourErreurDeFormat().containsKey("complet")) {
             compteurActivitesValidesDeclarations++;
         }
     }
     
-    public void nombreActivitesValidesCategories(String categorie) {
+    public void nombreActivitesValidesCategories(LecteurDeDeclaration lecteur, String categorie) {
         if(lecteur.produireRapportPourErreurDeFormat().containsKey("complet")) {
             switch(categorie) {
                 case "cours":   
@@ -194,5 +194,7 @@ public class StatistiquesCD {
         compteurCategorieGroupeDiscussion = 0;
         compteurCategorieProjetRecherche = 0;
         compteurCategorieRedactionProfessionnelle = 0;
+        
+        System.out.println("Statistiques: valeurs réinitialisées!");
     }
 }
