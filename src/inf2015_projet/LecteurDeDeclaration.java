@@ -119,7 +119,8 @@ public class LecteurDeDeclaration {
     private static boolean ordreReconnu(String ordre) {
         return ordre.equals("architectes")
                 || ordre.equals("géologues")
-                || ordre.equals("psychologues");
+                || ordre.equals("psychologues")
+                || ordre.equals("podiatres");
     }
 
     private boolean formatAcceptePourCycle() {

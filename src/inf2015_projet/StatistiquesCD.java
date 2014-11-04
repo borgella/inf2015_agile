@@ -7,6 +7,11 @@ package inf2015_projet;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import net.sf.json.JSONObject;
+import validation.ValidateurArchitecte;
+import validation.ValidateurGeologue;
+import validation.ValidateurPodiatre;
+import validation.ValidateurPsychologue;
 
 /**
  *
@@ -14,119 +19,180 @@ import java.io.IOException;
  */
 public class StatistiquesCD {
 
-    private int compteurNombreTotalDeclarationsTraitees;
-    private int compteurNombreTotalDeclarationsCompletes;
-    private int compteurNombreTotalDeclarationsIncompletes;
-    private int compteurNombreTotalDeclarationsHommes;
-    private int compteurNombreTotalDeclarationsFemmes;
-    private int compteurNombreTotalDeclarationsSexeInconnu;
-    private int compteurNombreTotalActivitesValidesDeclarations;
-    private int compteurNombreActivitesValidesCategories;
+    LecteurDeDeclaration lecteur;
+    ValidateurArchitecte architecte;
+    ValidateurGeologue geologue;
+    ValidateurPodiatre podiatre;
+    ValidateurPsychologue psychologue;
+    private int compteurDeclarationsTraitees;
+    private int compteurDeclarationsCompletes;
+    private int compteurDeclarationsIncompletes;
+    private int compteurDeclarationsHommes;
+    private int compteurDeclarationsFemmes;
+    private int compteurDeclarationsSexeInconnu;
+    private int compteurActivitesValidesDeclarations;
+    private int compteurCategorieCours;
+    private int compteurCategorieAtelier;
+    private int compteurCategorieSeminaire;
+    private int compteurCategorieColloque;
+    private int compteurCategorieConference;
+    private int compteurCategorieLectureDirigee;
+    private int compteurCategoriePresentation;
+    private int compteurCategorieGroupeDiscussion;
+    private int compteurCategorieProjetRecherche;
+    private int compteurCategorieRedactionProfessionnelle;
 
     public StatistiquesCD() {
-        this.compteurNombreTotalDeclarationsTraitees = 0;
-        this.compteurNombreTotalDeclarationsCompletes = 0;
-        this.compteurNombreTotalDeclarationsIncompletes = 0;
-        this.compteurNombreTotalDeclarationsHommes = 0;
-        this.compteurNombreTotalDeclarationsFemmes = 0;
-        this.compteurNombreTotalDeclarationsSexeInconnu = 0;
-        this.compteurNombreTotalActivitesValidesDeclarations = 0;
-        this.compteurNombreActivitesValidesCategories = 0;
-    }
-
-    public void incrementeTotalDeclarationsTraitees() {
-        this.compteurNombreTotalDeclarationsTraitees++;
-    }
-    
-    public void incrementeTotalDeclarationsCompletes() {
-        this.compteurNombreTotalDeclarationsCompletes++;
-    }
-
-    public void incrementeTotalDeclarationsIncompletes() {
-        this.compteurNombreTotalDeclarationsIncompletes++;
+        compteurDeclarationsTraitees = 0;
+        compteurDeclarationsCompletes = 0;
+        compteurDeclarationsIncompletes = 0;
+        compteurDeclarationsHommes = 0;
+        compteurDeclarationsFemmes = 0;
+        compteurDeclarationsSexeInconnu = 0;
+        compteurActivitesValidesDeclarations = 0;
+        compteurCategorieCours = 0;
+        compteurCategorieAtelier = 0;
+        compteurCategorieSeminaire = 0;
+        compteurCategorieColloque = 0;
+        compteurCategorieConference = 0;
+        compteurCategorieLectureDirigee = 0;
+        compteurCategoriePresentation = 0;
+        compteurCategorieGroupeDiscussion = 0;
+        compteurCategorieProjetRecherche = 0;
+        compteurCategorieRedactionProfessionnelle = 0;
     }
     
-    public void incrementeTotalDeclarationsHommes() {
-        this.compteurNombreTotalDeclarationsHommes++;
+    public void nombreTotalDeclarationsTraitees(JSONObject declaration) {
+        if(declaration != null) {
+            compteurDeclarationsTraitees++;
+        }
     }
     
-    public void incrementeTotalDeclarationsFemmes() {
-        this.compteurNombreTotalDeclarationsFemmes++;
+    public void nombreTotalDeclarationsCompletes() {
+        if(architecte.produireRapport().containsKey("complet") 
+                || geologue.produireRapport().containsKey("complet")
+                || podiatre.produireRapport().containsKey("complet")
+                || psychologue.produireRapport().containsKey("complet")) {
+            compteurDeclarationsCompletes++;
+        }
     }
     
-    public void incrementeTotalDeclarationsSexeInconnu() {
-        this.compteurNombreTotalDeclarationsSexeInconnu++;
+    public void nombreTotalDeclarationsIncompletes() {
+        if(lecteur.erreurDeFormatDetectee()
+                || architecte.produireRapport().containsKey("erreurs") 
+                || geologue.produireRapport().containsKey("erreurs")
+                || podiatre.produireRapport().containsKey("erreurs")
+                || psychologue.produireRapport().containsKey("erreurs")) {
+            compteurDeclarationsIncompletes++;
+        }
     }
     
-    public void incrementeTotalActivitesValidesDeclarations() {
-        this.compteurNombreTotalActivitesValidesDeclarations++;
+    public void nombreDeclarationsFaitsSelonSexePersonne(JSONObject declaration) {
+        if(declaration.getString("sexe").equals("homme")) {
+            compteurDeclarationsHommes++;
+        } else if(declaration.getString("sexe").equals("femme")) {
+            compteurDeclarationsFemmes++;
+        } else {
+            compteurDeclarationsSexeInconnu++;
+        }
     }
     
-    public void incrementeActivitesValidesCategories() {
-        this.compteurNombreActivitesValidesCategories++;
+    public void nombreActivitesValidesDeclarations() {
+        if(lecteur.produireRapportPourErreurDeFormat().containsKey("complet")) {
+            compteurActivitesValidesDeclarations++;
+        }
     }
     
-    /* Getters */
-    public int getNombreTotalDeclarationsTraitees() {
-        return this.compteurNombreTotalDeclarationsTraitees;
-    }
-
-    public int getNombreTotalDeclarationsCompletes() {
-        return this.compteurNombreTotalDeclarationsCompletes;
-    }
-
-    public int getNombreTotalDeclarationsIncompletes() {
-        return this.compteurNombreTotalDeclarationsIncompletes;
-    }
-
-    public int getNombreTotalDeclarationsHommes() {
-        return this.compteurNombreTotalDeclarationsHommes;
-    }
-    
-    public int getNombreTotalDeclarationsFemmes() {
-        return this.compteurNombreTotalDeclarationsFemmes;
-    }
-
-    public int getNombreTotalDeclarationsSexeInconnu() {
-        return this.compteurNombreTotalDeclarationsSexeInconnu;
-    }
-    
-    public int getNombreTotalActivitesValidesDeclarations() {
-        return this.compteurNombreTotalActivitesValidesDeclarations;
-    }
-    
-    public int getNombreActivitesValidesCategories() {
-        return this.compteurNombreActivitesValidesCategories;
+    public void nombreActivitesValidesCategories(String categorie) {
+        if(lecteur.produireRapportPourErreurDeFormat().containsKey("complet")) {
+            switch(categorie) {
+                case "cours":   
+                    compteurCategorieCours++;
+                    break;
+                case "atelier": 
+                    compteurCategorieAtelier++;
+                    break;
+                case "séminaire":   
+                    compteurCategorieSeminaire++;
+                    break;
+                case "colloque": 
+                    compteurCategorieColloque++;
+                    break;
+                case "conférence":   
+                    compteurCategorieConference++;
+                    break;
+                case "lecture dirigée": 
+                    compteurCategorieLectureDirigee++;
+                    break;
+                case "présentation":   
+                    compteurCategoriePresentation++;
+                    break;
+                case "groupe de discussion": 
+                    compteurCategorieGroupeDiscussion++;
+                    break;
+                case "projet de recherche": 
+                    compteurCategorieProjetRecherche++;
+                    break;
+                case "rédaction professionnelle": 
+                    compteurCategorieRedactionProfessionnelle++;
+                    break;
+                default:        
+                    break;
+            }
+        }
     }
 
     /* Fichier de sortie */
     @Override
     public String toString() {
-        return "Nombre total de déclarations traitées: " + getNombreTotalDeclarationsTraitees() + "\n"
-                + "Nombre total de déclarations complètes: " + getNombreTotalDeclarationsCompletes() + "\n"
-                + "Nombre total de déclarations incomplètes: " + getNombreTotalDeclarationsIncompletes() + "\n"
-                + "Nombre total de déclarations faites par des hommes: " + getNombreTotalDeclarationsHommes() + "\n"
-                + "Nombre total de déclarations faites par des femmes: " + getNombreTotalDeclarationsFemmes() + "\n"
-                + "Nombre total de déclarations faites par des gens de sexe inconnu: " + getNombreTotalDeclarationsSexeInconnu() + "\n"
-                + "Nombre total d'activités valides dans les déclarations: " + getNombreTotalActivitesValidesDeclarations() + "\n"
-                + "Nombre d'activités valides par catégorie: " + getNombreActivitesValidesCategories();
+        return "Nombre total de déclarations traitées: " + compteurDeclarationsTraitees + "\n"
+                + "Nombre total de déclarations complètes: " + compteurDeclarationsCompletes + "\n"
+                + "Nombre total de déclarations incomplètes: " + compteurDeclarationsIncompletes + "\n"
+                + "Nombre total de déclarations faites par des hommes: " + compteurDeclarationsHommes + "\n"
+                + "Nombre total de déclarations faites par des femmes: " + compteurDeclarationsFemmes + "\n"
+                + "Nombre total de déclarations faites par des gens de sexe inconnu: " + compteurDeclarationsSexeInconnu + "\n"
+                + "Nombre total d'activités valides dans les déclarations: " + compteurActivitesValidesDeclarations + "\n"
+                + "Nombre d'activités valides par catégorie:\n"
+                + "\tCours: " + compteurCategorieCours + "\n"
+                + "\tAtelier: " + compteurCategorieAtelier + "\n"
+                + "\tSéminaire: " + compteurCategorieSeminaire + "\n"
+                + "\tColloque: " + compteurCategorieColloque + "\n"
+                + "\tConference: " + compteurCategorieConference + "\n"
+                + "\tLecture Dirigée: " + compteurCategorieLectureDirigee + "\n"
+                + "\tPrésentation: " + compteurCategoriePresentation + "\n"
+                + "\tGroupe de discussion: " + compteurCategorieGroupeDiscussion + "\n"
+                + "\tProjet de recherche: " + compteurCategorieProjetRecherche + "\n"
+                + "\tRédaction professionnelle: " + compteurCategorieRedactionProfessionnelle + "\n";
     }
 
-    public void ecritureFichierStatistiques() throws IOException {
-        FileWriter ecriture = new FileWriter("INF2015_Statistiques.txt");
-        ecriture.write(toString());
-        ecriture.close();
+    public void ecritureFichierStatistiques() {
+        try {
+            FileWriter fichierStatistiques = new FileWriter("INF2015_Statistiques.txt");
+            fichierStatistiques.write(toString());
+            fichierStatistiques.close();
+        } catch(IOException e) {
+            e.getMessage();
+        }
     }
 
     /* Reinitialisation des valeurs */
     public void reinitialiserValeursStatistiques() {
-        this.compteurNombreTotalDeclarationsTraitees = 0;
-        this.compteurNombreTotalDeclarationsCompletes = 0;
-        this.compteurNombreTotalDeclarationsIncompletes = 0;
-        this.compteurNombreTotalDeclarationsHommes = 0;
-        this.compteurNombreTotalDeclarationsFemmes = 0;
-        this.compteurNombreTotalDeclarationsSexeInconnu = 0;
-        this.compteurNombreTotalActivitesValidesDeclarations = 0;
-        this.compteurNombreActivitesValidesCategories = 0;
+        compteurDeclarationsTraitees = 0;
+        compteurDeclarationsCompletes = 0;
+        compteurDeclarationsIncompletes = 0;
+        compteurDeclarationsHommes = 0;
+        compteurDeclarationsFemmes = 0;
+        compteurDeclarationsSexeInconnu = 0;
+        compteurActivitesValidesDeclarations = 0;
+        compteurCategorieCours = 0;
+        compteurCategorieAtelier = 0;
+        compteurCategorieSeminaire = 0;
+        compteurCategorieColloque = 0;
+        compteurCategorieConference = 0;
+        compteurCategorieLectureDirigee = 0;
+        compteurCategoriePresentation = 0;
+        compteurCategorieGroupeDiscussion = 0;
+        compteurCategorieProjetRecherche = 0;
+        compteurCategorieRedactionProfessionnelle = 0;
     }
 }
