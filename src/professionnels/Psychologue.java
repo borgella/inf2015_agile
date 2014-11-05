@@ -1,6 +1,5 @@
 package professionnels;
 
-import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
 /**
@@ -9,19 +8,8 @@ import net.sf.json.JSONObject;
  */
 public class Psychologue extends Membre {
 
-    private final String numeroDePermis;
-    private final String ordre;
-    private final String cycle;
-    private ArrayList<JSONObject> activitesAcceptees;
-    private ArrayList<JSONObject> activitesRefusees;
-
     public Psychologue(JSONObject activiteJson) {
         super(activiteJson);
-        this.numeroDePermis = activiteJson.getString("numero_de_permis");
-        this.cycle = activiteJson.getString("cycle");
-        this.ordre = activiteJson.getString("ordre");
-        activitesAcceptees = new ArrayList<JSONObject>(1);
-        activitesRefusees = new ArrayList<JSONObject>(1);
     }
 
     public void ajouterActivitePourPsychologue(JSONObject activite) {
@@ -90,17 +78,5 @@ public class Psychologue extends Membre {
     private int toInt(String number) {
         Integer temporaire = new Integer(number);
         return temporaire;
-    }
-
-    public String getCycle() {
-        return this.cycle;
-    }
-
-    public ArrayList getActivitesRefusees() {
-        return this.activitesRefusees;
-    }
-
-    public ArrayList getActivitesAcceptees() {
-        return this.activitesAcceptees;
     }
 }

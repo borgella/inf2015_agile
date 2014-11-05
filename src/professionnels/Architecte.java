@@ -1,6 +1,5 @@
 package professionnels;
 
-import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
 /**
@@ -9,19 +8,11 @@ import net.sf.json.JSONObject;
  */
 public class Architecte extends Membre {
 
-    private String numeroDePermis;
-    private String cycle;
     private int heuresTransferees;
-    private ArrayList<JSONObject> activitesAcceptees;
-    private ArrayList<JSONObject> activitesRefusees;
 
     public Architecte(JSONObject activiteJson) {
         super(activiteJson);
-        this.numeroDePermis = activiteJson.getString("numero_de_permis");
-        this.cycle = activiteJson.getString("cycle");
         this.heuresTransferees = activiteJson.getInt("heures_transferees_du_cycle_precedent");
-        activitesAcceptees = new ArrayList<>(1);
-        activitesRefusees = new ArrayList<>(1);
     }
 
     public void ajouterActivitePourMembre(JSONObject activite) {
@@ -157,19 +148,7 @@ public class Architecte extends Membre {
         return temporaire;
     }
 
-    public String getCycle() {
-        return this.cycle;
-    }
-
     public int getHeuresTransferees() {
         return this.heuresTransferees;
-    }
-
-    public ArrayList getActivitesRefusees() {
-        return this.activitesRefusees;
-    }
-
-    public ArrayList getActivitesAcceptees() {
-        return this.activitesAcceptees;
     }
 }
