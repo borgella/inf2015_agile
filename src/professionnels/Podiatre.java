@@ -13,7 +13,8 @@ public class Podiatre extends Membre {
     }
 
     public void ajouterActivitePourMembre(JSONObject activite) {
-        int temporaire = regroupementDesCategories(activite.getString("categorie"));
+        String categorie = activite.getString("categorie");
+        int temporaire = regroupementDesCategories(categorie);
         int heures = activite.getInt("heures");
         if (dateValidePourMembre(activite.getString("date")) && temporaire != -1 && heures > 0) {
             activitesAcceptees.add(activite);
