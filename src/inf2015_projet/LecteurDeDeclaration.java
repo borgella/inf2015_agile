@@ -84,10 +84,6 @@ public class LecteurDeDeclaration {
         }
         
         return validiteNumeroDePermis;
-        
-        /*char premierCaractere = numeroDePermis.charAt(0);
-        return premierCaractere == 'A' || premierCaractere == 'R'
-                || premierCaractere == 'S' || premierCaractere == 'Z';*/
     }
 
     private static boolean numeroDePermisTermineParQuatreChiffres(String numeroDePermis) {
