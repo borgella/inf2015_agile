@@ -8,7 +8,7 @@ import professionnels.Psychologue;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class ValidateurPsychologue {
+public class ValidateurPsychologue extends Validateur {
 
     private Psychologue membre;
     private ArrayList<String> messagesErreurs;
@@ -20,6 +20,7 @@ public class ValidateurPsychologue {
         heuresTotal = 0;
     }
 
+    @Override
     public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
         construireMessagesDErreur();
@@ -28,7 +29,8 @@ public class ValidateurPsychologue {
         return texteDeSortie;
     }
 
-    private void construireMessagesDErreur() {
+    @Override
+    public void construireMessagesDErreur() {
         messageErreurSiLeCycleEstInvalide();
         if (validerLeCycle()) {
             messageInvalidePourCategorieNonReconnue();
@@ -38,18 +40,21 @@ public class ValidateurPsychologue {
         }
     }
 
-    private void messageErreurSiLeCycleEstInvalide() {
+    @Override
+    public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
                     + "Seul le cycle 2010-2015 est accepté.");
         }
     }
 
-    private boolean validerLeCycle() {
+    @Override
+    public boolean validerLeCycle() {
         return membre.getCycle().equals("2010-2015");
     }
 
-    private void messageInvalidePourCategorieNonReconnue() {
+    @Override
+    public void messageInvalidePourCategorieNonReconnue() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
@@ -59,7 +64,8 @@ public class ValidateurPsychologue {
         }
     }
 
-    private ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste) {
+    @Override
+    public ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste) {
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
@@ -71,7 +77,8 @@ public class ValidateurPsychologue {
         return descriptionsDesActivites;
     }
 
-    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+    @Override
+    public String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
         int nombreDeDescriptions = descriptions.size();
         String phraseDeRetour = "";
         if (nombreDeDescriptions > 0) {
@@ -80,7 +87,8 @@ public class ValidateurPsychologue {
         return phraseDeRetour;
     }
 
-    private String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
+    @Override
+    public String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
         String phraseDeRetour = descriptions.get(0);
         int nombreDeDescriptions = descriptions.size();
         for (int i = 1; i < nombreDeDescriptions - 1; i++) {
@@ -92,7 +100,8 @@ public class ValidateurPsychologue {
         return phraseDeRetour;
     }
 
-    private void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
+    @Override
+    public void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
         String messageSortie;
         if (nombreDActivites > 1) {
             messageSortie = "Les activités " + activitesErronees + " sont dans des catégories non reconnues. "
@@ -104,7 +113,8 @@ public class ValidateurPsychologue {
         messagesErreurs.add(messageSortie);
     }
 
-    private void messageErreurPourDateInvalide() {
+    @Override
+    public void messageErreurPourDateInvalide() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
@@ -114,7 +124,8 @@ public class ValidateurPsychologue {
         }
     }
 
-    private ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste) {
+    @Override
+    public ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste) {
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
@@ -125,7 +136,8 @@ public class ValidateurPsychologue {
         return descriptionsDesActivites;
     }
 
-    private void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees) {
+    @Override
+    public void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees) {
         String messageSortie;
         if (nombreDActivites > 1) {
             messageSortie = "Les dates des activités " + activitesErronees + " sont invalides. "
@@ -136,7 +148,8 @@ public class ValidateurPsychologue {
         messagesErreurs.add(messageSortie);
     }
 
-    private void messageErreurPourHeuresManquantes() {
+    @Override
+    public void messageErreurPourHeuresManquantes() {
         int heuresManquantesEnGeneral = 90 - heuresTotalesFormation();
         int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
         if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0) {
@@ -147,7 +160,8 @@ public class ValidateurPsychologue {
         }
     }
 
-    private int heuresTotalesFormation() {
+    @Override
+    public int heuresTotalesFormation() {
         int heuresHuitCategories = nombreDHeuresSelonRegroupement(2);
         int heuresCours = heuresBrutesSelonCategorie("cours");
         int heuresConference = heuresEffectivesSelonCategorie("conférence");
@@ -156,7 +170,8 @@ public class ValidateurPsychologue {
                 + heuresCours + heuresConference;
     }
 
-    private int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
+    @Override
+    public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
         ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int somme = 0;
         for (int i = 0; i < liste.size(); ++i) {
@@ -167,8 +182,15 @@ public class ValidateurPsychologue {
         }
         return somme;
     }
+    
+    private int heuresEffectivesSelonCategorie(String categorie) {
+        int heuresBrutes = heuresBrutesSelonCategorie(categorie);
+        int maximumHeures = maximumHeuresSelonCategorie(categorie);
+        return min(heuresBrutes, maximumHeures);
+    }
 
-    private int heuresBrutesSelonCategorie(String categorie) {
+    @Override
+    public int heuresBrutesSelonCategorie(String categorie) {
         ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
         for (JSONObject activiteCourante : liste) {
@@ -178,12 +200,6 @@ public class ValidateurPsychologue {
             }
         }
         return heuresTotales;
-    }
-
-    private int heuresEffectivesSelonCategorie(String categorie) {
-        int heuresBrutes = heuresBrutesSelonCategorie(categorie);
-        int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return min(heuresBrutes, maximumHeures);
     }
 
     private int max(int nombre1, int nombre2) {
@@ -212,7 +228,8 @@ public class ValidateurPsychologue {
         }
     }
 
-    private boolean formationComplete() {
+    @Override
+    public boolean formationComplete() {
         boolean critereCours = nombreDHeuresSelonRegroupement(1) >= 25;
         boolean critereDHeuresTotales = heuresTotal >= 90;
         return validerLeCycle() && critereCours && critereDHeuresTotales;

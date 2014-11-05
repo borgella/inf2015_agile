@@ -8,7 +8,7 @@ import professionnels.Geologue;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class ValidateurGeologue {
+public class ValidateurGeologue extends Validateur {
 
     private Geologue membre;
     private ArrayList<String> messagesErreurs;
@@ -20,6 +20,7 @@ public class ValidateurGeologue {
         heuresTotal = 0;
     }
 
+    @Override
     public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();
         construireMessagesDErreur();
@@ -28,7 +29,8 @@ public class ValidateurGeologue {
         return texteDeSortie;
     }
 
-    private void construireMessagesDErreur() {
+    @Override
+    public void construireMessagesDErreur() {
         messageErreurSiLeCycleEstInvalide();
         if (validerLeCycle()) {
             messageInvalidePourCategorieNonReconnue();
@@ -38,18 +40,21 @@ public class ValidateurGeologue {
         }
     }
 
-    private void messageErreurSiLeCycleEstInvalide() {
+    @Override
+    public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
                     + "Seul le cycle 2013-2016 est accepté.");
         }
     }
 
-    private boolean validerLeCycle() {
+    @Override
+    public boolean validerLeCycle() {
         return membre.getCycle().equals("2013-2016");
     }
 
-    private void messageInvalidePourCategorieNonReconnue() {
+    @Override
+    public void messageInvalidePourCategorieNonReconnue() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
@@ -59,7 +64,8 @@ public class ValidateurGeologue {
         }
     }
 
-    private ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste) {
+    @Override
+    public ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste) {
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
@@ -71,7 +77,8 @@ public class ValidateurGeologue {
         return descriptionsDesActivites;
     }
 
-    private String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+    @Override
+    public String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
         int nombreDeDescriptions = descriptions.size();
         String phraseDeRetour = "";
         if (nombreDeDescriptions > 0) {
@@ -80,7 +87,8 @@ public class ValidateurGeologue {
         return phraseDeRetour;
     }
 
-    private String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
+    @Override
+    public String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
         String phraseDeRetour = descriptions.get(0);
         int nombreDeDescriptions = descriptions.size();
         for (int i = 1; i < nombreDeDescriptions - 1; i++) {
@@ -92,7 +100,8 @@ public class ValidateurGeologue {
         return phraseDeRetour;
     }
 
-    private void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
+    @Override
+    public void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
         String messageSortie;
         if (nombreDActivites > 1) {
             messageSortie = "Les activités " + activitesErronees + " sont dans des catégories non reconnues. "
@@ -104,7 +113,8 @@ public class ValidateurGeologue {
         messagesErreurs.add(messageSortie);
     }
 
-    private void messageErreurPourDateInvalide() {
+    @Override
+    public void messageErreurPourDateInvalide() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
         ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
@@ -114,7 +124,8 @@ public class ValidateurGeologue {
         }
     }
 
-    private ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste) {
+    @Override
+    public ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste) {
         ArrayList<String> descriptionsDesActivites = new ArrayList(1);
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
@@ -125,7 +136,8 @@ public class ValidateurGeologue {
         return descriptionsDesActivites;
     }
 
-    private void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees) {
+    @Override
+    public void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees) {
         String messageSortie;
         if (nombreDActivites > 1) {
             messageSortie = "Les dates des activités " + activitesErronees + " sont invalides. "
@@ -136,7 +148,8 @@ public class ValidateurGeologue {
         messagesErreurs.add(messageSortie);
     }
 
-    private void messageErreurPourHeuresManquantes() {
+    @Override
+    public void messageErreurPourHeuresManquantes() {
         int heuresManquantesEnGeneral = 55 - heuresTotalesFormation();
         int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
@@ -147,7 +160,8 @@ public class ValidateurGeologue {
         ecrireMessageErreurPourHeuresManquantesSiApplicable(grandMaximum);
     }
 
-    private int heuresTotalesFormation() {
+    @Override
+    public int heuresTotalesFormation() {
         int heuresSeptCategories = heuresTotalesPourRegroupementDesSeptCategories();
         int heuresPresentation = heuresBrutesSelonCategorie("cours");
         int heuresRecherche = heuresBrutesSelonCategorie("projet de recherche");
@@ -161,7 +175,8 @@ public class ValidateurGeologue {
         return nombreDHeuresSelonRegroupement(1);
     }
 
-    private int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
+    @Override
+    public int nombreDHeuresSelonRegroupement(int codeDuRegroupement) {
         ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int somme = 0;
         for (int i = 0; i < liste.size(); ++i) {
@@ -173,7 +188,8 @@ public class ValidateurGeologue {
         return somme;
     }
 
-    private int heuresBrutesSelonCategorie(String categorie) {
+    @Override
+    public int heuresBrutesSelonCategorie(String categorie) {
         ArrayList<JSONObject> liste = membre.getActivitesAcceptees();
         int heuresTotales = 0;
         for (JSONObject activiteCourante : liste) {
@@ -250,7 +266,8 @@ public class ValidateurGeologue {
         }
     }
 
-    private boolean formationComplete() {
+    @Override
+    public boolean formationComplete() {
         boolean critereCours = heuresBrutesSelonCategorie("cours") >= 22;
         boolean critereRecherche = heuresBrutesSelonCategorie("projet de recherche") >= 3;
         boolean critereDiscussion = heuresBrutesSelonCategorie("groupe de discussion") >= 1;
