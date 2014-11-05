@@ -1,5 +1,8 @@
 package professionnels;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import net.sf.json.JSONObject;
 
 /**
@@ -53,8 +56,23 @@ public class Podiatre extends Membre {
         }
         return temporaire;
     }
+    
+    private boolean dateValidePourMembre(String date) {
+        SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateLue = null;
+        Date min = null;
+        Date max = null;
+        try {
+            dateLue = formatISO8601.parse(date);
+            min = formatISO8601.parse("2013-06-01");
+            max = formatISO8601.parse("2016-06-01");
+        } catch (ParseException ex) {
+            ex.getMessage();
+        }
+        return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
+    }
 
-    public boolean dateValidePourMembre(String date) {
+    /*public boolean dateValidePourMembre(String date) {
         int temporaire;
         if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
                 && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
@@ -69,5 +87,5 @@ public class Podiatre extends Membre {
     private int toInt(String number) {
         Integer temporaire = new Integer(number);
         return temporaire;
-    }
+    }*/
 }
