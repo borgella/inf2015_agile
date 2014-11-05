@@ -1,5 +1,11 @@
 package professionnels;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.json.JSONObject;
 
 /**
@@ -15,7 +21,7 @@ public class Architecte extends Membre {
         this.heuresTransferees = activiteJson.getInt("heures_transferees_du_cycle_precedent");
     }
 
-    public void ajouterActivitePourMembre(JSONObject activite) {
+    public void ajouterActivitePourMembre(JSONObject activite) throws ParseException {
         if (cycle.equals("2008-2010")) {
             ajouterActivitePourArchitecte08_10(activite);
         } else if (cycle.equals("2010-2012")) {
@@ -25,7 +31,7 @@ public class Architecte extends Membre {
         }
     }
 
-    private void ajouterActivitePourArchitecte12_14(JSONObject activite) {
+    private void ajouterActivitePourArchitecte12_14(JSONObject activite) throws ParseException {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2012_2014(activite.getString("date")) && temporaire != -1) {
@@ -35,7 +41,7 @@ public class Architecte extends Membre {
         }
     }
 
-    private void ajouterActivitePourArchitecte10_12(JSONObject activite) {
+    private void ajouterActivitePourArchitecte10_12(JSONObject activite) throws ParseException {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2010_2012(activite.getString("date")) && temporaire != -1) {
@@ -45,7 +51,7 @@ public class Architecte extends Membre {
         }
     }
 
-    private void ajouterActivitePourArchitecte08_10(JSONObject activite) {
+    private void ajouterActivitePourArchitecte08_10(JSONObject activite) throws ParseException {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2008_2010(activite.getString("date")) && temporaire != -1) {
@@ -95,7 +101,7 @@ public class Architecte extends Membre {
         return temporaire;
     }
 
-    public boolean dateValidePourMembre(String date) {
+    public boolean dateValidePourMembre(String date) throws ParseException {
         boolean dateValide;
         if (cycle.equals("2008-2010")) {
             dateValide = dateValidePourCycle2008_2010(date);
@@ -107,7 +113,7 @@ public class Architecte extends Membre {
         return dateValide;
     }
 
-    private boolean dateValidePourCycle2012_2014(String date) {
+    /*private boolean dateValidePourCycle2012_2014(String date) {
         int temporaire;
         if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
                 && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
@@ -141,12 +147,36 @@ public class Architecte extends Membre {
         }
         temporaire = toInt(date);
         return temporaire >= 20080401 && temporaire <= 20100701;
+    }*/
+    
+    private boolean dateValidePourCycle2008_2010(String date) throws ParseException {
+        SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateLue = formatISO8601.parse(date);
+        Date min = formatISO8601.parse("2008-04-01");
+        Date max = formatISO8601.parse("2010-07-01");
+        return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
+    }
+    
+    private boolean dateValidePourCycle2010_2012(String date) throws ParseException {
+        SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateLue = formatISO8601.parse(date);
+        Date min = formatISO8601.parse("2010-04-01");
+        Date max = formatISO8601.parse("2012-04-01");
+        return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
+    }
+    
+    private boolean dateValidePourCycle2012_2014(String date) throws ParseException {
+        SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateLue = formatISO8601.parse(date);
+        Date min = formatISO8601.parse("2012-04-01");
+        Date max = formatISO8601.parse("2014-04-01");
+        return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
 
-    private int toInt(String number) {
+    /*private int toInt(String number) {
         Integer temporaire = new Integer(number);
         return temporaire;
-    }
+    }*/
 
     public int getHeuresTransferees() {
         return this.heuresTransferees;
