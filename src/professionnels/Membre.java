@@ -18,9 +18,6 @@ public class Membre {
     protected int sexe;
     protected String numeroDePermis;
     protected String ordre;
-    protected String cycle;
-    protected ArrayList<JSONObject> activitesAcceptees;
-    protected ArrayList<JSONObject> activitesRefusees;
     
     public Membre(JSONObject activiteJson) {
         this.nom = activiteJson.getString("nom");
@@ -28,20 +25,6 @@ public class Membre {
         this.sexe = activiteJson.getInt("sexe");
         this.numeroDePermis = activiteJson.getString("numero_de_permis");
         this.ordre = activiteJson.getString("ordre");
-        this.cycle = activiteJson.getString("cycle");
-        activitesAcceptees = new ArrayList<>(1);
-        activitesRefusees = new ArrayList<>(1);
     }
    
-    public String getCycle() {
-        return this.cycle;
-    }
-    
-    public ArrayList getActivitesRefusees() {
-        return this.activitesRefusees;
-    }
-
-    public ArrayList getActivitesAcceptees() {
-        return this.activitesAcceptees;
-    }
 }

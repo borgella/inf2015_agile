@@ -2,6 +2,7 @@ package professionnels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import net.sf.json.JSONObject;
 
@@ -10,6 +11,9 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Podiatre extends Membre {
+    protected String cycle;
+    protected ArrayList<JSONObject> activitesAcceptees;
+    protected ArrayList<JSONObject> activitesRefusees;
 
     public Podiatre(JSONObject activiteJson) {
         super(activiteJson);
@@ -88,4 +92,16 @@ public class Podiatre extends Membre {
         Integer temporaire = new Integer(number);
         return temporaire;
     }*/
+
+    public String getCycle() {
+        return this.cycle;
+    }
+
+    public ArrayList getActivitesRefusees() {
+        return this.activitesRefusees;
+    }
+
+    public ArrayList getActivitesAcceptees() {
+        return this.activitesAcceptees;
+    }
 }

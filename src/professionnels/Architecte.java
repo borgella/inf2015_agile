@@ -2,6 +2,7 @@ package professionnels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import net.sf.json.JSONObject;
 
@@ -12,6 +13,9 @@ import net.sf.json.JSONObject;
 public class Architecte extends Membre {
 
     private int heuresTransferees;
+    protected String cycle;
+    protected ArrayList<JSONObject> activitesAcceptees;
+    protected ArrayList<JSONObject> activitesRefusees;
 
     public Architecte(JSONObject activiteJson) {
         super(activiteJson);
@@ -198,5 +202,17 @@ public class Architecte extends Membre {
 
     public int getHeuresTransferees() {
         return this.heuresTransferees;
+    }
+
+    public String getCycle() {
+        return this.cycle;
+    }
+
+    public ArrayList getActivitesRefusees() {
+        return this.activitesRefusees;
+    }
+
+    public ArrayList getActivitesAcceptees() {
+        return this.activitesAcceptees;
     }
 }

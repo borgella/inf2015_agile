@@ -2,6 +2,7 @@ package professionnels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +13,9 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Geologue extends Membre {
+    protected String cycle;
+    protected ArrayList<JSONObject> activitesAcceptees;
+    protected ArrayList<JSONObject> activitesRefusees;
 
     public Geologue(JSONObject activiteJson) {
         super(activiteJson);
@@ -90,4 +94,16 @@ public class Geologue extends Membre {
         Integer temporaire = new Integer(number);
         return temporaire;
     }*/
+
+    public String getCycle() {
+        return this.cycle;
+    }
+
+    public ArrayList getActivitesRefusees() {
+        return this.activitesRefusees;
+    }
+
+    public ArrayList getActivitesAcceptees() {
+        return this.activitesAcceptees;
+    }
 }
