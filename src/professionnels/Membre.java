@@ -5,7 +5,6 @@
  */
 package professionnels;
 
-import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
 /**
@@ -27,4 +26,7 @@ public class Membre {
         this.ordre = activiteJson.getString("ordre");
     }
    
+    public int getSexe(){
+        return sexe;
+    }
 }
