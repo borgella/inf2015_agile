@@ -14,20 +14,23 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import professionnels.Architecte;
 import professionnels.Membre;
+import validation.ValidateurArchitecte;
 
 /**
  *
  * @author User
  */
 public class Statistiques {
+
     boolean declarationTraitee;
     boolean declarationIncompleteOuInvalide;
     int sexeDeclaree;
     TreeMap<String, Integer> activitesValidesParCategorie;
-    
+
     public Statistiques() {
         declarationTraitee = false;
         declarationIncompleteOuInvalide = false;
+        sexeDeclaree = 0;
         activitesValidesParCategorie = new TreeMap<>();
         etablirCategoriesReconnues(activitesValidesParCategorie);
     }
@@ -40,81 +43,84 @@ public class Statistiques {
         }
     }
 
-    private ArrayList<String> nomsDesCategoriesReconnues() {
+    private static ArrayList<String> nomsDesCategoriesReconnues() {
         String nomDeCategories[] = {"cours", "atelier", "séminaire", "colloque", "conférence", "lecture dirigée",
-            "présentation", "groupe de discussion", "projet de recherche", "rédaction professionnelle" };
+            "présentation", "groupe de discussion", "projet de recherche", "rédaction professionnelle"};
         int nombreDeCategories = nomDeCategories.length;
         ArrayList<String> categories = new ArrayList<>(nombreDeCategories);
         for (int i = 0; i < nombreDeCategories; i++) {
             categories.add(nomDeCategories[i]);
         }
-       return categories;
+        return categories;
     }
-    
-    public void enregistrerDeclarationTraitee() {
+
+    public void enregistrerTraitementDeDeclaration() {
         declarationTraitee = true;
     }
-    
+
+    public void enregistrerCompletudeDeLaDeclaration(ValidateurArchitecte validateur) {
+        declarationIncompleteOuInvalide = !validateur.formationComplete();
+    }
+
     public void enregistrerDeclarationInvalideOuIncomplete() {
         declarationIncompleteOuInvalide = true;
     }
-    
-    public void enregistrerSexeDeclaree(int codeSexe) {
-        sexeDeclaree = codeSexe;  
+
+    public void enregistrerDetailsDuDeclarant(Membre membre) {
+        enregistrerSexeDeclaree(membre);
+        enregistrerActivitesValidesParCategorie(membre);
     }
-    
 
     public void enregistrerSexeDeclaree(Membre membre) {
-        //sexeDeclaree = membre.getSexe();
+        sexeDeclaree = 0; //TODO membre.getSexe();
     }
-    
+
     private void enregistrerActivitesValidesParCategorie(Membre membre) {
-         ArrayList<String> categoriesReconnues = nomsDesCategoriesReconnues();
-         for (String categorie: categoriesReconnues) {
-             enregistrerActivitesValidesParCategorie(membre, categorie);
-         }
+        ArrayList<String> categoriesReconnues = nomsDesCategoriesReconnues();
+        for (String categorie : categoriesReconnues) {
+            enregistrerActivitesValidesParCategorie(membre, categorie);
+        }
     }
-    
+
     private void enregistrerActivitesValidesParCategorie(Membre membre, String categorie) {
-        //TODO: Enlever la nécessité d'utiliser un cast
-        Architecte architecte = (Architecte) membre;
-        // TODO REFAIRE FONCTION
+//TODO: Enlever la nécessité d'utiliser un cast
+        Architecte architecte = (Architecte) membre;    //TODO
         int nombre = 0; //architecte.obtenirNombreActivitesValidesParCategorie(categorie);
         enregistrerActiviteValideParCategorie(nombre, categorie);
     }
-    
+
     private void enregistrerActiviteValideParCategorie(int nombre, String categorie) {
         activitesValidesParCategorie.put(categorie, nombre);
     }
-    
+
     public void afficherStatistiques() {
         JSONObject donneesStatistiques;
         try {
-            donneesStatistiques = chargerStatistiquesAnterieures();
+            donneesStatistiques = chargerStatistiques();
             afficherChaqueStatistique(donneesStatistiques);
         } catch (IOException e) {
             System.out.println("Aucune statistique existante.");
         }
     }
-    
+
     private void afficherChaqueStatistique(JSONObject donneesStatistiques) {
-        System.out.println("Nombre total de déclarations traitées: " 
+        System.out.println("Nombre total de déclarations traitées: "
                 + donneesStatistiques.getInt("declarations_traitees"));
-        System.out.println("Nombre total de déclarations complètes: " 
+        System.out.println("Nombre total de déclarations complètes: "
                 + donneesStatistiques.getInt("declarations_completes"));
-        System.out.println("Nombre total de déclarations incomplètes ou invalides: " 
+        System.out.println("Nombre total de déclarations incomplètes ou invalides: "
                 + donneesStatistiques.getInt("declarations_incompletes_ou_invalides"));
-        System.out.println("Nombre total de déclarations faites par des hommes: " 
+        System.out.println("Nombre total de déclarations faites par des hommes: "
                 + donneesStatistiques.getInt("declarations_faites_par_des_hommes"));
-        System.out.println("Nombre total de déclarations faites par des femmes: " 
+        System.out.println("Nombre total de déclarations faites par des femmes: "
                 + donneesStatistiques.getInt("declarations_faites_par_des_femmes"));
-        System.out.println("Nombre total de déclarations faites par des gens de sexe inconnu: " 
+        System.out.println("Nombre total de déclarations faites par des gens de sexe inconnu: "
                 + donneesStatistiques.getInt("declarations_faites_par_des_gens_de_sexe_inconnu"));
-        System.out.println("Nombre total d'activités valides dans les déclarations: " 
+        System.out.println("Nombre total d'activités valides dans les déclarations: "
                 + donneesStatistiques.getInt("activites_valides_dans_les_declarations"));
         System.out.println("Nombre d'activités valides par catégorie:");
         JSONArray compteursPourCategories = donneesStatistiques.getJSONArray("activites_valides_par_categorie");
-        String tabulation = "    ";
+        String tabulation = " ";
         for (int i = 0; i < compteursPourCategories.size(); i++) {
             JSONObject compteur = compteursPourCategories.getJSONObject(i);
             String categorieCourante = compteur.getString("categorie");
@@ -122,43 +128,50 @@ public class Statistiques {
             System.out.println(tabulation + '\"' + categorieCourante + '\"' + ": " + nombre);
         }
     }
-    
+
     public void reinitialiserStatistiques() {
         JSONObject donneesStatistiques = construireFichierStatistiques();
         System.out.println("Statistiques réinitialisées.");
         ecrireNouvellesDonneesStatistiques(donneesStatistiques);
     }
-        
-    public void enregistrerActiviteValideParCategorie(String categorie) {
-        Integer activitesValideSelonCategorie = activitesValidesParCategorie.get(categorie);
-        activitesValideSelonCategorie++;
 
-    }
-    
     public void mettreAJourStatistiquesCumulatives() {
-        JSONObject donneesStatistiques = chargerStatistiquesDisponibles();
+        JSONObject donneesStatistiques;
+        try {
+            donneesStatistiques = chargerStatistiques();
+        } catch (IOException e) {
+            donneesStatistiques = construireFichierStatistiques();
+        }
         ajouterStatistiquesDeLaDeclarationCourante(donneesStatistiques);
         ecrireNouvellesDonneesStatistiques(donneesStatistiques);
     }
 
-    private static JSONObject chargerStatistiquesDisponibles() {
-        JSONObject donneesStatistiques;
-        try {
-            donneesStatistiques = chargerStatistiquesAnterieures();
-        } catch (IOException e) {
-            donneesStatistiques = construireFichierStatistiques();
-        }
-        return donneesStatistiques;
-    }
-    
-    private static JSONObject chargerStatistiquesAnterieures() throws IOException {
+    private static JSONObject chargerStatistiques() throws IOException {
         String fichierDesStatistiques = "cumulStatistiquesJD/donneesStatistiques.json";
         String statistiquesAnterieures = FileReader.loadFileIntoString(fichierDesStatistiques, "UTF-8");
-        return JSONObject.fromObject(statistiquesAnterieures);
+        JSONObject donneesStatistiques = JSONObject.fromObject(statistiquesAnterieures);
+        return donneesStatistiques;
     }
 
     private static JSONObject construireFichierStatistiques() {
-        return null; //TODO: Implémenter fonction
+        JSONObject fichierStatistiques = new JSONObject();
+        fichierStatistiques.accumulate("declarations_traitees", 0);
+        fichierStatistiques.accumulate("declarations_completes", 0);
+        fichierStatistiques.accumulate("declarations_incompletes_ou_invalides", 0);
+        fichierStatistiques.accumulate("declarations_faites_par_des_hommes", 0);
+        fichierStatistiques.accumulate("declarations_faites_par_des_femmes", 0);
+        fichierStatistiques.accumulate("declarations_faites_par_des_gens_de_sexe_inconnu", 0);
+        fichierStatistiques.accumulate("activites_valides_dans_les_declarations", 0);
+        JSONArray compteursPourCategories = new JSONArray();
+        ArrayList<String> categoriesReconnues = nomsDesCategoriesReconnues();
+        for (int i = 0; i < categoriesReconnues.size(); i++) {
+            JSONObject compteurPourCategorie = new JSONObject();
+            compteurPourCategorie.accumulate("categorie", categoriesReconnues.get(i));
+            compteurPourCategorie.accumulate("nombre", 0);
+            compteursPourCategories.add(compteurPourCategorie);
+        }
+        fichierStatistiques.accumulate("activites_valides_par_categorie", compteursPourCategories);
+        return fichierStatistiques;
     }
 
     private void ajouterStatistiquesDeLaDeclarationCourante(JSONObject donneesStatistiques) {
@@ -199,7 +212,7 @@ public class Statistiques {
         if (sexeDeclaree == 1) {
             champsStatistique = "declarations_faites_par_des_hommes";
         } else if (sexeDeclaree == 2) {
-            champsStatistique = "declarations_faites_par_des_femmes"; 
+            champsStatistique = "declarations_faites_par_des_femmes";
         } else {
             champsStatistique = "declarations_faites_par_des_gens_de_sexe_inconnu";
         }
@@ -218,11 +231,11 @@ public class Statistiques {
         String champsStatistique = "activites_valides_par_categorie";
         JSONArray compteursActivitesValidesParCategorie = donneesStatistiques.getJSONArray(champsStatistique);
         ArrayList<String> nomDesCategories = nomsDesCategoriesReconnues();
-        for (String categorie: nomDesCategories) {
-                mettreAJourActivitesValidesParCategorie(compteursActivitesValidesParCategorie, categorie);
+        for (String categorie : nomDesCategories) {
+            mettreAJourActivitesValidesParCategorie(compteursActivitesValidesParCategorie, categorie);
         }
     }
-    
+
     private void mettreAJourActivitesValidesParCategorie(JSONArray compteursParCategorie, String categorie) {
         JSONObject compteurPourCategorie = trouverCompteurPourCategorie(compteursParCategorie, categorie);
         String champsStatistique = "nombre";
@@ -243,25 +256,23 @@ public class Statistiques {
         }
         return compteurPourCategorie;
     }
-    
+
     private int calculerNombreTotalActivitesValides() {
         int nombreTotalActivitesValides = 0;
         ArrayList<String> nomDesCategories = nomsDesCategoriesReconnues();
-        for (String categorie: nomDesCategories) {
-                nombreTotalActivitesValides += activitesValidesParCategorie.get(categorie);
+        for (String categorie : nomDesCategories) {
+            nombreTotalActivitesValides += activitesValidesParCategorie.get(categorie);
         }
         return nombreTotalActivitesValides;
     }
 
     private void ecrireNouvellesDonneesStatistiques(JSONObject donneesStatistiques) {
         try {
-        FileWriter fichierDesStatistiques = new FileWriter("cumulStatistiquesJD/donneesStatistiques.json");
-        fichierDesStatistiques.write(donneesStatistiques.toString(2));
-        fichierDesStatistiques.close();
+            FileWriter fichierDesStatistiques = new FileWriter("cumulStatistiquesJD/donneesStatistiques.json");
+            fichierDesStatistiques.write(donneesStatistiques.toString(2));
+            fichierDesStatistiques.close();
         } catch (IOException e) {
-            // N'est pas atteingnable?
+// N'est pas atteingnable?
         }
     }
-
-    
 }
