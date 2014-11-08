@@ -5,7 +5,6 @@
  */
 package inf2015_projet;
 
-import inf2015_projet.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -268,7 +267,7 @@ public class Statistiques {
 
     private void ecrireNouvellesDonneesStatistiques(JSONObject donneesStatistiques) {
         try {
-            FileWriter fichierDesStatistiques = new FileWriter("cumulStatistiquesJD/donneesStatistiques.json");
+            FileWriter fichierDesStatistiques = new FileWriter("cumulStatistiques/donneesStatistiques.json");
             fichierDesStatistiques.write(donneesStatistiques.toString(2));
             fichierDesStatistiques.close();
         } catch (IOException e) {

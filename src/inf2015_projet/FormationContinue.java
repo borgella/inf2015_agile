@@ -40,10 +40,10 @@ public class FormationContinue {
                         JSONObject uneActivite = listeActivites.getJSONObject(i);
                         architecte.ajouterActivitePourMembre(uneActivite);
                     }
-                    //statsPourDeclaration.enregistrerDetailsDuDeclarant(architecte);
+                    statsPourDeclaration.enregistrerDetailsDuDeclarant(architecte);
                     ValidateurArchitecte validateur = new ValidateurArchitecte(architecte);
                     sortieJSON = validateur.produireRapport();
-                    //statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
+                    statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
                 } else if (declarationJSON.getString("ordre").equals("géologues")) {
                     Geologue geologue = new Geologue(declarationJSON);
                     for (int i = 0; i < listeActivites.size(); i++) {
