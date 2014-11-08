@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Membre {
+
     protected String nom;
     protected String prenom;
     protected int sexe;
@@ -21,7 +22,7 @@ public class Membre {
     protected String cycle;
     protected ArrayList<JSONObject> activitesAcceptees;
     protected ArrayList<JSONObject> activitesRefusees;
-    
+
     public Membre(JSONObject activiteJson) {
         this.nom = activiteJson.getString("nom");
         this.prenom = activiteJson.getString("prenom");
@@ -32,11 +33,11 @@ public class Membre {
         activitesAcceptees = new ArrayList<>(1);
         activitesRefusees = new ArrayList<>(1);
     }
-   
+
     public String getCycle() {
         return this.cycle;
     }
-    
+
     public ArrayList getActivitesRefusees() {
         return this.activitesRefusees;
     }
@@ -44,4 +45,24 @@ public class Membre {
     public ArrayList getActivitesAcceptees() {
         return this.activitesAcceptees;
     }
+
+    
+    // TODO: À déplacer en même temps que l'attribut activitesAcceptees
+    public int obtenirNombreActivitesValides() {
+        return activitesAcceptees.size();
+    }
+    
+    // TODO: À déplacer en même temps que l'attribut activitesAcceptees
+    public int obtenirNombreActivitesValidesParCategorie(String categorie) {
+        int nombreActivitesValides = 0;
+        for (int i = 0; i < activitesAcceptees.size(); i++) {
+            JSONObject activiteValide = activitesAcceptees.get(i);
+            String categorieCourante = activiteValide.getString("categorie");
+            if (categorie.equals(categorieCourante)) {
+                nombreActivitesValides++;
+            }
+        }
+        return nombreActivitesValides;
+    }
 }
+

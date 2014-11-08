@@ -82,9 +82,9 @@ public class Statistiques {
     }
 
     private void enregistrerActivitesValidesParCategorie(Membre membre, String categorie) {
-//TODO: Enlever la nécessité d'utiliser un cast
-        Architecte architecte = (Architecte) membre;    //TODO
-        int nombre = 0; //architecte.obtenirNombreActivitesValidesParCategorie(categorie);
+        //TODO: Enlever la nécessité d'utiliser un cast
+        Architecte architecte = (Architecte) membre;
+        int nombre = architecte.obtenirNombreActivitesValidesParCategorie(categorie);
         enregistrerActiviteValideParCategorie(nombre, categorie);
     }
 
