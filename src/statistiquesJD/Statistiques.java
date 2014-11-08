@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import professionnels.Architecte;
+import professionnels.Membre;
 
 /**
  *
@@ -61,9 +63,76 @@ public class Statistiques {
         sexeDeclaree = codeSexe;  
     }
     
+
+    public void enregistrerSexeDeclaree(Membre membre) {
+        //sexeDeclaree = membre.getSexe();
+    }
+    
+    private void enregistrerActivitesValidesParCategorie(Membre membre) {
+         ArrayList<String> categoriesReconnues = nomsDesCategoriesReconnues();
+         for (String categorie: categoriesReconnues) {
+             enregistrerActivitesValidesParCategorie(membre, categorie);
+         }
+    }
+    
+    private void enregistrerActivitesValidesParCategorie(Membre membre, String categorie) {
+        //TODO: Enlever la nécessité d'utiliser un cast
+        Architecte architecte = (Architecte) membre;
+        // TODO REFAIRE FONCTION
+        int nombre = 0; //architecte.obtenirNombreActivitesValidesParCategorie(categorie);
+        enregistrerActiviteValideParCategorie(nombre, categorie);
+    }
+    
+    private void enregistrerActiviteValideParCategorie(int nombre, String categorie) {
+        activitesValidesParCategorie.put(categorie, nombre);
+    }
+    
+    public void afficherStatistiques() {
+        JSONObject donneesStatistiques;
+        try {
+            donneesStatistiques = chargerStatistiquesAnterieures();
+            afficherChaqueStatistique(donneesStatistiques);
+        } catch (IOException e) {
+            System.out.println("Aucune statistique existante.");
+        }
+    }
+    
+    private void afficherChaqueStatistique(JSONObject donneesStatistiques) {
+        System.out.println("Nombre total de déclarations traitées: " 
+                + donneesStatistiques.getInt("declarations_traitees"));
+        System.out.println("Nombre total de déclarations complètes: " 
+                + donneesStatistiques.getInt("declarations_completes"));
+        System.out.println("Nombre total de déclarations incomplètes ou invalides: " 
+                + donneesStatistiques.getInt("declarations_incompletes_ou_invalides"));
+        System.out.println("Nombre total de déclarations faites par des hommes: " 
+                + donneesStatistiques.getInt("declarations_faites_par_des_hommes"));
+        System.out.println("Nombre total de déclarations faites par des femmes: " 
+                + donneesStatistiques.getInt("declarations_faites_par_des_femmes"));
+        System.out.println("Nombre total de déclarations faites par des gens de sexe inconnu: " 
+                + donneesStatistiques.getInt("declarations_faites_par_des_gens_de_sexe_inconnu"));
+        System.out.println("Nombre total d'activités valides dans les déclarations: " 
+                + donneesStatistiques.getInt("activites_valides_dans_les_declarations"));
+        System.out.println("Nombre d'activités valides par catégorie:");
+        JSONArray compteursPourCategories = donneesStatistiques.getJSONArray("activites_valides_par_categorie");
+        String tabulation = "    ";
+        for (int i = 0; i < compteursPourCategories.size(); i++) {
+            JSONObject compteur = compteursPourCategories.getJSONObject(i);
+            String categorieCourante = compteur.getString("categorie");
+            int nombre = compteur.getInt("nombre");
+            System.out.println(tabulation + '\"' + categorieCourante + '\"' + ": " + nombre);
+        }
+    }
+    
+    public void reinitialiserStatistiques() {
+        JSONObject donneesStatistiques = construireFichierStatistiques();
+        System.out.println("Statistiques réinitialisées.");
+        ecrireNouvellesDonneesStatistiques(donneesStatistiques);
+    }
+        
     public void enregistrerActiviteValideParCategorie(String categorie) {
         Integer activitesValideSelonCategorie = activitesValidesParCategorie.get(categorie);
         activitesValideSelonCategorie++;
+
     }
     
     public void mettreAJourStatistiquesCumulatives() {
