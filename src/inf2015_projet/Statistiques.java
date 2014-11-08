@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package statistiquesJD;
+package inf2015_projet;
 
 import inf2015_projet.FileReader;
 import java.io.FileWriter;
