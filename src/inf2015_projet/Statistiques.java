@@ -146,7 +146,7 @@ public class Statistiques {
     }
 
     private static JSONObject chargerStatistiques() throws IOException {
-        String fichierDesStatistiques = "cumulStatistiquesJD/donneesStatistiques.json";
+        String fichierDesStatistiques = "cumulStatistiques/donneesStatistiques.json";
         String statistiquesAnterieures = FileReader.loadFileIntoString(fichierDesStatistiques, "UTF-8");
         JSONObject donneesStatistiques = JSONObject.fromObject(statistiquesAnterieures);
         return donneesStatistiques;
