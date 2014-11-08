@@ -82,9 +82,8 @@ public class Statistiques {
     }
 
     private void enregistrerActivitesValidesParCategorie(Membre membre, String categorie) {
-        //TODO: Enlever la nécessité d'utiliser un cast
-        Architecte architecte = (Architecte) membre;
-        int nombre = architecte.obtenirNombreActivitesValidesParCategorie(categorie);
+        //TODO: utiliser l'opérateur 'instanceof' au besoin
+        int nombre = membre.obtenirNombreActivitesValidesParCategorie(categorie);
         enregistrerActiviteValideParCategorie(nombre, categorie);
     }
 
