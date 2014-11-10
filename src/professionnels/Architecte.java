@@ -154,47 +154,6 @@ public class Architecte extends Membre {
         }
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
-    
-    /*private boolean dateValidePourCycle2012_2014(String date) {
-        int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
-                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
-            date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
-        } else {
-            return false;
-        }
-        temporaire = toInt(date);
-        return temporaire >= 20120401 && temporaire <= 20140401;
-    }
-
-    private boolean dateValidePourCycle2010_2012(String date) {
-        int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
-                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
-            date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
-        } else {
-            return false;
-        }
-        temporaire = toInt(date);
-        return temporaire >= 20100401 && temporaire <= 20120401;
-    }
-
-    private boolean dateValidePourCycle2008_2010(String date) {
-        int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
-                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
-            date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
-        } else {
-            return false;
-        }
-        temporaire = toInt(date);
-        return temporaire >= 20080401 && temporaire <= 20100701;
-    }*/
-    
-    /*private int toInt(String number) {
-        Integer temporaire = new Integer(number);
-        return temporaire;
-    }*/
 
     public int getHeuresTransferees() {
         return this.heuresTransferees;

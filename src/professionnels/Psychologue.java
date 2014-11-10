@@ -80,21 +80,4 @@ public class Psychologue extends Membre {
         }
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
-
-    /*public boolean dateValidePourMembre(String date) {
-        int temporaire;
-        if ((toInt(date.substring(5, 7)) >= 1 && toInt(date.substring(5, 7)) <= 12) 
-                && (toInt(date.substring(8, 10)) >= 1 && toInt(date.substring(8, 10)) <= 31)) {
-            date = date.substring(0, 4) + date.substring(5, 7) + date.substring(8, 10);
-        } else {
-            return false;
-        }
-        temporaire = toInt(date);
-        return temporaire >= 20100101 && temporaire <= 20150101;
-    }
-
-    private int toInt(String number) {
-        Integer temporaire = new Integer(number);
-        return temporaire;
-    }*/
 }
