@@ -63,7 +63,7 @@ public class FormationContinue {
                 }
             }
             statsPourDeclaration.mettreAJourStatistiquesCumulatives();
-// Écrire le fichier de sortie
+            // Écrire le fichier de sortie
             FileWriter sortie = new FileWriter(fichierSortie);
             sortie.write(sortieJSON.toString(2));
             sortie.close();
