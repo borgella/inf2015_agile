@@ -60,9 +60,9 @@ public class LecteurDeDeclaration {
 
     public boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
         boolean validiteNumeroDePermis = false;
-        String numeroPermisArchitectes = "([A|T]{1}[0-9]{4})";
-        String numeroPermisPsychologues = "([0-9]{5}[-][0-9]{2})";
-        String numeroPermisGeologues = "([A-Z]{2}[0-9]{4})";
+        String numeroPermisArchitectes = "([A|T]{1})([0-9]{4})";
+        String numeroPermisPsychologues = "([0-9]{5})-([0-9]{2})";
+        String numeroPermisGeologues = "([A-Z]{2})([0-9]{4})";
         String numeroPermisPodiatres = "([0-9]{5})";
         
         if(declaration.getString("ordre").equals("architectes")) {
