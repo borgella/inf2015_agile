@@ -21,19 +21,20 @@ import static org.junit.Assert.*;
  */
 public class LecteurDeDeclarationTest {
     
-    String numeroPermisA1;
-    String ordreA1;
-    String cycleA1;
-    
     public LecteurDeDeclarationTest() {
-        numeroPermisA1 = "3456F";
-        ordreA1 = "Architectes";
-        cycleA1 = "2013-2016";
         
     }
     
     @BeforeClass
     public static void setUpClass() {
+        String numeroPermisAT = "T5600";
+        String numeroPermisAF = "Z3451";
+        String numeroPermisGT = "35288-03";
+        String numeroPermisGF = "56122.03";
+        String numeroPermisPoT = "RR5460";
+        String numeroPermisPoF = "7867YS";
+        String numeroPermisPsT = "67002";
+        String numeroPermisPsF = "091235";
     }
     
     @AfterClass
@@ -53,25 +54,13 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testErreurDeFormatDetectee() {
-        System.out.println("erreurDeFormatDetectee");
-        
-        /*JSONObject declaration = new JSONObject();
-        declaration.put("numero_de_permis", numeroPermisA1);
-        declaration.put("ordre", ordreA1);
-        declaration.put("cycle", cycleA1);
-        declaration.put("heures_transferees_du_cycle_precedent", 2);
-        JSONArray activites = new JSONArray();
-        activites.add(new JSONObject().put("description", "Visite d'établissements architecturaux"));
-        activites.add(new JSONObject().put("categorie", "cours"));
-        activites.add(new JSONObject().put("heures", 17));
-        activites.add(new JSONObject().put("date", "2013-06-09"));
-        declaration.put("activites", activites);
-        LecteurDeDeclaration instance = new LecteurDeDeclaration(declaration);*/
-        
+        System.out.println("erreurDeFormatDetectee");  
         LecteurDeDeclaration instance = null;
         boolean expResult = true;
         boolean result = instance.erreurDeFormatDetectee();
         assertEquals("Valeurs correctes: ", expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -165,15 +154,83 @@ public class LecteurDeDeclarationTest {
      * Test of numeroDePermisAPremierCaractereValide method, of class LecteurDeDeclaration.
      */
     @Test
-    public void testNumeroDePermisAPremierCaractereValide() {
+    public void testNumeroDePermisAPremierCaractereValideAT() {
         System.out.println("numeroDePermisAPremierCaractereValide");
-        String numeroDePermis = "";
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
         boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testNumeroDePermisAPremierCaractereValideAF() {
+        System.out.println("numeroDePermisAPremierCaractereValide");
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumeroDePermisAPremierCaractereValideGT() {
+        System.out.println("numeroDePermisAPremierCaractereValide");
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumeroDePermisAPremierCaractereValideGF() {
+        System.out.println("numeroDePermisAPremierCaractereValide");
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumeroDePermisAPremierCaractereValidePoT() {
+        System.out.println("numeroDePermisAPremierCaractereValide");
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumeroDePermisAPremierCaractereValidePoF() {
+        System.out.println("numeroDePermisAPremierCaractereValide");
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumeroDePermisAPremierCaractereValidePsT() {
+        System.out.println("numeroDePermisAPremierCaractereValide");
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumeroDePermisAPremierCaractereValidePsF() {
+        System.out.println("numeroDePermisAPremierCaractereValide");
+        String numeroDePermis = "12376";
+        //LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.numeroDePermisAPremierCaractereValide(numeroDePermis);
+        assertEquals(expResult, result);
     }
 
     /**
