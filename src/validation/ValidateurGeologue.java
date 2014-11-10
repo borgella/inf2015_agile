@@ -10,9 +10,9 @@ import professionnels.Geologue;
  */
 public class ValidateurGeologue extends Validateur {
 
-    private Geologue membre;
-    private ArrayList<String> messagesErreurs;
-    private int heuresTotal;
+    protected Geologue membre;
+    protected ArrayList<String> messagesErreurs;
+    protected int heuresTotal;
 
     public ValidateurGeologue(Geologue geologue) {
         this.membre = geologue;
@@ -168,10 +168,10 @@ public class ValidateurGeologue extends Validateur {
         int heuresDiscussion = heuresBrutesSelonCategorie("groupe de discussion");
 
         return heuresTotal = heuresSeptCategories
-                + heuresPresentation + heuresRecherche + +heuresDiscussion;
+                + heuresPresentation + heuresRecherche + heuresDiscussion;
     }
 
-    private int heuresTotalesPourRegroupementDesSeptCategories() {
+    public int heuresTotalesPourRegroupementDesSeptCategories() {
         return nombreDHeuresSelonRegroupement(1);
     }
 
@@ -202,7 +202,7 @@ public class ValidateurGeologue extends Validateur {
     }
     
     // Donne le maximum entre un "grand nombre" et trois autres nombres non négatifs
-    private int maximumParmisQuatreSansNuls(int grandNombre, int nombreUn, int nombreDeux, int nombreTrois) {
+    public int maximumParmisQuatreSansNuls(int grandNombre, int nombreUn, int nombreDeux, int nombreTrois) {
         int grandNombreNonNegatif = rendrePositifOuNul(grandNombre);
         int nombreUnNonNegatif = rendrePositifOuNul(nombreUn);
         int nombreDeuxNonNegatif = rendrePositifOuNul(nombreDeux);
@@ -210,7 +210,7 @@ public class ValidateurGeologue extends Validateur {
         return max(grandNombreNonNegatif, nombreUnNonNegatif + nombreDeuxNonNegatif + nombreTroisNonNegatif);
     }
     
-    private int rendrePositifOuNul(int nombre) {
+    public int rendrePositifOuNul(int nombre) {
         int nombrePositifOuNul = nombre;
         if (nombre < 0) {
             nombrePositifOuNul = 0;
@@ -218,11 +218,11 @@ public class ValidateurGeologue extends Validateur {
         return nombrePositifOuNul;
     }
 
-    private int max(int nombre1, int nombre2) {
+    public int max(int nombre1, int nombre2) {
         return nombre1 > nombre2 ? nombre1 : nombre2;
     }
 
-    private void ecrireMessageErreurPourHeuresManquantesSiApplicable(int heuresManquantes) {
+    public void ecrireMessageErreurPourHeuresManquantesSiApplicable(int heuresManquantes) {
         if (heuresManquantes > 0) {
             String messageHeuresManquantes = "Il manque un total de " + heuresManquantes
                     + " heure(s) de formation pour compléter le cycle.";
@@ -230,13 +230,13 @@ public class ValidateurGeologue extends Validateur {
         }
     }
 
-    private void messageErreurPourHeuresInsuffisantesParCategorie() {
+    public void messageErreurPourHeuresInsuffisantesParCategorie() {
         messageErreurPourHeuresInsuffisantesCours();
         messageErreurPourHeuresInsuffisantesRecherche();
         messageErreurPourHeuresInsuffisantesDiscussion();
     }
 
-    private void messageErreurPourHeuresInsuffisantesCours() {
+    public void messageErreurPourHeuresInsuffisantesCours() {
         String messageHeuresManquantes = "";
         int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
         if (heuresManquantesCours > 0) {
@@ -246,7 +246,7 @@ public class ValidateurGeologue extends Validateur {
         }
     }
 
-    private void messageErreurPourHeuresInsuffisantesRecherche() {
+    public void messageErreurPourHeuresInsuffisantesRecherche() {
         String messageHeuresManquantes = "";
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
         if (heuresManquantesRecherche > 0) {
@@ -256,7 +256,7 @@ public class ValidateurGeologue extends Validateur {
         }
     }
 
-    private void messageErreurPourHeuresInsuffisantesDiscussion() {
+    public void messageErreurPourHeuresInsuffisantesDiscussion() {
         String messageHeuresManquantes = "";
         int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");
         if (heuresManquantesDiscussion > 0) {
