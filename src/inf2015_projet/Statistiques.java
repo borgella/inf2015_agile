@@ -338,16 +338,22 @@ public class Statistiques {
     }
 
     public void reinitialiserStatistiques(JSONObject donneesStatistiques) {
+        reinitialiserStatistiquesPourDeclarations(donneesStatistiques);
+        reinitialiserStatistiquesPourActivites(donneesStatistiques);
+    }    
+
+    private void reinitialiserStatistiquesPourDeclarations(JSONObject donneesStatistiques) {
         donneesStatistiques.put("declarations_traitees", 0);
         donneesStatistiques.put("declarations_completes", 0);
         donneesStatistiques.put("declarations_incompletes_ou_invalides", 0);
         donneesStatistiques.put("declarations_faites_par_des_hommes", 0);
         donneesStatistiques.put("declarations_faites_par_des_femmes", 0);
         donneesStatistiques.put("declarations_faites_par_des_gens_de_sexe_inconnu", 0);
+    }
+    
+    private void reinitialiserStatistiquesPourActivites(JSONObject donneesStatistiques) {
         donneesStatistiques.put("activites_valides_dans_les_declarations", 0);
-
         JSONArray statsParCategorie = donneesStatistiques.getJSONArray("activites_valides_par_categorie");
-
         for (Object statsCourantes : statsParCategorie) {
             JSONObject statistiqueCategorie = (JSONObject) statsCourantes;
             statistiqueCategorie.put("nombre", 0);
