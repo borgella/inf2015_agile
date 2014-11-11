@@ -68,10 +68,6 @@ public class LecteurDeDeclarationTest {
     
     @After
     public void tearDown() {
-        instanceA = null;
-        instanceG = null;
-        instancePo = null;
-        instancePs = null;
     }
 
     /**
