@@ -28,7 +28,7 @@ public class LecteurDeDeclaration {
         String champsNumeroDePermis = "numero_de_permis";
         if (champsTexteExiste(champsNumeroDePermis)) {
             String numeroDePermis = declaration.getString(champsNumeroDePermis);
-            return numeroDePermisReconnu(numeroDePermis);
+            formatAccepte = numerosDePermisValides(numeroDePermis);
         } else {
             formatAccepte = false;
         }
@@ -44,21 +44,7 @@ public class LecteurDeDeclaration {
         }
     }
 
-    public boolean numeroDePermisReconnu(String numeroDePermis) {
-        return numeroDePermisALongueurValide(numeroDePermis)
-                && numeroDePermisAContenuValide(numeroDePermis);
-    }
-
-    public static boolean numeroDePermisALongueurValide(String numeroDePermis) {
-        return numeroDePermis.length() == 5;
-    }
-
-    public boolean numeroDePermisAContenuValide(String numeroDePermis) {
-        return numeroDePermisAPremierCaractereValide(numeroDePermis)
-                && numeroDePermisTermineParQuatreChiffres(numeroDePermis);
-    }
-
-    public boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
+    public boolean numerosDePermisValides(String numeroDePermis) {
         boolean validiteNumeroDePermis = false;
         String numeroPermisArchitectes = "^[A|T][0-9]{4}$";
         String numeroPermisPsychologues = "^[0-9]{5}[-][0-9]{2}$";
@@ -88,11 +74,6 @@ public class LecteurDeDeclaration {
         }
         
         return validiteNumeroDePermis;
-    }
-
-    public static boolean numeroDePermisTermineParQuatreChiffres(String numeroDePermis) {
-        String finDeNumeroDePermis = numeroDePermis.substring(1, 5);
-        return texteEstNumerique(finDeNumeroDePermis);
     }
 
     public static boolean texteEstNumerique(String texte) {
