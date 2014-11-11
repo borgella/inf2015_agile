@@ -26,11 +26,11 @@ public class LecteurDeDeclarationTest {
         String numeroDePermisAT = "T3443";
         String numeroDePermisAF = "Z3451";
         String numeroDePermisGT = "BJ3822";
-        String numeroDePermisGF = "56122.03";
+        String numeroDePermisGF = "7867YS";
         String numeroDePermisPoT = "83453";
-        String numeroDePermisPoF = "7867YS";
+        String numeroDePermisPoF = "560896";
         String numeroDePermisPsT = "83723-34";
-        String numeroDePermisPsF = "091235";
+        String numeroDePermisPsF = "56122.03";
         LecteurDeDeclaration instanceA;
         LecteurDeDeclaration instanceG;
         LecteurDeDeclaration instancePo;
