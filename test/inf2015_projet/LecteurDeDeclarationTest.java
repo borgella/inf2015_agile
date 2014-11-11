@@ -23,14 +23,6 @@ public class LecteurDeDeclarationTest {
         JSONObject declarationG;
         JSONObject declarationPo;
         JSONObject declarationPs;
-        String numeroDePermisAT = "T3443";
-        String numeroDePermisAF = "Z3451";
-        String numeroDePermisGT = "BJ3822";
-        String numeroDePermisGF = "7867YS";
-        String numeroDePermisPoT = "83453";
-        String numeroDePermisPoF = "560896";
-        String numeroDePermisPsT = "83723-34";
-        String numeroDePermisPsF = "56122.03";
         LecteurDeDeclaration instanceA;
         LecteurDeDeclaration instanceG;
         LecteurDeDeclaration instancePo;
@@ -78,7 +70,7 @@ public class LecteurDeDeclarationTest {
         System.out.println("numeroDePermisAPremierCaractereValide Architectes Valide");
         //LecteurDeDeclaration instance = null;
         boolean expResult = true;
-        boolean result = instanceA.numeroDePermisAPremierCaractereValide(numeroDePermisAT);
+        boolean result = instanceA.numeroDePermisAPremierCaractereValide("T3443");
         assertEquals(expResult, result);
     }
     
@@ -87,7 +79,7 @@ public class LecteurDeDeclarationTest {
         System.out.println("numeroDePermisAPremierCaractereValide Architectes False");
         //LecteurDeDeclaration instance = null;
         boolean expResult = false;
-        boolean result = instanceA.numeroDePermisAPremierCaractereValide(numeroDePermisAF);
+        boolean result = instanceA.numeroDePermisAPremierCaractereValide("Z3451");
         assertEquals(expResult, result);
     }
     
@@ -96,7 +88,7 @@ public class LecteurDeDeclarationTest {
         System.out.println("numeroDePermisAPremierCaractereValide Geologues Valide");
         //LecteurDeDeclaration instance = null;
         boolean expResult = true;
-        boolean result = instanceG.numeroDePermisAPremierCaractereValide(numeroDePermisGT);
+        boolean result = instanceG.numeroDePermisAPremierCaractereValide("BJ3822");
         assertEquals(expResult, result);
     }
     
@@ -106,7 +98,7 @@ public class LecteurDeDeclarationTest {
         //LecteurDeDeclaration instance = null;
         //numeroDePermis = numeroDePermisGF;
         boolean expResult = false;
-        boolean result = instanceG.numeroDePermisAPremierCaractereValide(numeroDePermisGF);
+        boolean result = instanceG.numeroDePermisAPremierCaractereValide("7867YS");
         assertEquals(expResult, result);
     }
     
@@ -116,7 +108,7 @@ public class LecteurDeDeclarationTest {
         //LecteurDeDeclaration instance = null;
         //numeroDePermis = numeroDePermisPoT;
         boolean expResult = true;
-        boolean result = instancePo.numeroDePermisAPremierCaractereValide(numeroDePermisPoT);
+        boolean result = instancePo.numeroDePermisAPremierCaractereValide("83453");
         assertEquals(expResult, result);
     }
     
@@ -125,7 +117,7 @@ public class LecteurDeDeclarationTest {
         System.out.println("numeroDePermisAPremierCaractereValide Podiatre False");
         //LecteurDeDeclaration instance = null;
         boolean expResult = false;
-        boolean result = instancePo.numeroDePermisAPremierCaractereValide(numeroDePermisPoF);
+        boolean result = instancePo.numeroDePermisAPremierCaractereValide("560890");
         assertEquals(expResult, result);
     }
     
@@ -134,7 +126,7 @@ public class LecteurDeDeclarationTest {
         System.out.println("numeroDePermisAPremierCaractereValide Psychologues Valide");
         //LecteurDeDeclaration instance = null;
         boolean expResult = true;
-        boolean result = instancePs.numeroDePermisAPremierCaractereValide(numeroDePermisPsT);
+        boolean result = instancePs.numeroDePermisAPremierCaractereValide("83723-34");
         assertEquals(expResult, result);
     }
     
@@ -143,7 +135,7 @@ public class LecteurDeDeclarationTest {
         System.out.println("numeroDePermisAPremierCaractereValide Psychologues False");
         //LecteurDeDeclaration instance = null;
         boolean expResult = false;
-        boolean result = instancePs.numeroDePermisAPremierCaractereValide(numeroDePermisPsF);
+        boolean result = instancePs.numeroDePermisAPremierCaractereValide("56122_03");
         assertEquals(expResult, result);
     }
     
