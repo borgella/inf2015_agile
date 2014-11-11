@@ -7,11 +7,9 @@ package inf2015_projet;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.TreeMap;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import professionnels.Architecte;
 import professionnels.Membre;
 import validation.ValidateurArchitecte;
 
@@ -35,22 +33,16 @@ public class Statistiques {
     }
 
     private void etablirCategoriesReconnues(TreeMap<String, Integer> activitesValidesParCategorie) {
-        ArrayList<String> nomDeCategories = nomsDesCategoriesReconnues();
-        for (int i = 0; i < nomDeCategories.size(); i++) {
-            String categorie = nomDeCategories.get(i);
+        String[] categoriesReconnues = nomsDesCategoriesReconnues();
+        for (String categorie: categoriesReconnues) {
             activitesValidesParCategorie.put(categorie, 0);
         }
     }
 
-    private static ArrayList<String> nomsDesCategoriesReconnues() {
-        String nomDeCategories[] = {"cours", "atelier", "séminaire", "colloque", "conférence", "lecture dirigée",
+    private static String[] nomsDesCategoriesReconnues() {
+        String categoriesReconnues[] = {"cours", "atelier", "séminaire", "colloque", "conférence", "lecture dirigée",
             "présentation", "groupe de discussion", "projet de recherche", "rédaction professionnelle"};
-        int nombreDeCategories = nomDeCategories.length;
-        ArrayList<String> categories = new ArrayList<>(nombreDeCategories);
-        for (int i = 0; i < nombreDeCategories; i++) {
-            categories.add(nomDeCategories[i]);
-        }
-        return categories;
+        return categoriesReconnues;
     }
 
     public void enregistrerTraitementDeDeclaration() {
@@ -75,7 +67,7 @@ public class Statistiques {
     }
 
     private void enregistrerActivitesValidesParCategorie(Membre membre) {
-        ArrayList<String> categoriesReconnues = nomsDesCategoriesReconnues();
+        String[] categoriesReconnues = nomsDesCategoriesReconnues();
         for (String categorie : categoriesReconnues) {
             enregistrerActivitesValidesParCategorie(membre, categorie);
         }
@@ -214,9 +206,9 @@ public class Statistiques {
 
     private static void ajouterChampsStatistiquesPourActivitesValidesParCategorie(JSONObject fichierStatistiques) {
         JSONArray compteursPourCategories = new JSONArray();
-        ArrayList<String> categoriesReconnues = nomsDesCategoriesReconnues();
-        for (String categoriesReconnue : categoriesReconnues) {
-            JSONObject compteurPourCategorie = champsStatistiqueActivitesValidesParCategorie(categoriesReconnue);
+        String[] categoriesReconnues = nomsDesCategoriesReconnues();
+        for (String categorie : categoriesReconnues) {
+            JSONObject compteurPourCategorie = champsStatistiqueActivitesValidesParCategorie(categorie);
             compteursPourCategories.add(compteurPourCategorie);
         }
         fichierStatistiques.accumulate("activites_valides_par_categorie", compteursPourCategories);
@@ -282,8 +274,8 @@ public class Statistiques {
     private void mettreAJourActivitesValidesParCategorie(JSONObject donneesStatistiques) {
         String champsStatistique = "activites_valides_par_categorie";
         JSONArray compteursActivitesValidesParCategorie = donneesStatistiques.getJSONArray(champsStatistique);
-        ArrayList<String> nomDesCategories = nomsDesCategoriesReconnues();
-        for (String categorie : nomDesCategories) {
+        String[] categoriesReconnues = nomsDesCategoriesReconnues();
+        for (String categorie : categoriesReconnues) {
             mettreAJourActivitesValidesParCategorie(compteursActivitesValidesParCategorie, categorie);
         }
     }
@@ -300,19 +292,23 @@ public class Statistiques {
         JSONObject compteurPourCategorie = null;
         for (int i = 0; i < compteursParCategorie.size(); i++) {
             JSONObject compteur = compteursParCategorie.getJSONObject(i);
-            String categorieCompteur = compteur.getString("categorie");
-            if (categorie.equals(categorieCompteur)) {
+            if (compteurEstDeCategorie(compteur, categorie)) {
                 compteurPourCategorie = compteur;
                 break;
             }
         }
         return compteurPourCategorie;
     }
+    
+    private static boolean compteurEstDeCategorie(JSONObject compteur, String categorie) {
+        String categorieCompteur = compteur.getString("categorie");
+        return categorie.equals(categorieCompteur);
+    }
 
     private int calculerNombreTotalActivitesValides() {
         int nombreTotalActivitesValides = 0;
-        ArrayList<String> nomDesCategories = nomsDesCategoriesReconnues();
-        for (String categorie : nomDesCategories) {
+        String[] categoriesReconnues = nomsDesCategoriesReconnues();
+        for (String categorie : categoriesReconnues) {
             nombreTotalActivitesValides += activitesValidesParCategorie.get(categorie);
         }
         return nombreTotalActivitesValides;
@@ -324,7 +320,7 @@ public class Statistiques {
             fichierDesStatistiques.write(donneesStatistiques.toString(2));
             fichierDesStatistiques.close();
         } catch (IOException e) {
-            // N'est pas atteingnable?
+            System.out.println("Erreur d'écriture du fichier de statistiques:  Aucune mise à jour des statistiques.");
         }
     }
 }
