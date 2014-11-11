@@ -68,66 +68,66 @@ public class LecteurDeDeclarationTest {
      * Test of numeroDePermisAPremierCaractereValide method, of class LecteurDeDeclaration.
      */
     @Test
-    public void testNumeroDePermisAPremierCaractereValideAT() {
-        System.out.println("numeroDePermisAPremierCaractereValide Architectes Valide");
+    public void testNumerosDePermisValides1a() {
+        System.out.println("Architectes: No. permis valide");
         boolean expResult = true;
-        boolean result = instanceArchitectes.numeroDePermisAPremierCaractereValide("T3443");
+        boolean result = instanceArchitectes.numerosDePermisValides("T3443");
         assertEquals(expResult, result);
     }
     
     @Test
-    public void testNumeroDePermisAPremierCaractereValideAF() {
-        System.out.println("numeroDePermisAPremierCaractereValide Architectes False");
+    public void testNumerosDePermisValides1b() {
+        System.out.println("Architectes: No. permis invalide");
         boolean expResult = false;
-        boolean result = instanceArchitectes.numeroDePermisAPremierCaractereValide("Z3451");
+        boolean result = instanceArchitectes.numerosDePermisValides("Z3451");
         assertEquals(expResult, result);
     }
     
     @Test
-    public void testNumeroDePermisAPremierCaractereValideGT() {
-        System.out.println("numeroDePermisAPremierCaractereValide Geologues Valide");
+    public void testNumerosDePermisValides2a() {
+        System.out.println("Geologues: No. permis valide");
         boolean expResult = true;
-        boolean result = instanceGeologues.numeroDePermisAPremierCaractereValide("BJ3822");
+        boolean result = instanceGeologues.numerosDePermisValides("BJ3822");
         assertEquals(expResult, result);
     }
     
     @Test
-    public void testNumeroDePermisAPremierCaractereValideGF() {
-        System.out.println("numeroDePermisAPremierCaractereValide Geologues False");
+    public void testNumerosDePermisValides2b() {
+        System.out.println("Geologues: No. permis invalide");
         boolean expResult = false;
-        boolean result = instanceGeologues.numeroDePermisAPremierCaractereValide("JB7867");
+        boolean result = instanceGeologues.numerosDePermisValides("JB7867");
         assertEquals(expResult, result);
     }
     
     @Test
-    public void testNumeroDePermisAPremierCaractereValidePoT() {
-        System.out.println("numeroDePermisAPremierCaractereValide Podiatre Valide");
+    public void testNumerosDePermisValides3a() {
+        System.out.println("Podiatre: No. permis valide");
         boolean expResult = true;
-        boolean result = instancePodiatres.numeroDePermisAPremierCaractereValide("83453");
+        boolean result = instancePodiatres.numerosDePermisValides("83453");
         assertEquals(expResult, result);
     }
     
     @Test
-    public void testNumeroDePermisAPremierCaractereValidePoF() {
-        System.out.println("numeroDePermisAPremierCaractereValide Podiatre False");
+    public void testNumerosDePermisValides3b() {
+        System.out.println("Podiatre: No. permis invalide");
         boolean expResult = false;
-        boolean result = instancePodiatres.numeroDePermisAPremierCaractereValide("560890");
+        boolean result = instancePodiatres.numerosDePermisValides("560890");
         assertEquals(expResult, result);
     }
     
     @Test
-    public void testNumeroDePermisAPremierCaractereValidePsT() {
-        System.out.println("numeroDePermisAPremierCaractereValide Psychologues Valide");
+    public void testNumerosDePermisValides4a() {
+        System.out.println("Psychologues: No. permis valide");
         boolean expResult = true;
-        boolean result = instancePsychologues.numeroDePermisAPremierCaractereValide("83723-34");
+        boolean result = instancePsychologues.numerosDePermisValides("83723-34");
         assertEquals(expResult, result);
     }
     
     @Test
-    public void testNumeroDePermisAPremierCaractereValidePsF() {
-        System.out.println("numeroDePermisAPremierCaractereValide Psychologues False");
+    public void testNumerosDePermisValides4b() {
+        System.out.println("Psychologues: No. permis invalide");
         boolean expResult = false;
-        boolean result = instancePsychologues.numeroDePermisAPremierCaractereValide("56122_03");
+        boolean result = instancePsychologues.numerosDePermisValides("56122_03");
         assertEquals(expResult, result);
     }
     
