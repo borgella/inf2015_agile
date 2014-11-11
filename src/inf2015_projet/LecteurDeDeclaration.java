@@ -60,10 +60,10 @@ public class LecteurDeDeclaration {
 
     public boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
         boolean validiteNumeroDePermis = false;
-        String numeroPermisArchitectes = "([A|T]{1})([0-9]{4})";
-        String numeroPermisPsychologues = "([0-9]{5})-([0-9]{2})";
-        String numeroPermisGeologues = "([A-Z]{2})([0-9]{4})";
-        String numeroPermisPodiatres = "([0-9]{5})";
+        String numeroPermisArchitectes = "^[A|T][0-9]{4}$";
+        String numeroPermisPsychologues = "^[0-9]{5}[-][0-9]{2}$";
+        String numeroPermisGeologues = "^[A-Z]{2}[0-9]{4}$";
+        String numeroPermisPodiatres = "^[0-9]{5}$";
         
         if(declaration.getString("ordre").equals("architectes")) {
             if(numeroDePermis.matches(numeroPermisArchitectes)) {
@@ -75,6 +75,10 @@ public class LecteurDeDeclaration {
             }
         } else if (declaration.getString("ordre").equals("geologues")) {
             if(numeroDePermis.matches(numeroPermisGeologues)) {
+                /* La première lettre du numéro de permis correspond à la 
+                 * première lettre du nom du membre en majuscule. La deuxième 
+                 * lettre du numéro de permis correspond à la première lettre 
+                 * du prénom du membre en majuscule */
                 validiteNumeroDePermis = true;
             }
         } else {

@@ -5,7 +5,6 @@
  */
 package inf2015_projet;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,13 +23,13 @@ public class LecteurDeDeclarationTest {
         JSONObject declarationG;
         JSONObject declarationPo;
         JSONObject declarationPs;
-        String numeroDePermisAT = "T5600";
+        String numeroDePermisAT = "T3443";
         String numeroDePermisAF = "Z3451";
-        String numeroDePermisGT = "35288-03";
+        String numeroDePermisGT = "BJ3822";
         String numeroDePermisGF = "56122.03";
-        String numeroDePermisPoT = "RR5460";
+        String numeroDePermisPoT = "83453";
         String numeroDePermisPoF = "7867YS";
-        String numeroDePermisPsT = "67002";
+        String numeroDePermisPsT = "83723-34";
         String numeroDePermisPsF = "091235";
         LecteurDeDeclaration instanceA;
         LecteurDeDeclaration instanceG;
@@ -69,6 +68,10 @@ public class LecteurDeDeclarationTest {
     
     @After
     public void tearDown() {
+        instanceA = null;
+        instanceG = null;
+        instancePo = null;
+        instancePs = null;
     }
 
     /**
@@ -78,7 +81,6 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisAPremierCaractereValideAT() {
         System.out.println("numeroDePermisAPremierCaractereValide Architectes Valide");
         //LecteurDeDeclaration instance = null;
-        //numeroDePermis = numeroDePermisAT;
         boolean expResult = true;
         boolean result = instanceA.numeroDePermisAPremierCaractereValide(numeroDePermisAT);
         assertEquals(expResult, result);
@@ -88,7 +90,6 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisAPremierCaractereValideAF() {
         System.out.println("numeroDePermisAPremierCaractereValide Architectes False");
         //LecteurDeDeclaration instance = null;
-        //numeroDePermis = numeroDePermisAF;
         boolean expResult = false;
         boolean result = instanceA.numeroDePermisAPremierCaractereValide(numeroDePermisAF);
         assertEquals(expResult, result);
@@ -98,7 +99,6 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisAPremierCaractereValideGT() {
         System.out.println("numeroDePermisAPremierCaractereValide Geologues Valide");
         //LecteurDeDeclaration instance = null;
-        //numeroDePermis = numeroDePermisGT;
         boolean expResult = true;
         boolean result = instanceG.numeroDePermisAPremierCaractereValide(numeroDePermisGT);
         assertEquals(expResult, result);
@@ -128,7 +128,6 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisAPremierCaractereValidePoF() {
         System.out.println("numeroDePermisAPremierCaractereValide Podiatre False");
         //LecteurDeDeclaration instance = null;
-        //numeroDePermis = numeroDePermisPoF;
         boolean expResult = false;
         boolean result = instancePo.numeroDePermisAPremierCaractereValide(numeroDePermisPoF);
         assertEquals(expResult, result);
@@ -138,7 +137,6 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisAPremierCaractereValidePsT() {
         System.out.println("numeroDePermisAPremierCaractereValide Psychologues Valide");
         //LecteurDeDeclaration instance = null;
-        //numeroDePermis = numeroDePermisPsT;
         boolean expResult = true;
         boolean result = instancePs.numeroDePermisAPremierCaractereValide(numeroDePermisPsT);
         assertEquals(expResult, result);
@@ -148,7 +146,6 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisAPremierCaractereValidePsF() {
         System.out.println("numeroDePermisAPremierCaractereValide Psychologues False");
         //LecteurDeDeclaration instance = null;
-        //numeroDePermis = numeroDePermisPsF;
         boolean expResult = false;
         boolean result = instancePs.numeroDePermisAPremierCaractereValide(numeroDePermisPsF);
         assertEquals(expResult, result);
