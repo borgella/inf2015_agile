@@ -74,11 +74,11 @@ public class LecteurDeDeclaration {
                 validiteNumeroDePermis = true;
             }
         } else if (declaration.getString("ordre").equals("geologues")) {
-            if(numeroDePermis.matches(numeroPermisGeologues)) {
-                /* La première lettre du numéro de permis correspond à la 
-                 * première lettre du nom du membre en majuscule. La deuxième 
-                 * lettre du numéro de permis correspond à la première lettre 
-                 * du prénom du membre en majuscule */
+            String premiereLettreNom = declaration.getString("nom").substring(0, 1);
+            String premiereLettrePrenom = declaration.getString("prenom").substring(0, 1);
+            if( numeroDePermis.matches(numeroPermisGeologues) && 
+                numeroDePermis.substring(0, 1).equals(premiereLettreNom) && 
+                numeroDePermis.substring(1, 2).equals(premiereLettrePrenom) ) {
                 validiteNumeroDePermis = true;
             }
         } else {
