@@ -34,6 +34,8 @@ public class LecteurDeDeclarationTest {
         instanceArchitectes = new LecteurDeDeclaration(declarationArchitectes);
         
         declarationGeologues = new JSONObject();
+        declarationGeologues.put("nom", "Berger");
+        declarationGeologues.put("prenom", "Jacques");
         declarationGeologues.put("ordre", "geologues");
         instanceGeologues = new LecteurDeDeclaration(declarationGeologues);
         
@@ -93,7 +95,7 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisAPremierCaractereValideGF() {
         System.out.println("numeroDePermisAPremierCaractereValide Geologues False");
         boolean expResult = false;
-        boolean result = instanceGeologues.numeroDePermisAPremierCaractereValide("7867YS");
+        boolean result = instanceGeologues.numeroDePermisAPremierCaractereValide("JB7867");
         assertEquals(expResult, result);
     }
     
