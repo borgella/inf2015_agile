@@ -75,6 +75,51 @@ public class LecteurDeDeclaration {
         
         return validiteNumeroDePermis;
     }
+    
+    /*public boolean numerosDePermisValides(String numeroDePermis) {
+        boolean validiteNumeroDePermis = false;
+        String numeroPermisArchitectes = "^[A|T][0-9]{4}$";
+        String numeroPermisPsychologues = "^[0-9]{5}[-][0-9]{2}$";
+        String numeroPermisGeologues = "^[A-Z]{2}[0-9]{4}$";
+        String numeroPermisPodiatres = "^[0-9]{5}$";
+        
+        if(declaration.getString("ordre").equals("architectes")) {
+            validiteNumeroDePermis = validiteNumeroDePermis(numeroDePermis, numeroPermisArchitectes);
+        } else if (declaration.getString("ordre").equals("psychologues")) {
+            validiteNumeroDePermis = validiteNumeroDePermis(numeroDePermis, numeroPermisPsychologues);
+        } else if (declaration.getString("ordre").equals("geologues")) {
+            validiteNumeroDePermis = validiteNumeroDePermisGeologues(numeroDePermis, numeroPermisGeologues);
+        } else {
+            validiteNumeroDePermis = validiteNumeroDePermis(numeroDePermis, numeroPermisPodiatres);
+        }
+        
+        return validiteNumeroDePermis;
+    }
+    
+    public boolean validiteNumeroDePermis(String numeroDePermisLu, String formatNumeroDePermis) {
+        boolean numeroDePermisValide = false;
+        
+        if(numeroDePermisLu.matches(formatNumeroDePermis)) {
+            numeroDePermisValide = true;
+        }
+        
+        return numeroDePermisValide;
+    }
+    
+    public boolean validiteNumeroDePermisGeologues(String numeroDePermisLu, String formatNumeroDePermis) {
+        boolean numeroDePermisValide = false;
+        
+        String premiereLettreNom = declaration.getString("nom").substring(0, 1);
+        String premiereLettrePrenom = declaration.getString("prenom").substring(0, 1);
+        
+        if( numeroDePermisLu.matches(formatNumeroDePermis) && 
+            numeroDePermisLu.substring(0, 1).equals(premiereLettreNom) && 
+            numeroDePermisLu.substring(1, 2).equals(premiereLettrePrenom) ) {
+            numeroDePermisValide = true;
+        }
+        
+        return numeroDePermisValide;
+    }*/
 
     public static boolean texteEstNumerique(String texte) {
         try {
