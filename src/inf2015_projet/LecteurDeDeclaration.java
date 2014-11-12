@@ -43,38 +43,6 @@ public class LecteurDeDeclaration {
             return false;
         }
     }
-
-    /*public boolean numerosDePermisValides(String numeroDePermis) {
-        boolean validiteNumeroDePermis = false;
-        String numeroPermisArchitectes = "^[A|T][0-9]{4}$";
-        String numeroPermisPsychologues = "^[0-9]{5}[-][0-9]{2}$";
-        String numeroPermisGeologues = "^[A-Z]{2}[0-9]{4}$";
-        String numeroPermisPodiatres = "^[0-9]{5}$";
-        
-        if(declaration.getString("ordre").equals("architectes")) {
-            if(numeroDePermis.matches(numeroPermisArchitectes)) {
-                validiteNumeroDePermis = true;
-            }
-        } else if (declaration.getString("ordre").equals("psychologues")) {
-            if(numeroDePermis.matches(numeroPermisPsychologues)) {
-                validiteNumeroDePermis = true;
-            }
-        } else if (declaration.getString("ordre").equals("geologues")) {
-            String premiereLettreNom = declaration.getString("nom").substring(0, 1);
-            String premiereLettrePrenom = declaration.getString("prenom").substring(0, 1);
-            if( numeroDePermis.matches(numeroPermisGeologues) && 
-                numeroDePermis.substring(0, 1).equals(premiereLettreNom) && 
-                numeroDePermis.substring(1, 2).equals(premiereLettrePrenom) ) {
-                validiteNumeroDePermis = true;
-            }
-        } else {
-            if(numeroDePermis.matches(numeroPermisPodiatres)) {
-                validiteNumeroDePermis = true;
-            }
-        }
-        
-        return validiteNumeroDePermis;
-    }*/
     
     public boolean numerosDePermisValides(String numeroDePermis) {
         boolean validiteNumeroDePermis = false;
