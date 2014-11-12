@@ -10,9 +10,9 @@ import professionnels.Geologue;
  */
 public class ValidateurGeologue extends Validateur {
 
-    protected Geologue membre;
-    protected ArrayList<String> messagesErreurs;
-    protected int heuresTotal;
+    private Geologue membre;
+    private ArrayList<String> messagesErreurs;
+    private int heuresTotal;
 
     public ValidateurGeologue(Geologue geologue) {
         this.membre = geologue;
@@ -41,16 +41,16 @@ public class ValidateurGeologue extends Validateur {
     }
 
     @Override
+    public boolean validerLeCycle() {
+        return membre.getCycle().equals("2013-2016");
+    }
+    
+    @Override
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
                     + "Seul le cycle 2013-2016 est accepté.");
         }
-    }
-
-    @Override
-    public boolean validerLeCycle() {
-        return membre.getCycle().equals("2013-2016");
     }
 
     @Override
