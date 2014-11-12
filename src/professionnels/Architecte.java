@@ -20,15 +20,25 @@ public class Architecte extends Membre {
 
     public void ajouterActivitePourMembre(JSONObject activite) {
         if (cycle.equals("2008-2010")) {
-            ajouterActivitePourArchitecte08_10(activite);
+            ajouterActivitePourArchitecte(activite, "2008-04-01", "2010-07-01");
         } else if (cycle.equals("2010-2012")) {
-            ajouterActivitePourArchitecte10_12(activite);
+            ajouterActivitePourArchitecte(activite, "2010-04-01", "2012-04-01");
         } else {    // Cycle 2012-2014
-            ajouterActivitePourArchitecte12_14(activite);
+            ajouterActivitePourArchitecte(activite, "2012-04-01", "2014-04-01");
+        }
+    }
+    
+    public void ajouterActivitePourArchitecte(JSONObject activite, String intervalleMin, String intervalleMax) {
+        String categorie = activite.getString("categorie");
+        int temporaire = regroupementDesCategories(categorie);
+        if (dateValideSelonCycle(activite.getString("date"), intervalleMin, intervalleMax) && temporaire != -1) {
+            activitesAcceptees.add(activite);
+        } else {
+            activitesRefusees.add(activite);
         }
     }
 
-    private void ajouterActivitePourArchitecte12_14(JSONObject activite) {
+    /*private void ajouterActivitePourArchitecte12_14(JSONObject activite) {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2012_2014(activite.getString("date")) && temporaire != -1) {
@@ -56,7 +66,7 @@ public class Architecte extends Membre {
         } else {
             activitesRefusees.add(activite);
         }
-    }
+    }*/
 
     public int regroupementDesCategories(String categorie) {
         int temporaire = -1;
@@ -99,6 +109,33 @@ public class Architecte extends Membre {
     }
 
     public boolean dateValidePourMembre(String date) {
+        boolean dateValide;
+        if (cycle.equals("2008-2010")) {
+            dateValide = dateValideSelonCycle(date, "2008-04-01", "2010-07-01");
+        } else if (cycle.equals("2010-2012")) {
+            dateValide = dateValideSelonCycle(date, "2010-04-01", "2012-04-01");
+        } else {    // Cycle 2012-2014
+            dateValide = dateValideSelonCycle(date, "2012-04-01", "2014-04-01");
+        }
+        return dateValide;
+    }
+    
+    public boolean dateValideSelonCycle(String date, String intervalleMin, String intervalleMax) {
+        SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateLue = null;
+        Date min = null;
+        Date max = null;
+        try {
+            dateLue = formatISO8601.parse(date);
+            min = formatISO8601.parse(intervalleMin);
+            max = formatISO8601.parse(intervalleMax);
+        } catch (ParseException ex) {
+            ex.getMessage();
+        }
+        return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
+    }
+    
+    /*public boolean dateValidePourMembre(String date) {
         boolean dateValide;
         if (cycle.equals("2008-2010")) {
             dateValide = dateValidePourCycle2008_2010(date);
@@ -153,7 +190,7 @@ public class Architecte extends Membre {
             ex.getMessage();
         }
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
-    }
+    }*/
 
     public int getHeuresTransferees() {
         return this.heuresTransferees;
