@@ -36,7 +36,7 @@ public class Geologue extends Membre {
         return temporaire;
     }
 
-    private int premiereCategorie(String categorie) {
+    public int premiereCategorie(String categorie) {
         int temporaire = 0;
         switch (categorie) {
             case "atelier": case "séminaire": case "colloque": 
@@ -48,7 +48,7 @@ public class Geologue extends Membre {
         return temporaire;
     }
 
-    private int deuxiemeCategorie(String categorie) {
+    public int deuxiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("cours") || categorie.equals("projet de recherche")
                 || categorie.equals("groupe de discussion")) {
