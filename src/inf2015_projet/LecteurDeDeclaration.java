@@ -44,7 +44,7 @@ public class LecteurDeDeclaration {
         }
     }
 
-    public boolean numerosDePermisValides(String numeroDePermis) {
+    /*public boolean numerosDePermisValides(String numeroDePermis) {
         boolean validiteNumeroDePermis = false;
         String numeroPermisArchitectes = "^[A|T][0-9]{4}$";
         String numeroPermisPsychologues = "^[0-9]{5}[-][0-9]{2}$";
@@ -74,9 +74,9 @@ public class LecteurDeDeclaration {
         }
         
         return validiteNumeroDePermis;
-    }
+    }*/
     
-    /*public boolean numerosDePermisValides(String numeroDePermis) {
+    public boolean numerosDePermisValides(String numeroDePermis) {
         boolean validiteNumeroDePermis = false;
         String numeroPermisArchitectes = "^[A|T][0-9]{4}$";
         String numeroPermisPsychologues = "^[0-9]{5}[-][0-9]{2}$";
@@ -119,7 +119,7 @@ public class LecteurDeDeclaration {
         }
         
         return numeroDePermisValide;
-    }*/
+    }
 
     public static boolean texteEstNumerique(String texte) {
         try {
