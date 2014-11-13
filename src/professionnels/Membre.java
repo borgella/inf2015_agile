@@ -73,4 +73,24 @@ public abstract class Membre {
         }
         return temporaire;
     }
+
+    
+    // TODO: À déplacer en même temps que l'attribut activitesAcceptees
+    public int obtenirNombreActivitesValides() {
+        return activitesAcceptees.size();
+    }
+    
+    // TODO: À déplacer en même temps que l'attribut activitesAcceptees
+    public int obtenirNombreActivitesValidesParCategorie(String categorie) {
+        int nombreActivitesValides = 0;
+        for (int i = 0; i < activitesAcceptees.size(); i++) {
+            JSONObject activiteValide = activitesAcceptees.get(i);
+            String categorieCourante = activiteValide.getString("categorie");
+            if (categorie.equals(categorieCourante)) {
+                nombreActivitesValides++;
+            }
+        }
+        return nombreActivitesValides;
+    }
 }
+

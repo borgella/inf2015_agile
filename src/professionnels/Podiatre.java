@@ -24,14 +24,7 @@ public class Podiatre extends Geologue {
 
     @Override
     public void ajouterActivitePourMembre(JSONObject activite) {
-        String categorie = activite.getString("categorie");
-        int temporaire = regroupementDesCategories(categorie);
-        int heures = activite.getInt("heures");
-        if (dateValidePourMembre(activite.getString("date")) && temporaire != -1 && heures > 0) {
-            activitesAcceptees.add(activite);
-        } else {
-            activitesRefusees.add(activite);
-        }
+        super.ajouterActivitePourMembre(activite);
     }
   
     public boolean dateValidePourMembre(String date) {

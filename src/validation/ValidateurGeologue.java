@@ -42,16 +42,16 @@ public class ValidateurGeologue extends Validateur {
     }
 
     @Override
+    public boolean validerLeCycle() {
+        return membre.getCycle().equals("2013-2016");
+    }
+    
+    @Override
     public void messageErreurSiLeCycleEstInvalide() {
         if (!validerLeCycle()) {
             messagesErreurs.add("Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. "
                     + "Seul le cycle 2013-2016 est accepté.");
         }
-    }
-
-    @Override
-    public boolean validerLeCycle() {
-        return membre.getCycle().equals("2013-2016");
     }
 
     @Override
@@ -169,7 +169,7 @@ public class ValidateurGeologue extends Validateur {
         int heuresDiscussion = heuresBrutesSelonCategorie("groupe de discussion");
 
         return heuresTotal = heuresSeptCategories
-                + heuresPresentation + heuresRecherche + +heuresDiscussion;
+                + heuresPresentation + heuresRecherche + heuresDiscussion;
     }
 
     public int heuresTotalesPourRegroupementDesSeptCategories() {

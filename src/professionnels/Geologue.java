@@ -35,18 +35,17 @@ public class Geologue extends Membre {
     }
     
     public boolean dateValidePourMembre(String date) {
+        boolean validiteDate; 
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateLue = null;
-        Date min = null;
-        Date max = null;
         try {
-            dateLue = formatISO8601.parse(date);
-            min = formatISO8601.parse("2013-06-01");
-            max = formatISO8601.parse("2016-06-01");
+            Date dateLue = formatISO8601.parse(date);
+            Date min = formatISO8601.parse("2013-06-01");
+            Date max = formatISO8601.parse("2016-06-01");
+            validiteDate = ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
         } catch (ParseException ex) {
-            ex.getMessage();
+            validiteDate = false;
         }
-        return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
+        return validiteDate;
     }
 
     @Override
