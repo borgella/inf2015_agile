@@ -28,7 +28,7 @@ public class LecteurDeDeclaration {
         String champsNumeroDePermis = "numero_de_permis";
         if (champsTexteExiste(champsNumeroDePermis)) {
             String numeroDePermis = declaration.getString(champsNumeroDePermis);
-            return numeroDePermisReconnu(numeroDePermis);
+            formatAccepte = numerosDePermisValides(numeroDePermis);
         } else {
             formatAccepte = false;
         }
@@ -36,68 +36,64 @@ public class LecteurDeDeclaration {
     }
 
     private boolean champsTexteExiste(String nomChamps) {
+        boolean champsTexteExiste;
         try {
             declaration.getString(nomChamps);
-            return true;
+            champsTexteExiste = true;
         } catch (Exception e) {
-            return false;
+            champsTexteExiste = false;
         }
+        return champsTexteExiste;
     }
 
-    private boolean numeroDePermisReconnu(String numeroDePermis) {
-        return numeroDePermisALongueurValide(numeroDePermis)
-                && numeroDePermisAContenuValide(numeroDePermis);
-    }
-
-    private static boolean numeroDePermisALongueurValide(String numeroDePermis) {
-        return numeroDePermis.length() == 5;
-    }
-
-    private boolean numeroDePermisAContenuValide(String numeroDePermis) {
-        return numeroDePermisAPremierCaractereValide(numeroDePermis)
-                && numeroDePermisTermineParQuatreChiffres(numeroDePermis);
-    }
-
-    private boolean numeroDePermisAPremierCaractereValide(String numeroDePermis) {
-        boolean validiteNumeroDePermis = false;
+    public boolean numerosDePermisValides(String numeroDePermis) {
+        boolean validiteNumeroDePermis;
         String numeroPermisArchitectes = "([A|T]{1}[0-9]{4})";
         String numeroPermisPsychologues = "([0-9]{5}[-][0-9]{2})";
         String numeroPermisGeologues = "([A-Z]{2}[0-9]{4})";
         String numeroPermisPodiatres = "([0-9]{5})";
         
         if(declaration.getString("ordre").equals("architectes")) {
-            if(numeroDePermis.matches(numeroPermisArchitectes)) {
-                validiteNumeroDePermis = true;
-            }
+            validiteNumeroDePermis = numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
         } else if (declaration.getString("ordre").equals("psychologues")) {
-            if(numeroDePermis.matches(numeroPermisPsychologues)) {
-                validiteNumeroDePermis = true;
-            }
+            validiteNumeroDePermis = numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
         } else if (declaration.getString("ordre").equals("geologues")) {
-            if(numeroDePermis.matches(numeroPermisGeologues)) {
-                validiteNumeroDePermis = true;
-            }
+            validiteNumeroDePermis = numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
         } else {
-            if(numeroDePermis.matches(numeroPermisPodiatres)) {
-                validiteNumeroDePermis = true;
-            }
+            validiteNumeroDePermis = numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
         }
-        
         return validiteNumeroDePermis;
     }
+    
+    public boolean numerosDePermisValidesSelonLOrdre(String numeroDePermisLu, String formatNumeroPermisValide) {
+        boolean validiteFormatNumeroDePermis = false;
+        if(numeroDePermisLu.matches(formatNumeroPermisValide)) {
+            validiteFormatNumeroDePermis = true;
+        }
+        return validiteFormatNumeroDePermis;
+    }
 
-    private static boolean numeroDePermisTermineParQuatreChiffres(String numeroDePermis) {
-        String finDeNumeroDePermis = numeroDePermis.substring(1, 5);
-        return texteEstNumerique(finDeNumeroDePermis);
+    public boolean numeroDePermisValideGeologues(String numeroDePermisLu, String formatNumeroPermisValide) {
+        boolean validiteFormatNumeroDePermis = false;
+        String premiereLettreNom = declaration.getString("nom").substring(0, 1);
+        String premiereLettrePrenom = declaration.getString("prenom").substring(0, 1);
+        if(numeroDePermisLu.matches(formatNumeroPermisValide) && 
+                numeroDePermisLu.substring(0, 1).equals(premiereLettreNom) && 
+                numeroDePermisLu.substring(1, 2).equals(premiereLettrePrenom)) {
+            validiteFormatNumeroDePermis = true;
+        }
+        return validiteFormatNumeroDePermis;
     }
 
     private static boolean texteEstNumerique(String texte) {
+        boolean texteEstNumerique;
         try {
             Integer.parseInt(texte);
-            return true;
+            texteEstNumerique = true;
         } catch (NumberFormatException e) {
-            return false;
+            texteEstNumerique = false;
         }
+        return texteEstNumerique;
     }
 
     private boolean formatAcceptePourOrdre() {
@@ -137,12 +133,14 @@ public class LecteurDeDeclaration {
     }
 
     private boolean champsNumeriqueExiste(String nomChamps) {
+        boolean champsNumeriqueExiste;
         try {
             declaration.getInt(nomChamps);
-            return true;
+            champsNumeriqueExiste = true;
         } catch (Exception e) {
-            return false;
+            champsNumeriqueExiste = false;
         }
+        return champsNumeriqueExiste;
     }
 
     private boolean formatAcceptePourTableauActivites() {
@@ -158,12 +156,14 @@ public class LecteurDeDeclaration {
     }
 
     private boolean champsTableauJSONExiste(String nomChamps) {
+        boolean champsTableauJSONExiste;
         try {
             declaration.getJSONArray(nomChamps);
-            return true;
+            champsTableauJSONExiste = true;
         } catch (Exception e) {
-            return false;
+            champsTableauJSONExiste = false;
         }
+        return champsTableauJSONExiste;
     }
 
     private static boolean formatAcceptePourChaqueActivite(JSONArray activites) {
@@ -198,12 +198,14 @@ public class LecteurDeDeclaration {
     }
 
     private static boolean champsTexteExistePourActivite(String nomChamps, JSONObject activite) {
+        boolean champsTexteExistePourActivite;
         try {
             activite.getString(nomChamps);
-            return true;
+            champsTexteExistePourActivite = true;
         } catch (Exception e) {
-            return false;
+            champsTexteExistePourActivite = false;
         }
+        return champsTexteExistePourActivite;
     }
 
     private static boolean descriptionReconnu(String description) {
@@ -228,12 +230,14 @@ public class LecteurDeDeclaration {
     }
 
     private static boolean champsNumeriqueExistePourActivite(String nomChamps, JSONObject activite) {
+        boolean champsNumeriqueExistePourActivite;
         try {
             activite.getInt(nomChamps);
-            return true;
+            champsNumeriqueExistePourActivite = true;
         } catch (Exception e) {
-            return false;
+            champsNumeriqueExistePourActivite = false;
         }
+        return champsNumeriqueExistePourActivite;
     }
 
     private static boolean heuresValidesPourActivite(int heures) {
