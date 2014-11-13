@@ -48,9 +48,9 @@ public class LecteurDeDeclaration {
         return numeroDePermisALongueurValide(numeroDePermis)
                 && numeroDePermisAContenuValide(numeroDePermis);
     }
-
+    //cette methode ne fonctionnerait pas pour les Geologues car leur numero de permis est de 6 chiffres
     private static boolean numeroDePermisALongueurValide(String numeroDePermis) {
-        return numeroDePermis.length() == 5;
+        return numeroDePermis.length() == 6 || numeroDePermis.length() == 5;
     }
 
     private boolean numeroDePermisAContenuValide(String numeroDePermis) {
@@ -73,7 +73,7 @@ public class LecteurDeDeclaration {
             if(numeroDePermis.matches(numeroPermisPsychologues)) {
                 validiteNumeroDePermis = true;
             }
-        } else if (declaration.getString("ordre").equals("geologues")) {
+        } else if (declaration.getString("ordre").equals("géologues")) {
             if(numeroDePermis.matches(numeroPermisGeologues)) {
                 validiteNumeroDePermis = true;
             }

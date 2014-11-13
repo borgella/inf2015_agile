@@ -3,7 +3,7 @@ package validation;
 import java.util.ArrayList;
 import net.sf.json.JSONObject;
 import professionnels.Psychologue;
-
+import professionnels.Membre;
 /**
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
@@ -14,12 +14,12 @@ public class ValidateurPsychologue extends Validateur {
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
-    public ValidateurPsychologue(Psychologue psychologue) {
-        this.membre = psychologue;
+    public ValidateurPsychologue(Membre psychologue) {
+        this.membre = (Psychologue) psychologue;
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
     }
-
+    
     @Override
     public JSONObject produireRapport() {
         JSONObject texteDeSortie = new JSONObject();

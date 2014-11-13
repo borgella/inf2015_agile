@@ -3,7 +3,7 @@ package validation;
 import professionnels.Architecte;
 import java.util.ArrayList;
 import net.sf.json.JSONObject;
-
+import professionnels.Membre;
 /**
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
@@ -14,8 +14,9 @@ public class ValidateurArchitecte extends Validateur {
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
 
-    public ValidateurArchitecte(Architecte architecte) {
-        this.membre = architecte;
+    
+    public ValidateurArchitecte(Membre architecte) {
+        this.membre = (Architecte)architecte;
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
     }

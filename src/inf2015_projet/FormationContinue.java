@@ -34,36 +34,38 @@ public class FormationContinue {
             JSONArray listeActivites = declarationJSON.getJSONArray("activites");
 
             if (declarationJSON.getString("ordre").equals("architectes")) {
-                Architecte architecte = new Architecte(declarationJSON);
-                for (int i = 0; i < listeActivites.size(); i++) {
-                    JSONObject uneActivite = listeActivites.getJSONObject(i);
-                    architecte.ajouterActivitePourMembre(uneActivite);
-                }
+                Membre architecte = new Architecte(declarationJSON);
+                ajouterArray(architecte,listeActivites);
                 ValidateurArchitecte validateur = new ValidateurArchitecte(architecte);
                 sortieJSON = validateur.produireRapport();
             } else if (declarationJSON.getString("ordre").equals("géologues")) {
-                Geologue geologue = new Geologue(declarationJSON);
-                for (int i = 0; i < listeActivites.size(); i++) {
-                    JSONObject uneActivite = listeActivites.getJSONObject(i);
-                    geologue.ajouterActivitePourMembre(uneActivite);
-                }
+                Membre geologue = new Geologue(declarationJSON);
+                ajouterArray(geologue,listeActivites);
                 ValidateurGeologue validateur = new ValidateurGeologue(geologue);
                 sortieJSON = validateur.produireRapport();
-            } else {
-                Psychologue psychologue = new Psychologue(declarationJSON);
-                for (int i = 0; i < listeActivites.size(); i++) {
-                    JSONObject uneActivite = listeActivites.getJSONObject(i);
-                    psychologue.ajouterActivitePourPsychologue(uneActivite);
-                }
+            } else if (declarationJSON.getString("ordre").equals("psychologues")) {
+                Membre psychologue = new Psychologue(declarationJSON);
+                ajouterArray(psychologue,listeActivites);
                 ValidateurPsychologue validateur = new ValidateurPsychologue(psychologue);
                 sortieJSON = validateur.produireRapport();
+            }else{
+                Membre podiatre = new Podiatre(declarationJSON);
+                ajouterArray(podiatre,listeActivites);
+                ValidateurPodiatre validateur = new ValidateurPodiatre(podiatre);
+                sortieJSON = validateur.produireRapport(); 
             }
 
         }
-
         // Écrire le fichier de sortie 
         FileWriter sortie = new FileWriter(fichierSortie);
         sortie.write(sortieJSON.toString(2));
         sortie.close();
+    }
+    
+    public static void ajouterArray(Membre membre,JSONArray listeActivites){
+        for (int i = 0; i < listeActivites.size(); i++) {
+                JSONObject uneActivite = listeActivites.getJSONObject(i);
+                membre.ajouterActivitePourMembre(uneActivite);
+         }
     }
 }
