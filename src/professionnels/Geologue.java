@@ -60,4 +60,22 @@ public class Geologue extends Membre {
     public ArrayList getActivitesAcceptees() {
         return this.activitesAcceptees;
     }
+    
+    @Override
+    public int obtenirNombreActivitesValides() {
+        return activitesAcceptees.size();
+    }
+
+    @Override
+    public int obtenirNombreActivitesValidesParCategorie(String categorie) {
+        int nombreActivitesValides = 0;
+        for (int i = 0; i < activitesAcceptees.size(); i++) {
+            JSONObject activiteValide = activitesAcceptees.get(i);
+            String categorieCourante = activiteValide.getString("categorie");
+            if (categorie.equals(categorieCourante)) {
+                nombreActivitesValides++;
+            }
+        }
+        return nombreActivitesValides;
+    }
 }

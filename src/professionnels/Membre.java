@@ -73,4 +73,8 @@ public abstract class Membre {
         }
         return temporaire;
     }
+    
+    public abstract int obtenirNombreActivitesValides();
+
+    public abstract int obtenirNombreActivitesValidesParCategorie(String categorie);
 }

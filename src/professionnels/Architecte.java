@@ -27,7 +27,7 @@ public class Architecte extends Membre {
 
     @Override
     public void ajouterActivitePourMembre(JSONObject activite) {
-        if(cycle.equals("2008-2010")) {
+        if (cycle.equals("2008-2010")) {
             ajouterActivitePourArchitecte08_10(activite);
         } else if (cycle.equals("2010-2012")) {
             ajouterActivitePourArchitecte10_12(activite);
@@ -77,7 +77,7 @@ public class Architecte extends Membre {
         }
         return dateValide;
     }
-    
+
     private boolean dateValidePourCycle2008_2010(String date) {
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         Date dateLue = null;
@@ -92,7 +92,7 @@ public class Architecte extends Membre {
         }
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
-    
+
     private boolean dateValidePourCycle2010_2012(String date) {
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         Date dateLue = null;
@@ -107,7 +107,7 @@ public class Architecte extends Membre {
         }
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
-    
+
     private boolean dateValidePourCycle2012_2014(String date) {
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         Date dateLue = null;
@@ -122,7 +122,7 @@ public class Architecte extends Membre {
         }
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
-    
+
     public int getHeuresTransferees() {
         return this.heuresTransferees;
     }
@@ -139,4 +139,23 @@ public class Architecte extends Membre {
     public ArrayList getActivitesAcceptees() {
         return this.activitesAcceptees;
     }
+
+    @Override
+    public int obtenirNombreActivitesValides() {
+        return activitesAcceptees.size();
+    }
+
+    @Override
+    public int obtenirNombreActivitesValidesParCategorie(String categorie) {
+        int nombreActivitesValides = 0;
+        for (int i = 0; i < activitesAcceptees.size(); i++) {
+            JSONObject activiteValide = activitesAcceptees.get(i);
+            String categorieCourante = activiteValide.getString("categorie");
+            if (categorie.equals(categorieCourante)) {
+                nombreActivitesValides++;
+            }
+        }
+        return nombreActivitesValides;
+    }
 }
+
