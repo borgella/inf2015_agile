@@ -27,6 +27,7 @@ public class Podiatre extends Geologue {
         super.ajouterActivitePourMembre(activite);
     }
   
+    @Override
     public boolean dateValidePourMembre(String date) {
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         Date dateLue = null;
@@ -48,10 +49,12 @@ public class Podiatre extends Geologue {
         return this.cycle;
     }
 
+    @Override
     public ArrayList getActivitesRefusees() {
         return this.activitesRefusees;
     }
 
+    @Override
     public ArrayList getActivitesAcceptees() {
         return this.activitesAcceptees;
     }

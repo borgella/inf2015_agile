@@ -11,14 +11,24 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class FormationContinue {
-// @param args the command line arguments
 
     public static void main(String[] args) throws IOException {
-        Statistiques statsPourDeclaration = new Statistiques();
-        if (args[0].equals("-S")) {
-            statsPourDeclaration.afficherStatistiques();
-        } else if (args[0].equals("-SR")) {
-            statsPourDeclaration.reinitialiserStatistiques();
+
+        String fichierEntree = args[0];
+        String fichierSortie = args[1];
+
+        String texteEntree;
+        texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
+
+        JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
+
+        LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
+
+        JSONObject sortieJSON;
+
+        if (lecteur.erreurDeFormatDetectee()) {
+            System.out.println("Erreur: Éxecution términée, car le fichier contient des données invalides.");
+            sortieJSON = lecteur.produireRapportPourErreurDeFormat();
         } else {
             JSONArray listeActivites = declarationJSON.getJSONArray("activites");
 
@@ -43,13 +53,9 @@ public class FormationContinue {
                 ValidateurPodiatre validateur = new ValidateurPodiatre(podiatre);
                 sortieJSON = validateur.produireRapport(); 
             }
-            statsPourDeclaration.mettreAJourStatistiquesCumulatives();
-            // Écrire le fichier de sortie
-            FileWriter sortie = new FileWriter(fichierSortie);
-            sortie.write(sortieJSON.toString(2));
-            sortie.close();
+
         }
-        // Écrire le fichier de sortie 
+
         FileWriter sortie = new FileWriter(fichierSortie);
         sortie.write(sortieJSON.toString(2));
         sortie.close();

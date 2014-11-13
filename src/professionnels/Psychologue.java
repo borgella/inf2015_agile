@@ -11,9 +11,9 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Psychologue extends Membre {
-    protected String cycle;
-    protected ArrayList<JSONObject> activitesAcceptees;
-    protected ArrayList<JSONObject> activitesRefusees;
+    private String cycle;
+    private ArrayList<JSONObject> activitesAcceptees;
+    private ArrayList<JSONObject> activitesRefusees;
 
     public Psychologue(JSONObject activiteJson) {
         super(activiteJson);
