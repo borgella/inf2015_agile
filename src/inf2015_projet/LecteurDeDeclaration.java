@@ -57,7 +57,7 @@ public class LecteurDeDeclaration {
             validiteNumeroDePermis = numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
         } else if (declaration.getString("ordre").equals("psychologues")) {
             validiteNumeroDePermis = numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
-        } else if (declaration.getString("ordre").equals("geologues")) {
+        } else if (declaration.getString("ordre").equals("géologues")) {
             validiteNumeroDePermis = numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
         } else {
             validiteNumeroDePermis = numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
