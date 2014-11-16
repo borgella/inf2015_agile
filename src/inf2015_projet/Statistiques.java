@@ -54,7 +54,8 @@ public class Statistiques {
         setDeclarationIncompleteOuInvalide(!validateur.formationComplete());
     }
 
-    public void enregistrerDeclarationInvalideOuIncomplete() {
+    public void enregistrerDeclarationInvalide(int sexeDuDeclarant) {
+        sexeDeclaree = sexeDuDeclarant;
         setDeclarationIncompleteOuInvalide(true);
     }
 

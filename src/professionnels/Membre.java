@@ -14,7 +14,7 @@ import net.sf.json.JSONObject;
 public abstract class Membre {
     private String nom;
     private String prenom;
-    private int sexe;
+    private int sexe = 0;
     private String numeroDePermis;
     private String ordre;
     

@@ -11,6 +11,7 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Geologue extends Membre {
+
     private String cycle;
     private ArrayList<JSONObject> activitesAcceptees;
     private ArrayList<JSONObject> activitesRefusees;
@@ -33,9 +34,36 @@ public class Geologue extends Membre {
             activitesRefusees.add(activite);
         }
     }
-    
+
+    @Override
+    public int premiereCategorie(String categorie) {
+        int temporaire = 0;
+        switch (categorie) {
+            case "atelier":
+            case "séminaire":
+            case "colloque":
+            case "conférence":
+            case "lecture dirigée":
+            case "présentation":
+            case "rédaction professionnelle":
+                temporaire = 1;
+                break;
+        }
+        return temporaire;
+    }
+
+    @Override
+    public int deuxiemeCategorie(String categorie) {
+        int temporaire = 0;
+        if (categorie.equals("cours") || categorie.equals("projet de recherche")
+                || categorie.equals("groupe de discussion")) {
+            temporaire = 2;
+        }
+        return temporaire;
+    }
+
     public boolean dateValidePourMembre(String date) {
-        boolean validiteDate; 
+        boolean validiteDate;
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date dateLue = formatISO8601.parse(date);
@@ -60,7 +88,7 @@ public class Geologue extends Membre {
     public ArrayList getActivitesAcceptees() {
         return this.activitesAcceptees;
     }
-    
+
     @Override
     public int obtenirNombreActivitesValides() {
         return activitesAcceptees.size();

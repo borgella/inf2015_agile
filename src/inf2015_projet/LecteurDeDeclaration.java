@@ -16,8 +16,11 @@ public class LecteurDeDeclaration {
     }
 
     public boolean erreurDeFormatDetectee() {
-        return !formatAcceptePourNumeroDePermis()
+        return !formatAcceptePourSexe()
+                || !formatAcceptePourNumeroDePermis()
                 || !formatAcceptePourOrdre()
+                || !formatAcceptePourPrenomOuNom("prenom")
+                || !formatAcceptePourPrenomOuNom("nom")
                 || !formatAcceptePourCycle()
                 || !formatAcceptePourHeuresTransfereesSelonOrdre()
                 || !formatAcceptePourTableauActivites();
@@ -107,12 +110,39 @@ public class LecteurDeDeclaration {
         }
         return formatAccepte;
     }
-
+    
     private static boolean ordreReconnu(String ordre) {
         return ordre.equals("architectes")
                 || ordre.equals("géologues")
                 || ordre.equals("psychologues")
                 || ordre.equals("podiatres");
+    }
+    
+    private boolean formatAcceptePourPrenomOuNom(String nomChamps) {
+        boolean formatAccepte;
+        if (champsTexteExiste(nomChamps)) {
+            String champs = declaration.getString(nomChamps);
+            formatAccepte = !champs.equals("");
+        } else {
+            formatAccepte = false;
+        }
+        return formatAccepte;
+    }
+    
+    private boolean formatAcceptePourSexe() {
+        boolean formatAccepte;
+        String champsSexe = "sexe";
+        if (champsNumeriqueExiste(champsSexe)) {
+            int sexe = declaration.getInt(champsSexe);
+            formatAccepte = sexeReconnu(sexe);
+        } else {
+            formatAccepte = false;
+        }
+        return formatAccepte;
+    }   
+
+    private static boolean sexeReconnu(int sexe) {
+        return sexe == 0 || sexe == 1 || sexe == 2;
     }
 
     private boolean formatAcceptePourCycle() {
@@ -326,6 +356,14 @@ public class LecteurDeDeclaration {
 
     private static String messageDErreurPourDeclarationInvalide() {
         return "Le fichier d'entrée est invalide et donc le cycle de formation est incomplet.";
+    }
+    
+    public int extraireSexe() {
+        int sexe = 0;
+        if (formatAcceptePourSexe()) {
+            sexe = declaration.getInt("sexe");
+        }
+        return sexe;
     }
 
 }

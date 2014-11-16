@@ -11,7 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import professionnels.*;
 import validation.*;
 
@@ -57,8 +56,6 @@ public class StatistiquesTest {
         donneesStatistiquesPleines.accumulate("activites_valides_par_categorie", statistiquesParCategorie);
     }
     
-    
-    
     @After
     public void tearDown() {
         statistiques = null;
@@ -103,62 +100,4 @@ public class StatistiquesTest {
             assertEquals(0, statistiqueCategorie.getInt("nombre"));
         }
     }
-
-    @Ignore
-    @Test
-    public void testEnregistrerCompletudeDeLaDeclaration() {
-        System.out.println("enregistrerCompletudeDeLaDeclaration");
-        ValidateurArchitecte validateur = null;
-        Statistiques statistiques = new Statistiques();
-        statistiques.enregistrerCompletudeDeLaDeclaration(validateur);
-        fail("The test case is a prototype.");
-    }
-
-    @Ignore
-    @Test
-    public void testEnregistrerDeclarationInvalideOuIncomplete() {
-        System.out.println("enregistrerDeclarationInvalideOuIncomplete");
-        Statistiques statistiques = new Statistiques();
-        statistiques.enregistrerDeclarationInvalideOuIncomplete();
-        fail("The test case is a prototype.");
-    }
-
-    @Ignore
-    @Test
-    public void testEnregistrerDetailsDuDeclarant() {
-        System.out.println("enregistrerDetailsDuDeclarant");
-        Membre membre = null;
-        Statistiques statistiques = new Statistiques();
-        statistiques.enregistrerDetailsDuDeclarant(membre);
-        fail("The test case is a prototype.");
-    }
-
-    @Ignore
-    @Test
-    public void testEnregistrerSexeDeclaree() {
-        System.out.println("enregistrerSexeDeclaree");
-        Membre membre = null;
-        Statistiques statistiques = new Statistiques();
-        statistiques.enregistrerSexeDeclaree(membre);
-        fail("The test case is a prototype.");
-    }
-
-    @Ignore
-    @Test
-    public void testMettreAJourStatistiquesCumulatives() {
-        System.out.println("mettreAJourStatistiquesCumulatives");
-        Statistiques statistiques = new Statistiques();
-        statistiques.mettreAJourStatistiquesCumulatives();
-        fail("The test case is a prototype.");
-    }
-
-    @Ignore
-    @Test
-    public void testAfficherStatistiques() {
-        System.out.println("afficherStatistiques");
-        Statistiques statistiques = new Statistiques();
-        statistiques.afficherStatistiques();
-        fail("The test case is a prototype.");
-    }
-    
 }
