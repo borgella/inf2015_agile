@@ -23,11 +23,7 @@ public class ValidateurArchitecte extends Validateur {
 
     @Override
     public JSONObject produireRapport() {
-        JSONObject texteDeSortie = new JSONObject();
-        construireMessagesDErreur();
-        texteDeSortie.accumulate("complet", formationComplete());
-        texteDeSortie.accumulate("erreurs", messagesErreurs);
-        return texteDeSortie;
+        return produireRapport(messagesErreurs);
     }
     
     @Override
@@ -90,29 +86,6 @@ public class ValidateurArchitecte extends Validateur {
         }
         return descriptionsDesActivites;
     }
-    
-    @Override
-    public String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
-        int nombreDeDescriptions = descriptions.size();
-        String phraseDeRetour = "";
-        if (nombreDeDescriptions > 0) {
-            phraseDeRetour = construirePhraseAvecDescriptions(descriptions);
-        }
-        return phraseDeRetour;
-    }
-
-    @Override
-    public String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
-        String phraseDeRetour = descriptions.get(0);
-        int nombreDeDescriptions = descriptions.size();
-        for (int i = 1; i < nombreDeDescriptions - 1; i++) {
-            phraseDeRetour += ", " + descriptions.get(i);
-        }
-        if (nombreDeDescriptions > 1) {
-            phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
-        }
-        return phraseDeRetour;
-    }
 
     @Override
     public void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
@@ -167,7 +140,7 @@ public class ValidateurArchitecte extends Validateur {
         int heuresManquantesEnGeneral = nombreDHeuresRequisParCycle() - heuresTotalesFormation();
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
-            int heuresManquantesPourLeCycle = max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
+            int heuresManquantesPourLeCycle = Integer.max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
             String messageHeuresManquantes =  "Il manque un total de " + heuresManquantesPourLeCycle
                     + " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
@@ -229,7 +202,7 @@ public class ValidateurArchitecte extends Validateur {
     private int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return min(heuresBrutes, maximumHeures);
+        return Integer.min(heuresBrutes, maximumHeures);
     }
 
     @Override
@@ -253,14 +226,6 @@ public class ValidateurArchitecte extends Validateur {
             nombreMaximumHeures = 17;
         }
         return nombreMaximumHeures;
-    }
-
-    private int min(int nombre1, int nombre2) {
-        return nombre1 < nombre2 ? nombre1 : nombre2;
-    }
-
-    private int max(int nombre1, int nombre2) {
-        return nombre1 > nombre2 ? nombre1 : nombre2;
     }
 
     private void messageErreurPourHeuresInsuffisantesSixCategories() {

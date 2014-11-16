@@ -14,7 +14,7 @@ import professionnels.*;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public abstract class Validateur {
-    
+
     public static Validateur genererValidateur(Membre membre) {
         Validateur validateurGenere = fabriqueValidateur(membre);
         return validateurGenere;
@@ -33,39 +33,64 @@ public abstract class Validateur {
         }
         return validateurGenere;
     }
-    
+
+    public JSONObject produireRapport(ArrayList<String> messagesErreurs) {
+        JSONObject texteDeSortie = new JSONObject();
+        construireMessagesDErreur();
+        texteDeSortie.accumulate("complet", formationComplete());
+        texteDeSortie.accumulate("erreurs", messagesErreurs);
+        return texteDeSortie;
+    }
+
     public abstract JSONObject produireRapport();
-    
+
     public abstract void construireMessagesDErreur();
-    
+
     public abstract void messageErreurSiLeCycleEstInvalide();
-    
+
     public abstract boolean validerLeCycle();
-    
+
     public abstract void messageInvalidePourCategorieNonReconnue();
-    
+
     public abstract ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste);
-    
-    public abstract String convertirDescriptionsEnPhrase(ArrayList<String> descriptions);
-    
-    public abstract String construirePhraseAvecDescriptions(ArrayList<String> descriptions);
-    
+
+    public String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+        int nombreDeDescriptions = descriptions.size();
+        String phraseDeRetour = "";
+        if (nombreDeDescriptions > 0) {
+            phraseDeRetour = construirePhraseAvecDescriptions(descriptions);
+        }
+        return phraseDeRetour;
+    }
+
+    public String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
+        String phraseDeRetour = descriptions.get(0);
+        int nombreDeDescriptions = descriptions.size();
+        for (int i = 1; i < nombreDeDescriptions - 1; i++) {
+            phraseDeRetour += ", " + descriptions.get(i);
+        }
+        if (nombreDeDescriptions > 1) {
+            phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
+        }
+        return phraseDeRetour;
+    }
+
     public abstract void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees);
-    
+
     public abstract void messageErreurPourDateInvalide();
-    
+
     public abstract ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste);
-    
+
     public abstract void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees);
-    
+
     public abstract void messageErreurPourHeuresManquantes();
-    
+
     public abstract int heuresTotalesFormation();
-    
+
     public abstract int nombreDHeuresSelonRegroupement(int codeDuRegroupement);
-    
+
     public abstract int heuresBrutesSelonCategorie(String categorie);
-    
+
     public abstract boolean formationComplete();
-    
+
 }

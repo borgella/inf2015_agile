@@ -22,11 +22,7 @@ public class ValidateurPsychologue extends Validateur {
     
     @Override
     public JSONObject produireRapport() {
-        JSONObject texteDeSortie = new JSONObject();
-        construireMessagesDErreur();
-        texteDeSortie.accumulate("complet", formationComplete());
-        texteDeSortie.accumulate("erreurs", messagesErreurs);
-        return texteDeSortie;
+        return produireRapport(messagesErreurs);
     }
 
     @Override
@@ -75,29 +71,6 @@ public class ValidateurPsychologue extends Validateur {
             }
         }
         return descriptionsDesActivites;
-    }
-
-    @Override
-    public String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
-        int nombreDeDescriptions = descriptions.size();
-        String phraseDeRetour = "";
-        if (nombreDeDescriptions > 0) {
-            phraseDeRetour = construirePhraseAvecDescriptions(descriptions);
-        }
-        return phraseDeRetour;
-    }
-
-    @Override
-    public String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
-        String phraseDeRetour = descriptions.get(0);
-        int nombreDeDescriptions = descriptions.size();
-        for (int i = 1; i < nombreDeDescriptions - 1; i++) {
-            phraseDeRetour += ", " + descriptions.get(i);
-        }
-        if (nombreDeDescriptions > 1) {
-            phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
-        }
-        return phraseDeRetour;
     }
 
     @Override
@@ -153,7 +126,7 @@ public class ValidateurPsychologue extends Validateur {
         int heuresManquantesEnGeneral = 90 - heuresTotalesFormation();
         int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
         if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0) {
-            int heuresManquantesPourLeCycle = max(heuresManquantesEnGeneral, heuresManquantesCours);
+            int heuresManquantesPourLeCycle = Integer.max(heuresManquantesEnGeneral, heuresManquantesCours);
             String messageHeuresManquantes = "Il manque un total de " + heuresManquantesPourLeCycle
                     + " heure(s) de formation pour compléter le cycle.";
             messagesErreurs.add(messageHeuresManquantes);
@@ -186,7 +159,7 @@ public class ValidateurPsychologue extends Validateur {
     private int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
-        return min(heuresBrutes, maximumHeures);
+        return Integer.min(heuresBrutes, maximumHeures);
     }
 
     @Override
@@ -200,14 +173,6 @@ public class ValidateurPsychologue extends Validateur {
             }
         }
         return heuresTotales;
-    }
-
-    private int max(int nombre1, int nombre2) {
-        return nombre1 > nombre2 ? nombre1 : nombre2;
-    }
-
-    private int min(int nombre1, int nombre2) {
-        return nombre1 < nombre2 ? nombre1 : nombre2;
     }
 
     private int maximumHeuresSelonCategorie(String categorie) {

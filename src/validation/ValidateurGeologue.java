@@ -23,11 +23,7 @@ public class ValidateurGeologue extends Validateur {
     
     @Override
     public JSONObject produireRapport() {
-        JSONObject texteDeSortie = new JSONObject();
-        construireMessagesDErreur();
-        texteDeSortie.accumulate("complet", formationComplete());
-        texteDeSortie.accumulate("erreurs", messagesErreurs);
-        return texteDeSortie;
+        return produireRapport(messagesErreurs);
     }
 
     @Override
@@ -76,29 +72,6 @@ public class ValidateurGeologue extends Validateur {
             }
         }
         return descriptionsDesActivites;
-    }
-
-    @Override
-    public String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
-        int nombreDeDescriptions = descriptions.size();
-        String phraseDeRetour = "";
-        if (nombreDeDescriptions > 0) {
-            phraseDeRetour = construirePhraseAvecDescriptions(descriptions);
-        }
-        return phraseDeRetour;
-    }
-
-    @Override
-    public String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
-        String phraseDeRetour = descriptions.get(0);
-        int nombreDeDescriptions = descriptions.size();
-        for (int i = 1; i < nombreDeDescriptions - 1; i++) {
-            phraseDeRetour += ", " + descriptions.get(i);
-        }
-        if (nombreDeDescriptions > 1) {
-            phraseDeRetour += " et " + descriptions.get(nombreDeDescriptions - 1);
-        }
-        return phraseDeRetour;
     }
 
     @Override
@@ -208,7 +181,7 @@ public class ValidateurGeologue extends Validateur {
         int nombreUnNonNegatif = rendrePositifOuNul(nombreUn);
         int nombreDeuxNonNegatif = rendrePositifOuNul(nombreDeux);
         int nombreTroisNonNegatif = rendrePositifOuNul(nombreTrois);
-        return max(grandNombreNonNegatif, nombreUnNonNegatif + nombreDeuxNonNegatif + nombreTroisNonNegatif);
+        return Integer.max(grandNombreNonNegatif, nombreUnNonNegatif + nombreDeuxNonNegatif + nombreTroisNonNegatif);
     }
     
     public int rendrePositifOuNul(int nombre) {
@@ -217,10 +190,6 @@ public class ValidateurGeologue extends Validateur {
             nombrePositifOuNul = 0;
         }
         return nombrePositifOuNul;
-    }
-
-    public int max(int nombre1, int nombre2) {
-        return nombre1 > nombre2 ? nombre1 : nombre2;
     }
 
     public void ecrireMessageErreurPourHeuresManquantesSiApplicable(int heuresManquantes) {
