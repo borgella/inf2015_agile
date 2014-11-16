@@ -1,0 +1,4 @@
+{
+  "complet": false,
+  "erreurs": ["Le cycle n'est pas valide et donc vos heures ne seront pas comptabilisées. Seul le cycle 2012-2014 est accepté."]
+}

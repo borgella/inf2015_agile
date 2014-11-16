@@ -28,7 +28,31 @@ public abstract class Membre {
     
     public abstract void ajouterActivitePourMembre(JSONObject activite);
     
+    public static Membre genererMembre(JSONObject declaration) {
+        String ordre = declaration.getString("ordre");
+        Membre membreGenere = fabriqueMembre(ordre, declaration);
+        return membreGenere;
+    }
+
+    private static Membre fabriqueMembre(String ordre, JSONObject declaration) {
+        Membre membreGenere;
+        if (ordre.equals("architectes")) {
+            membreGenere = new Architecte(declaration);
+        } else if (ordre.equals("géologues")) {
+            membreGenere = new Geologue(declaration);
+        } else if (ordre.equals("psychologues")) {
+            membreGenere = new Psychologue(declaration);
+        } else {
+            membreGenere = new Podiatre(declaration);
+        }
+        return membreGenere;
+    }
+    
     public abstract String getCycle();
+    
+    public String getOrdre() {
+        return ordre;
+    }
     
     public int getSexe(){
         return sexe;

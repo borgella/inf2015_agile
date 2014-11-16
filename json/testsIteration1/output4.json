@@ -1,0 +1,7 @@
+{
+  "complet": false,
+  "erreurs":   [
+    "Le nombre d'heures transférées est supérieur à 7. Seulement 7 heures seront comptabilisées.",
+    "Il manque un total de 2 heure(s) de formation pour compléter le cycle."
+  ]
+}

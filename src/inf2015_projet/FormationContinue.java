@@ -37,36 +37,16 @@ public class FormationContinue {
                 sortieJSON = lecteur.produireRapportPourErreurDeFormat();
             } else {
                 JSONArray listeActivites = declarationJSON.getJSONArray("activites");
-
-                if (declarationJSON.getString("ordre").equals("architectes")) {
-                    Membre architecte = new Architecte(declarationJSON);
-                    ajouterArray(architecte, listeActivites);
-                    statsPourDeclaration.enregistrerDetailsDuDeclarant(architecte);
-                    ValidateurArchitecte validateur = new ValidateurArchitecte(architecte);
-                    sortieJSON = validateur.produireRapport();
-                    statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
-                } else if (declarationJSON.getString("ordre").equals("géologues")) {
-                    Membre geologue = new Geologue(declarationJSON);
-                    ajouterArray(geologue, listeActivites);
-                    statsPourDeclaration.enregistrerDetailsDuDeclarant(geologue);
-                    ValidateurGeologue validateur = new ValidateurGeologue(geologue);
-                    sortieJSON = validateur.produireRapport();
-                    statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
-                } else if (declarationJSON.getString("ordre").equals("psychologues")) {
-                    Membre psychologue = new Psychologue(declarationJSON);
-                    ajouterArray(psychologue, listeActivites);
-                    statsPourDeclaration.enregistrerDetailsDuDeclarant(psychologue);
-                    ValidateurPsychologue validateur = new ValidateurPsychologue(psychologue);
-                    sortieJSON = validateur.produireRapport();
-                    statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
-                } else {
-                    Membre podiatre = new Podiatre(declarationJSON);
-                    ajouterArray(podiatre, listeActivites);
-                    statsPourDeclaration.enregistrerDetailsDuDeclarant(podiatre);
-                    ValidateurPodiatre validateur = new ValidateurPodiatre(podiatre);
-                    sortieJSON = validateur.produireRapport();
-                    statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
-                }
+                
+                Membre membre = Membre.genererMembre(declarationJSON);
+                ajouterArray(membre, listeActivites);
+                
+                statsPourDeclaration.enregistrerDetailsDuDeclarant(membre);
+                
+                Validateur validateur = Validateur.genererValidateur(membre);
+                sortieJSON = validateur.produireRapport();
+                
+                statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
             }
 
             statsPourDeclaration.mettreAJourStatistiquesCumulatives();

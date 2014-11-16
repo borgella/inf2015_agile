@@ -7,12 +7,32 @@ package validation;
 
 import java.util.ArrayList;
 import net.sf.json.JSONObject;
+import professionnels.*;
 
 /**
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public abstract class Validateur {
+    
+    public static Validateur genererValidateur(Membre membre) {
+        Validateur validateurGenere = fabriqueValidateur(membre);
+        return validateurGenere;
+    }
+
+    private static Validateur fabriqueValidateur(Membre membre) {
+        Validateur validateurGenere;
+        if (membre instanceof Architecte) {
+            validateurGenere = new ValidateurArchitecte(membre);
+        } else if (membre instanceof Geologue) {
+            validateurGenere = new ValidateurGeologue(membre);
+        } else if (membre instanceof Psychologue) {
+            validateurGenere = new ValidateurPsychologue(membre);
+        } else {
+            validateurGenere = new ValidateurPodiatre(membre);
+        }
+        return validateurGenere;
+    }
     
     public abstract JSONObject produireRapport();
     

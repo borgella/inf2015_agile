@@ -2,4 +2,8 @@
 /build/
 /json/sortie.json
 /sortie.json
+/sortieArchitecte.json
+/sortieGeologue.json
+/sortiePsychologue.json
+/sortiePodiatre.json
 /dist/
