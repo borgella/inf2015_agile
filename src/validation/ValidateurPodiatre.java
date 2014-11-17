@@ -1,7 +1,6 @@
 package validation;
 
 import java.util.ArrayList;
-import net.sf.json.JSONObject;
 import professionnels.Membre;
 import professionnels.Podiatre;
 
@@ -10,12 +9,11 @@ import professionnels.Podiatre;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class ValidateurPodiatre extends ValidateurGeologue {
-    
+
     private Podiatre membre;
     private ArrayList<String> messagesErreurs;
     private int heuresTotal;
-    
- 
+
     public ValidateurPodiatre(Membre podiatre) {
         super(podiatre);
         this.membre = (Podiatre) podiatre;
@@ -23,7 +21,6 @@ public class ValidateurPodiatre extends ValidateurGeologue {
         heuresTotal = 0;
     }
 
-        
     @Override
     public void messageErreurPourHeuresManquantes() {
         int heuresManquantesEnGeneral = 60 - heuresTotalesFormation();
@@ -32,11 +29,9 @@ public class ValidateurPodiatre extends ValidateurGeologue {
         int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");
         // Le nombre d'heures manquantes est la somme des heures manquantes par catégorie, si supérieure au total brut
         int grandMaximum = maximumParmisQuatreSansNuls(heuresManquantesEnGeneral, heuresManquantesCours,
-                 heuresManquantesRecherche, heuresManquantesDiscussion);
+                heuresManquantesRecherche, heuresManquantesDiscussion);
         ecrireMessageErreurPourHeuresManquantesSiApplicable(grandMaximum);
     }
-
-
 
     @Override
     public boolean formationComplete() {

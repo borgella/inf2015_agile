@@ -24,12 +24,12 @@ public abstract class Validateur {
         Validateur validateurGenere;
         if (membre instanceof Architecte) {
             validateurGenere = new ValidateurArchitecte(membre);
-        } else if (membre instanceof Geologue) {
-            validateurGenere = new ValidateurGeologue(membre);
+        } else if (membre instanceof Podiatre) {
+            validateurGenere = new ValidateurPodiatre(membre);
         } else if (membre instanceof Psychologue) {
             validateurGenere = new ValidateurPsychologue(membre);
         } else {
-            validateurGenere = new ValidateurPodiatre(membre);
+            validateurGenere = new ValidateurGeologue(membre);
         }
         return validateurGenere;
     }
