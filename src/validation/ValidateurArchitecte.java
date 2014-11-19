@@ -241,7 +241,7 @@ public class ValidateurArchitecte extends Validateur {
 
     @Override
     public boolean formationComplete() {
-        boolean critereSixCategories = nombreDHeuresSelonRegroupement(1) >= 17;
+        boolean critereSixCategories = heuresTotalesPourRegroupementDesSixCategories() >= 17;
         boolean critereDHeuresTotales;
         String cycle = membre.getCycle();
         if (cycle.equals("2012-2014")) {
