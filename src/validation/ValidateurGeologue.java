@@ -10,9 +10,9 @@ import professionnels.Membre;
  */
 public class ValidateurGeologue extends Validateur {
 
-    private Geologue membre;
-    private ArrayList<String> messagesErreurs;
-    private int heuresTotal;
+    protected Geologue membre;
+    protected ArrayList<String> messagesErreurs;
+    protected int heuresTotal;
 
     public ValidateurGeologue(Membre geologue) {
         this.membre = (Geologue) geologue;

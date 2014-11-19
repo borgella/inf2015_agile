@@ -1,8 +1,6 @@
 package validation;
 
-import java.util.ArrayList;
 import professionnels.Membre;
-import professionnels.Podiatre;
 
 /**
  *
@@ -10,15 +8,8 @@ import professionnels.Podiatre;
  */
 public class ValidateurPodiatre extends ValidateurGeologue {
 
-    private Podiatre membre;
-    private ArrayList<String> messagesErreurs;
-    private int heuresTotal;
-
     public ValidateurPodiatre(Membre podiatre) {
         super(podiatre);
-        this.membre = (Podiatre) podiatre;
-        messagesErreurs = new ArrayList(1);
-        heuresTotal = 0;
     }
 
     @Override
