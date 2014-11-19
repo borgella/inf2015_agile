@@ -96,7 +96,7 @@ public class Statistiques {
         try {
             donneesStatistiques = chargerFichierStatistiques();
         } catch (IOException e) {
-            System.out.println("Fichier " + fichierStatistiques + "introuvable, il sera créé.");
+            System.out.println("Fichier " + fichierStatistiques + " introuvable; il sera créé.");
             donneesStatistiques = construireFichierStatistiques();
         }
         return donneesStatistiques;
