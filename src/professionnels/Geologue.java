@@ -12,9 +12,9 @@ import net.sf.json.JSONObject;
  */
 public class Geologue extends Membre {
 
-    private String cycle;
-    private ArrayList<JSONObject> activitesAcceptees;
-    private ArrayList<JSONObject> activitesRefusees;
+    protected String cycle;
+    protected ArrayList<JSONObject> activitesAcceptees;
+    protected ArrayList<JSONObject> activitesRefusees;
 
     public Geologue(JSONObject activiteJson) {
         super(activiteJson);

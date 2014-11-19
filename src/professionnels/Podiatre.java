@@ -11,15 +11,9 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Podiatre extends Geologue {
-    private String cycle;
-    private ArrayList<JSONObject> activitesAcceptees;
-    private ArrayList<JSONObject> activitesRefusees;
 
     public Podiatre(JSONObject activiteJson) {
         super(activiteJson);
-        this.cycle = activiteJson.getString("cycle");
-        activitesAcceptees = new ArrayList(1);
-        activitesRefusees = new ArrayList(1);
     }
 
     @Override
