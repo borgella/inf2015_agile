@@ -1,5 +1,6 @@
 package inf2015_projet;
 
+import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -10,11 +11,13 @@ import net.sf.json.JSONObject;
 public class LecteurDeDeclaration {
 
     private final JSONObject declaration;
+    private ArrayList<String> messagesErreursPrevalidation;
 
     public LecteurDeDeclaration(JSONObject declarationJSON) {
         declaration = declarationJSON;
+        messagesErreursPrevalidation = new ArrayList(1);
     }
-
+    
     public boolean erreurDeFormatDetectee() {
         return !formatAcceptePourSexe()
                 || !formatAcceptePourNumeroDePermis()
@@ -34,6 +37,7 @@ public class LecteurDeDeclaration {
             formatAccepte = numerosDePermisValides(numeroDePermis);
         } else {
             formatAccepte = false;
+            messagesErreursPrevalidation.add("Le numéro de permis est invalide.");
         }
         return formatAccepte;
     }
@@ -45,6 +49,7 @@ public class LecteurDeDeclaration {
             champsTexteExiste = true;
         } catch (Exception e) {
             champsTexteExiste = false;
+            messagesErreursPrevalidation.add("Le champ nom n'existe pas.");
         }
         return champsTexteExiste;
     }
@@ -107,6 +112,7 @@ public class LecteurDeDeclaration {
             formatAccepte = ordreReconnu(ordre);
         } else {
             formatAccepte = false;
+            messagesErreursPrevalidation.add("L'ordre n'est pas reconnu.");
         }
         return formatAccepte;
     }
@@ -125,6 +131,7 @@ public class LecteurDeDeclaration {
             formatAccepte = !champs.equals("");
         } else {
             formatAccepte = false;
+            messagesErreursPrevalidation.add("Format invalide pour le nom ou le prenom.");
         }
         return formatAccepte;
     }
@@ -137,6 +144,8 @@ public class LecteurDeDeclaration {
             formatAccepte = sexeReconnu(sexe);
         } else {
             formatAccepte = false;
+            messagesErreursPrevalidation.add("Le format du champ sexe est invalide. "
+                    + "La valeur doit être numérique (0 à 2 inclusivement).");
         }
         return formatAccepte;
     }   
@@ -169,6 +178,8 @@ public class LecteurDeDeclaration {
             champsNumeriqueExiste = true;
         } catch (Exception e) {
             champsNumeriqueExiste = false;
+            messagesErreursPrevalidation.add("Le champ "
+                    + "heures_transferees_du_cycle_precedent n'est pas présent.");
         }
         return champsNumeriqueExiste;
     }
@@ -196,7 +207,7 @@ public class LecteurDeDeclaration {
         return champsTableauJSONExiste;
     }
 
-    private static boolean formatAcceptePourChaqueActivite(JSONArray activites) {
+    private boolean formatAcceptePourChaqueActivite(JSONArray activites) {
         boolean formatAccepte = true;
         for (int i = 0; i < activites.size(); i++) {
             JSONObject activiteCourante = activites.getJSONObject(i);
@@ -208,14 +219,14 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private static boolean formatAcceptePourActivite(JSONObject activite) {
+    private boolean formatAcceptePourActivite(JSONObject activite) {
         return formatAcceptePourDescription(activite)
                 && formatAcceptePourCategorie(activite)
                 && formatAcceptePourHeures(activite)
                 && formatAcceptePourDate(activite);
     }
 
-    private static boolean formatAcceptePourDescription(JSONObject activite) {
+    private boolean formatAcceptePourDescription(JSONObject activite) {
         boolean formatAccepte;
         String champsDescription = "description";
         if (champsTexteExistePourActivite(champsDescription, activite)) {
@@ -223,6 +234,8 @@ public class LecteurDeDeclaration {
             formatAccepte = descriptionReconnu(description);
         } else {
             formatAccepte = false;
+            messagesErreursPrevalidation.add("La description doit contenir "
+                    + "au moins 20 charactères.");
         }
         return formatAccepte;
     }
@@ -247,7 +260,7 @@ public class LecteurDeDeclaration {
         return champsTexteExistePourActivite(champsCategorie, activite);
     }
 
-    private static boolean formatAcceptePourHeures(JSONObject activite) {
+    private boolean formatAcceptePourHeures(JSONObject activite) {
         boolean formatAccepte;
         String champsHeures = "heures";
         if (champsNumeriqueExistePourActivite(champsHeures, activite)) {
@@ -255,6 +268,7 @@ public class LecteurDeDeclaration {
             formatAccepte = heuresValidesPourActivite(heures);
         } else {
             formatAccepte = false;
+            messagesErreursPrevalidation.add("L'heure des activites est invalide.");
         }
         return formatAccepte;
     }
@@ -274,7 +288,7 @@ public class LecteurDeDeclaration {
         return heures > 0;
     }
 
-    private static boolean formatAcceptePourDate(JSONObject activite) {
+    private boolean formatAcceptePourDate(JSONObject activite) {
         boolean formatAccepte;
         String champsDate = "date";
         if (champsTexteExistePourActivite(champsDate, activite)) {
@@ -282,6 +296,7 @@ public class LecteurDeDeclaration {
             formatAccepte = dateEnFormatReconnu(date);
         } else {
             formatAccepte = false;
+            messagesErreursPrevalidation.add("Le format de la date est invalide.");
         }
         return formatAccepte;
     }
@@ -354,8 +369,8 @@ public class LecteurDeDeclaration {
         return texteDeSortie;
     }
 
-    private static String messageDErreurPourDeclarationInvalide() {
-        return "Le fichier d'entrée est invalide et donc le cycle de formation est incomplet.";
+    private ArrayList<String> messageDErreurPourDeclarationInvalide() {
+        return messagesErreursPrevalidation;
     }
     
     public int extraireSexe() {
