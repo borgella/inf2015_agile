@@ -1,0 +1,18 @@
+Le nombre total de déclarations traitées : 4
+Le nombre total de déclarations complètes : 3
+Le nombre total de déclarations incomplètes ou invalides : 1
+Le nombre total de déclarations faites par des hommes : 2
+Le nombre total de déclarations faites par des femmes : 1
+Le nombre total de déclarations faites par des gens de sexe inconnu : 1
+Le nombre total d'activités valides dans les déclarations : 19
+Le nombre d'activités valides par catégorie :
+  cours : 7
+  atelier : 0
+  séminaire : 0
+  colloque : 0
+  conférence : 3
+  lecture dirigée : 0
+  présentation : 1
+  groupe de discussion : 3
+  projet de recherche : 3
+  rédaction professionnelle : 2

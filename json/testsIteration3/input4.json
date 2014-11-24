@@ -1,0 +1,46 @@
+{
+  "nom": "Berger",
+  "prenom": "Karine",
+  "sexe":2,
+  "ordre": "podiatres",
+  "numero_de_permis": "90001",
+  "cycle": "2013-2016",
+  "activites": [
+    {
+      "description": "Groupe de discussion sur le mineraie de fer",
+      "categorie": "groupe de discussion",
+      "heures": 2,
+      "date": "2013-07-20"
+    },
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 22,
+      "date": "2014-03-20"
+    },
+    {
+      "description": "Recherche sur les diamants du Québec",
+      "categorie": "projet de recherche",
+      "heures": 3,
+      "date": "2014-03-20"
+    },
+    {
+      "description": "Congrès qui fait plus que 20 chars",
+      "categorie": "conférence",
+      "heures": 15,
+      "date": "2014-11-20"
+    },
+    {
+      "description": "Esquisses qui fait plus que 20 chars",
+      "categorie": "rédaction professionnelle",
+      "heures": 13,
+      "date": "2014-01-22"
+    },
+    {
+      "description": "Nouvelles recrues qui fait plus que 20 chars",
+      "categorie": "présentation",
+      "heures": 5,
+      "date": "2014-10-20"
+    }
+  ]
+}

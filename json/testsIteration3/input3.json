@@ -1,0 +1,28 @@
+{
+  "nom": "Berger",
+  "prenom": "Jacques",
+  "sexe":0,
+  "ordre": "psychologues",
+  "numero_de_permis": "23874-34",
+  "cycle": "2010-2015",
+  "activites": [
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 30,
+      "date": "2014-03-20"
+    },
+    {
+      "description": "Cours sur le polyamour",
+      "categorie": "cours",
+      "heures": 30,
+      "date": "2014-05-20"
+    },
+    {
+      "description": "Cours sur l'altération du soi intérieur",
+      "categorie": "cours",
+      "heures": 30,
+      "date": "2014-01-22"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "nom": "Berger",
+  "prenom": "Jacques",
+  "sexe":1,
+  "ordre": "géologues",
+  "numero_de_permis": "BR0001",
+  "cycle": "2013-2016",
+  "activites": [
+    {
+      "description": "Groupe de discussion sur le mineraie de fer",
+      "categorie": "groupe de discussion",
+      "heures": 2,
+      "date": "2013-07-20"
+    },
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 22,
+      "date": "2014-03-20"
+    },
+    {
+      "description": "Recherche sur les diamants du Québec",
+      "categorie": "projet de recherche",
+      "heures": 3,
+      "date": "2014-03-20"
+    },
+    {
+      "description": "Congrès qui fait plus que 20 chars",
+      "categorie": "conférence",
+      "heures": 15,
+      "date": "2014-11-20"
+    },
+    {
+      "description": "Esquisses qui fait plus que 20 chars",
+      "categorie": "rédaction professionnelle",
+      "heures": 13,
+      "date": "2014-01-22"
+    }
+  ]
+}
