@@ -13,9 +13,6 @@ public class Statistiques {
 
     private JSONObject donneesStatistiques;
 
-    private boolean declarationTraitee;
-    private boolean declarationIncompleteOuInvalide;
-    private int sexeDeclaree;
     private TreeMap<String, Integer> activitesValidesParCategorie;
     private IEcriveurStatistiques ecriveurStatistiques;
 
@@ -26,9 +23,6 @@ public class Statistiques {
     public Statistiques(IEcriveurStatistiques ecriveurStatistique) {
         this.ecriveurStatistiques = ecriveurStatistique;
         donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
-        declarationTraitee = false;
-        declarationIncompleteOuInvalide = false;
-        sexeDeclaree = 0;
         activitesValidesParCategorie = new TreeMap<>();
         etablirCategoriesReconnues(activitesValidesParCategorie);
 
@@ -47,8 +41,15 @@ public class Statistiques {
         return categoriesReconnues;
     }
 
-    public void enregistrerTraitementDeDeclaration() {
+    public void enregistrerTraitementDeDeclaration(int sexeDuDeclarant) {
         incrementerStatistique("declarations_traitees");
+        if (sexeDuDeclarant == 1) {
+            incrementerStatistique("declarations_faites_par_des_hommes");
+        } else if (sexeDuDeclarant == 2) {
+            incrementerStatistique("declarations_faites_par_des_femmes");
+        } else {
+            incrementerStatistique("declarations_faites_par_des_gens_de_sexe_inconnu");
+        }
     }
 
     public void enregistrerCompletudeDeDeclarationValide(boolean formationComplete) {
@@ -59,18 +60,12 @@ public class Statistiques {
         }
     }
 
-    public void enregistrerDeclarationInvalide(int sexeDuDeclarant) {
-        sexeDeclaree = sexeDuDeclarant;
-        declarationIncompleteOuInvalide = true;
+    public void enregistrerDeclarationInvalide() {
+        incrementerStatistique("declarations_incompletes_ou_invalides");
     }
 
     public void enregistrerDetailsDuDeclarant(Membre membre) {
-        enregistrerSexeDeclaree(membre);
         enregistrerActivitesValidesParCategorie(membre);
-    }
-
-    public void enregistrerSexeDeclaree(Membre membre) {
-        sexeDeclaree = membre.getSexe();
     }
 
     private void enregistrerActivitesValidesParCategorie(Membre membre) {
@@ -95,26 +90,24 @@ public class Statistiques {
         mettreAJourFichierStatistiques(donneesStatistiques);
     }
 
-    public JSONObject chargerStatistiquesAnterieures() {
-        JSONObject donneesStatistiques;
-        donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
-        donneesStatistiques = ecriveurStatistiques.genererStatistiquesVides();
-        return donneesStatistiques;
+    public JSONObject chargerStatistiquesAnterieures() { 
+        return ecriveurStatistiques.chargerStatistiquesExistantes();
     }
 
     private void comptabiliserStatistiquesDeDeclarationCourante(JSONObject donneesStatistiques) {
         mettreAJourDeclarationsTraitees(donneesStatistiques);
         mettreAJourDeclarationsCompletes(donneesStatistiques);
         mettreAJourDeclarationsIncompletesOuInvalides(donneesStatistiques);
-        mettreAJourDeclarationsSelonSexe(donneesStatistiques);
         mettreAJourActivitesValidesDesDeclarations(donneesStatistiques);
         mettreAJourActivitesValidesParCategorie(donneesStatistiques);
     }
 
     private void mettreAJourDeclarationsTraitees(JSONObject donneesStatistiques) {
+        /*
         if (declarationTraitee) {
             incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_traitees");
         }
+                */
     }
 
     private void incrementerStatistiqueSelonCle(JSONObject donneesStatistiques, String cle) {
@@ -123,25 +116,15 @@ public class Statistiques {
     }
 
     private void mettreAJourDeclarationsCompletes(JSONObject donneesStatistiques) {
-        if (!declarationIncompleteOuInvalide) {
+        /*if (!declarationIncompleteOuInvalide) {
             incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_completes");
-        }
+        }*/
     }
 
     private void mettreAJourDeclarationsIncompletesOuInvalides(JSONObject donneesStatistiques) {
-        if (declarationIncompleteOuInvalide) {
+        /*if (declarationIncompleteOuInvalide) {
             incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_incompletes_ou_invalides");
-        }
-    }
-
-    private void mettreAJourDeclarationsSelonSexe(JSONObject donneesStatistiques) {
-        if (sexeDeclaree == 1) {
-            incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_faites_par_des_hommes");
-        } else if (sexeDeclaree == 2) {
-            incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_faites_par_des_femmes");
-        } else {
-            incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_faites_par_des_gens_de_sexe_inconnu");
-        }
+        }*/
     }
 
     private void mettreAJourActivitesValidesDesDeclarations(JSONObject donneesStatistiques) {
@@ -279,11 +262,27 @@ public class Statistiques {
         return obtenirStatistique("declarations_traitees");
     }
     
+    int obtenirNombreDeDeclarationsTraiteesParHommes() {
+        return obtenirStatistique("declarations_faites_par_des_hommes");
+    }
+    
+    int obtenirNombreDeDeclarationsTraiteesParFemmes() {
+        return obtenirStatistique("declarations_faites_par_des_femmes");
+    }
+    
+    int obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu() {
+        return obtenirStatistique("declarations_faites_par_des_gens_de_sexe_inconnu");
+    }
+    
     int obtenirNombreDeDeclarationsValidesEtCompletes() {
         return obtenirStatistique("declarations_completes");
     }
     
     int obtenirNombreDeDeclarationsValidesEtIncompletes() {
+        return obtenirStatistique("declarations_incompletes_ou_invalides");
+    }
+    
+    int obtenirNombreDeDeclarationsInvalides() {
         return obtenirStatistique("declarations_incompletes_ou_invalides");
     }
 

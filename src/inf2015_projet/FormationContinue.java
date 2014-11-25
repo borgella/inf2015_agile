@@ -27,15 +27,15 @@ public class FormationContinue {
             String texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
             JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
 
-            statsPourDeclaration.enregistrerTraitementDeDeclaration();
             LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
+            int sexeDuDeclarant = lecteur.extraireSexe();
+            statsPourDeclaration.enregistrerTraitementDeDeclaration(sexeDuDeclarant);
 
             JSONObject sortieJSON;
 
             if (lecteur.erreurDeFormatDetectee()) {
                 System.out.println("Erreur: Éxecution términée, car le fichier contient des données invalides.");
-                int sexeDuDeclarant = lecteur.extraireSexe();
-                statsPourDeclaration.enregistrerDeclarationInvalide(sexeDuDeclarant);
+                statsPourDeclaration.enregistrerDeclarationInvalide();
                 sortieJSON = lecteur.produireRapportPourErreurDeFormat();
             } else {
                 JSONArray listeActivites = declarationJSON.getJSONArray("activites");
