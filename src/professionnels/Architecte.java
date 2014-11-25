@@ -16,6 +16,10 @@ public class Architecte extends Membre {
     private String cycle;
     private ArrayList<JSONObject> activitesAcceptees;
     private ArrayList<JSONObject> activitesRefusees;
+    
+    public Architecte() {
+        super("architectes");
+    }
 
     public Architecte(JSONObject activiteJson) {
         super(activiteJson);

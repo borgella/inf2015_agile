@@ -16,6 +16,14 @@ public class Geologue extends Membre {
     protected ArrayList<JSONObject> activitesAcceptees;
     protected ArrayList<JSONObject> activitesRefusees;
 
+    public Geologue() {
+        super("géologues");
+    }
+    
+    public Geologue(String ordre) {
+        super(ordre);
+    }
+
     public Geologue(JSONObject activiteJson) {
         super(activiteJson);
         this.cycle = activiteJson.getString("cycle");

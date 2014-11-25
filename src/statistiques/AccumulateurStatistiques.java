@@ -1,6 +1,5 @@
-package inf2015_projet;
+package statistiques;
 
-import java.io.IOException;
 import java.util.TreeMap;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -11,25 +10,29 @@ import validation.Validateur;
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class Statistiques {
+public class AccumulateurStatistiques {
+    
+    private JSONObject donneesStatistiques;
 
     private boolean declarationTraitee;
     private boolean declarationIncompleteOuInvalide;
     private int sexeDeclaree;
     private TreeMap<String, Integer> activitesValidesParCategorie;
-    private EcriveurStatistiques ecriveurStatistiques;
+    private IEcriveurStatistiques ecriveurStatistiques;
 
-    public Statistiques() {
-        this("cumulStatistiques/donneesStatistiques.json");
+    public AccumulateurStatistiques() {
+        this(new EcriveurStatistiques());
     }
 
-    public Statistiques(String fichierStatistiques) {
+    public AccumulateurStatistiques(IEcriveurStatistiques ecriveurStatistique) {
+        this.ecriveurStatistiques = ecriveurStatistique;
+        donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
         declarationTraitee = false;
         declarationIncompleteOuInvalide = false;
         sexeDeclaree = 0;
         activitesValidesParCategorie = new TreeMap<>();
         etablirCategoriesReconnues(activitesValidesParCategorie);
-        this.ecriveurStatistiques = new EcriveurStatistiques(fichierStatistiques);
+        
     }
 
     private static void etablirCategoriesReconnues(TreeMap<String, Integer> activitesValidesParCategorie) {
@@ -91,12 +94,8 @@ public class Statistiques {
 
     public JSONObject chargerStatistiquesAnterieures() {
         JSONObject donneesStatistiques;
-        try {
-            donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
-        } catch (IOException e) {
-            System.out.println("Fichier de statistiques introuvable; il sera créé.");
-            donneesStatistiques = ecriveurStatistiques.initialiserStatistiques();
-        }
+        donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
+        donneesStatistiques = ecriveurStatistiques.genererStatistiquesVides();
         return donneesStatistiques;
     }
 
@@ -193,21 +192,12 @@ public class Statistiques {
     }
 
     private void mettreAJourFichierStatistiques(JSONObject donneesStatistiques) {
-        try {
-            ecriveurStatistiques.sauvegarderStatistiques(donneesStatistiques);
-        } catch (IOException e) {
-            System.out.println("Erreur d'écriture du fichier de statistiques: Aucune mise à jour des statistiques.");
-        }
+        ecriveurStatistiques.ecrireCumulStatistiques(donneesStatistiques);
     }
 
     public void afficherStatistiques() {
-        JSONObject donneesStatistiques;
-        try {
-            donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
-            afficherChaqueStatistique(donneesStatistiques);
-        } catch (IOException e) {
-            System.out.println("Aucune statistique existante.");
-        }
+        JSONObject donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
+        afficherChaqueStatistique(donneesStatistiques);
     }
 
     private void afficherChaqueStatistique(JSONObject donneesStatistiques) {
@@ -273,8 +263,12 @@ public class Statistiques {
     }
 
     public void reinitialiserStatistiques() {
-        JSONObject donneesStatistiques = ecriveurStatistiques.initialiserStatistiques();
+        JSONObject donneesStatistiques = ecriveurStatistiques.genererStatistiquesVides();
         mettreAJourFichierStatistiques(donneesStatistiques);
         System.out.println("Statistiques réinitialisées.");
+    }
+
+    int obtenirNombreDeclarationsValidesPourArchitectes() {
+      return -1;
     }
 }

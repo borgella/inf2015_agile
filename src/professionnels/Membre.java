@@ -18,6 +18,10 @@ public abstract class Membre {
     private String numeroDePermis;
     private String ordre;
     
+    public Membre(String ordre) {
+        this.ordre = ordre;
+    }
+    
     public Membre(JSONObject activiteJson) {
         this.nom = activiteJson.getString("nom");
         this.prenom = activiteJson.getString("prenom");

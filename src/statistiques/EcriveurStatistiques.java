@@ -1,5 +1,6 @@
-package inf2015_projet;
+package statistiques;
 
+import inf2015_projet.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONArray;
@@ -8,7 +9,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class EcriveurStatistiques {
+public class EcriveurStatistiques implements IEcriveurStatistiques {
 
     private String fichierStatistiques;
 
@@ -20,23 +21,38 @@ public class EcriveurStatistiques {
         this.fichierStatistiques = fichierStatistiques;
     }
 
-    public JSONObject chargerStatistiquesExistantes() throws IOException {
-        String donneesBrutesStatistiques = FileReader.loadFileIntoString(fichierStatistiques, "UTF-8");
-        JSONObject donneesStatistiques = JSONObject.fromObject(donneesBrutesStatistiques);
+    @Override
+    public JSONObject chargerStatistiquesExistantes() {
+        JSONObject donneesStatistiques;
+        try {
+           String donneesBrutesPourStatistiques = FileReader.loadFileIntoString(fichierStatistiques, "UTF-8");
+           donneesStatistiques = JSONObject.fromObject(donneesBrutesPourStatistiques);
+        } catch (IOException e) {
+            System.out.println("Le fichier des statistiques n'existe pas ou est inaccessible; "
+                    + "un nouveau fichier sera généré.");
+            donneesStatistiques = new JSONObject();
+        }
         return donneesStatistiques;
     }
 
-    public JSONObject initialiserStatistiques() {
+    @Override
+    public JSONObject genererStatistiquesVides() {
         JSONObject donneesStatistiques = new JSONObject();
         ajouterChampsStatistiquesPourDeclarations(donneesStatistiques);
         ajouterChampsStatistiquesPourActivitesValides(donneesStatistiques);
         return donneesStatistiques;
     }
 
-    public void sauvegarderStatistiques(JSONObject donneesStatistiques) throws IOException {
-        FileWriter accesFichierStatistiques = new FileWriter(fichierStatistiques);
-        accesFichierStatistiques.write(donneesStatistiques.toString(2));
-        accesFichierStatistiques.close();
+    @Override
+    public void ecrireCumulStatistiques(JSONObject donneesStatistiques) {
+        FileWriter ecritureAuFichierStatistiques;
+        try {
+            ecritureAuFichierStatistiques = new FileWriter(fichierStatistiques);
+            ecritureAuFichierStatistiques.write(donneesStatistiques.toString(2));
+            ecritureAuFichierStatistiques.close();
+        } catch (IOException e) {
+            System.out.println("Erreur: les nouvelles statistiques n'ont pas pu être sauvegardés.");
+        }  
     }
 
     private static void ajouterChampsStatistiquesPourDeclarations(JSONObject fichierStatistiques) {

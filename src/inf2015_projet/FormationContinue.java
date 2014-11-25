@@ -1,5 +1,6 @@
 package inf2015_projet;
 
+import statistiques.AccumulateurStatistiques;
 import professionnels.*;
 import validation.*;
 import java.io.FileWriter;
@@ -14,7 +15,7 @@ public class FormationContinue {
 
     public static void main(String[] args) throws IOException {
 
-        Statistiques statsPourDeclaration = new Statistiques();
+        AccumulateurStatistiques statsPourDeclaration = new AccumulateurStatistiques();
         if (args[0].equals("-S")) {
             statsPourDeclaration.afficherStatistiques();
         } else if (args[0].equals("-SR")) {

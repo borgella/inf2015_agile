@@ -36,7 +36,7 @@ public class LecteurDeDeclarationTest {
         declarationGeologues = new JSONObject();
         declarationGeologues.put("nom", "Berger");
         declarationGeologues.put("prenom", "Jacques");
-        declarationGeologues.put("ordre", "geologues");
+        declarationGeologues.put("ordre", "géologues");
         instanceGeologues = new LecteurDeDeclaration(declarationGeologues);
         
         declarationPodiatres = new JSONObject();
