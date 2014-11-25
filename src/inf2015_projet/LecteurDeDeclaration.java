@@ -20,13 +20,13 @@ public class LecteurDeDeclaration {
     
     public boolean erreurDeFormatDetectee() {
         return !formatAcceptePourSexe()
-                || !formatAcceptePourNumeroDePermis()
-                || !formatAcceptePourOrdre()
-                || !formatAcceptePourPrenomOuNom("prenom")
-                || !formatAcceptePourPrenomOuNom("nom")
-                || !formatAcceptePourCycle()
-                || !formatAcceptePourHeuresTransfereesSelonOrdre()
-                || !formatAcceptePourTableauActivites();
+                | !formatAcceptePourNumeroDePermis()
+                | !formatAcceptePourOrdre()
+                | !formatAcceptePourPrenomOuNom("prenom")
+                | !formatAcceptePourPrenomOuNom("nom")
+                | !formatAcceptePourCycle()
+                | !formatAcceptePourHeuresTransfereesSelonOrdre()
+                | !formatAcceptePourTableauActivites();
     }
 
     private boolean formatAcceptePourNumeroDePermis() {
@@ -49,7 +49,6 @@ public class LecteurDeDeclaration {
             champsTexteExiste = true;
         } catch (Exception e) {
             champsTexteExiste = false;
-            messagesErreursPrevalidation.add("Le champ nom n'existe pas.");
         }
         return champsTexteExiste;
     }
@@ -296,7 +295,8 @@ public class LecteurDeDeclaration {
             formatAccepte = dateEnFormatReconnu(date);
         } else {
             formatAccepte = false;
-            messagesErreursPrevalidation.add("Le format de la date est invalide.");
+            messagesErreursPrevalidation.add("Le format de la date est invalide. "
+                    + "Il doit être en ISO 8601 (YYYY-MM-DD).");
         }
         return formatAccepte;
     }
