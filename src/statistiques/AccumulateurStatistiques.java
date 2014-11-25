@@ -11,7 +11,7 @@ import validation.Validateur;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class AccumulateurStatistiques {
-    
+
     private JSONObject donneesStatistiques;
 
     private boolean declarationTraitee;
@@ -32,7 +32,7 @@ public class AccumulateurStatistiques {
         sexeDeclaree = 0;
         activitesValidesParCategorie = new TreeMap<>();
         etablirCategoriesReconnues(activitesValidesParCategorie);
-        
+
     }
 
     private static void etablirCategoriesReconnues(TreeMap<String, Integer> activitesValidesParCategorie) {
@@ -49,7 +49,7 @@ public class AccumulateurStatistiques {
     }
 
     public void enregistrerTraitementDeDeclaration() {
-        declarationTraitee = true;
+        incrementerStatistique("declarations_traitees");
     }
 
     public void enregistrerCompletudeDeLaDeclaration(Validateur validateur) {
@@ -58,7 +58,7 @@ public class AccumulateurStatistiques {
 
     public void enregistrerDeclarationInvalide(int sexeDuDeclarant) {
         sexeDeclaree = sexeDuDeclarant;
-        declarationIncompleteOuInvalide =true;
+        declarationIncompleteOuInvalide = true;
     }
 
     public void enregistrerDetailsDuDeclarant(Membre membre) {
@@ -269,6 +269,23 @@ public class AccumulateurStatistiques {
     }
 
     int obtenirNombreDeclarationsValidesPourArchitectes() {
-      return -1;
+        return -1; //TODO: implémentation
+    }
+
+    int obtenirNombreDeDeclarationsTraitees() {
+        return obtenirStatistique("declarations_traitees");
+    }
+
+    private int obtenirStatistique(String champsStatistique) {
+        int statistique = 0;
+        if (donneesStatistiques.has(champsStatistique)) {
+            statistique = donneesStatistiques.getInt(champsStatistique);
+        }
+        return statistique;
+    }
+
+    private void incrementerStatistique(String champsStatistique) {
+        int statistique = obtenirStatistique(champsStatistique);
+        donneesStatistiques.put(champsStatistique, ++statistique);
     }
 }
