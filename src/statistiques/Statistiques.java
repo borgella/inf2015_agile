@@ -6,7 +6,6 @@ import net.sf.json.JSONObject;
 import professionnels.*;
 
 /**
- *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class Statistiques {
@@ -25,7 +24,6 @@ public class Statistiques {
         donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
         activitesValidesParCategorie = new TreeMap<>();
         etablirCategoriesReconnues(activitesValidesParCategorie);
-
     }
 
     private static void etablirCategoriesReconnues(TreeMap<String, Integer> activitesValidesParCategorie) {
@@ -64,11 +62,7 @@ public class Statistiques {
         incrementerStatistique("declarations_incompletes_ou_invalides");
     }
 
-    public void enregistrerDetailsDuDeclarant(Membre membre) {
-        enregistrerActivitesValidesParCategorie(membre);
-    }
-
-    private void enregistrerActivitesValidesParCategorie(Membre membre) {
+    public void enregistrerActivitesValidesParCategorie(Membre membre) {
         String[] categoriesReconnues = nomsDesCategoriesReconnues();
         for (String categorie : categoriesReconnues) {
             enregistrerActivitesValidesParCategorie(membre, categorie);
@@ -85,46 +79,7 @@ public class Statistiques {
     }
 
     public void mettreAJourStatistiquesCumulatives() {
-        JSONObject donneesStatistiques = chargerStatistiquesAnterieures();
-        comptabiliserStatistiquesDeDeclarationCourante(donneesStatistiques);
-        mettreAJourFichierStatistiques(donneesStatistiques);
-    }
-
-    public JSONObject chargerStatistiquesAnterieures() { 
-        return ecriveurStatistiques.chargerStatistiquesExistantes();
-    }
-
-    private void comptabiliserStatistiquesDeDeclarationCourante(JSONObject donneesStatistiques) {
-        mettreAJourDeclarationsTraitees(donneesStatistiques);
-        mettreAJourDeclarationsCompletes(donneesStatistiques);
-        mettreAJourDeclarationsIncompletesOuInvalides(donneesStatistiques);
-        mettreAJourActivitesValidesDesDeclarations(donneesStatistiques);
-        mettreAJourActivitesValidesParCategorie(donneesStatistiques);
-    }
-
-    private void mettreAJourDeclarationsTraitees(JSONObject donneesStatistiques) {
-        /*
-        if (declarationTraitee) {
-            incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_traitees");
-        }
-                */
-    }
-
-    private void incrementerStatistiqueSelonCle(JSONObject donneesStatistiques, String cle) {
-        int statistiqueAnterieure = donneesStatistiques.getInt(cle);
-        donneesStatistiques.put(cle, ++statistiqueAnterieure);
-    }
-
-    private void mettreAJourDeclarationsCompletes(JSONObject donneesStatistiques) {
-        /*if (!declarationIncompleteOuInvalide) {
-            incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_completes");
-        }*/
-    }
-
-    private void mettreAJourDeclarationsIncompletesOuInvalides(JSONObject donneesStatistiques) {
-        /*if (declarationIncompleteOuInvalide) {
-            incrementerStatistiqueSelonCle(donneesStatistiques, "declarations_incompletes_ou_invalides");
-        }*/
+        ecriveurStatistiques.ecrireCumulStatistiques(donneesStatistiques);
     }
 
     private void mettreAJourActivitesValidesDesDeclarations(JSONObject donneesStatistiques) {
@@ -182,7 +137,6 @@ public class Statistiques {
     }
 
     public void afficherStatistiques() {
-        JSONObject donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
         afficherChaqueStatistique(donneesStatistiques);
     }
 
@@ -249,7 +203,7 @@ public class Statistiques {
     }
 
     public void reinitialiserStatistiques() {
-        JSONObject donneesStatistiques = ecriveurStatistiques.genererStatistiquesVides();
+        donneesStatistiques = ecriveurStatistiques.genererStatistiquesVides();
         mettreAJourFichierStatistiques(donneesStatistiques);
         System.out.println("Statistiques réinitialisées.");
     }

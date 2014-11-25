@@ -12,11 +12,12 @@ import professionnels.*;
  */
 public class StatistiquesTest {
 
+    int codeHomme = 1;
+    int codeFemme = 2;
+    int codeSexeInconnu = 0;
+    
     Statistiques statistiques;
     IEcriveurStatistiques ecriveurStatistiques;
-
-    public StatistiquesTest() {
-    }
 
     @Before
     public void setUp() {
@@ -32,8 +33,7 @@ public class StatistiquesTest {
 
     @Test
     public void testObtenirNombreDeDeclarationsTraitees() {
-        int codeSexeInconnu = 0;
-        
+
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraitees();
         assertEquals(0, resultat1);
 
@@ -52,7 +52,7 @@ public class StatistiquesTest {
     public void testEnregistrerNombreDeDeclarationsValidesEtCompletes() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
         assertEquals(0, resultat1);
-        
+
         statistiques.enregistrerCompletudeDeDeclarationValide(true);
         int resultat2 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
         assertEquals(1, resultat2);
@@ -60,18 +60,18 @@ public class StatistiquesTest {
         statistiques.enregistrerCompletudeDeDeclarationValide(false);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
         assertEquals(1, resultat3);
-        
+
         statistiques.enregistrerCompletudeDeDeclarationValide(true);
         statistiques.enregistrerCompletudeDeDeclarationValide(false);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
         assertEquals(2, resultat4);
     }
-    
+
     @Test
     public void testEnregistrerNombreDeDeclarationsValidesEtIncompletes() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletes();
         assertEquals(0, resultat1);
-        
+
         statistiques.enregistrerCompletudeDeDeclarationValide(true);
         int resultat2 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletes();
         assertEquals(0, resultat2);
@@ -79,13 +79,13 @@ public class StatistiquesTest {
         statistiques.enregistrerCompletudeDeDeclarationValide(false);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletes();
         assertEquals(1, resultat3);
-        
+
         statistiques.enregistrerCompletudeDeDeclarationValide(true);
         statistiques.enregistrerCompletudeDeDeclarationValide(false);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletes();
         assertEquals(2, resultat4);
     }
-    
+
     @Test
     public void testObtenirNombreDeDeclarationsInvalides() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsInvalides();
@@ -101,13 +101,10 @@ public class StatistiquesTest {
         int resultat3 = statistiques.obtenirNombreDeDeclarationsInvalides();
         assertEquals(4, resultat3);
     }
-    
+
     @Test
     public void testObtenirNombreDeDeclarationsParHommes() {
-        int codeHomme = 1;
-        int codeFemme = 2;
-        int codeSexeInconnu = 0;
-        
+
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraiteesParHommes();
         assertEquals(0, resultat1);
 
@@ -119,19 +116,19 @@ public class StatistiquesTest {
         statistiques.enregistrerTraitementDeDeclaration(codeHomme);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsTraiteesParHommes();
         assertEquals(3, resultat3);
-        
+
         statistiques.enregistrerTraitementDeDeclaration(codeFemme);
         statistiques.enregistrerTraitementDeDeclaration(codeSexeInconnu);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsTraiteesParHommes();
         assertEquals(3, resultat4);
     }
-    
+
     @Test
     public void testObtenirNombreDeDeclarationsParFemmes() {
         int codeHomme = 1;
         int codeFemme = 2;
         int codeSexeInconnu = 0;
-        
+
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes();
         assertEquals(0, resultat1);
 
@@ -143,19 +140,19 @@ public class StatistiquesTest {
         statistiques.enregistrerTraitementDeDeclaration(codeFemme);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes();
         assertEquals(3, resultat3);
-        
+
         statistiques.enregistrerTraitementDeDeclaration(codeHomme);
         statistiques.enregistrerTraitementDeDeclaration(codeSexeInconnu);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes();
         assertEquals(3, resultat4);
     }
-    
+
     @Test
     public void testObtenirNombreDeDeclarationsParGensDeSexeInconnu() {
         int codeHomme = 1;
         int codeFemme = 2;
         int codeSexeInconnu = 0;
-        
+
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu();
         assertEquals(0, resultat1);
 
@@ -167,7 +164,7 @@ public class StatistiquesTest {
         statistiques.enregistrerTraitementDeDeclaration(codeSexeInconnu);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu();
         assertEquals(3, resultat3);
-        
+
         statistiques.enregistrerTraitementDeDeclaration(codeHomme);
         statistiques.enregistrerTraitementDeDeclaration(codeFemme);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu();

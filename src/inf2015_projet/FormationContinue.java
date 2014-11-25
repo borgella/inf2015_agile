@@ -43,7 +43,7 @@ public class FormationContinue {
                 Membre membre = Membre.genererMembre(declarationJSON);
                 ajouterArray(membre, listeActivites);
                 
-                statsPourDeclaration.enregistrerDetailsDuDeclarant(membre);
+                statsPourDeclaration.enregistrerActivitesValidesParCategorie(membre);
                 
                 Validateur validateur = Validateur.genererValidateur(membre);
                 sortieJSON = validateur.produireRapport();
