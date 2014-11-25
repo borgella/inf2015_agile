@@ -51,8 +51,12 @@ public class Statistiques {
         incrementerStatistique("declarations_traitees");
     }
 
-    public void enregistrerCompletudeDeLaDeclaration(boolean formationComplete) {
-        declarationIncompleteOuInvalide = !formationComplete;
+    public void enregistrerCompletudeDeDeclarationValide(boolean formationComplete) {
+        if (formationComplete) {
+            incrementerStatistique("declarations_completes");
+        } else {
+            incrementerStatistique("declarations_incompletes_ou_invalides");
+        }
     }
 
     public void enregistrerDeclarationInvalide(int sexeDuDeclarant) {
@@ -273,6 +277,14 @@ public class Statistiques {
 
     int obtenirNombreDeDeclarationsTraitees() {
         return obtenirStatistique("declarations_traitees");
+    }
+    
+    int obtenirNombreDeDeclarationsValidesEtCompletes() {
+        return obtenirStatistique("declarations_completes");
+    }
+    
+    int obtenirNombreDeDeclarationsValidesEtIncompletes() {
+        return obtenirStatistique("declarations_incompletes_ou_invalides");
     }
 
     private int obtenirStatistique(String champsStatistique) {

@@ -48,7 +48,7 @@ public class FormationContinue {
                 Validateur validateur = Validateur.genererValidateur(membre);
                 sortieJSON = validateur.produireRapport();
                 
-                statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur.formationComplete());
+                statsPourDeclaration.enregistrerCompletudeDeDeclarationValide(validateur.formationComplete());
             }
 
             statsPourDeclaration.mettreAJourStatistiquesCumulatives();
