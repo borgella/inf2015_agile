@@ -12,16 +12,17 @@ import net.sf.json.JSONObject;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public abstract class Membre {
+
     private String nom;
     private String prenom;
     private int sexe = 0;
     private String numeroDePermis;
     private String ordre;
-    
+
     public Membre(String ordre) {
         this.ordre = ordre;
     }
-    
+
     public Membre(JSONObject activiteJson) {
         this.nom = activiteJson.getString("nom");
         this.prenom = activiteJson.getString("prenom");
@@ -29,9 +30,9 @@ public abstract class Membre {
         this.numeroDePermis = activiteJson.getString("numero_de_permis");
         this.ordre = activiteJson.getString("ordre");
     }
-    
+
     public abstract void ajouterActivitePourMembre(JSONObject activite);
-    
+
     public static Membre genererMembre(JSONObject declaration) {
         String ordre = declaration.getString("ordre");
         Membre membreGenere = fabriqueMembre(ordre, declaration);
@@ -51,18 +52,18 @@ public abstract class Membre {
         }
         return membreGenere;
     }
-    
+
     public abstract String getCycle();
-    
+
     public String getOrdre() {
         return ordre;
     }
-    
-    public int getSexe(){
+
+    public int getSexe() {
         return sexe;
     }
 
-   public int regroupementDesCategories(String categorie) {
+    public int regroupementDesCategories(String categorie) {
         int temporaire = -1;
         if (premiereCategorie(categorie) == 1) {
             temporaire = 1;
@@ -73,12 +74,16 @@ public abstract class Membre {
         }
         return temporaire;
     }
-   public int premiereCategorie(String categorie) {
+
+    public int premiereCategorie(String categorie) {
         int temporaire = 0;
         switch (categorie) {
-            case "cours": case "atelier":
-            case "séminaire": case "colloque":
-            case "conférence": case "lecture dirigée":
+            case "cours":
+            case "atelier":
+            case "séminaire":
+            case "colloque":
+            case "conférence":
+            case "lecture dirigée":
                 temporaire = 1;
                 break;
         }
@@ -93,7 +98,6 @@ public abstract class Membre {
         return temporaire;
     }
 
-    
     public int troisiemeCategorie(String categorie) {
         int temporaire = 0;
         if (categorie.equals("groupe de discussion") || categorie.equals("rédaction professionnelle")) {
@@ -101,7 +105,7 @@ public abstract class Membre {
         }
         return temporaire;
     }
-    
+
     public abstract int obtenirNombreActivitesValides();
 
     public abstract int obtenirNombreActivitesValidesParCategorie(String categorie);

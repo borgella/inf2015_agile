@@ -296,7 +296,7 @@ public class LecteurDeDeclaration {
         } else {
             formatAccepte = false;
             messagesErreursPrevalidation.add("Le format de la date est invalide. "
-                    + "Il doit être en ISO 8601 (YYYY-MM-DD).");
+                    + "Il doit être en ISO 8601 (yyyy-MM-dd).");
         }
         return formatAccepte;
     }
