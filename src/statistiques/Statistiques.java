@@ -4,13 +4,12 @@ import java.util.TreeMap;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import professionnels.*;
-import validation.Validateur;
 
 /**
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class AccumulateurStatistiques {
+public class Statistiques {
 
     private JSONObject donneesStatistiques;
 
@@ -20,11 +19,11 @@ public class AccumulateurStatistiques {
     private TreeMap<String, Integer> activitesValidesParCategorie;
     private IEcriveurStatistiques ecriveurStatistiques;
 
-    public AccumulateurStatistiques() {
+    public Statistiques() {
         this(new EcriveurStatistiques());
     }
 
-    public AccumulateurStatistiques(IEcriveurStatistiques ecriveurStatistique) {
+    public Statistiques(IEcriveurStatistiques ecriveurStatistique) {
         this.ecriveurStatistiques = ecriveurStatistique;
         donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
         declarationTraitee = false;
@@ -52,8 +51,8 @@ public class AccumulateurStatistiques {
         incrementerStatistique("declarations_traitees");
     }
 
-    public void enregistrerCompletudeDeLaDeclaration(Validateur validateur) {
-        declarationIncompleteOuInvalide = !validateur.formationComplete();
+    public void enregistrerCompletudeDeLaDeclaration(boolean formationComplete) {
+        declarationIncompleteOuInvalide = !formationComplete;
     }
 
     public void enregistrerDeclarationInvalide(int sexeDuDeclarant) {

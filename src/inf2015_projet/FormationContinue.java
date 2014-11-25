@@ -1,6 +1,6 @@
 package inf2015_projet;
 
-import statistiques.AccumulateurStatistiques;
+import statistiques.Statistiques;
 import professionnels.*;
 import validation.*;
 import java.io.FileWriter;
@@ -15,7 +15,7 @@ public class FormationContinue {
 
     public static void main(String[] args) throws IOException {
 
-        AccumulateurStatistiques statsPourDeclaration = new AccumulateurStatistiques();
+        Statistiques statsPourDeclaration = new Statistiques();
         if (args[0].equals("-S")) {
             statsPourDeclaration.afficherStatistiques();
         } else if (args[0].equals("-SR")) {
@@ -48,7 +48,7 @@ public class FormationContinue {
                 Validateur validateur = Validateur.genererValidateur(membre);
                 sortieJSON = validateur.produireRapport();
                 
-                statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
+                statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur.formationComplete());
             }
 
             statsPourDeclaration.mettreAJourStatistiquesCumulatives();

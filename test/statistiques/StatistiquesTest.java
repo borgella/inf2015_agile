@@ -1,28 +1,26 @@
 package statistiques;
 
-import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import professionnels.*;
-import validation.*;
 
 /**
  *
  * @author User
  */
-public class AccumulateurStatistiquesTest {
-    AccumulateurStatistiques statistiques;
+public class StatistiquesTest {
+    Statistiques statistiques;
     IEcriveurStatistiques ecriveurStatistiques;
     
-    public AccumulateurStatistiquesTest() {
+    public StatistiquesTest() {
     }
     
     @Before
     public void setUp() {
         ecriveurStatistiques = new MockEcriveurStatistiques();
-        statistiques = new AccumulateurStatistiques(ecriveurStatistiques);
+        statistiques = new Statistiques(ecriveurStatistiques);
     }
     
     @After
@@ -46,6 +44,24 @@ public class AccumulateurStatistiquesTest {
         statistiques.enregistrerTraitementDeDeclaration();
         statistiques.enregistrerTraitementDeDeclaration();
         int resultat3 = statistiques.obtenirNombreDeDeclarationsTraitees();
+        assertEquals(4, resultat3);
+    }
+    
+    
+    
+    @Test
+    public void testObtenirNombreDeDeclarationsValidesEtCompletes() {
+        int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
+        assertEquals(0, resultat1);
+        
+        statistiques.enregistrerTraitementDeDeclarationValideEtComplete();
+        int resultat2 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
+        assertEquals(1, resultat2);
+        
+        statistiques.enregistrerTraitementDeDeclarationValideEtComplete();
+        statistiques.enregistrerTraitementDeDeclarationValideEtComplete();
+        statistiques.enregistrerTraitementDeDeclarationValideEtComplete();
+        int resultat3 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
         assertEquals(4, resultat3);
     }
     
