@@ -1,12 +1,12 @@
 package inf2015_projet;
 
-import statistiques.Statistiques;
 import professionnels.*;
 import validation.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import statistiques.Statistiques;
 
 /**
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
@@ -14,7 +14,6 @@ import net.sf.json.JSONObject;
 public class FormationContinue {
 
     public static void main(String[] args) throws IOException {
-
         Statistiques statsPourDeclaration = new Statistiques();
         if (args[0].equals("-S")) {
             statsPourDeclaration.afficherStatistiques();
@@ -23,36 +22,26 @@ public class FormationContinue {
         } else {
             String fichierEntree = args[0];
             String fichierSortie = args[1];
-
             String texteEntree = FileReader.loadFileIntoString(fichierEntree, "UTF-8");
             JSONObject declarationJSON = JSONObject.fromObject(texteEntree);
-
+            statsPourDeclaration.enregistrerTraitementDeDeclaration();
             LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
-            int sexeDuDeclarant = lecteur.extraireSexe();
-            statsPourDeclaration.enregistrerTraitementDeDeclaration(sexeDuDeclarant);
-
             JSONObject sortieJSON;
-
             if (lecteur.erreurDeFormatDetectee()) {
                 System.out.println("Erreur: Éxecution términée, car le fichier contient des données invalides.");
-                statsPourDeclaration.enregistrerDeclarationInvalide();
+                int sexeDuDeclarant = lecteur.extraireSexe();
+                statsPourDeclaration.enregistrerDeclarationInvalide(sexeDuDeclarant);
                 sortieJSON = lecteur.produireRapportPourErreurDeFormat();
             } else {
                 JSONArray listeActivites = declarationJSON.getJSONArray("activites");
-                
                 Membre membre = Membre.genererMembre(declarationJSON);
                 ajouterArray(membre, listeActivites);
-                
-                statsPourDeclaration.enregistrerActivitesValidesParCategorie(membre);
-                
+                statsPourDeclaration.enregistrerDetailsDuDeclarant(membre);
                 Validateur validateur = Validateur.genererValidateur(membre);
                 sortieJSON = validateur.produireRapport();
-                
-                statsPourDeclaration.enregistrerCompletudeDeDeclarationValide(validateur.formationComplete());
+                statsPourDeclaration.enregistrerCompletudeDeLaDeclaration(validateur);
             }
-
             statsPourDeclaration.mettreAJourStatistiquesCumulatives();
-            
             FileWriter sortie = new FileWriter(fichierSortie);
             sortie.write(sortieJSON.toString(2));
             sortie.close();
