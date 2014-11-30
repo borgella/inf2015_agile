@@ -8,20 +8,22 @@ import professionnels.*;
 /**
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
-public class Statistiques {
+public class StatistiquesMembres {
 
     private JSONObject donneesStatistiques;
+    private EnsembleStatistique statsDeclarationsEtActivitesValides = new EnsembleStatistique();
+    private EnsembleStatistique statsActivitesValidesParCategorie = new EnsembleStatistique();
 
     private TreeMap<String, Integer> activitesValidesParCategorie;
     private IEcriveurStatistiques ecriveurStatistiques;
 
-    public Statistiques() {
+    public StatistiquesMembres() {
         this(new EcriveurStatistiques());
     }
 
-    public Statistiques(IEcriveurStatistiques ecriveurStatistique) {
+    public StatistiquesMembres(IEcriveurStatistiques ecriveurStatistique) {
         this.ecriveurStatistiques = ecriveurStatistique;
-        donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
+        JSONObject donneesStatistiques = ecriveurStatistiques.chargerStatistiquesExistantes();
         activitesValidesParCategorie = new TreeMap<>();
         etablirCategoriesReconnues(activitesValidesParCategorie);
     }

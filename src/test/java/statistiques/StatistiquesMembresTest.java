@@ -10,19 +10,19 @@ import professionnels.*;
  *
  * @author User
  */
-public class StatistiquesTest {
+public class StatistiquesMembresTest {
 
     int codeHomme = 1;
     int codeFemme = 2;
     int codeSexeInconnu = 0;
     
-    Statistiques statistiques;
+    StatistiquesMembres statistiques;
     IEcriveurStatistiques ecriveurStatistiques;
 
     @Before
     public void setUp() {
         ecriveurStatistiques = new MockEcriveurStatistiques();
-        statistiques = new Statistiques(ecriveurStatistiques);
+        statistiques = new StatistiquesMembres(ecriveurStatistiques);
     }
 
     @After

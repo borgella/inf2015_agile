@@ -1,5 +1,6 @@
 package statistiques;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -7,28 +8,65 @@ import net.sf.json.JSONObject;
  */
 public class EnsembleStatistique {
     
-    String etiquette;
-    JSONObject champsStatistiques;
+    JSONObject donneesStatistiques;
     
     public EnsembleStatistique() {
-        this("");
-    }
-    
-    public EnsembleStatistique(String etiquette) {
-        this.etiquette = etiquette;
-        champsStatistiques = new JSONObject();
-    }
-    
-    boolean contientChampsStatistiques(String champs) {
-        return champsStatistiques.has(champs);
+        donneesStatistiques = new JSONObject();
     }
 
+    EnsembleStatistique(JSONObject donneesStatistiques) {
+       this.donneesStatistiques = donneesStatistiques;
+    }
+    
+    boolean contientChampsOuCategorieStatistique(String champs) {
+        return donneesStatistiques.has(champs);
+    }
+    
+    boolean contientChampsStatistiqueSousCategorie(String categorie, String champs) {
+        boolean champsTrouvee = false;
+        if (donneesStatistiques.has(categorie)) {
+            JSONArray champsSousCategorie = donneesStatistiques.getJSONArray(categorie);
+            champsTrouvee = (indiceDuChampsSousCategorie(champsSousCategorie, champs) != -1);
+        }
+        return champsTrouvee;
+    }
+    
+    private int indiceDuChampsSousCategorie(JSONArray categorie, String champs) {
+        int indice = -1;
+        for (int i = 0; i < categorie.size(); i++) {
+            JSONObject statistiqueCandidate = categorie.getJSONObject(i);
+            if (statistiqueCandidate.has(champs)) {
+                indice = i;
+                break;
+            }
+        }
+        return indice;
+    }
+    
     void ajouterChampsStatistique(String champs) {
-        champsStatistiques.accumulate(champs, 0);
+        donneesStatistiques.accumulate(champs, 0);
+    }
+    
+    void ajouterCategorieDeChampsStatistiques(String categorie) {
+        donneesStatistiques.accumulate(categorie, new JSONArray());
+    }
+    
+    void ajouterChampsStatistiqueSousCategorie(String categorie, String champs) {
+       JSONArray champsSousCategorie = donneesStatistiques.getJSONArray(categorie);
+       JSONObject nouvelleStatistique = new JSONObject();
+       nouvelleStatistique.accumulate(champs, 0);
+       champsSousCategorie.add(nouvelleStatistique);
     }
 
     int obtenirStatistique(String champs) {
-        return champsStatistiques.getInt(champs);
+        return donneesStatistiques.getInt(champs);
+    }
+    
+    int obtenirStatistiqueSousCategorie(String categorie, String champs) {
+        JSONArray champsSousCategorie = donneesStatistiques.getJSONArray(categorie);
+        int indiceDeStatistique = indiceDuChampsSousCategorie(champsSousCategorie, champs);
+        JSONObject statistiqueRecherchee = champsSousCategorie.getJSONObject(indiceDeStatistique);
+        return statistiqueRecherchee.getInt(champs);
     }
 
     void incrementerStatistique(String champs) {
@@ -36,11 +74,7 @@ public class EnsembleStatistique {
     }
 
     void incrementerStatistique(String champs, int augmentation) {
-        int ancienneValeur = champsStatistiques.getInt(champs);
-        champsStatistiques.put(champs, ancienneValeur + augmentation);
-    }
-    
-    String getEtiquette() {
-        return etiquette;
+        int ancienneValeur = donneesStatistiques.getInt(champs);
+        donneesStatistiques.put(champs, ancienneValeur + augmentation);
     }
 }

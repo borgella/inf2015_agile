@@ -1,6 +1,6 @@
 package inf2015_projet;
 
-import statistiques.Statistiques;
+import statistiques.StatistiquesMembres;
 import professionnels.*;
 import validation.*;
 import java.io.FileWriter;
@@ -15,7 +15,7 @@ public class FormationContinue {
 
     public static void main(String[] args) throws IOException {
 
-        Statistiques statsPourDeclaration = new Statistiques();
+        StatistiquesMembres statsPourDeclaration = new StatistiquesMembres();
         if (args[0].equals("-S")) {
             statsPourDeclaration.afficherStatistiques();
         } else if (args[0].equals("-SR")) {
