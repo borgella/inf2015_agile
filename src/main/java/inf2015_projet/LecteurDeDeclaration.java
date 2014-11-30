@@ -52,6 +52,26 @@ public class LecteurDeDeclaration {
         }
         return champsTexteExiste;
     }
+    
+    /*public boolean formatNumeroDePermisValide() {
+        boolean formatValide;
+        
+        if(object instanceof String) {
+            if() {
+                formatValide = true;
+            } else if() {
+                formatValide = true;
+            } else if() {
+                formatValide = true;
+            } else {
+                formatValide = true;
+            }
+        } else {
+            formatValide = false;
+        }
+        
+        return formatValide;
+    }*/
 
     public boolean numerosDePermisValides(String numeroDePermis) {
         boolean validiteNumeroDePermis;
