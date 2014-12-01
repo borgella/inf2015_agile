@@ -29,10 +29,10 @@ public class EcriveurStatistiques implements IEcriveurStatistiques {
         try {
            String donneesBrutesPourStatistiques = FileReader.loadFileIntoString(fichierStatistiques, "UTF-8");
            donneesStatistiques = JSONObject.fromObject(donneesBrutesPourStatistiques);
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Le fichier des statistiques n'existe pas ou est inaccessible; "
                     + "un nouveau fichier sera généré.");
-            donneesStatistiques = new JSONObject();
+            donneesStatistiques = null;
         }
         return donneesStatistiques;
     }

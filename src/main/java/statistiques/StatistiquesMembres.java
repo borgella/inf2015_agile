@@ -13,14 +13,19 @@ public class StatistiquesMembres {
     private IEcriveurStatistiques ecriveurStatistiques;
 
     public StatistiquesMembres() {
-        donneesStatistiques = new EnsembleStatistique();
-        initialiserStatistiques();
+        this(new EcriveurStatistiques());
     }
 
     public StatistiquesMembres(IEcriveurStatistiques ecriveurStatistique) {
-        this.ecriveurStatistiques = ecriveurStatistique;
-        JSONObject donneesExistantes = ecriveurStatistiques.chargerStatistiquesExistantes();
+        JSONObject donneesExistantes = null;
+        if (ecriveurStatistique != null) {
+            this.ecriveurStatistiques = ecriveurStatistique;
+            donneesExistantes = ecriveurStatistiques.chargerStatistiquesExistantes();
+        }
         donneesStatistiques = new EnsembleStatistique(donneesExistantes);
+        if (donneesExistantes == null) {
+            initialiserStatistiques();
+        }
     }
 
     public static String[] nomsDesCategoriesReconnues() {

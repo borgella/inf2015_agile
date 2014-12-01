@@ -23,7 +23,7 @@ public class StatistiquesMembresTest {
     @Before
     public void setUp() {
         ecriveurStatistiques = new MockEcriveurStatistiques();
-        statistiques = new StatistiquesMembres();
+        statistiques = new StatistiquesMembres(null);
     }
 
     @After
