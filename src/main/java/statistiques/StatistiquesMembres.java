@@ -1,6 +1,5 @@
 package statistiques;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import professionnels.*;
 
@@ -28,11 +27,16 @@ public class StatistiquesMembres {
         }
     }
 
-    public static String[] nomsDesCategoriesReconnues() {
+    private static String[] nomsDesCategoriesReconnues() {
         String categoriesReconnues[] = 
         {"cours", "atelier", "séminaire", "colloque", "conférence", "lecture dirigée",
             "présentation", "groupe de discussion", "projet de recherche", "rédaction professionnelle"};
         return categoriesReconnues;
+    }
+    
+    private static String[] nomsDesOrdresReconnus() {
+        String ordresReconnus[] = {"architectes", "géologues", "psychologues", "podiatres"};
+        return ordresReconnus;
     }
 
     public void enregistrerTraitementDeDeclaration(int sexeDuDeclarant) {
@@ -56,7 +60,7 @@ public class StatistiquesMembres {
             enregistrerActivitesValidesParCategorie(membre, categorie);
         }
     }
-
+   
     private void enregistrerActivitesValidesParCategorie(Membre membre, String categorie) {
         int nombreActivitesValides = membre.obtenirNombreActivitesValidesParCategorie(categorie);
         enregistrerActivitesValidesParCategorie(nombreActivitesValides, categorie);
@@ -100,7 +104,9 @@ public class StatistiquesMembres {
         afficherNombreDeclarationsFaitesParFemmes();
         afficherNombreDeclarationsParGensDeSexeInconnu();
         afficherNombreTotalActivitesValidesDeclarees(donneesStatistiques);
-        afficherNombreActivitesValidesDeclareesSelonCategories(donneesStatistiques);
+        afficherNombreActivitesValidesDeclareesSelonCategorie();
+        afficherNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre();
+        afficherNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre();
     }
 
     private void afficherNombreDeclarationsTraitees() {
@@ -158,27 +164,43 @@ public class StatistiquesMembres {
                 + donneesStatistiques.getInt("activites_valides_dans_les_declarations"));
     }
 
-    private void afficherNombreActivitesValidesDeclareesSelonCategories(JSONObject donneesStatistiques) {
+    private void afficherNombreActivitesValidesDeclareesSelonCategorie() {
         System.out.println("Nombre d'activités valides par catégorie: ");
-        JSONArray compteursPourCategories = donneesStatistiques.getJSONArray("activites_valides_par_categorie");
-        afficherCompteurActivitesValidesPourCategorie(compteursPourCategories);
-    }
-
-    private void afficherCompteurActivitesValidesPourCategorie(JSONArray compteursPourCategories) {
+        String[] categoriesReconnues = nomsDesCategoriesReconnues();
         String tabulation = "    ";
-        for (int i = 0; i < compteursPourCategories.size(); i++) {
-            JSONObject compteur = compteursPourCategories.getJSONObject(i);
-            String categorieCourante = compteur.toString();
-            System.out.println(tabulation + categorieCourante);
+        for (String categorieActivites: categoriesReconnues) {
+            int activitesValidesPourCategorie = obtenirActivitesValidesParCategorie(categorieActivites);
+            System.out.println(tabulation + '\"' + categorieActivites + '\"' + ": " + activitesValidesPourCategorie);
         }
     }
     
-        int obtenirNombreDeDeclarationsValidesEtCompletes() {
+    private void afficherNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre() {
+        System.out.println("Nombre de déclarations complètes par ordre: ");
+        String[] ordresReconnus = nomsDesOrdresReconnus();
+        String tabulation = "    ";
+        for (String ordre: ordresReconnus) {
+            int declarationsCompletesPourOrdre = obtenirNombreDeDeclarationsValidesEtCompletes(ordre);
+            System.out.println(tabulation + '\"' + ordre + '\"' + ": " + declarationsCompletesPourOrdre);
+        }
+    }
+    
+    private void afficherNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre() {
+        System.out.println("Nombre de déclarations incomplètes par ordre: ");
+        String[] ordresReconnus = nomsDesOrdresReconnus();
+        String tabulation = "    ";
+        for (String ordre: ordresReconnus) {
+            int declarationsInompletesPourOrdre = obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre(ordre);
+            System.out.println(tabulation + '\"' + ordre + '\"' + ": " + declarationsInompletesPourOrdre);
+        }
+    }
+    
+    int obtenirNombreTotalDeDeclarationsValidesEtCompletes() {
         return donneesStatistiques.obtenirStatistique("declarations_completes");
     }
 
-    int obtenirNombreDeDeclarationsValidesEtIncompletes() {
-        return donneesStatistiques.obtenirStatistique("declarations_incompletes_ou_invalides");
+    int obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre(String ordre) {
+        String categorieStatistique = "declarations_valides_et_incompletes_par_ordre";
+        return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, ordre);
     }
 
     int obtenirNombreDeDeclarationsInvalides() {
