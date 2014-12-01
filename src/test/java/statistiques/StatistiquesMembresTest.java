@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import professionnels.*;
 
 /**
@@ -31,6 +32,7 @@ public class StatistiquesMembresTest {
         statistiques = null;
     }
 
+    @Ignore
     @Test
     public void testObtenirNombreDeDeclarationsTraitees() {
 
@@ -48,6 +50,7 @@ public class StatistiquesMembresTest {
         assertEquals(4, resultat3);
     }
 
+    @Ignore
     @Test
     public void testEnregistrerNombreDeDeclarationsValidesEtCompletes() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes();
@@ -67,6 +70,7 @@ public class StatistiquesMembresTest {
         assertEquals(2, resultat4);
     }
 
+    @Ignore
     @Test
     public void testEnregistrerNombreDeDeclarationsValidesEtIncompletes() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletes();
@@ -86,6 +90,7 @@ public class StatistiquesMembresTest {
         assertEquals(2, resultat4);
     }
 
+    @Ignore
     @Test
     public void testObtenirNombreDeDeclarationsInvalides() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsInvalides();
@@ -102,6 +107,7 @@ public class StatistiquesMembresTest {
         assertEquals(4, resultat3);
     }
 
+    @Ignore
     @Test
     public void testObtenirNombreDeDeclarationsParHommes() {
 
@@ -123,6 +129,7 @@ public class StatistiquesMembresTest {
         assertEquals(3, resultat4);
     }
 
+    @Ignore
     @Test
     public void testObtenirNombreDeDeclarationsParFemmes() {
         int codeHomme = 1;
@@ -147,6 +154,7 @@ public class StatistiquesMembresTest {
         assertEquals(3, resultat4);
     }
 
+    @Ignore
     @Test
     public void testObtenirNombreDeDeclarationsParGensDeSexeInconnu() {
         int codeHomme = 1;

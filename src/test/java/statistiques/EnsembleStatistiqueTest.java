@@ -148,20 +148,21 @@ public class EnsembleStatistiqueTest {
         assertEquals(3, statistiques.obtenirStatistique(champs)); 
     }
     
-    /*
     @Test
-    public void testIncrementerValeurStatistiqueSousUneCategorie() {
-        String categorieStatistiques = "statistiques_sur_les";
+    public void testIncrementerValeurStatistiqueSousCategorie() {
+        String categorie = "statistiques_pour_les_vetements";
         String champs = "nombre_de_chapeaux";
-        statistiques.ajouterChampsStatistique(champs);
         
-        statistiques.incrementerStatistique(champs);
-        assertEquals(1, statistiques.obtenirStatistique(champs)); 
+        statistiques.ajouterCategorieDeChampsStatistiques(categorie);
+        statistiques.ajouterChampsStatistiqueSousCategorie(categorie, champs);
         
-        statistiques.incrementerStatistique(champs);
-        statistiques.incrementerStatistique(champs);
-        assertEquals(3, statistiques.obtenirStatistique(champs)); 
-    }*/
+        statistiques.incrementerStatistiqueSousCategorie(categorie, champs);
+        assertEquals(1, statistiques.obtenirStatistiqueSousCategorie(categorie, champs));
+        
+        statistiques.incrementerStatistiqueSousCategorie(categorie, champs);
+        statistiques.incrementerStatistiqueSousCategorie(categorie, champs);
+        assertEquals(3, statistiques.obtenirStatistiqueSousCategorie(categorie, champs)); 
+    }
     
     @Test
     public void testIncrementerValeurStatistiqueParUnNombre() {
@@ -175,4 +176,18 @@ public class EnsembleStatistiqueTest {
         assertEquals(8, statistiques.obtenirStatistique(champs)); 
     }
     
+    @Test
+    public void testIncrementerValeurStatistiqueSousCategorieParUnNombre() {
+        String categorie = "statistiques_pour_les_vetements";
+        String champs = "nombre_de_chapeaux";
+        
+        statistiques.ajouterCategorieDeChampsStatistiques(categorie);
+        statistiques.ajouterChampsStatistiqueSousCategorie(categorie, champs);
+        
+        statistiques.incrementerStatistiqueSousCategorie(categorie, champs, 3);
+        assertEquals(3, statistiques.obtenirStatistiqueSousCategorie(categorie, champs));
+        
+        statistiques.incrementerStatistiqueSousCategorie(categorie, champs, 5);
+        assertEquals(8, statistiques.obtenirStatistiqueSousCategorie(categorie, champs)); 
+    }
 }
