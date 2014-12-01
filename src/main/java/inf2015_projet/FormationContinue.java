@@ -28,7 +28,7 @@ public class FormationContinue {
             LecteurDeDeclaration lecteur = new LecteurDeDeclaration(declarationJSON);
             JSONObject sortieJSON;
             if (lecteur.erreurDeFormatDetectee()) {
-                System.out.println("Erreur: Éxecution términée, car le fichier contient des données invalides.");
+                System.out.println("Erreur: Exécution terminée, car le fichier contient des données invalides.");
                 int sexeDuDeclarant = lecteur.extraireSexe();
                 statsPourDeclaration.enregistrerDeclarationInvalide(sexeDuDeclarant);
                 sortieJSON = lecteur.produireRapportPourErreurDeFormat();

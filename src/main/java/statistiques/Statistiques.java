@@ -1,8 +1,12 @@
 package statistiques;
 
 import inf2015_projet.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.TreeMap;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -245,7 +249,9 @@ public class Statistiques {
 
     private void mettreAJourFichierStatistiques(JSONObject donneesStatistiques) {
         try {
-            FileWriter miseAJourFichierStatistiques = new FileWriter(getFichierStatistiques());
+            Writer miseAJourFichierStatistiques = new BufferedWriter(
+                        new OutputStreamWriter(
+                                   new FileOutputStream(fichierStatistiques), "UTF-8"));
             miseAJourFichierStatistiques.write(donneesStatistiques.toString(2));
             miseAJourFichierStatistiques.close();
         } catch (IOException e) {
