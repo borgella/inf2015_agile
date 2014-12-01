@@ -34,7 +34,7 @@ public class FormationContinue {
             JSONObject sortieJSON;
 
             if (lecteur.erreurDeFormatDetectee()) {
-                System.out.println("Erreur: Éxecution términée, car le fichier contient des données invalides.");
+                System.out.println("Erreur: Exécution terminée, car le fichier contient des données invalides.");
                 statsPourDeclaration.enregistrerDeclarationInvalide();
                 sortieJSON = lecteur.produireRapportPourErreurDeFormat();
             } else {
@@ -48,7 +48,7 @@ public class FormationContinue {
                 Validateur validateur = Validateur.genererValidateur(membre);
                 sortieJSON = validateur.produireRapport();
                 
-                statsPourDeclaration.enregistrerCompletudeDeDeclarationValide(validateur.formationComplete());
+                statsPourDeclaration.enregistrerCompletudeDeDeclarationValide(validateur.formationComplete(), membre.getOrdre());
             }
 
             statsPourDeclaration.mettreAJourStatistiquesCumulatives();

@@ -10,7 +10,5 @@ public interface IEcriveurStatistiques {
     JSONObject chargerStatistiquesExistantes();
 
     void ecrireCumulStatistiques(JSONObject donneesStatistiques);
-
-    JSONObject genererStatistiquesVides();
     
 }

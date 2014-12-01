@@ -25,9 +25,4 @@ public class MockEcriveurStatistiques implements IEcriveurStatistiques {
     public void ecrireCumulStatistiques(JSONObject donneesStatistiques) {
       donneesStatistiquesExistantes = donneesStatistiques;
     }
-
-    @Override
-    public JSONObject genererStatistiquesVides() {
-        return new JSONObject();
-    }
 }

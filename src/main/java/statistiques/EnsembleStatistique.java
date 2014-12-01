@@ -89,7 +89,6 @@ public class EnsembleStatistique {
     void incrementerStatistiqueSousCategorie(String categorie, String champs, int augmentation) {
         JSONArray champsSousCategorie = donneesStatistiques.getJSONArray(categorie);
         int indiceDeStatistique = indiceDuChampsSousCategorie(champsSousCategorie, champs);
-        System.out.println(indiceDeStatistique);
         JSONObject statistiqueRecherchee = champsSousCategorie.getJSONObject(indiceDeStatistique);
         int ancienneValeur = statistiqueRecherchee.getInt(champs);
         statistiqueRecherchee.put(champs, ancienneValeur + augmentation);
