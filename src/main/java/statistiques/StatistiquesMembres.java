@@ -55,25 +55,31 @@ public class StatistiquesMembres {
     }
 
     public void enregistrerActivitesValidesParCategorie(Membre membre) {
+        enregistrerNombreTotalActivitesValides(membre);
+        enregistrerNombreActivitesValidesParCategorieIndividuelle(membre);
+    }
+    
+    public void enregistrerNombreTotalActivitesValides(Membre membre) {
         String[] categoriesReconnues = nomsDesCategoriesReconnues();
+        int nombreTotalActivitesValides = 0;
         for (String categorie : categoriesReconnues) {
-            enregistrerActivitesValidesParCategorie(membre, categorie);
+            int nombreActivitesValides = membre.obtenirNombreActivitesValidesParCategorie(categorie);
+            nombreTotalActivitesValides += nombreActivitesValides;
+        }
+         donneesStatistiques.incrementerStatistique
+            ("activites_valides_dans_les_declarations", nombreTotalActivitesValides);
+    }
+    
+    public void enregistrerNombreActivitesValidesParCategorieIndividuelle(Membre membre) {
+        String[] categoriesReconnues = nomsDesCategoriesReconnues();
+        String categorieStatistique = "activites_valides_par_categorie";
+        for (String categorie : categoriesReconnues) {
+            int nombreActivitesValides = membre.obtenirNombreActivitesValidesParCategorie(categorie);
+            donneesStatistiques.incrementerStatistiqueSousCategorie
+                (categorieStatistique, categorie, nombreActivitesValides);
         }
     }
    
-    private void enregistrerActivitesValidesParCategorie(Membre membre, String categorie) {
-        int nombreActivitesValides = membre.obtenirNombreActivitesValidesParCategorie(categorie);
-        enregistrerActivitesValidesParCategorie(nombreActivitesValides, categorie);
-    }
-
-    private void enregistrerActivitesValidesParCategorie(int nombre, String categorieActivite) {
-        if (nombre > 0) {
-            String categorieStatistique = "activites_valides_par_categorie";
-            donneesStatistiques.incrementerStatistiqueSousCategorie
-            (categorieStatistique, categorieActivite, nombre);
-        }
-    }
-
     public void enregistrerCompletudeDeDeclarationValide(boolean formationComplete, String ordre) {
         if (formationComplete) {
             donneesStatistiques.incrementerStatistique("declarations_completes");
@@ -84,6 +90,10 @@ public class StatistiquesMembres {
             donneesStatistiques.incrementerStatistiqueSousCategorie
                 ("declarations_valides_et_incompletes_par_ordre", ordre);
         }
+    }
+
+    void enregistrerDeclarationsAvecNumeroDePermisInvalide() {
+       donneesStatistiques.incrementerStatistique("declarations_avec_numero_de_permis_invalide");
     }
 
     public void mettreAJourStatistiquesCumulatives() {
@@ -99,7 +109,7 @@ public class StatistiquesMembres {
     private void afficherChaqueStatistique(JSONObject donneesStatistiques) {
         afficherNombreDeclarationsTraitees();
         afficherNombreDeclarationsCompletes();
-        afficherNombreDeclarationsIncompletesOuInvalides(donneesStatistiques);
+        afficherNombreDeclarationsIncompletesOuInvalides();
         afficherNombreDeclarationsFaitesParHommes();
         afficherNombreDeclarationsFaitesParFemmes();
         afficherNombreDeclarationsParGensDeSexeInconnu();
@@ -127,9 +137,9 @@ public class StatistiquesMembres {
         return donneesStatistiques.obtenirStatistique("declarations_completes");
     }
 
-    private void afficherNombreDeclarationsIncompletesOuInvalides(JSONObject donneesStatistiques) {
+    private void afficherNombreDeclarationsIncompletesOuInvalides() {
         System.out.println("Nombre total de déclarations incomplètes ou invalides: "
-                + donneesStatistiques.getInt("declarations_incompletes_ou_invalides"));
+                + obtenirNombreDeDeclarationsInvalidesOuIncompletes());
     }
 
     private void afficherNombreDeclarationsFaitesParHommes() {
@@ -203,7 +213,7 @@ public class StatistiquesMembres {
         return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, ordre);
     }
 
-    int obtenirNombreDeDeclarationsInvalides() {
+    int obtenirNombreDeDeclarationsInvalidesOuIncompletes() {
         return donneesStatistiques.obtenirStatistique("declarations_incompletes_ou_invalides");
     }
 
@@ -215,6 +225,10 @@ public class StatistiquesMembres {
     int obtenirNombreDeDeclarationsValidesEtCompletes(String ordre) {
         String categorieStatistique = "declarations_valides_et_completes_par_ordre";
         return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, ordre);
+    }
+    
+    int obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide() {
+       return donneesStatistiques.obtenirStatistique("declarations_avec_numero_de_permis_invalide");
     }
 
     public void reinitialiserStatistiques() {
@@ -229,6 +243,7 @@ public class StatistiquesMembres {
         initialiserStatistiquesPourActivitesValides();
         initialiserStatistiquesPourDeclarationsCompletesSelonOrdre();
         initialiserStatistiquesPourDeclarationsIncompletesSelonOrdre();
+        initialiserStatistiquesPourDeclarationsAvecNumerosDePermisInvalides();
     }
 
     private void initialiserStatistiquesGeneralesPourDeclarations() {
@@ -274,5 +289,9 @@ public class StatistiquesMembres {
         donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "géologues");
         donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "psychologues");
         donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "podiatres");
+    }
+
+    private void initialiserStatistiquesPourDeclarationsAvecNumerosDePermisInvalides() {
+        donneesStatistiques.ajouterChampsStatistique("declarations_avec_numero_de_permis_invalide");
     }
 }
