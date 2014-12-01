@@ -50,7 +50,7 @@ public class StatistiquesMembres {
         }
     }
 
-    public void enregistrerDeclarationInvalide() {
+    public void enregistrerDeclarationInvalide(int codeSexe) {
         donneesStatistiques.incrementerStatistique("declarations_incompletes_ou_invalides");
     }
 

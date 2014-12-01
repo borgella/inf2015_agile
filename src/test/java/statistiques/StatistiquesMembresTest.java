@@ -120,13 +120,13 @@ public class StatistiquesMembresTest {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsInvalidesOuIncompletes();
         assertEquals(0, resultat1);
 
-        statistiques.enregistrerDeclarationInvalide();
+        statistiques.enregistrerDeclarationInvalide(codeSexeInconnu);
         int resultat2 = statistiques.obtenirNombreDeDeclarationsInvalidesOuIncompletes();
         assertEquals(1, resultat2);
 
-        statistiques.enregistrerDeclarationInvalide();
-        statistiques.enregistrerDeclarationInvalide();
-        statistiques.enregistrerDeclarationInvalide();
+        statistiques.enregistrerDeclarationInvalide(codeSexeInconnu);
+        statistiques.enregistrerDeclarationInvalide(codeSexeInconnu);
+        statistiques.enregistrerDeclarationInvalide(codeSexeInconnu);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsInvalidesOuIncompletes();
         assertEquals(4, resultat3);
     }

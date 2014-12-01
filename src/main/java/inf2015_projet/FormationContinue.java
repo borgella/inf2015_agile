@@ -35,7 +35,7 @@ public class FormationContinue {
 
             if (lecteur.erreurDeFormatDetectee()) {
                 System.out.println("Erreur: Exécution terminée, car le fichier contient des données invalides.");
-                statsPourDeclaration.enregistrerDeclarationInvalide();
+                statsPourDeclaration.enregistrerDeclarationInvalide(sexeDuDeclarant);
                 sortieJSON = lecteur.produireRapportPourErreurDeFormat();
             } else {
                 JSONArray listeActivites = declarationJSON.getJSONArray("activites");

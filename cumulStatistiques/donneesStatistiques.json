@@ -1,51 +1,34 @@
 {
-  "declarations_traitees": 4,
-  "declarations_completes": 1,
-  "declarations_incompletes_ou_invalides": 3,
+  "declarations_traitees": 0,
+  "declarations_completes": 0,
+  "declarations_incompletes_ou_invalides": 0,
   "declarations_faites_par_des_hommes": 0,
   "declarations_faites_par_des_femmes": 0,
-  "declarations_faites_par_des_gens_de_sexe_inconnu": 4,
+  "declarations_faites_par_des_gens_de_sexe_inconnu": 0,
   "activites_valides_dans_les_declarations": 0,
   "activites_valides_par_categorie":   [
-        {
-      "categorie": "cours",
-      "nombre": 0
-    },
-        {
-      "categorie": "atelier",
-      "nombre": 0
-    },
-        {
-      "categorie": "séminaire",
-      "nombre": 0
-    },
-        {
-      "categorie": "colloque",
-      "nombre": 0
-    },
-        {
-      "categorie": "conférence",
-      "nombre": 0
-    },
-        {
-      "categorie": "lecture dirigée",
-      "nombre": 0
-    },
-        {
-      "categorie": "présentation",
-      "nombre": 0
-    },
-        {
-      "categorie": "groupe de discussion",
-      "nombre": 0
-    },
-        {
-      "categorie": "projet de recherche",
-      "nombre": 0
-    },
-        {
-      "categorie": "rédaction professionnelle",
-      "nombre": 0
-    }
-  ]
+    {"cours": 0},
+    {"atelier": 0},
+    {"séminaire": 0},
+    {"colloque": 0},
+    {"conférence": 0},
+    {"lecture dirigée": 0},
+    {"présentation": 0},
+    {"groupe de discussion": 0},
+    {"projet de recherche": 0},
+    {"rédaction professionnelle": 0}
+  ],
+  "declarations_valides_et_completes_par_ordre":   [
+    {"architectes": 0},
+    {"géologues": 0},
+    {"psychologues": 0},
+    {"podiatres": 0}
+  ],
+  "declarations_valides_et_incompletes_par_ordre":   [
+    {"architectes": 0},
+    {"géologues": 0},
+    {"psychologues": 0},
+    {"podiatres": 0}
+  ],
+  "declarations_avec_numero_de_permis_invalide": 0
 }
