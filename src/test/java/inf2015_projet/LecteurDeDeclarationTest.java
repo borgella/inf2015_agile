@@ -85,18 +85,25 @@ public class LecteurDeDeclarationTest {
     }
     
     /**
-     * Test of numerosDePermisValides method, of class LecteurDeDeclaration.
+     * Test of formatAcceptePourNumeroDePermis method, of class LecteurDeDeclaration.
      */
     @Test
-    public void testNumerosDePermisValides() {
-        System.out.println("Architectes: No. permis valide");
-        boolean expResult = true;
-        boolean result = instanceArchitectes.numerosDePermisValides("T3443");
+    public void testFormatAcceptePourNumeroDePermis() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourNumeroDePermis();
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
+    /**
+     * Test of numerosDePermisValides method, of class LecteurDeDeclaration.
+     */
+    // Tests qui échouent
     @Test
-    public void testNumerosDePermisValides2() {
+    public void testNumerosDePermisValides() {
         System.out.println("Architectes: No. permis invalide");
         boolean expResult = false;
         boolean result = instanceArchitectes.numerosDePermisValides("Z3451");
@@ -105,14 +112,6 @@ public class LecteurDeDeclarationTest {
     
     @Test
     public void testNumerosDePermisValides3() {
-        System.out.println("Geologues: No. permis valide");
-        boolean expResult = true;
-        boolean result = instanceGeologues.numerosDePermisValides("BJ3822");
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValides4() {
         System.out.println("Geologues: No. permis invalide");
         boolean expResult = false;
         boolean result = instanceGeologues.numerosDePermisValides("JB7867");
@@ -121,14 +120,6 @@ public class LecteurDeDeclarationTest {
     
     @Test
     public void testNumerosDePermisValides5() {
-        System.out.println("Podiatre: No. permis valide");
-        boolean expResult = true;
-        boolean result = instancePodiatres.numerosDePermisValides("83453");
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValides6() {
         System.out.println("Podiatre: No. permis invalide");
         boolean expResult = false;
         boolean result = instancePodiatres.numerosDePermisValides("560890");
@@ -137,34 +128,51 @@ public class LecteurDeDeclarationTest {
     
     @Test
     public void testNumerosDePermisValides7() {
+        System.out.println("Psychologues: No. permis invalide");
+        boolean expResult = false;
+        boolean result = instancePsychologues.numerosDePermisValides("56122_03");
+        assertEquals(expResult, result);
+    }
+    
+    
+    // Tests qui réussissent
+    @Test
+    public void testNumerosDePermisValides2() {
+        System.out.println("Architectes: No. permis valide");
+        boolean expResult = true;
+        boolean result = instanceArchitectes.numerosDePermisValides("T3443");
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumerosDePermisValides4() {
+        System.out.println("Geologues: No. permis valide");
+        boolean expResult = true;
+        boolean result = instanceGeologues.numerosDePermisValides("BJ3822");
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testNumerosDePermisValides6() {
+        System.out.println("Podiatre: No. permis valide");
+        boolean expResult = true;
+        boolean result = instancePodiatres.numerosDePermisValides("83453");
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testNumerosDePermisValides8() {
         System.out.println("Psychologues: No. permis valide");
         boolean expResult = true;
         boolean result = instancePsychologues.numerosDePermisValides("83723-34");
         assertEquals(expResult, result);
     }
     
-    @Test
-    public void testNumerosDePermisValides8() {
-        System.out.println("Psychologues: No. permis invalide");
-        boolean expResult = false;
-        boolean result = instancePsychologues.numerosDePermisValides("56122_03");
-        assertEquals(expResult, result);
-    }
-
     /**
      * Test of numerosDePermisValidesSelonLOrdre method, of class LecteurDeDeclaration.
      */
-    @Test
+    // Tests qui échouent
     public void testNumerosDePermisValidesSelonLOrdre() {
-        System.out.println("Architectes valide");
-        String numeroDePermisLu = "T3443";
-        String formatNumeroPermisValide = "([A|T]{1}[0-9]{4})";
-        boolean expResult = true;
-        boolean result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
-    
-    public void testNumerosDePermisValidesSelonLOrdre2() {
         System.out.println("Architectes invalide");
         String numeroDePermisLu = "X4573";
         String formatNumeroPermisValide = "([A|T]{1}[0-9]{4})";
@@ -175,16 +183,6 @@ public class LecteurDeDeclarationTest {
     
     @Test
     public void testNumerosDePermisValidesSelonLOrdre3() {
-        System.out.println("Podiatres valide");
-        String numeroDePermisLu = "83453";
-        String formatNumeroPermisValide = "([0-9]{5})";
-        boolean expResult = true;
-        boolean result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValidesSelonLOrdre4() {
         System.out.println("Podiatres invalide");
         String numeroDePermisLu = "56X87";
         String formatNumeroPermisValide = "([0-9]{5})";
@@ -195,20 +193,41 @@ public class LecteurDeDeclarationTest {
     
     @Test
     public void testNumerosDePermisValidesSelonLOrdre5() {
-        System.out.println("Psychologues valide");
-        String numeroDePermisLu = "83723-34";
-        String formatNumeroPermisValide = "([0-9]{5}[-][0-9]{2})";
-        boolean expResult = true;
-        boolean result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValidesSelonLOrdre6() {
         System.out.println("Psychologues invalide");
         String numeroDePermisLu = "83723!34";
         String formatNumeroPermisValide = "([0-9]{5}[-][0-9]{2})";
         boolean expResult = false;
+        boolean result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
+        assertEquals(expResult, result);
+    }
+    
+    // Tests qui réussissent
+    @Test
+    public void testNumerosDePermisValidesSelonLOrdre2() {
+        System.out.println("Architectes valide");
+        String numeroDePermisLu = "T3443";
+        String formatNumeroPermisValide = "([A|T]{1}[0-9]{4})";
+        boolean expResult = true;
+        boolean result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testNumerosDePermisValidesSelonLOrdre4() {
+        System.out.println("Podiatres valide");
+        String numeroDePermisLu = "83453";
+        String formatNumeroPermisValide = "([0-9]{5})";
+        boolean expResult = true;
+        boolean result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
+        assertEquals(expResult, result);
+    }
+ 
+    @Test
+    public void testNumerosDePermisValidesSelonLOrdre6() {
+        System.out.println("Psychologues valide");
+        String numeroDePermisLu = "83723-34";
+        String formatNumeroPermisValide = "([0-9]{5}[-][0-9]{2})";
+        boolean expResult = true;
         boolean result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
         assertEquals(expResult, result);
     }
@@ -218,20 +237,105 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testNumeroDePermisValideGeologues() {
-        String numeroDePermisLu = "BJ6734";
+        String numeroDePermisLu = "XY6734";
         String formatNumeroPermisValide = "([A-Z]{2}[0-9]{4})";
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu, formatNumeroPermisValide);
         assertEquals(expResult, result);
     }
     
     @Test
     public void testNumeroDePermisValideGeologues2() {
-        String numeroDePermisLu = "XY6734";
+        String numeroDePermisLu = "BJ6734";
         String formatNumeroPermisValide = "([A-Z]{2}[0-9]{4})";
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu, formatNumeroPermisValide);
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of formatAcceptePourOrdre method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourOrdre() {
+        System.out.println("formatAcceptePourOrdre");
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourOrdre();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourPrenomOuNom method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourPrenomOuNom() {
+        System.out.println("formatAcceptePourPrenomOuNom");
+        String nomChamps = "";
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourPrenomOuNom(nomChamps);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourSexe method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourSexe() {
+        System.out.println("formatAcceptePourSexe");
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourSexe();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourCycle method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourCycle() {
+        System.out.println("formatAcceptePourCycle");
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourCycle();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourHeuresTransfereesSelonOrdre method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourHeuresTransfereesSelonOrdre() {
+        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourHeuresTransfereesSelonOrdre();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourTableauActivites method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourTableauActivites() {
+        System.out.println("formatAcceptePourTableauActivites");
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourTableauActivites();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -247,7 +351,7 @@ public class LecteurDeDeclarationTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
+    
     /**
      * Test of extraireSexe method, of class LecteurDeDeclaration.
      */
