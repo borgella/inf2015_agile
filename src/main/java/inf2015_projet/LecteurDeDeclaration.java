@@ -29,7 +29,7 @@ public class LecteurDeDeclaration {
                 | !formatAcceptePourTableauActivites();
     }
 
-    private boolean formatAcceptePourNumeroDePermis() {
+    boolean formatAcceptePourNumeroDePermis() {
         boolean formatAccepte;
         String champsNumeroDePermis = "numero_de_permis";
         if (champsTexteExiste(champsNumeroDePermis)) {
@@ -103,7 +103,7 @@ public class LecteurDeDeclaration {
         return texteEstNumerique;
     }
 
-    private boolean formatAcceptePourOrdre() {
+    boolean formatAcceptePourOrdre() {
         boolean formatAccepte;
         String champsOrdre = "ordre";
         if (champsTexteExiste(champsOrdre)) {
@@ -123,7 +123,7 @@ public class LecteurDeDeclaration {
                 || ordre.equals("podiatres");
     }
     
-    private boolean formatAcceptePourPrenomOuNom(String nomChamps) {
+    boolean formatAcceptePourPrenomOuNom(String nomChamps) {
         boolean formatAccepte;
         if (champsTexteExiste(nomChamps)) {
             String champs = declaration.getString(nomChamps);
@@ -135,7 +135,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
     
-    private boolean formatAcceptePourSexe() {
+    boolean formatAcceptePourSexe() {
         boolean formatAccepte;
         String champsSexe = "sexe";
         if (champsNumeriqueExiste(champsSexe)) {
@@ -153,12 +153,12 @@ public class LecteurDeDeclaration {
         return sexe == 0 || sexe == 1 || sexe == 2;
     }
 
-    private boolean formatAcceptePourCycle() {
+    boolean formatAcceptePourCycle() {
         String champsCycle = "cycle";
         return champsTexteExiste(champsCycle);
     }
 
-    private boolean formatAcceptePourHeuresTransfereesSelonOrdre() {
+    boolean formatAcceptePourHeuresTransfereesSelonOrdre() {
         boolean formatAccepte;
         String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
         String ordre = declaration.getString("ordre");
@@ -183,7 +183,7 @@ public class LecteurDeDeclaration {
         return champsNumeriqueExiste;
     }
 
-    private boolean formatAcceptePourTableauActivites() {
+    boolean formatAcceptePourTableauActivites() {
         boolean formatAccepte;
         String champsActivites = "activites";
         if (champsTableauJSONExiste(champsActivites)) {
