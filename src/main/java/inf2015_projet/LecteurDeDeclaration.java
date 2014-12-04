@@ -183,7 +183,7 @@ public class LecteurDeDeclaration {
         return champsNumeriqueExiste;
     }
 
-    private boolean formatAcceptePourTableauActivites() {
+    boolean formatAcceptePourTableauActivites() {
         boolean formatAccepte;
         String champsActivites = "activites";
         if (champsTableauJSONExiste(champsActivites)) {
@@ -195,7 +195,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean champsTableauJSONExiste(String nomChamps) {
+    boolean champsTableauJSONExiste(String nomChamps) {
         boolean champsTableauJSONExiste;
         try {
             declaration.getJSONArray(nomChamps);
@@ -206,7 +206,7 @@ public class LecteurDeDeclaration {
         return champsTableauJSONExiste;
     }
 
-    private boolean formatAcceptePourChaqueActivite(JSONArray activites) {
+    boolean formatAcceptePourChaqueActivite(JSONArray activites) {
         boolean formatAccepte = true;
         for (int i = 0; i < activites.size(); i++) {
             JSONObject activiteCourante = activites.getJSONObject(i);
@@ -218,14 +218,14 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean formatAcceptePourActivite(JSONObject activite) {
+    boolean formatAcceptePourActivite(JSONObject activite) {
         return formatAcceptePourDescription(activite)
                 && formatAcceptePourCategorie(activite)
                 && formatAcceptePourHeures(activite)
                 && formatAcceptePourDate(activite);
     }
 
-    private boolean formatAcceptePourDescription(JSONObject activite) {
+    boolean formatAcceptePourDescription(JSONObject activite) {
         boolean formatAccepte;
         String champsDescription = "description";
         if (champsTexteExistePourActivite(champsDescription, activite)) {
@@ -254,12 +254,12 @@ public class LecteurDeDeclaration {
         return description.length() > 20;
     }
 
-    private static boolean formatAcceptePourCategorie(JSONObject activite) {
+    static boolean formatAcceptePourCategorie(JSONObject activite) {
         String champsCategorie = "categorie";
         return champsTexteExistePourActivite(champsCategorie, activite);
     }
 
-    private boolean formatAcceptePourHeures(JSONObject activite) {
+    boolean formatAcceptePourHeures(JSONObject activite) {
         boolean formatAccepte;
         String champsHeures = "heures";
         if (champsNumeriqueExistePourActivite(champsHeures, activite)) {
@@ -287,7 +287,7 @@ public class LecteurDeDeclaration {
         return heures > 0;
     }
 
-    private boolean formatAcceptePourDate(JSONObject activite) {
+    boolean formatAcceptePourDate(JSONObject activite) {
         boolean formatAccepte;
         String champsDate = "date";
         if (champsTexteExistePourActivite(champsDate, activite)) {

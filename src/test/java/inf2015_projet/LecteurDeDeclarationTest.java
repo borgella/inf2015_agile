@@ -5,6 +5,7 @@
  */
 package inf2015_projet;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,6 +25,10 @@ public class LecteurDeDeclarationTest {
         JSONObject declarationGeologues;
         JSONObject declarationPodiatres;
         JSONObject declarationPsychologues;
+        JSONObject activitePod;
+        JSONObject activitePsy;
+        JSONArray activitesPod;
+        JSONArray activitesPsy;
         LecteurDeDeclaration instanceArchitectes;
         LecteurDeDeclaration instanceGeologues;
         LecteurDeDeclaration instancePodiatres;
@@ -36,28 +41,44 @@ public class LecteurDeDeclarationTest {
     
     public LecteurDeDeclarationTest() {
         declarationArchitectes = new JSONObject();
-        declarationArchitectes.put("numero_de_permis", "T3443");
-        declarationArchitectes.put("ordre", "architectes");
-        declarationArchitectes.put("cycle", "2008-2010");
-        //declarationArchitectes.put("heures_transferees_du_cycle_precedent", 22);
+        declarationArchitectes.accumulate("numero_de_permis", "T3443");
+        declarationArchitectes.accumulate("ordre", "architectes");
+        declarationArchitectes.accumulate("cycle", "2008-2010");
+        //declarationArchitectes.accumulate("heures_transferees_du_cycle_precedent", 22);
         instanceArchitectes = new LecteurDeDeclaration(declarationArchitectes);
         
         declarationGeologues = new JSONObject();
-        declarationGeologues.put("nom", "Berger");
-        declarationGeologues.put("prenom", "Jacques");
-        declarationGeologues.put("numero_de_permis", "BJ3822");
-        declarationGeologues.put("ordre", "géologues");
+        declarationGeologues.accumulate("nom", "Berger");
+        declarationGeologues.accumulate("prenom", "Jacques");
+        declarationGeologues.accumulate("numero_de_permis", "BJ3822");
+        declarationGeologues.accumulate("ordre", "géologues");
         instanceGeologues = new LecteurDeDeclaration(declarationGeologues);
         
         declarationPodiatres = new JSONObject();
-        declarationPodiatres.put("numero_de_permis", "83453");
-        declarationPodiatres.put("sexe", 2);
-        declarationPodiatres.put("ordre", "podiatres");
+        declarationPodiatres.accumulate("numero_de_permis", "83453");
+        declarationPodiatres.accumulate("sexe", 2);
+        declarationPodiatres.accumulate("ordre", "podiatres");
+        activitePod = new JSONObject();
+        activitePod.accumulate("description", "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans");
+        activitePod.accumulate("categorie", "cours");
+        activitePod.accumulate("heures", 25);
+        activitePod.accumulate("date", "2013-04-01");
+        activitesPod = new JSONArray();
+        activitesPod.add(activitePod);
+        declarationPodiatres.accumulate("activites", activitesPod);
         instancePodiatres = new LecteurDeDeclaration(declarationPodiatres);
         
         declarationPsychologues = new JSONObject();
-        declarationPsychologues.put("numero_de_permis", "83723-34");
-        declarationPsychologues.put("ordre", "psychologues");
+        declarationPsychologues.accumulate("numero_de_permis", "83723-34");
+        declarationPsychologues.accumulate("ordre", "psychologues");
+        activitePsy = new JSONObject();
+        activitePsy.accumulate("description", "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans");
+        activitePsy.accumulate("categorie", "cours");
+        activitePsy.accumulate("heures", 25);
+        activitePsy.accumulate("date", "2013-04-01");
+        activitesPsy = new JSONArray();
+        activitesPsy.add(activitePsy);
+        declarationPsychologues.accumulate("activites", activitesPsy);
         instancePsychologues = new LecteurDeDeclaration(declarationPsychologues);
     }
     
@@ -94,114 +115,97 @@ public class LecteurDeDeclarationTest {
     /**
      * Test of formatAcceptePourNumeroDePermis method, of class LecteurDeDeclaration.
      */
-    // Tests qui échouent
     @Test
     public void testFormatAcceptePourNumeroDePermis() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
+        
+        //Architectes
+        boolean result1;
         if (instanceArchitectes.champsTexteExiste(champsNumeroDePermis)) {
-            result = instanceArchitectes.numerosDePermisValides("TR443");
+            result1 = instanceArchitectes.numerosDePermisValides("TR443");
         } else {
-            result = false;
+            result1 = false;
         }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testFormatAcceptePourNumeroDePermis3() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
-        if (instanceGeologues.champsTexteExiste(champsNumeroDePermis)) {
-            result = instanceGeologues.numerosDePermisValides("JB1280");
-        } else {
-            result = false;
-        }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testFormatAcceptePourNumeroDePermis5() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
-        if (instancePodiatres.champsTexteExiste(champsNumeroDePermis)) {
-            result = instancePodiatres.numerosDePermisValides("324983");
-        } else {
-            result = false;
-        }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testFormatAcceptePourNumeroDePermis7() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
-        if (instancePsychologues.champsTexteExiste(champsNumeroDePermis)) {
-            result = instancePsychologues.numerosDePermisValides("3463E");
-        } else {
-            result = false;
-        }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-    
-    // Tests qui réussissent
-    @Test
-    public void testFormatAcceptePourNumeroDePermis2() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
+        assertFalse(result1);
+        
+        boolean result2;
         if (instanceArchitectes.champsTexteExiste(champsNumeroDePermis)) {
             String numeroDePermis = declarationArchitectes.getString(champsNumeroDePermis);
-            result = instanceArchitectes.numerosDePermisValides(numeroDePermis);
+            result2 = instanceArchitectes.numerosDePermisValides(numeroDePermis);
         } else {
-            result = false;
+            result2 = false;
         }
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
+        assertTrue(result2);
     
-    @Test
-    public void testFormatAcceptePourNumeroDePermis4() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
+        // Geologues
+        boolean result3;
+        if (instanceGeologues.champsTexteExiste(champsNumeroDePermis)) {
+            result3 = instanceGeologues.numerosDePermisValides("JB1280");
+        } else {
+            result3 = false;
+        }
+        assertFalse(result3);
+        
+        boolean result4;
         if (instanceGeologues.champsTexteExiste(champsNumeroDePermis)) {
             String numeroDePermis = declarationGeologues.getString(champsNumeroDePermis);
-            result = instanceGeologues.numerosDePermisValides(numeroDePermis);
+            result4 = instanceGeologues.numerosDePermisValides(numeroDePermis);
         } else {
-            result = false;
+            result4 = false;
         }
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testFormatAcceptePourNumeroDePermis6() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
+        assertTrue(result4);
+        
+        //Podiatres
+        boolean result5;
+        if (instancePodiatres.champsTexteExiste(champsNumeroDePermis)) {
+            result5 = instancePodiatres.numerosDePermisValides("324983");
+        } else {
+            result5 = false;
+        }
+        assertFalse(result5);
+        
+        boolean result6;
         if (instancePodiatres.champsTexteExiste(champsNumeroDePermis)) {
             String numeroDePermis = declarationPodiatres.getString(champsNumeroDePermis);
-            result = instancePodiatres.numerosDePermisValides(numeroDePermis);
+            result6 = instancePodiatres.numerosDePermisValides(numeroDePermis);
         } else {
-            result = false;
+            result6 = false;
         }
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testFormatAcceptePourNumeroDePermis8() {
+        assertTrue(result6);
+        
+        // Psychologues
         System.out.println("formatAcceptePourNumeroDePermis");
-        boolean result;
+        boolean result7;
+        if (instancePsychologues.champsTexteExiste(champsNumeroDePermis)) {
+            result7 = instancePsychologues.numerosDePermisValides("3463E");
+        } else {
+            result7 = false;
+        }
+        assertFalse(result7);
+
+        boolean result8;
         if (instancePsychologues.champsTexteExiste(champsNumeroDePermis)) {
             String numeroDePermis = declarationPsychologues.getString(champsNumeroDePermis);
-            result = instancePsychologues.numerosDePermisValides(numeroDePermis);
+            result8 = instancePsychologues.numerosDePermisValides(numeroDePermis);
         } else {
-            result = false;
+            result8 = false;
         }
-        boolean expResult = true;
+        assertTrue(result8);
+    }
+    
+    /**
+     * Test of champsTexteExiste method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testChampsTexteExiste() {
+        System.out.println("champsTexteExiste");
+        String nomChamps = "";
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.champsTexteExiste(nomChamps);
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
     /**
@@ -607,6 +611,145 @@ public class LecteurDeDeclarationTest {
         boolean expResult = true;
         boolean result = instance.champsNumeriqueExiste(nomChamps);
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of formatAcceptePourTableauActivites method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourTableauActivites() {
+        System.out.println("formatAcceptePourTableauActivites");
+        boolean result;
+        String champsActivites = "activites";
+        if (instancePodiatres.champsTableauJSONExiste(champsActivites)) {
+            JSONArray activites = declarationPodiatres.getJSONArray(champsActivites);
+            result = instancePodiatres.formatAcceptePourChaqueActivite(activites);
+        } else {
+            result = false;
+        }
+        boolean expResult = false;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourTableauActivites2() {
+        System.out.println("formatAcceptePourTableauActivites");
+        boolean result;
+        String champsActivites = "activites";
+        if (instancePsychologues.champsTableauJSONExiste(champsActivites)) {
+            JSONArray activites = declarationPsychologues.getJSONArray(champsActivites);
+            result = instancePsychologues.formatAcceptePourChaqueActivite(activites);
+        } else {
+            result = false;
+        }
+        boolean expResult = true;
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of champsTableauJSONExiste method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testChampsTableauJSONExiste() {
+        System.out.println("champsTableauJSONExiste");
+        String nomChamps = "";
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.champsTableauJSONExiste(nomChamps);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourChaqueActivite method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourChaqueActivite() {
+        System.out.println("formatAcceptePourChaqueActivite");
+        boolean result = false;
+        JSONArray activites = declarationPodiatres.getJSONArray("activites");
+        for (int i = 0; i < activites.size(); i++) {
+            JSONObject activiteCourante = activites.getJSONObject(i);
+            if (!instancePodiatres.formatAcceptePourActivite(activiteCourante)) {
+                result = false;
+                break;
+            }
+        }
+        boolean expResult = false;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourChaqueActivite2() {
+        System.out.println("formatAcceptePourChaqueActivite");
+        boolean result = true;
+        JSONArray activites = declarationPsychologues.getJSONArray("activites");
+        for (int i = 0; i < activites.size(); i++) {
+            JSONObject activiteCourante = activites.getJSONObject(i);
+            if (!instancePsychologues.formatAcceptePourActivite(activiteCourante)) {
+                result = false;
+                break;
+            }
+        }
+        boolean expResult = true;
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of formatAcceptePourActivite method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourActivite() {
+        System.out.println("formatAcceptePourActivite");
+        JSONObject activite = declarationPodiatres;
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourActivite(activite);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testFormatAcceptePourActivite2() {
+        System.out.println("formatAcceptePourActivite");
+        JSONObject activite = null;
+        LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.formatAcceptePourActivite(activite);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourDescription method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourDescription() {
+        System.out.println("formatAcceptePourDescription");
+        JSONObject activite = null;
+        LecteurDeDeclaration instance = null;
+        boolean expResult = false;
+        boolean result = instance.formatAcceptePourDescription(activite);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourCategorie method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourCategorie() {
+        System.out.println("formatAcceptePourCategorie");
+        JSONObject activite = null;
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.formatAcceptePourCategorie(activite);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
     /**
