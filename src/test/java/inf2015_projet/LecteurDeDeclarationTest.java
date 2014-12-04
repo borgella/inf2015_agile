@@ -20,7 +20,6 @@ import org.junit.Ignore;
  */
 public class LecteurDeDeclarationTest {
     
-        JSONObject declaration;
         JSONObject declarationArchitectes;
         JSONObject declarationGeologues;
         JSONObject declarationPodiatres;
@@ -32,9 +31,6 @@ public class LecteurDeDeclarationTest {
         LecteurDeDeclaration instancePsychologues;
     
     public LecteurDeDeclarationTest() {
-        declaration = new JSONObject();
-        declaration.put("nom", "");
-        
         declarationArchitectes = new JSONObject();
         declarationArchitectes.put("ordre", "architectes");
         instanceArchitectes = new LecteurDeDeclaration(declarationArchitectes);
@@ -79,20 +75,6 @@ public class LecteurDeDeclarationTest {
         LecteurDeDeclaration instance = null;
         boolean expResult = false;
         boolean result = instance.erreurDeFormatDetectee();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
-    /**
-     * Test of formatAcceptePourNumeroDePermis method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourNumeroDePermis() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourNumeroDePermis();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -251,91 +233,6 @@ public class LecteurDeDeclarationTest {
         boolean expResult = true;
         boolean result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu, formatNumeroPermisValide);
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of formatAcceptePourOrdre method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourOrdre() {
-        System.out.println("formatAcceptePourOrdre");
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourOrdre();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of formatAcceptePourPrenomOuNom method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourPrenomOuNom() {
-        System.out.println("formatAcceptePourPrenomOuNom");
-        String nomChamps = "";
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourPrenomOuNom(nomChamps);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of formatAcceptePourSexe method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourSexe() {
-        System.out.println("formatAcceptePourSexe");
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourSexe();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of formatAcceptePourCycle method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourCycle() {
-        System.out.println("formatAcceptePourCycle");
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourCycle();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of formatAcceptePourHeuresTransfereesSelonOrdre method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourHeuresTransfereesSelonOrdre() {
-        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourHeuresTransfereesSelonOrdre();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of formatAcceptePourTableauActivites method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourTableauActivites() {
-        System.out.println("formatAcceptePourTableauActivites");
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourTableauActivites();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
