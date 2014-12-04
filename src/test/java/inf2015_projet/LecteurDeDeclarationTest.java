@@ -24,11 +24,11 @@ public class LecteurDeDeclarationTest {
         JSONObject declarationGeologues;
         JSONObject declarationPodiatres;
         JSONObject declarationPsychologues;
-        LecteurDeDeclaration instance;
         LecteurDeDeclaration instanceArchitectes;
         LecteurDeDeclaration instanceGeologues;
         LecteurDeDeclaration instancePodiatres;
         LecteurDeDeclaration instancePsychologues;
+        String champsNumeroDePermis = "numero_de_permis";
     
     public LecteurDeDeclarationTest() {
         declarationArchitectes = new JSONObject();
@@ -94,36 +94,52 @@ public class LecteurDeDeclarationTest {
     @Test
     public void testFormatAcceptePourNumeroDePermis() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        boolean formatAccepte = instanceArchitectes.numerosDePermisValides("TR443");
+        boolean result;
+        if (instanceArchitectes.champsTexteExiste(champsNumeroDePermis)) {
+            result = instanceArchitectes.numerosDePermisValides("TR443");
+        } else {
+            result = false;
+        }
         boolean expResult = false;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
     @Test
     public void testFormatAcceptePourNumeroDePermis3() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        boolean formatAccepte = instanceGeologues.numerosDePermisValides("JB1280");
+        boolean result;
+        if (instanceGeologues.champsTexteExiste(champsNumeroDePermis)) {
+            result = instanceGeologues.numerosDePermisValides("JB1280");
+        } else {
+            result = false;
+        }
         boolean expResult = false;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
     @Test
     public void testFormatAcceptePourNumeroDePermis5() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        boolean formatAccepte = instancePodiatres.numerosDePermisValides("324983");
+        boolean result;
+        if (instancePodiatres.champsTexteExiste(champsNumeroDePermis)) {
+            result = instancePodiatres.numerosDePermisValides("324983");
+        } else {
+            result = false;
+        }
         boolean expResult = false;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
     @Test
     public void testFormatAcceptePourNumeroDePermis7() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        boolean formatAccepte = instancePsychologues.numerosDePermisValides("3463E");
+        boolean result;
+        if (instancePsychologues.champsTexteExiste(champsNumeroDePermis)) {
+            result = instancePsychologues.numerosDePermisValides("3463E");
+        } else {
+            result = false;
+        }
         boolean expResult = false;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
@@ -131,40 +147,56 @@ public class LecteurDeDeclarationTest {
     @Test
     public void testFormatAcceptePourNumeroDePermis2() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        String numeroDePermis = declarationArchitectes.getString("numero_de_permis");
-        boolean formatAccepte = instanceArchitectes.numerosDePermisValides(numeroDePermis);
+        boolean result;
+        if (instanceArchitectes.champsTexteExiste(champsNumeroDePermis)) {
+            String numeroDePermis = declarationArchitectes.getString(champsNumeroDePermis);
+            result = instanceArchitectes.numerosDePermisValides(numeroDePermis);
+        } else {
+            result = false;
+        }
         boolean expResult = true;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
     @Test
     public void testFormatAcceptePourNumeroDePermis4() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        String numeroDePermis = declarationGeologues.getString("numero_de_permis");
-        boolean formatAccepte = instanceGeologues.numerosDePermisValides(numeroDePermis);
+        boolean result;
+        if (instanceGeologues.champsTexteExiste(champsNumeroDePermis)) {
+            String numeroDePermis = declarationGeologues.getString(champsNumeroDePermis);
+            result = instanceGeologues.numerosDePermisValides(numeroDePermis);
+        } else {
+            result = false;
+        }
         boolean expResult = true;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
     @Test
     public void testFormatAcceptePourNumeroDePermis6() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        String numeroDePermis = declarationPodiatres.getString("numero_de_permis");
-        boolean formatAccepte = instancePodiatres.numerosDePermisValides(numeroDePermis);
+        boolean result;
+        if (instancePodiatres.champsTexteExiste(champsNumeroDePermis)) {
+            String numeroDePermis = declarationPodiatres.getString(champsNumeroDePermis);
+            result = instancePodiatres.numerosDePermisValides(numeroDePermis);
+        } else {
+            result = false;
+        }
         boolean expResult = true;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
     @Test
     public void testFormatAcceptePourNumeroDePermis8() {
         System.out.println("formatAcceptePourNumeroDePermis");
-        String numeroDePermis = declarationPsychologues.getString("numero_de_permis");
-        boolean formatAccepte = instancePsychologues.numerosDePermisValides(numeroDePermis);
+        boolean result;
+        if (instancePsychologues.champsTexteExiste(champsNumeroDePermis)) {
+            String numeroDePermis = declarationPsychologues.getString(champsNumeroDePermis);
+            result = instancePsychologues.numerosDePermisValides(numeroDePermis);
+        } else {
+            result = false;
+        }
         boolean expResult = true;
-        boolean result = formatAccepte;
         assertEquals(expResult, result);
     }
     
