@@ -29,7 +29,7 @@ public class LecteurDeDeclaration {
                 | !formatAcceptePourTableauActivites();
     }
 
-    private boolean formatAcceptePourNumeroDePermis() {
+    boolean formatAcceptePourNumeroDePermis() {
         boolean formatAccepte;
         String champsNumeroDePermis = "numero_de_permis";
         if (champsTexteExiste(champsNumeroDePermis)) {

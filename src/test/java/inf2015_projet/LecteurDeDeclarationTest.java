@@ -32,20 +32,24 @@ public class LecteurDeDeclarationTest {
     
     public LecteurDeDeclarationTest() {
         declarationArchitectes = new JSONObject();
+        declarationArchitectes.put("numero_de_permis", "T3443");
         declarationArchitectes.put("ordre", "architectes");
         instanceArchitectes = new LecteurDeDeclaration(declarationArchitectes);
         
         declarationGeologues = new JSONObject();
         declarationGeologues.put("nom", "Berger");
         declarationGeologues.put("prenom", "Jacques");
+        declarationGeologues.put("numero_de_permis", "BJ3822");
         declarationGeologues.put("ordre", "géologues");
         instanceGeologues = new LecteurDeDeclaration(declarationGeologues);
         
         declarationPodiatres = new JSONObject();
+        declarationPodiatres.put("numero_de_permis", "83453");
         declarationPodiatres.put("ordre", "podiatres");
         instancePodiatres = new LecteurDeDeclaration(declarationPodiatres);
         
         declarationPsychologues = new JSONObject();
+        declarationPsychologues.put("numero_de_permis", "83723-34");
         declarationPsychologues.put("ordre", "psychologues");
         instancePsychologues = new LecteurDeDeclaration(declarationPsychologues);
     }
@@ -78,6 +82,28 @@ public class LecteurDeDeclarationTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourNumeroDePermis method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourNumeroDePermis() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        boolean formatAccepte = instanceArchitectes.numerosDePermisValides("TR443");
+        boolean expResult = false;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourNumeroDePermis2() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        String numeroDePermis = declarationArchitectes.getString("numero_de_permis");
+        boolean formatAccepte = instanceArchitectes.numerosDePermisValides(numeroDePermis);
+        boolean expResult = true;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
     }
     
     /**
@@ -121,32 +147,36 @@ public class LecteurDeDeclarationTest {
     @Test
     public void testNumerosDePermisValides2() {
         System.out.println("Architectes: No. permis valide");
+        String numeroDePermis = declarationArchitectes.getString("numero_de_permis");
         boolean expResult = true;
-        boolean result = instanceArchitectes.numerosDePermisValides("T3443");
+        boolean result = instanceArchitectes.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
     
     @Test
     public void testNumerosDePermisValides4() {
         System.out.println("Geologues: No. permis valide");
+        String numeroDePermis = declarationGeologues.getString("numero_de_permis");
         boolean expResult = true;
-        boolean result = instanceGeologues.numerosDePermisValides("BJ3822");
+        boolean result = instanceGeologues.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
 
     @Test
     public void testNumerosDePermisValides6() {
         System.out.println("Podiatre: No. permis valide");
+        String numeroDePermis = declarationPodiatres.getString("numero_de_permis");
         boolean expResult = true;
-        boolean result = instancePodiatres.numerosDePermisValides("83453");
+        boolean result = instancePodiatres.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
     
     @Test
     public void testNumerosDePermisValides8() {
         System.out.println("Psychologues: No. permis valide");
+        String numeroDePermis = declarationPsychologues.getString("numero_de_permis");
         boolean expResult = true;
-        boolean result = instancePsychologues.numerosDePermisValides("83723-34");
+        boolean result = instancePsychologues.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
     
