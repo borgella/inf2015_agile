@@ -61,7 +61,7 @@ public class LecteurDeDeclarationTest {
         activitePod.accumulate("description", "desc");
         activitePod.accumulate("", "initiation à la programmation");
         activitePod.accumulate("heures", 0);
-        activitePod.accumulate("date", "1999/12/31 ");
+        activitePod.accumulate("date", "1899/13/34 ");
         activitesPod = new JSONArray();
         activitesPod.add(activitePod);
         declarationPodiatres.accumulate("activites", activitesPod);
@@ -705,13 +705,17 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testDateASeperateursValides() {
-        System.out.println("dateASeperateursValides");
-        String date = "";
-        boolean expResult = false;
-        boolean result = LecteurDeDeclaration.dateASeperateursValides(date);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String date1 = activitePod.getString("date");
+        char premierTiret1 = date1.charAt(4);
+        char deuxiemeTiret1 = date1.charAt(7);
+        boolean result1 = premierTiret1 == '-' && deuxiemeTiret1 == '-';
+        assertFalse(result1);
+        
+        String date2 = activitePsy.getString("date");
+        char premierTiret2 = date2.charAt(4);
+        char deuxiemeTiret2 = date2.charAt(7);
+        boolean result2 = premierTiret2 == '-' && deuxiemeTiret2 == '-';
+        assertTrue(result2);
     }
 
     /**
@@ -719,13 +723,23 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testDateAComposantesNumeriquesValides() {
-        System.out.println("dateAComposantesNumeriquesValides");
-        String date = "";
-        boolean expResult = false;
-        boolean result = LecteurDeDeclaration.dateAComposantesNumeriquesValides(date);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String date1 = activitePod.getString("date");
+        String anneeEnTexte1 = date1.substring(0, 4);
+        String moisEnTexte1 = date1.substring(5, 7);
+        String jourEnTexte1 = date1.substring(8, 10);
+        boolean result1 = instancePodiatres.dateAUneAnneeValide(anneeEnTexte1) && 
+                instancePodiatres.dateAUnMoisValide(moisEnTexte1) && 
+                instancePodiatres.dateAUnJourValide(jourEnTexte1);
+        assertFalse(result1);
+        
+        String date2 = activitePsy.getString("date");
+        String anneeEnTexte2 = date2.substring(0, 4);
+        String moisEnTexte2 = date2.substring(5, 7);
+        String jourEnTexte2 = date2.substring(8, 10);
+        boolean result2 = instancePsychologues.dateAUneAnneeValide(anneeEnTexte2) && 
+                instancePsychologues.dateAUnMoisValide(moisEnTexte2) && 
+                instancePsychologues.dateAUnJourValide(jourEnTexte2);
+        assertTrue(result2);
     }
 
     /**
@@ -733,13 +747,15 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testDateAUneAnneeValide() {
-        System.out.println("dateAUneAnneeValide");
-        String anneeEnTexte = "";
-        boolean expResult = false;
-        boolean result = LecteurDeDeclaration.dateAUneAnneeValide(anneeEnTexte);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String anneeEnTexte1 = activitePod.getString("date").substring(0, 4);
+        int annee1 = Integer.parseInt(anneeEnTexte1);
+        boolean result1 = (annee1 >= 1900);
+        assertFalse(result1);
+        
+        String anneeEnTexte2 = activitePsy.getString("date").substring(0, 4);
+        int annee2 = Integer.parseInt(anneeEnTexte2);
+        boolean result2 = (annee2 >= 1900);
+        assertTrue(result2);
     }
 
     /**
@@ -747,13 +763,15 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testDateAUnMoisValide() {
-        System.out.println("dateAUnMoisValide");
-        String moisEnTexte = "";
-        boolean expResult = false;
-        boolean result = LecteurDeDeclaration.dateAUnMoisValide(moisEnTexte);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String moisEnTexte1 = activitePod.getString("date").substring(5, 7);
+        int mois1 = Integer.parseInt(moisEnTexte1);
+        boolean result1 = (1 <= mois1 && mois1 <= 12);
+        assertFalse(result1);
+        
+        String moisEnTexte2 = activitePsy.getString("date").substring(5, 7);
+        int mois2 = Integer.parseInt(moisEnTexte2);
+        boolean result2 = (1 <= mois2 && mois2 <= 12);
+        assertTrue(result2);
     }
 
     /**
@@ -761,13 +779,15 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testDateAUnJourValide() {
-        System.out.println("dateAUnJourValide");
-        String jourEnTexte = "";
-        boolean expResult = false;
-        boolean result = LecteurDeDeclaration.dateAUnJourValide(jourEnTexte);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String jourEnTexte1 = activitePod.getString("date").substring(8, 10);
+        int jour1 = Integer.parseInt(jourEnTexte1);
+        boolean result1 = (1 <= jour1 && jour1 <= 31);
+        assertFalse(result1);
+        
+        String jourEnTexte2 = activitePsy.getString("date").substring(8, 10);
+        int jour2 = Integer.parseInt(jourEnTexte2);
+        boolean result2 = (1 <= jour2 && jour2 <= 31);
+        assertTrue(result2);
     }
     
     /**

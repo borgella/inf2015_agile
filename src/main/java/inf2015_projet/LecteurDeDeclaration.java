@@ -275,7 +275,7 @@ public class LecteurDeDeclaration {
     static boolean champsNumeriqueExistePourActivite(String nomChamps, JSONObject activite) {
         boolean champsNumeriqueExistePourActivite;
         try {
-            activite.getInt(nomChamps);
+            activite.getString(nomChamps);
             champsNumeriqueExistePourActivite = true;
         } catch (Exception e) {
             champsNumeriqueExistePourActivite = false;
