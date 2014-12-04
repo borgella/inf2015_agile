@@ -396,7 +396,6 @@ public class LecteurDeDeclarationTest {
     /**
      * Test of formatAcceptePourHeuresTransfereesSelonOrdre method, of class LecteurDeDeclaration.
      */
-    // Test qui échoue
     @Test
     public void testFormatAcceptePourHeuresTransfereesSelonOrdre() {
         String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
