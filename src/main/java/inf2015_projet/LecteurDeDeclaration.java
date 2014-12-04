@@ -239,7 +239,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private static boolean champsTexteExistePourActivite(String nomChamps, JSONObject activite) {
+    static boolean champsTexteExistePourActivite(String nomChamps, JSONObject activite) {
         boolean champsTexteExistePourActivite;
         try {
             activite.getString(nomChamps);
@@ -250,7 +250,7 @@ public class LecteurDeDeclaration {
         return champsTexteExistePourActivite;
     }
 
-    private static boolean descriptionReconnu(String description) {
+    static boolean descriptionReconnu(String description) {
         return description.length() > 20;
     }
 

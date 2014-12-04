@@ -59,7 +59,7 @@ public class LecteurDeDeclarationTest {
         declarationPodiatres.accumulate("ordre", "podiatres");
         activitePod = new JSONObject();
         activitePod.accumulate("description", "desc");
-        activitePod.accumulate("categorie", "cours");
+        activitePod.accumulate("", "initiation à la programmation");
         activitePod.accumulate("heures", 3);
         activitePod.accumulate("date", "1999-12-31");
         activitesPod = new JSONArray();
@@ -509,14 +509,25 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourDescription() {
-        System.out.println("formatAcceptePourDescription");
-        JSONObject activite = null;
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourDescription(activite);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        JSONObject activite1 = activitePod;
+        boolean result1 = true;
+        String description1 = activite1.getString("description");
+        if (instancePodiatres.champsTexteExistePourActivite("description", activite1)) {
+            result1 = instancePodiatres.descriptionReconnu(description1);
+        } else {
+            result1 = false;
+        }
+        assertFalse(result1);
+                
+        JSONObject activite2 = activitePsy;
+        boolean result2 = false;
+        String description2 = activite2.getString("description");
+        if (instancePsychologues.champsTexteExistePourActivite("description", activite2)) {
+            result2 = instancePsychologues.descriptionReconnu(description2);
+        } else {
+            result2 = false;
+        }
+        assertTrue(result2);
     }
 
     /**
@@ -524,13 +535,13 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourCategorie() {
-        System.out.println("formatAcceptePourCategorie");
-        JSONObject activite = null;
-        boolean expResult = false;
-        boolean result = LecteurDeDeclaration.formatAcceptePourCategorie(activite);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        JSONObject activite1 = activitePod;
+        boolean result1 = instancePodiatres.champsTexteExistePourActivite("categorie", activite1);
+        assertFalse(result1);
+        
+        JSONObject activite2 = activitePsy;
+        boolean result2 = instancePsychologues.champsTexteExistePourActivite("categorie", activite2);
+        assertTrue(result2);
     }
     
     /**
