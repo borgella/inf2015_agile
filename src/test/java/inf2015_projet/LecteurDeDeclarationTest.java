@@ -34,13 +34,12 @@ public class LecteurDeDeclarationTest {
         LecteurDeDeclaration instancePodiatres;
         LecteurDeDeclaration instancePsychologues;
         String champsNumeroDePermis = "numero_de_permis";
-        String numeroPermisArchitectes = "([A|T]{1}[0-9]{4})";
-        String numeroPermisPsychologues = "([0-9]{5}[-][0-9]{2})";
-        String numeroPermisGeologues = "([A-Z]{2}[0-9]{4})";
-        String numeroPermisPodiatres = "([0-9]{5})";
     
     public LecteurDeDeclarationTest() {
         declarationArchitectes = new JSONObject();
+        declarationArchitectes.accumulate("nom", "");
+        declarationArchitectes.accumulate("prenom", "Duplan");
+        declarationArchitectes.accumulate("sexe", 22);
         declarationArchitectes.accumulate("numero_de_permis", "T3443");
         declarationArchitectes.accumulate("ordre", "architectes");
         declarationArchitectes.accumulate("cycle", "2008-2010");
@@ -117,8 +116,6 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourNumeroDePermis() {
-        System.out.println("formatAcceptePourNumeroDePermis");
-        
         //Architectes
         boolean result1;
         if (instanceArchitectes.champsTexteExiste(champsNumeroDePermis)) {
@@ -174,7 +171,6 @@ public class LecteurDeDeclarationTest {
         assertTrue(result6);
         
         // Psychologues
-        System.out.println("formatAcceptePourNumeroDePermis");
         boolean result7;
         if (instancePsychologues.champsTexteExiste(champsNumeroDePermis)) {
             result7 = instancePsychologues.numerosDePermisValides("3463E");
@@ -211,211 +207,71 @@ public class LecteurDeDeclarationTest {
     /**
      * Test of numerosDePermisValides method, of class LecteurDeDeclaration.
      */
-    // Tests qui échouent
     @Test
     public void testNumerosDePermisValides() {
-        System.out.println("Architectes: No. permis invalide");
-        boolean result;
-        if(declarationArchitectes.getString("ordre").equals("architectes")) {
-            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre("Z3451", numeroPermisArchitectes);
-        } else if (declarationArchitectes.getString("ordre").equals("psychologues")) {
-            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre("Z3451", numeroPermisPsychologues);
-        } else if (declarationArchitectes.getString("ordre").equals("géologues")) {
-            result = instanceArchitectes.numeroDePermisValideGeologues("Z3451", numeroPermisGeologues);
-        } else {
-            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre("Z3451", numeroPermisPodiatres);
-        }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
+        String numeroPermisArchitectes = "([A|T]{1}[0-9]{4})";
+        String numeroPermisPsychologues = "([0-9]{5}[-][0-9]{2})";
+        String numeroPermisGeologues = "([A-Z]{2}[0-9]{4})";
+        String numeroPermisPodiatres = "([0-9]{5})";
+        
+        // Tests qui échouent
+        boolean result1 = instanceArchitectes.numerosDePermisValidesSelonLOrdre("Z3451", numeroPermisArchitectes);
+        boolean result2 = instancePsychologues.numerosDePermisValidesSelonLOrdre("56122_03", numeroPermisPsychologues);
+        boolean result3 = instanceGeologues.numeroDePermisValideGeologues("JB7867", numeroPermisGeologues);
+        boolean result4 = instancePodiatres.numerosDePermisValidesSelonLOrdre("560890", numeroPermisPodiatres);
+        assertFalse(result1);
+        assertFalse(result2);
+        assertFalse(result3);
+        assertFalse(result4);
     
-    @Test
-    public void testNumerosDePermisValides3() {
-        System.out.println("Geologues: No. permis invalide");
-        boolean result;
-        if(declarationGeologues.getString("ordre").equals("architectes")) {
-            result = instanceGeologues.numerosDePermisValidesSelonLOrdre("JB7867", numeroPermisArchitectes);
-        } else if (declarationGeologues.getString("ordre").equals("psychologues")) {
-            result = instanceGeologues.numerosDePermisValidesSelonLOrdre("JB7867", numeroPermisPsychologues);
-        } else if (declarationGeologues.getString("ordre").equals("géologues")) {
-            result = instanceGeologues.numeroDePermisValideGeologues("JB7867", numeroPermisGeologues);
-        } else {
-            result = instanceGeologues.numerosDePermisValidesSelonLOrdre("JB7867", numeroPermisPodiatres);
-        }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValides5() {
-        System.out.println("Podiatre: No. permis invalide");
-        boolean result;
-        if(declarationPodiatres.getString("ordre").equals("architectes")) {
-            result = instancePodiatres.numerosDePermisValidesSelonLOrdre("560890", numeroPermisArchitectes);
-        } else if (declarationPodiatres.getString("ordre").equals("psychologues")) {
-            result = instancePodiatres.numerosDePermisValidesSelonLOrdre("560890", numeroPermisPsychologues);
-        } else if (declarationPodiatres.getString("ordre").equals("géologues")) {
-            result = instancePodiatres.numeroDePermisValideGeologues("560890", numeroPermisGeologues);
-        } else {
-            result = instancePodiatres.numerosDePermisValidesSelonLOrdre("560890", numeroPermisPodiatres);
-        }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValides7() {
-        System.out.println("Psychologues: No. permis invalide");
-        boolean result;
-        if(declarationPsychologues.getString("ordre").equals("architectes")) {
-            result = instancePsychologues.numerosDePermisValidesSelonLOrdre("56122_03", numeroPermisArchitectes);
-        } else if (declarationPsychologues.getString("ordre").equals("psychologues")) {
-            result = instancePsychologues.numerosDePermisValidesSelonLOrdre("56122_03", numeroPermisPsychologues);
-        } else if (declarationPsychologues.getString("ordre").equals("géologues")) {
-            result = instancePsychologues.numeroDePermisValideGeologues("56122_03", numeroPermisGeologues);
-        } else {
-            result = instancePsychologues.numerosDePermisValidesSelonLOrdre("56122_03", numeroPermisPodiatres);
-        }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-    
-    
-    // Tests qui réussissent
-    @Test
-    public void testNumerosDePermisValides2() {
-        System.out.println("Architectes: No. permis valide");
-        String numeroDePermis = declarationArchitectes.getString("numero_de_permis");
-        boolean result;
-        if(declarationArchitectes.getString("ordre").equals("architectes")) {
-            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
-        } else if (declarationArchitectes.getString("ordre").equals("psychologues")) {
-            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
-        } else if (declarationArchitectes.getString("ordre").equals("géologues")) {
-            result = instanceArchitectes.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
-        } else {
-            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
-        }
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValides4() {
-        System.out.println("Geologues: No. permis valide");
-        String numeroDePermis = declarationGeologues.getString("numero_de_permis");
-        boolean result;
-        if(declarationGeologues.getString("ordre").equals("architectes")) {
-            result = instanceGeologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
-        } else if (declarationGeologues.getString("ordre").equals("psychologues")) {
-            result = instanceGeologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
-        } else if (declarationGeologues.getString("ordre").equals("géologues")) {
-            result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
-        } else {
-            result = instanceGeologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
-        }
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testNumerosDePermisValides6() {
-        System.out.println("Podiatre: No. permis valide");
-        String numeroDePermis = declarationPodiatres.getString("numero_de_permis");
-        boolean result;
-        if(declarationPodiatres.getString("ordre").equals("architectes")) {
-            result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
-        } else if (declarationPodiatres.getString("ordre").equals("psychologues")) {
-            result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
-        } else if (declarationPodiatres.getString("ordre").equals("géologues")) {
-            result = instancePodiatres.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
-        } else {
-            result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
-        }
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testNumerosDePermisValides8() {
-        System.out.println("Psychologues: No. permis valide");
-        String numeroDePermis = declarationPsychologues.getString("numero_de_permis");
-        boolean result;
-        if(declarationPsychologues.getString("ordre").equals("architectes")) {
-            result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
-        } else if (declarationPsychologues.getString("ordre").equals("psychologues")) {
-            result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
-        } else if (declarationPsychologues.getString("ordre").equals("géologues")) {
-            result = instancePsychologues.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
-        } else {
-            result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
-        }
-        boolean expResult = true;
-        assertEquals(expResult, result);
+        // Tests qui réussissent
+        String numeroDePermis5 = declarationArchitectes.getString("numero_de_permis");
+        String numeroDePermis6 = declarationPsychologues.getString("numero_de_permis");
+        String numeroDePermis7 = declarationGeologues.getString("numero_de_permis");
+        String numeroDePermis8 = declarationPodiatres.getString("numero_de_permis");
+        boolean result5 = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermis5, numeroPermisArchitectes);
+        boolean result6 = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermis6, numeroPermisPsychologues);
+        boolean result7 = instanceGeologues.numeroDePermisValideGeologues(numeroDePermis7, numeroPermisGeologues);
+        boolean result8 = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermis8, numeroPermisPodiatres);
+        assertTrue(result5);
+        assertTrue(result6);
+        assertTrue(result7);
+        assertTrue(result8);
     }
     
     /**
      * Test of numerosDePermisValidesSelonLOrdre method, of class LecteurDeDeclaration.
      */
-    // Tests qui échouent
     public void testNumerosDePermisValidesSelonLOrdre() {
-        System.out.println("Architectes invalide");
-        String numeroDePermisLu = "X4573";
-        String formatNumeroPermisValide = "([A|T]{1}[0-9]{4})";
-        boolean expResult = false;
-        boolean result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
+        // Architectes
+        String numeroDePermisLu1 = "X4573";
+        String formatNumeroPermisValide1 = "([A|T]{1}[0-9]{4})";
+        boolean result1 = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermisLu1, formatNumeroPermisValide1);
+        assertFalse(result1);
+        
+        String numeroDePermisLu2 = "T3443";
+        boolean result2 = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermisLu2, formatNumeroPermisValide1);
+        assertTrue(result2);
     
-    @Test
-    public void testNumerosDePermisValidesSelonLOrdre3() {
-        System.out.println("Podiatres invalide");
-        String numeroDePermisLu = "56X87";
-        String formatNumeroPermisValide = "([0-9]{5})";
-        boolean expResult = false;
-        boolean result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
+        // Podiatres
+        String numeroDePermisLu3 = "56X87";
+        String formatNumeroPermisValide3 = "([0-9]{5})";
+        boolean result3 = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermisLu3, formatNumeroPermisValide3);
+        assertFalse(result3);
+        
+        String numeroDePermisLu4 = "83453";
+        boolean result4 = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermisLu4, formatNumeroPermisValide3);
+        assertTrue(result4);
     
-    @Test
-    public void testNumerosDePermisValidesSelonLOrdre5() {
-        System.out.println("Psychologues invalide");
-        String numeroDePermisLu = "83723!34";
-        String formatNumeroPermisValide = "([0-9]{5}[-][0-9]{2})";
-        boolean expResult = false;
-        boolean result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
-    
-    // Tests qui réussissent
-    @Test
-    public void testNumerosDePermisValidesSelonLOrdre2() {
-        System.out.println("Architectes valide");
-        String numeroDePermisLu = "T3443";
-        String formatNumeroPermisValide = "([A|T]{1}[0-9]{4})";
-        boolean expResult = true;
-        boolean result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testNumerosDePermisValidesSelonLOrdre4() {
-        System.out.println("Podiatres valide");
-        String numeroDePermisLu = "83453";
-        String formatNumeroPermisValide = "([0-9]{5})";
-        boolean expResult = true;
-        boolean result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
- 
-    @Test
-    public void testNumerosDePermisValidesSelonLOrdre6() {
-        System.out.println("Psychologues valide");
-        String numeroDePermisLu = "83723-34";
-        String formatNumeroPermisValide = "([0-9]{5}[-][0-9]{2})";
-        boolean expResult = true;
-        boolean result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
+        // Psychologues
+        String numeroDePermisLu5 = "83723!34";
+        String formatNumeroPermisValide5 = "([0-9]{5}[-][0-9]{2})";
+        boolean result5 = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermisLu5, formatNumeroPermisValide5);
+        assertFalse(result5);
+        
+        String numeroDePermisLu6 = "83723-34";
+        boolean result6 = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermisLu6, formatNumeroPermisValide5);
+        assertTrue(result6);
     }
 
     /**
@@ -425,18 +281,12 @@ public class LecteurDeDeclarationTest {
     public void testNumeroDePermisValideGeologues() {
         String numeroDePermisLu = "XY6734";
         String formatNumeroPermisValide = "([A-Z]{2}[0-9]{4})";
-        boolean expResult = false;
-        boolean result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
-    }
+        boolean result1 = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu, formatNumeroPermisValide);
+        assertFalse(result1);
     
-    @Test
-    public void testNumeroDePermisValideGeologues2() {
-        String numeroDePermisLu = "BJ6734";
-        String formatNumeroPermisValide = "([A-Z]{2}[0-9]{4})";
-        boolean expResult = true;
-        boolean result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu, formatNumeroPermisValide);
-        assertEquals(expResult, result);
+        String numeroDePermisLu2 = "BJ6734";
+        boolean result2 = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu2, formatNumeroPermisValide);
+        assertTrue(result2);
     }
 
     /**
@@ -444,19 +294,15 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourOrdre() {
-        System.out.println("formatAcceptePourOrdre");
-        boolean expResult = false;
-        boolean result = instanceGeologues.ordreReconnu("geologues");   // sans accent = false
-        assertEquals(expResult, result);
-    }
+        boolean result1 = instanceGeologues.ordreReconnu("geologues");   // sans accent = false
+        assertFalse(result1);
+        
+        boolean result2 = instanceGeologues.ordreReconnu("");   // vide = false
+        assertFalse(result2);
     
-    @Test
-    public void testFormatAcceptePourOrdre2() {
-        System.out.println("formatAcceptePourOrdre");
         String numeroDePermis = declarationGeologues.getString("ordre");
-        boolean expResult = true;
-        boolean result = instanceGeologues.ordreReconnu(numeroDePermis);
-        assertEquals(expResult, result);
+        boolean result3 = instanceGeologues.ordreReconnu(numeroDePermis);
+        assertTrue(result3);
     }
 
     /**
@@ -478,23 +324,17 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourPrenomOuNom() {
-        System.out.println("formatAcceptePourPrenomOuNom");
-        String nomChamps = "";
-        boolean expResult = false;
-        boolean result = instanceGeologues.formatAcceptePourPrenomOuNom(nomChamps);
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of formatAcceptePourPrenomOuNom method, of class LecteurDeDeclaration.
-     */
-    @Test
-    public void testFormatAcceptePourPrenomOuNom2() {
-        System.out.println("formatAcceptePourPrenomOuNom");
-        String nomChamps = "nom";
-        boolean expResult = true;
-        boolean result = instanceGeologues.formatAcceptePourPrenomOuNom(nomChamps);
-        assertEquals(expResult, result);
+        String champs1 = declarationArchitectes.getString("nom");
+        boolean result1 = !champs1.equals("");  // champ "nom" Architectes == ""
+        assertFalse(result1);
+    
+        String champs2 = declarationGeologues.getString("nom");
+        boolean result2 = !champs2.equals("");  // champ "nom" == Berger
+        assertTrue(result2);
+        
+        String champs3 = declarationGeologues.getString("prenom");
+        boolean result3 = !champs3.equals("");  // champ "nom" == Jacques
+        assertTrue(result3);
     }
 
     /**
@@ -502,19 +342,13 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourSexe() {
-        System.out.println("formatAcceptePourSexe");
-        boolean expResult = false;
-        boolean result = instancePodiatres.sexeReconnu(3);
-        assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testFormatAcceptePourSexe2() {
-        System.out.println("formatAcceptePourSexe");
-        int sexe = declarationPodiatres.getInt("sexe");
-        boolean expResult = true;
-        boolean result = instancePodiatres.sexeReconnu(sexe);
-        assertEquals(expResult, result);
+        int sexe1 = declarationArchitectes.getInt("sexe");
+        boolean result1 = instancePodiatres.sexeReconnu(sexe1);
+        assertFalse(result1);
+    
+        int sexe2 = declarationPodiatres.getInt("sexe");
+        boolean result2 = instancePodiatres.sexeReconnu(sexe2);
+        assertTrue(result2);
     }
 
     /**
@@ -536,18 +370,11 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourCycle() {
-        System.out.println("formatAcceptePourCycle");
-        boolean expResult = false;
-        boolean result = instancePsychologues.champsTexteExiste("cycle");
-        assertEquals(expResult, result);
-    }
+        boolean result1 = instancePsychologues.champsTexteExiste("cycle");
+        assertFalse(result1);
     
-    @Test
-    public void testFormatAcceptePourCycle2() {
-        System.out.println("formatAcceptePourCycle");
-        boolean expResult = true;
-        boolean result = instanceArchitectes.champsTexteExiste("cycle");
-        assertEquals(expResult, result);
+        boolean result2 = instanceArchitectes.champsTexteExiste("cycle");
+        assertTrue(result2);
     }
 
     /**
