@@ -34,6 +34,7 @@ public class LecteurDeDeclarationTest {
         declarationArchitectes = new JSONObject();
         declarationArchitectes.put("numero_de_permis", "T3443");
         declarationArchitectes.put("ordre", "architectes");
+        declarationArchitectes.put("cycle", "2008-2010");
         //declarationArchitectes.put("heures_transferees_du_cycle_precedent", 22);
         instanceArchitectes = new LecteurDeDeclaration(declarationArchitectes);
         
@@ -416,6 +417,25 @@ public class LecteurDeDeclarationTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourCycle method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourCycle() {
+        System.out.println("formatAcceptePourCycle");
+        boolean expResult = false;
+        boolean result = instancePsychologues.champsTexteExiste("cycle");
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourCycle2() {
+        System.out.println("formatAcceptePourCycle");
+        boolean expResult = true;
+        boolean result = instanceArchitectes.champsTexteExiste("cycle");
+        assertEquals(expResult, result);
     }
 
     /**

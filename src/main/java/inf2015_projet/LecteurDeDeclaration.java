@@ -42,7 +42,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean champsTexteExiste(String nomChamps) {
+    boolean champsTexteExiste(String nomChamps) {
         boolean champsTexteExiste;
         try {
             declaration.getString(nomChamps);
@@ -153,7 +153,7 @@ public class LecteurDeDeclaration {
         return sexe == 0 || sexe == 1 || sexe == 2;
     }
 
-    private boolean formatAcceptePourCycle() {
+    boolean formatAcceptePourCycle() {
         String champsCycle = "cycle";
         return champsTexteExiste(champsCycle);
     }
