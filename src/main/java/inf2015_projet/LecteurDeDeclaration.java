@@ -103,7 +103,7 @@ public class LecteurDeDeclaration {
         return texteEstNumerique;
     }
 
-    private boolean formatAcceptePourOrdre() {
+    boolean formatAcceptePourOrdre() {
         boolean formatAccepte;
         String champsOrdre = "ordre";
         if (champsTexteExiste(champsOrdre)) {
@@ -116,14 +116,14 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
     
-    private static boolean ordreReconnu(String ordre) {
+    static boolean ordreReconnu(String ordre) {
         return ordre.equals("architectes")
                 || ordre.equals("géologues")
                 || ordre.equals("psychologues")
                 || ordre.equals("podiatres");
     }
     
-    private boolean formatAcceptePourPrenomOuNom(String nomChamps) {
+    boolean formatAcceptePourPrenomOuNom(String nomChamps) {
         boolean formatAccepte;
         if (champsTexteExiste(nomChamps)) {
             String champs = declaration.getString(nomChamps);

@@ -87,6 +87,7 @@ public class LecteurDeDeclarationTest {
     /**
      * Test of formatAcceptePourNumeroDePermis method, of class LecteurDeDeclaration.
      */
+    // Tests qui échouent
     @Test
     public void testFormatAcceptePourNumeroDePermis() {
         System.out.println("formatAcceptePourNumeroDePermis");
@@ -97,10 +98,68 @@ public class LecteurDeDeclarationTest {
     }
     
     @Test
+    public void testFormatAcceptePourNumeroDePermis3() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        boolean formatAccepte = instanceGeologues.numerosDePermisValides("JB1280");
+        boolean expResult = false;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourNumeroDePermis5() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        boolean formatAccepte = instancePodiatres.numerosDePermisValides("324983");
+        boolean expResult = false;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourNumeroDePermis7() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        boolean formatAccepte = instancePsychologues.numerosDePermisValides("3463E");
+        boolean expResult = false;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
+    }
+    
+    // Tests qui réussissent
+    @Test
     public void testFormatAcceptePourNumeroDePermis2() {
         System.out.println("formatAcceptePourNumeroDePermis");
         String numeroDePermis = declarationArchitectes.getString("numero_de_permis");
         boolean formatAccepte = instanceArchitectes.numerosDePermisValides(numeroDePermis);
+        boolean expResult = true;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourNumeroDePermis4() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        String numeroDePermis = declarationGeologues.getString("numero_de_permis");
+        boolean formatAccepte = instanceGeologues.numerosDePermisValides(numeroDePermis);
+        boolean expResult = true;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourNumeroDePermis6() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        String numeroDePermis = declarationPodiatres.getString("numero_de_permis");
+        boolean formatAccepte = instancePodiatres.numerosDePermisValides(numeroDePermis);
+        boolean expResult = true;
+        boolean result = formatAccepte;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourNumeroDePermis8() {
+        System.out.println("formatAcceptePourNumeroDePermis");
+        String numeroDePermis = declarationPsychologues.getString("numero_de_permis");
+        boolean formatAccepte = instancePsychologues.numerosDePermisValides(numeroDePermis);
         boolean expResult = true;
         boolean result = formatAccepte;
         assertEquals(expResult, result);
@@ -262,6 +321,49 @@ public class LecteurDeDeclarationTest {
         String formatNumeroPermisValide = "([A-Z]{2}[0-9]{4})";
         boolean expResult = true;
         boolean result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermisLu, formatNumeroPermisValide);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of formatAcceptePourOrdre method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourOrdre() {
+        System.out.println("formatAcceptePourOrdre");
+        boolean expResult = false;
+        boolean result = instanceGeologues.ordreReconnu("geologues");   // sans accent = false
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourOrdre2() {
+        System.out.println("formatAcceptePourOrdre");
+        String numeroDePermis = declarationGeologues.getString("ordre");
+        boolean expResult = true;
+        boolean result = instanceGeologues.ordreReconnu(numeroDePermis);
+        assertEquals(expResult, result);
+    }
+    /**
+     * Test of formatAcceptePourPrenomOuNom method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourPrenomOuNom() {
+        System.out.println("formatAcceptePourPrenomOuNom");
+        String nomChamps = "";
+        boolean expResult = false;
+        boolean result = instanceGeologues.formatAcceptePourPrenomOuNom(nomChamps);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of formatAcceptePourPrenomOuNom method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourPrenomOuNom2() {
+        System.out.println("formatAcceptePourPrenomOuNom");
+        String nomChamps = "nom";
+        boolean expResult = true;
+        boolean result = instanceGeologues.formatAcceptePourPrenomOuNom(nomChamps);
         assertEquals(expResult, result);
     }
 
