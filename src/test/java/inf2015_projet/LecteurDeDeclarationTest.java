@@ -29,6 +29,10 @@ public class LecteurDeDeclarationTest {
         LecteurDeDeclaration instancePodiatres;
         LecteurDeDeclaration instancePsychologues;
         String champsNumeroDePermis = "numero_de_permis";
+        String numeroPermisArchitectes = "([A|T]{1}[0-9]{4})";
+        String numeroPermisPsychologues = "([0-9]{5}[-][0-9]{2})";
+        String numeroPermisGeologues = "([A-Z]{2}[0-9]{4})";
+        String numeroPermisPodiatres = "([0-9]{5})";
     
     public LecteurDeDeclarationTest() {
         declarationArchitectes = new JSONObject();
@@ -207,32 +211,68 @@ public class LecteurDeDeclarationTest {
     @Test
     public void testNumerosDePermisValides() {
         System.out.println("Architectes: No. permis invalide");
+        boolean result;
+        if(declarationArchitectes.getString("ordre").equals("architectes")) {
+            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre("Z3451", numeroPermisArchitectes);
+        } else if (declarationArchitectes.getString("ordre").equals("psychologues")) {
+            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre("Z3451", numeroPermisPsychologues);
+        } else if (declarationArchitectes.getString("ordre").equals("géologues")) {
+            result = instanceArchitectes.numeroDePermisValideGeologues("Z3451", numeroPermisGeologues);
+        } else {
+            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre("Z3451", numeroPermisPodiatres);
+        }
         boolean expResult = false;
-        boolean result = instanceArchitectes.numerosDePermisValides("Z3451");
         assertEquals(expResult, result);
     }
     
     @Test
     public void testNumerosDePermisValides3() {
         System.out.println("Geologues: No. permis invalide");
+        boolean result;
+        if(declarationGeologues.getString("ordre").equals("architectes")) {
+            result = instanceGeologues.numerosDePermisValidesSelonLOrdre("JB7867", numeroPermisArchitectes);
+        } else if (declarationGeologues.getString("ordre").equals("psychologues")) {
+            result = instanceGeologues.numerosDePermisValidesSelonLOrdre("JB7867", numeroPermisPsychologues);
+        } else if (declarationGeologues.getString("ordre").equals("géologues")) {
+            result = instanceGeologues.numeroDePermisValideGeologues("JB7867", numeroPermisGeologues);
+        } else {
+            result = instanceGeologues.numerosDePermisValidesSelonLOrdre("JB7867", numeroPermisPodiatres);
+        }
         boolean expResult = false;
-        boolean result = instanceGeologues.numerosDePermisValides("JB7867");
         assertEquals(expResult, result);
     }
     
     @Test
     public void testNumerosDePermisValides5() {
         System.out.println("Podiatre: No. permis invalide");
+        boolean result;
+        if(declarationPodiatres.getString("ordre").equals("architectes")) {
+            result = instancePodiatres.numerosDePermisValidesSelonLOrdre("560890", numeroPermisArchitectes);
+        } else if (declarationPodiatres.getString("ordre").equals("psychologues")) {
+            result = instancePodiatres.numerosDePermisValidesSelonLOrdre("560890", numeroPermisPsychologues);
+        } else if (declarationPodiatres.getString("ordre").equals("géologues")) {
+            result = instancePodiatres.numeroDePermisValideGeologues("560890", numeroPermisGeologues);
+        } else {
+            result = instancePodiatres.numerosDePermisValidesSelonLOrdre("560890", numeroPermisPodiatres);
+        }
         boolean expResult = false;
-        boolean result = instancePodiatres.numerosDePermisValides("560890");
         assertEquals(expResult, result);
     }
     
     @Test
     public void testNumerosDePermisValides7() {
         System.out.println("Psychologues: No. permis invalide");
+        boolean result;
+        if(declarationPsychologues.getString("ordre").equals("architectes")) {
+            result = instancePsychologues.numerosDePermisValidesSelonLOrdre("56122_03", numeroPermisArchitectes);
+        } else if (declarationPsychologues.getString("ordre").equals("psychologues")) {
+            result = instancePsychologues.numerosDePermisValidesSelonLOrdre("56122_03", numeroPermisPsychologues);
+        } else if (declarationPsychologues.getString("ordre").equals("géologues")) {
+            result = instancePsychologues.numeroDePermisValideGeologues("56122_03", numeroPermisGeologues);
+        } else {
+            result = instancePsychologues.numerosDePermisValidesSelonLOrdre("56122_03", numeroPermisPodiatres);
+        }
         boolean expResult = false;
-        boolean result = instancePsychologues.numerosDePermisValides("56122_03");
         assertEquals(expResult, result);
     }
     
@@ -242,8 +282,17 @@ public class LecteurDeDeclarationTest {
     public void testNumerosDePermisValides2() {
         System.out.println("Architectes: No. permis valide");
         String numeroDePermis = declarationArchitectes.getString("numero_de_permis");
+        boolean result;
+        if(declarationArchitectes.getString("ordre").equals("architectes")) {
+            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
+        } else if (declarationArchitectes.getString("ordre").equals("psychologues")) {
+            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
+        } else if (declarationArchitectes.getString("ordre").equals("géologues")) {
+            result = instanceArchitectes.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
+        } else {
+            result = instanceArchitectes.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
+        }
         boolean expResult = true;
-        boolean result = instanceArchitectes.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
     
@@ -251,8 +300,17 @@ public class LecteurDeDeclarationTest {
     public void testNumerosDePermisValides4() {
         System.out.println("Geologues: No. permis valide");
         String numeroDePermis = declarationGeologues.getString("numero_de_permis");
+        boolean result;
+        if(declarationGeologues.getString("ordre").equals("architectes")) {
+            result = instanceGeologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
+        } else if (declarationGeologues.getString("ordre").equals("psychologues")) {
+            result = instanceGeologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
+        } else if (declarationGeologues.getString("ordre").equals("géologues")) {
+            result = instanceGeologues.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
+        } else {
+            result = instanceGeologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
+        }
         boolean expResult = true;
-        boolean result = instanceGeologues.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
 
@@ -260,8 +318,17 @@ public class LecteurDeDeclarationTest {
     public void testNumerosDePermisValides6() {
         System.out.println("Podiatre: No. permis valide");
         String numeroDePermis = declarationPodiatres.getString("numero_de_permis");
+        boolean result;
+        if(declarationPodiatres.getString("ordre").equals("architectes")) {
+            result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
+        } else if (declarationPodiatres.getString("ordre").equals("psychologues")) {
+            result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
+        } else if (declarationPodiatres.getString("ordre").equals("géologues")) {
+            result = instancePodiatres.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
+        } else {
+            result = instancePodiatres.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
+        }
         boolean expResult = true;
-        boolean result = instancePodiatres.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
     
@@ -269,8 +336,17 @@ public class LecteurDeDeclarationTest {
     public void testNumerosDePermisValides8() {
         System.out.println("Psychologues: No. permis valide");
         String numeroDePermis = declarationPsychologues.getString("numero_de_permis");
+        boolean result;
+        if(declarationPsychologues.getString("ordre").equals("architectes")) {
+            result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisArchitectes);
+        } else if (declarationPsychologues.getString("ordre").equals("psychologues")) {
+            result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPsychologues);
+        } else if (declarationPsychologues.getString("ordre").equals("géologues")) {
+            result = instancePsychologues.numeroDePermisValideGeologues(numeroDePermis, numeroPermisGeologues);
+        } else {
+            result = instancePsychologues.numerosDePermisValidesSelonLOrdre(numeroDePermis, numeroPermisPodiatres);
+        }
         boolean expResult = true;
-        boolean result = instancePsychologues.numerosDePermisValides(numeroDePermis);
         assertEquals(expResult, result);
     }
     
