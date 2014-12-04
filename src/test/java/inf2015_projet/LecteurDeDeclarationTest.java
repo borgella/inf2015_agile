@@ -34,6 +34,7 @@ public class LecteurDeDeclarationTest {
         declarationArchitectes = new JSONObject();
         declarationArchitectes.put("numero_de_permis", "T3443");
         declarationArchitectes.put("ordre", "architectes");
+        //declarationArchitectes.put("heures_transferees_du_cycle_precedent", 22);
         instanceArchitectes = new LecteurDeDeclaration(declarationArchitectes);
         
         declarationGeologues = new JSONObject();
@@ -403,6 +404,83 @@ public class LecteurDeDeclarationTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of sexeReconnu method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testSexeReconnu() {
+        System.out.println("sexeReconnu");
+        int sexe = 0;
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.sexeReconnu(sexe);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourHeuresTransfereesSelonOrdre method, of class LecteurDeDeclaration.
+     */
+    // Test qui échoue
+    @Test
+    public void testFormatAcceptePourHeuresTransfereesSelonOrdre() {
+        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
+        String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
+        String ordre = declarationArchitectes.getString("ordre");
+        boolean result;
+        if (ordre.equals("architectes")) {
+            result = instanceArchitectes.champsNumeriqueExiste(champsHeuresTransferees);
+        } else {
+            result = true;
+        }
+        boolean expResult = false;
+        assertEquals(expResult, result);
+    }
+
+    // Tests qui réussissent
+    @Ignore
+    public void testFormatAcceptePourHeuresTransfereesSelonOrdre2() {
+        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
+        String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
+        String ordre = declarationArchitectes.getString("ordre");
+        boolean result;
+        if (ordre.equals("architectes")) {
+            result = instanceArchitectes.champsNumeriqueExiste(champsHeuresTransferees);
+        } else {
+            result = true;
+        }
+        boolean expResult = true;
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFormatAcceptePourHeuresTransfereesSelonOrdre4() {
+        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
+        String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
+        String ordre = declarationPodiatres.getString("ordre");
+        boolean result;
+        if (ordre.equals("architectes")) {
+            result = instancePodiatres.champsNumeriqueExiste(champsHeuresTransferees);
+        } else {
+            result = true;
+        }
+        boolean expResult = true;
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of champsNumeriqueExiste method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testChampsNumeriqueExiste() {
+        System.out.println("champsNumeriqueExiste");
+        String nomChamps = "";
+        LecteurDeDeclaration instance = null;
+        boolean expResult = true;
+        boolean result = instance.champsNumeriqueExiste(nomChamps);
+        assertEquals(expResult, result);
+    }
+    
     /**
      * Test of produireRapportPourErreurDeFormat method, of class LecteurDeDeclaration.
      */

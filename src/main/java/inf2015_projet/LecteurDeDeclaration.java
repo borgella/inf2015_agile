@@ -158,7 +158,7 @@ public class LecteurDeDeclaration {
         return champsTexteExiste(champsCycle);
     }
 
-    private boolean formatAcceptePourHeuresTransfereesSelonOrdre() {
+    boolean formatAcceptePourHeuresTransfereesSelonOrdre() {
         boolean formatAccepte;
         String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
         String ordre = declaration.getString("ordre");
@@ -170,7 +170,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean champsNumeriqueExiste(String nomChamps) {
+    boolean champsNumeriqueExiste(String nomChamps) {
         boolean champsNumeriqueExiste;
         try {
             declaration.getInt(nomChamps);
