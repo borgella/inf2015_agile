@@ -58,10 +58,10 @@ public class LecteurDeDeclarationTest {
         declarationPodiatres.accumulate("sexe", 2);
         declarationPodiatres.accumulate("ordre", "podiatres");
         activitePod = new JSONObject();
-        activitePod.accumulate("description", "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans");
+        activitePod.accumulate("description", "desc");
         activitePod.accumulate("categorie", "cours");
-        activitePod.accumulate("heures", 25);
-        activitePod.accumulate("date", "2013-04-01");
+        activitePod.accumulate("heures", 3);
+        activitePod.accumulate("date", "1999-12-31");
         activitesPod = new JSONArray();
         activitesPod.add(activitePod);
         declarationPodiatres.accumulate("activites", activitesPod);
@@ -383,48 +383,24 @@ public class LecteurDeDeclarationTest {
     // Test qui échoue
     @Test
     public void testFormatAcceptePourHeuresTransfereesSelonOrdre() {
-        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
         String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
-        String ordre = declarationArchitectes.getString("ordre");
-        boolean result;
-        if (ordre.equals("architectes")) {
-            result = instanceArchitectes.champsNumeriqueExiste(champsHeuresTransferees);
+        String ordre1 = declarationArchitectes.getString("ordre");
+        boolean result1;
+        if (ordre1.equals("architectes")) {
+            result1 = instanceArchitectes.champsNumeriqueExiste(champsHeuresTransferees);
         } else {
-            result = true;
+            result1 = true;
         }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
-
-    // Tests qui réussissent
-    @Ignore
-    public void testFormatAcceptePourHeuresTransfereesSelonOrdre2() {
-        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
-        String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
-        String ordre = declarationArchitectes.getString("ordre");
-        boolean result;
-        if (ordre.equals("architectes")) {
-            result = instanceArchitectes.champsNumeriqueExiste(champsHeuresTransferees);
+        assertFalse(result1);
+        
+        String ordre2 = declarationPodiatres.getString("ordre");
+        boolean result2;
+        if (ordre2.equals("architectes")) {
+            result2 = instancePodiatres.champsNumeriqueExiste(champsHeuresTransferees);
         } else {
-            result = true;
+            result2 = true;
         }
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testFormatAcceptePourHeuresTransfereesSelonOrdre4() {
-        System.out.println("formatAcceptePourHeuresTransfereesSelonOrdre");
-        String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
-        String ordre = declarationPodiatres.getString("ordre");
-        boolean result;
-        if (ordre.equals("architectes")) {
-            result = instancePodiatres.champsNumeriqueExiste(champsHeuresTransferees);
-        } else {
-            result = true;
-        }
-        boolean expResult = true;
-        assertEquals(expResult, result);
+        assertTrue(result2);
     }
     
     /**
@@ -445,32 +421,24 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourTableauActivites() {
-        System.out.println("formatAcceptePourTableauActivites");
-        boolean result;
         String champsActivites = "activites";
-        if (instancePodiatres.champsTableauJSONExiste(champsActivites)) {
-            JSONArray activites = declarationPodiatres.getJSONArray(champsActivites);
-            result = instancePodiatres.formatAcceptePourChaqueActivite(activites);
+        boolean result1;
+        if (instanceGeologues.champsTableauJSONExiste(champsActivites)) {
+            JSONArray activites = declarationGeologues.getJSONArray(champsActivites);
+            result1 = instanceGeologues.formatAcceptePourChaqueActivite(activites);
         } else {
-            result = false;
+            result1 = false;
         }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
+        assertFalse(result1);
     
-    @Test
-    public void testFormatAcceptePourTableauActivites2() {
-        System.out.println("formatAcceptePourTableauActivites");
-        boolean result;
-        String champsActivites = "activites";
+        boolean result2;
         if (instancePsychologues.champsTableauJSONExiste(champsActivites)) {
             JSONArray activites = declarationPsychologues.getJSONArray(champsActivites);
-            result = instancePsychologues.formatAcceptePourChaqueActivite(activites);
+            result2 = instancePsychologues.formatAcceptePourChaqueActivite(activites);
         } else {
-            result = false;
+            result2 = false;
         }
-        boolean expResult = true;
-        assertEquals(expResult, result);
+        assertTrue(result2);
     }
 
     /**
@@ -493,34 +461,27 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourChaqueActivite() {
-        System.out.println("formatAcceptePourChaqueActivite");
-        boolean result = false;
-        JSONArray activites = declarationPodiatres.getJSONArray("activites");
-        for (int i = 0; i < activites.size(); i++) {
-            JSONObject activiteCourante = activites.getJSONObject(i);
-            if (!instancePodiatres.formatAcceptePourActivite(activiteCourante)) {
-                result = false;
+        boolean result1 = false;
+        JSONArray activites1 = declarationPodiatres.getJSONArray("activites");
+        for (int i = 0; i < activites1.size(); i++) {
+            JSONObject activiteCourante1 = activites1.getJSONObject(i);
+            if (!instancePodiatres.formatAcceptePourActivite(activiteCourante1)) {
+                result1 = false;
                 break;
             }
         }
-        boolean expResult = false;
-        assertEquals(expResult, result);
-    }
+        assertFalse(result1);
     
-    @Test
-    public void testFormatAcceptePourChaqueActivite2() {
-        System.out.println("formatAcceptePourChaqueActivite");
-        boolean result = true;
-        JSONArray activites = declarationPsychologues.getJSONArray("activites");
-        for (int i = 0; i < activites.size(); i++) {
-            JSONObject activiteCourante = activites.getJSONObject(i);
-            if (!instancePsychologues.formatAcceptePourActivite(activiteCourante)) {
-                result = false;
+        boolean result2 = true;
+        JSONArray activites2 = declarationPsychologues.getJSONArray("activites");
+        for (int i = 0; i < activites2.size(); i++) {
+            JSONObject activiteCourante2 = activites2.getJSONObject(i);
+            if (!instancePsychologues.formatAcceptePourActivite(activiteCourante2)) {
+                result2 = false;
                 break;
             }
         }
-        boolean expResult = true;
-        assertEquals(expResult, result);
+        assertTrue(result2);
     }
 
     /**
@@ -528,26 +489,19 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourActivite() {
-        System.out.println("formatAcceptePourActivite");
-        JSONObject activite = declarationPodiatres;
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.formatAcceptePourActivite(activite);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        JSONObject activite1 = activitePod;
+        boolean result1 = instancePodiatres.formatAcceptePourDescription(activite1) &&
+                instancePodiatres.formatAcceptePourCategorie(activite1) &&
+                instancePodiatres.formatAcceptePourHeures(activite1) &&
+                instancePodiatres.formatAcceptePourDate(activite1);
+        assertFalse(result1);
     
-    @Test
-    public void testFormatAcceptePourActivite2() {
-        System.out.println("formatAcceptePourActivite");
-        JSONObject activite = null;
-        LecteurDeDeclaration instance = null;
-        boolean expResult = true;
-        boolean result = instance.formatAcceptePourActivite(activite);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        JSONObject activite2 = activitePsy;
+        boolean result2 = instancePsychologues.formatAcceptePourDescription(activite2) &&
+                instancePsychologues.formatAcceptePourCategorie(activite2) &&
+                instancePsychologues.formatAcceptePourHeures(activite2) &&
+                instancePsychologues.formatAcceptePourDate(activite2);
+        assertTrue(result2);
     }
 
     /**
