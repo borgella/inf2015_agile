@@ -45,6 +45,7 @@ public class LecteurDeDeclarationTest {
         
         declarationPodiatres = new JSONObject();
         declarationPodiatres.put("numero_de_permis", "83453");
+        declarationPodiatres.put("sexe", 2);
         declarationPodiatres.put("ordre", "podiatres");
         instancePodiatres = new LecteurDeDeclaration(declarationPodiatres);
         
@@ -343,6 +344,21 @@ public class LecteurDeDeclarationTest {
         boolean result = instanceGeologues.ordreReconnu(numeroDePermis);
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of ordreReconnu method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testOrdreReconnu() {
+        System.out.println("ordreReconnu");
+        String ordre = "";
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.ordreReconnu(ordre);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
     /**
      * Test of formatAcceptePourPrenomOuNom method, of class LecteurDeDeclaration.
      */
@@ -364,6 +380,26 @@ public class LecteurDeDeclarationTest {
         String nomChamps = "nom";
         boolean expResult = true;
         boolean result = instanceGeologues.formatAcceptePourPrenomOuNom(nomChamps);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of formatAcceptePourSexe method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourSexe() {
+        System.out.println("formatAcceptePourSexe");
+        boolean expResult = false;
+        boolean result = instancePodiatres.sexeReconnu(3);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testFormatAcceptePourSexe2() {
+        System.out.println("formatAcceptePourSexe");
+        int sexe = declarationPodiatres.getInt("sexe");
+        boolean expResult = true;
+        boolean result = instancePodiatres.sexeReconnu(sexe);
         assertEquals(expResult, result);
     }
 

@@ -135,7 +135,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
     
-    private boolean formatAcceptePourSexe() {
+    boolean formatAcceptePourSexe() {
         boolean formatAccepte;
         String champsSexe = "sexe";
         if (champsNumeriqueExiste(champsSexe)) {
@@ -149,7 +149,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }   
 
-    private static boolean sexeReconnu(int sexe) {
+    static boolean sexeReconnu(int sexe) {
         return sexe == 0 || sexe == 1 || sexe == 2;
     }
 
