@@ -38,7 +38,7 @@ public class LecteurDeDeclarationTest {
     public LecteurDeDeclarationTest() {
         declarationArchitectes = new JSONObject();
         declarationArchitectes.accumulate("nom", "");
-        declarationArchitectes.accumulate("prenom", "Duplan");
+        declarationArchitectes.accumulate("prenom", "Chelny");
         declarationArchitectes.accumulate("sexe", 22);
         declarationArchitectes.accumulate("numero_de_permis", "T3443");
         declarationArchitectes.accumulate("ordre", "architectes");
@@ -68,8 +68,12 @@ public class LecteurDeDeclarationTest {
         instancePodiatres = new LecteurDeDeclaration(declarationPodiatres);
         
         declarationPsychologues = new JSONObject();
+        declarationPsychologues.accumulate("nom", "Bougeon");
+        declarationPsychologues.accumulate("prenom", "Antoine");
+        declarationPsychologues.accumulate("sexe", 1);
         declarationPsychologues.accumulate("numero_de_permis", "83723-34");
         declarationPsychologues.accumulate("ordre", "psychologues");
+        declarationPsychologues.accumulate("cycle", "2010-2015");
         activitePsy = new JSONObject();
         activitePsy.accumulate("description", "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans");
         activitePsy.accumulate("categorie", "cours");
@@ -100,15 +104,27 @@ public class LecteurDeDeclarationTest {
     /**
      * Test of erreurDeFormatDetectee method, of class LecteurDeDeclaration.
      */
-    @Ignore
+    @Test
     public void testErreurDeFormatDetectee() {
-        System.out.println("erreurDeFormatDetectee");
-        LecteurDeDeclaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.erreurDeFormatDetectee();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        boolean result1 = !instancePsychologues.formatAcceptePourSexe() |
+                !instancePsychologues.formatAcceptePourNumeroDePermis() |
+                !instancePsychologues.formatAcceptePourOrdre() |
+                !instancePsychologues.formatAcceptePourPrenomOuNom("prenom") |
+                !instancePsychologues.formatAcceptePourPrenomOuNom("nom") |
+                !instancePsychologues.formatAcceptePourCycle() |
+                !instancePsychologues.formatAcceptePourHeuresTransfereesSelonOrdre() |
+                !instancePsychologues.formatAcceptePourTableauActivites();
+        assertFalse(result1);
+        
+        boolean result2 = !instancePodiatres.formatAcceptePourSexe() |
+                !instancePodiatres.formatAcceptePourNumeroDePermis() |
+                !instancePodiatres.formatAcceptePourOrdre() |
+                !instancePodiatres.formatAcceptePourPrenomOuNom("prenom") |
+                !instancePodiatres.formatAcceptePourPrenomOuNom("nom") |
+                !instancePodiatres.formatAcceptePourCycle() |
+                !instancePodiatres.formatAcceptePourHeuresTransfereesSelonOrdre() |
+                !instancePodiatres.formatAcceptePourTableauActivites();
+        assertTrue(result2);
     }
 
     /**
@@ -370,7 +386,7 @@ public class LecteurDeDeclarationTest {
      */
     @Test
     public void testFormatAcceptePourCycle() {
-        boolean result1 = instancePsychologues.champsTexteExiste("cycle");
+        boolean result1 = instancePodiatres.champsTexteExiste("cycle");
         assertFalse(result1);
     
         boolean result2 = instanceArchitectes.champsTexteExiste("cycle");
