@@ -60,7 +60,7 @@ public class LecteurDeDeclarationTest {
         activitePod = new JSONObject();
         activitePod.accumulate("description", "desc");
         activitePod.accumulate("", "initiation à la programmation");
-        activitePod.accumulate("heures", 3);
+        activitePod.accumulate("heures", 0);
         activitePod.accumulate("date", "1999-12-31");
         activitesPod = new JSONArray();
         activitesPod.add(activitePod);
@@ -531,6 +531,35 @@ public class LecteurDeDeclarationTest {
     }
 
     /**
+     * Test of champsTexteExistePourActivite method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testChampsTexteExistePourActivite() {
+        System.out.println("champsTexteExistePourActivite");
+        String nomChamps = "";
+        JSONObject activite = null;
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.champsTexteExistePourActivite(nomChamps, activite);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of descriptionReconnu method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testDescriptionReconnu() {
+        System.out.println("descriptionReconnu");
+        String description = "";
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.descriptionReconnu(description);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
      * Test of formatAcceptePourCategorie method, of class LecteurDeDeclaration.
      */
     @Test
@@ -541,6 +570,87 @@ public class LecteurDeDeclarationTest {
         
         JSONObject activite2 = activitePsy;
         boolean result2 = instancePsychologues.champsTexteExistePourActivite("categorie", activite2);
+        assertTrue(result2);
+    }
+
+    /**
+     * Test of formatAcceptePourHeures method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourHeures() {
+        JSONObject activite1 = activitePod;
+        boolean result1;
+        if (instancePodiatres.champsNumeriqueExistePourActivite("heures", activite1)) {
+            int heures = activite1.getInt("heures");
+            result1 = instancePodiatres.heuresValidesPourActivite(heures);
+        } else {
+            result1 = false;
+        }
+        assertFalse(result1);
+        
+        JSONObject activite2 = activitePsy;
+        boolean result2;
+        if (instancePsychologues.champsNumeriqueExistePourActivite("heures", activite2)) {
+            int heures = activite2.getInt("heures");
+            result2 = instancePsychologues.heuresValidesPourActivite(heures);
+        } else {
+            result2 = false;
+        }
+        assertTrue(result2);
+    }
+
+    /**
+     * Test of champsNumeriqueExistePourActivite method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testChampsNumeriqueExistePourActivite() {
+        System.out.println("champsNumeriqueExistePourActivite");
+        String nomChamps = "";
+        JSONObject activite = null;
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.champsNumeriqueExistePourActivite(nomChamps, activite);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of heuresValidesPourActivite method, of class LecteurDeDeclaration.
+     */
+    @Ignore
+    public void testHeuresValidesPourActivite() {
+        System.out.println("heuresValidesPourActivite");
+        int heures = 0;
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.heuresValidesPourActivite(heures);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of formatAcceptePourDate method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testFormatAcceptePourDate() {
+        JSONObject activite1 = activitePod;
+        boolean result1;
+        if (instancePodiatres.champsNumeriqueExistePourActivite("date", activite1)) {
+            String date = activite1.getString("date");
+            result1 = instancePodiatres.dateEnFormatReconnu(date);
+        } else {
+            result1 = false;
+        }
+        assertFalse(result1);
+        
+        JSONObject activite2 = activitePsy;
+        boolean result2;
+        if (instancePsychologues.champsNumeriqueExistePourActivite("date", activite2)) {
+            String date = activite2.getString("date");
+            result2 = instancePsychologues.dateEnFormatReconnu(date);
+        } else {
+            result2 = false;
+        }
         assertTrue(result2);
     }
     

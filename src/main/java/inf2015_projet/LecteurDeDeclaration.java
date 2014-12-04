@@ -272,7 +272,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private static boolean champsNumeriqueExistePourActivite(String nomChamps, JSONObject activite) {
+    static boolean champsNumeriqueExistePourActivite(String nomChamps, JSONObject activite) {
         boolean champsNumeriqueExistePourActivite;
         try {
             activite.getInt(nomChamps);
@@ -283,7 +283,7 @@ public class LecteurDeDeclaration {
         return champsNumeriqueExistePourActivite;
     }
 
-    private static boolean heuresValidesPourActivite(int heures) {
+    static boolean heuresValidesPourActivite(int heures) {
         return heures > 0;
     }
 
@@ -302,25 +302,25 @@ public class LecteurDeDeclaration {
     }
 
     // Le format de date reconnu est ISO-8601: AAAA-MM-JJ
-    private static boolean dateEnFormatReconnu(String date) {
+    static boolean dateEnFormatReconnu(String date) {
         return dateALongueurValide(date) && dateAContenuValide(date);
     }
 
-    private static boolean dateALongueurValide(String date) {
+    static boolean dateALongueurValide(String date) {
         return date.length() == 10;
     }
 
-    private static boolean dateAContenuValide(String date) {
+    static boolean dateAContenuValide(String date) {
         return dateASeperateursValides(date) && dateAComposantesNumeriquesValides(date);
     }
 
-    private static boolean dateASeperateursValides(String date) {
+    static boolean dateASeperateursValides(String date) {
         char premierTiret = date.charAt(4);
         char deuxiemeTiret = date.charAt(7);
         return premierTiret == '-' && deuxiemeTiret == '-';
     }
 
-    private static boolean dateAComposantesNumeriquesValides(String date) {
+    static boolean dateAComposantesNumeriquesValides(String date) {
         String anneeEnTexte = date.substring(0, 4);
         String moisEnTexte = date.substring(5, 7);
         String jourEnTexte = date.substring(8, 10);
@@ -329,7 +329,7 @@ public class LecteurDeDeclaration {
                 && dateAUnJourValide(jourEnTexte);
     }
 
-    private static boolean dateAUneAnneeValide(String anneeEnTexte) {
+    static boolean dateAUneAnneeValide(String anneeEnTexte) {
         boolean anneeValide;
         if (texteEstNumerique(anneeEnTexte)) {
             int annee = Integer.parseInt(anneeEnTexte);
@@ -340,7 +340,7 @@ public class LecteurDeDeclaration {
         return anneeValide;
     }
 
-    private static boolean dateAUnMoisValide(String moisEnTexte) {
+    static boolean dateAUnMoisValide(String moisEnTexte) {
         boolean moisValide;
         if (texteEstNumerique(moisEnTexte)) {
             int mois = Integer.parseInt(moisEnTexte);
@@ -351,7 +351,7 @@ public class LecteurDeDeclaration {
         return moisValide;
     }
 
-    private static boolean dateAUnJourValide(String jourEnTexte) {
+    static boolean dateAUnJourValide(String jourEnTexte) {
         boolean jourValide;
         if (texteEstNumerique(jourEnTexte)) {
             int jour = Integer.parseInt(jourEnTexte);
