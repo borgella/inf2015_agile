@@ -61,7 +61,7 @@ public class LecteurDeDeclarationTest {
         activitePod.accumulate("description", "desc");
         activitePod.accumulate("", "initiation à la programmation");
         activitePod.accumulate("heures", 0);
-        activitePod.accumulate("date", "1999-12-31");
+        activitePod.accumulate("date", "1999/12/31 ");
         activitesPod = new JSONArray();
         activitesPod.add(activitePod);
         declarationPodiatres.accumulate("activites", activitesPod);
@@ -510,7 +510,7 @@ public class LecteurDeDeclarationTest {
     @Test
     public void testFormatAcceptePourDescription() {
         JSONObject activite1 = activitePod;
-        boolean result1 = true;
+        boolean result1;
         String description1 = activite1.getString("description");
         if (instancePodiatres.champsTexteExistePourActivite("description", activite1)) {
             result1 = instancePodiatres.descriptionReconnu(description1);
@@ -520,7 +520,7 @@ public class LecteurDeDeclarationTest {
         assertFalse(result1);
                 
         JSONObject activite2 = activitePsy;
-        boolean result2 = false;
+        boolean result2;
         String description2 = activite2.getString("description");
         if (instancePsychologues.champsTexteExistePourActivite("description", activite2)) {
             result2 = instancePsychologues.descriptionReconnu(description2);
@@ -652,6 +652,122 @@ public class LecteurDeDeclarationTest {
             result2 = false;
         }
         assertTrue(result2);
+    }
+
+    /**
+     * Test of dateEnFormatReconnu method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateEnFormatReconnu() {
+        String date1 = activitePod.getString("date");
+        boolean result1 = instancePodiatres.dateALongueurValide(date1) &&
+                instancePodiatres.dateAContenuValide(date1);
+        assertFalse(result1);
+        
+        String date2 = activitePsy.getString("date");
+        boolean result2 = instancePsychologues.dateALongueurValide(date2) &&
+                instancePsychologues.dateAContenuValide(date2);
+        assertTrue(result2);
+    }
+
+    /**
+     * Test of dateALongueurValide method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateALongueurValide() {
+        String date1 = activitePod.getString("date");
+        boolean result1 = date1.length() == 10;
+        assertFalse(result1);
+        
+        String date2 = activitePsy.getString("date");
+        boolean result2 = date2.length() == 10;
+        assertTrue(result2);
+    }
+
+    /**
+     * Test of dateAContenuValide method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateAContenuValide() {
+        String date1 = activitePod.getString("date");
+        boolean result1 = instancePodiatres.dateASeperateursValides(date1) &&
+                instancePodiatres.dateAComposantesNumeriquesValides(date1);
+        assertFalse(result1);
+        
+        String date2 = activitePsy.getString("date");
+        boolean result2 = instancePsychologues.dateASeperateursValides(date2) &&
+                instancePsychologues.dateAComposantesNumeriquesValides(date2);
+        assertTrue(result2);
+    }
+
+    /**
+     * Test of dateASeperateursValides method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateASeperateursValides() {
+        System.out.println("dateASeperateursValides");
+        String date = "";
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.dateASeperateursValides(date);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of dateAComposantesNumeriquesValides method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateAComposantesNumeriquesValides() {
+        System.out.println("dateAComposantesNumeriquesValides");
+        String date = "";
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.dateAComposantesNumeriquesValides(date);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of dateAUneAnneeValide method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateAUneAnneeValide() {
+        System.out.println("dateAUneAnneeValide");
+        String anneeEnTexte = "";
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.dateAUneAnneeValide(anneeEnTexte);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of dateAUnMoisValide method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateAUnMoisValide() {
+        System.out.println("dateAUnMoisValide");
+        String moisEnTexte = "";
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.dateAUnMoisValide(moisEnTexte);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of dateAUnJourValide method, of class LecteurDeDeclaration.
+     */
+    @Test
+    public void testDateAUnJourValide() {
+        System.out.println("dateAUnJourValide");
+        String jourEnTexte = "";
+        boolean expResult = false;
+        boolean result = LecteurDeDeclaration.dateAUnJourValide(jourEnTexte);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
     /**
