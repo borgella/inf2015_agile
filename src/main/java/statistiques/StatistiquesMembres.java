@@ -23,18 +23,18 @@ public class StatistiquesMembres {
         }
         donneesStatistiques = new EnsembleStatistique(donneesExistantes);
         if (donneesExistantes == null) {
-            initialiserStatistiques();
+            donneesStatistiques = GenerateurStatistiquesMembres.initialiserStatistiques();
         }
     }
 
-    private static String[] nomsDesCategoriesReconnues() {
-        String categoriesReconnues[] = 
-        {"cours", "atelier", "séminaire", "colloque", "conférence", "lecture dirigée",
-            "présentation", "groupe de discussion", "projet de recherche", "rédaction professionnelle"};
+    public static String[] nomsDesCategoriesReconnues() {
+        String categoriesReconnues[]
+                = {"cours", "atelier", "séminaire", "colloque", "conférence", "lecture dirigée",
+                    "présentation", "groupe de discussion", "projet de recherche", "rédaction professionnelle"};
         return categoriesReconnues;
     }
-    
-    private static String[] nomsDesOrdresReconnus() {
+
+    public static String[] nomsDesOrdresReconnus() {
         String ordresReconnus[] = {"architectes", "géologues", "psychologues", "podiatres"};
         return ordresReconnus;
     }
@@ -58,7 +58,7 @@ public class StatistiquesMembres {
         enregistrerNombreTotalActivitesValides(membre);
         enregistrerNombreActivitesValidesParCategorieIndividuelle(membre);
     }
-    
+
     public void enregistrerNombreTotalActivitesValides(Membre membre) {
         String[] categoriesReconnues = nomsDesCategoriesReconnues();
         int nombreTotalActivitesValides = 0;
@@ -66,10 +66,10 @@ public class StatistiquesMembres {
             int nombreActivitesValides = membre.obtenirNombreActivitesValidesParCategorie(categorie);
             nombreTotalActivitesValides += nombreActivitesValides;
         }
-         donneesStatistiques.incrementerStatistique
+        donneesStatistiques.incrementerStatistique
             ("activites_valides_dans_les_declarations", nombreTotalActivitesValides);
     }
-    
+
     public void enregistrerNombreActivitesValidesParCategorieIndividuelle(Membre membre) {
         String[] categoriesReconnues = nomsDesCategoriesReconnues();
         String categorieStatistique = "activites_valides_par_categorie";
@@ -79,21 +79,19 @@ public class StatistiquesMembres {
                 (categorieStatistique, categorie, nombreActivitesValides);
         }
     }
-   
+
     public void enregistrerCompletudeDeDeclarationValide(boolean formationComplete, String ordre) {
         if (formationComplete) {
             donneesStatistiques.incrementerStatistique("declarations_completes");
-            donneesStatistiques.incrementerStatistiqueSousCategorie
-                ("declarations_valides_et_completes_par_ordre", ordre);
+            donneesStatistiques.incrementerStatistiqueSousCategorie("declarations_valides_et_completes_par_ordre", ordre);
         } else {
             donneesStatistiques.incrementerStatistique("declarations_incompletes_ou_invalides");
-            donneesStatistiques.incrementerStatistiqueSousCategorie
-                ("declarations_valides_et_incompletes_par_ordre", ordre);
+            donneesStatistiques.incrementerStatistiqueSousCategorie("declarations_valides_et_incompletes_par_ordre", ordre);
         }
     }
 
-    void enregistrerDeclarationsAvecNumeroDePermisInvalide() {
-       donneesStatistiques.incrementerStatistique("declarations_avec_numero_de_permis_invalide");
+    public void enregistrerDeclarationsAvecNumeroDePermisInvalide() {
+        donneesStatistiques.incrementerStatistique("declarations_avec_numero_de_permis_invalide");
     }
 
     public void mettreAJourStatistiquesCumulatives() {
@@ -102,196 +100,64 @@ public class StatistiquesMembres {
     }
 
     public void afficherStatistiques() {
-        JSONObject donneesPourAffichage = donneesStatistiques.getDonneesStatistiques();
-        afficherChaqueStatistique(donneesPourAffichage);
-    }
-
-    private void afficherChaqueStatistique(JSONObject donneesStatistiques) {
-        afficherNombreDeclarationsTraitees();
-        afficherNombreDeclarationsCompletes();
-        afficherNombreDeclarationsIncompletesOuInvalides();
-        afficherNombreDeclarationsFaitesParHommes();
-        afficherNombreDeclarationsFaitesParFemmes();
-        afficherNombreDeclarationsParGensDeSexeInconnu();
-        afficherNombreTotalActivitesValidesDeclarees(donneesStatistiques);
-        afficherNombreActivitesValidesDeclareesSelonCategorie();
-        afficherNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre();
-        afficherNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre();
-    }
-
-    private void afficherNombreDeclarationsTraitees() {
-        System.out.println("Nombre total de déclarations traitées: "
-                + obtenirNombreDeDeclarationsTraitees());
-    }
-
-    int obtenirNombreDeDeclarationsTraitees() {
-        return donneesStatistiques.obtenirStatistique("declarations_traitees");
-    }
-
-    private void afficherNombreDeclarationsCompletes() {
-        System.out.println("Nombre total de déclarations complètes: "
-                + obtenirNombreDeDeclarationsCompletes());
-    }
-
-    int obtenirNombreDeDeclarationsCompletes() {
-        return donneesStatistiques.obtenirStatistique("declarations_completes");
-    }
-
-    private void afficherNombreDeclarationsIncompletesOuInvalides() {
-        System.out.println("Nombre total de déclarations incomplètes ou invalides: "
-                + obtenirNombreDeDeclarationsInvalidesOuIncompletes());
-    }
-
-    private void afficherNombreDeclarationsFaitesParHommes() {
-        System.out.println("Nombre total de déclarations faites par des hommes: "
-                + obtenirNombreDeDeclarationsTraiteesParHommes());
-    }
-
-    int obtenirNombreDeDeclarationsTraiteesParHommes() {
-        return donneesStatistiques.obtenirStatistique("declarations_faites_par_des_hommes");
-    }
-
-    private void afficherNombreDeclarationsFaitesParFemmes() {
-        System.out.println("Nombre total de déclarations faites par des femmes: "
-                + obtenirNombreDeDeclarationsTraiteesParFemmes());
-    }
-
-    int obtenirNombreDeDeclarationsTraiteesParFemmes() {
-        return donneesStatistiques.obtenirStatistique("declarations_faites_par_des_femmes");
-    }
-
-    private void afficherNombreDeclarationsParGensDeSexeInconnu() {
-        System.out.println("Nombre total de déclarations faites par des gens de sexe inconnu: "
-                + obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu());
-    }
-
-    int obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu() {
-        return donneesStatistiques.obtenirStatistique("declarations_faites_par_des_gens_de_sexe_inconnu");
-    }
-
-    private void afficherNombreTotalActivitesValidesDeclarees(JSONObject donneesStatistiques) {
-        System.out.println("Nombre total d'activités valides dans les déclarations: "
-                + donneesStatistiques.getInt("activites_valides_dans_les_declarations"));
-    }
-
-    private void afficherNombreActivitesValidesDeclareesSelonCategorie() {
-        System.out.println("Nombre d'activités valides par catégorie: ");
-        String[] categoriesReconnues = nomsDesCategoriesReconnues();
-        String tabulation = "    ";
-        for (String categorieActivites: categoriesReconnues) {
-            int activitesValidesPourCategorie = obtenirActivitesValidesParCategorie(categorieActivites);
-            System.out.println(tabulation + '\"' + categorieActivites + '\"' + ": " + activitesValidesPourCategorie);
-        }
-    }
-    
-    private void afficherNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre() {
-        System.out.println("Nombre de déclarations complètes par ordre: ");
-        String[] ordresReconnus = nomsDesOrdresReconnus();
-        String tabulation = "    ";
-        for (String ordre: ordresReconnus) {
-            int declarationsCompletesPourOrdre = obtenirNombreDeDeclarationsValidesEtCompletes(ordre);
-            System.out.println(tabulation + '\"' + ordre + '\"' + ": " + declarationsCompletesPourOrdre);
-        }
-    }
-    
-    private void afficherNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre() {
-        System.out.println("Nombre de déclarations incomplètes par ordre: ");
-        String[] ordresReconnus = nomsDesOrdresReconnus();
-        String tabulation = "    ";
-        for (String ordre: ordresReconnus) {
-            int declarationsInompletesPourOrdre = obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre(ordre);
-            System.out.println(tabulation + '\"' + ordre + '\"' + ": " + declarationsInompletesPourOrdre);
-        }
-    }
-    
-    int obtenirNombreTotalDeDeclarationsValidesEtCompletes() {
-        return donneesStatistiques.obtenirStatistique("declarations_completes");
-    }
-
-    int obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre(String ordre) {
-        String categorieStatistique = "declarations_valides_et_incompletes_par_ordre";
-        return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, ordre);
-    }
-
-    int obtenirNombreDeDeclarationsInvalidesOuIncompletes() {
-        return donneesStatistiques.obtenirStatistique("declarations_incompletes_ou_invalides");
-    }
-
-    private int obtenirActivitesValidesParCategorie(String categorieActivite) {
-        String categorieStatistique = "activites_valides_par_categorie";
-        return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, categorieActivite);
-    }
-
-    int obtenirNombreDeDeclarationsValidesEtCompletes(String ordre) {
-        String categorieStatistique = "declarations_valides_et_completes_par_ordre";
-        return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, ordre);
-    }
-    
-    int obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide() {
-       return donneesStatistiques.obtenirStatistique("declarations_avec_numero_de_permis_invalide");
+        AfficheurStatistiquesMembres afficheur = new AfficheurStatistiquesMembres(this);
+        afficheur.afficher();
     }
 
     public void reinitialiserStatistiques() {
-        donneesStatistiques = new EnsembleStatistique();
-        initialiserStatistiques();
+        donneesStatistiques = GenerateurStatistiquesMembres.initialiserStatistiques();
         mettreAJourStatistiquesCumulatives();
         System.out.println("Statistiques réinitialisées.");
     }
 
-    private void initialiserStatistiques() {
-        initialiserStatistiquesGeneralesPourDeclarations();
-        initialiserStatistiquesPourActivitesValides();
-        initialiserStatistiquesPourDeclarationsCompletesSelonOrdre();
-        initialiserStatistiquesPourDeclarationsIncompletesSelonOrdre();
-        initialiserStatistiquesPourDeclarationsAvecNumerosDePermisInvalides();
+    public int obtenirNombreDeDeclarationsTraitees() {
+        return donneesStatistiques.obtenirStatistique("declarations_traitees");
     }
 
-    private void initialiserStatistiquesGeneralesPourDeclarations() {
-        donneesStatistiques.ajouterChampsStatistique("declarations_traitees");
-        donneesStatistiques.ajouterChampsStatistique("declarations_completes");
-        donneesStatistiques.ajouterChampsStatistique("declarations_incompletes_ou_invalides");
-        donneesStatistiques.ajouterChampsStatistique("declarations_faites_par_des_hommes");
-        donneesStatistiques.ajouterChampsStatistique("declarations_faites_par_des_femmes");
-        donneesStatistiques.ajouterChampsStatistique("declarations_faites_par_des_gens_de_sexe_inconnu");
+    public int obtenirNombreDeDeclarationsCompletes() {
+        return donneesStatistiques.obtenirStatistique("declarations_completes");
     }
 
-    private void initialiserStatistiquesPourActivitesValides() {
-        initialiserStatistiquePourNombreTotalActivitesValides();
-        initialiserStatistiquePourActivitesValidesParCategorie();
+    public int obtenirNombreDeDeclarationsTraiteesParHommes() {
+        return donneesStatistiques.obtenirStatistique("declarations_faites_par_des_hommes");
+    }
+
+    public int obtenirNombreDeDeclarationsTraiteesParFemmes() {
+        return donneesStatistiques.obtenirStatistique("declarations_faites_par_des_femmes");
+    }
+
+    public int obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu() {
+        return donneesStatistiques.obtenirStatistique("declarations_faites_par_des_gens_de_sexe_inconnu");
+    }
+
+    public int obtenirNombreTotalDeDeclarationsValidesEtCompletes() {
+        return donneesStatistiques.obtenirStatistique("declarations_completes");
+    }
+
+    public int obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre(String ordre) {
+        String categorieStatistique = "declarations_valides_et_incompletes_par_ordre";
+        return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, ordre);
+    }
+
+    public int obtenirNombreDeDeclarationsInvalidesOuIncompletes() {
+        return donneesStatistiques.obtenirStatistique("declarations_incompletes_ou_invalides");
     }
     
-    private void initialiserStatistiquePourNombreTotalActivitesValides() {
-        donneesStatistiques.ajouterChampsStatistique("activites_valides_dans_les_declarations");
+    public int obtenirNombreTotalActivitesValides() { 
+        return donneesStatistiques.obtenirStatistique("activites_valides_dans_les_declarations");
     }
 
-    private void initialiserStatistiquePourActivitesValidesParCategorie() {
+    public int obtenirActivitesValidesParCategorie(String categorieActivite) {
         String categorieStatistique = "activites_valides_par_categorie";
-        donneesStatistiques.ajouterCategorieDeChampsStatistiques(categorieStatistique);
-        String[] categoriesReconnues = nomsDesCategoriesReconnues();
-        for (String categorie : categoriesReconnues) {
-            donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, categorie);
-        }
+        return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, categorieActivite);
     }
-  
-    private void initialiserStatistiquesPourDeclarationsCompletesSelonOrdre() {
+
+    public int obtenirNombreDeDeclarationsValidesEtCompletes(String ordre) {
         String categorieStatistique = "declarations_valides_et_completes_par_ordre";
-        donneesStatistiques.ajouterCategorieDeChampsStatistiques(categorieStatistique);
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "architectes");
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "géologues");
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "psychologues");
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "podiatres");
+        return donneesStatistiques.obtenirStatistiqueSousCategorie(categorieStatistique, ordre);
     }
 
-    private void initialiserStatistiquesPourDeclarationsIncompletesSelonOrdre() {
-        String categorieStatistique = "declarations_valides_et_incompletes_par_ordre";
-        donneesStatistiques.ajouterCategorieDeChampsStatistiques(categorieStatistique);
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "architectes");
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "géologues");
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "psychologues");
-        donneesStatistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "podiatres");
-    }
-
-    private void initialiserStatistiquesPourDeclarationsAvecNumerosDePermisInvalides() {
-        donneesStatistiques.ajouterChampsStatistique("declarations_avec_numero_de_permis_invalide");
+    public int obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide() {
+        return donneesStatistiques.obtenirStatistique("declarations_avec_numero_de_permis_invalide");
     }
 }
