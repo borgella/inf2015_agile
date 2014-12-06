@@ -29,7 +29,7 @@ public class LecteurDeDeclaration {
                 | !formatAcceptePourTableauActivites();
     }
 
-    private boolean formatAcceptePourNumeroDePermis() {
+    boolean formatAcceptePourNumeroDePermis() {
         boolean formatAccepte;
         String champsNumeroDePermis = "numero_de_permis";
         if (champsTexteExiste(champsNumeroDePermis)) {
@@ -42,7 +42,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean champsTexteExiste(String nomChamps) {
+    boolean champsTexteExiste(String nomChamps) {
         boolean champsTexteExiste;
         try {
             declaration.getString(nomChamps);
@@ -52,26 +52,6 @@ public class LecteurDeDeclaration {
         }
         return champsTexteExiste;
     }
-    
-    /*public boolean formatNumeroDePermisValide() {
-        boolean formatValide;
-        
-        if(object instanceof String) {
-            if() {
-                formatValide = true;
-            } else if() {
-                formatValide = true;
-            } else if() {
-                formatValide = true;
-            } else {
-                formatValide = true;
-            }
-        } else {
-            formatValide = false;
-        }
-        
-        return formatValide;
-    }*/
 
     public boolean numerosDePermisValides(String numeroDePermis) {
         boolean validiteNumeroDePermis;
@@ -123,7 +103,7 @@ public class LecteurDeDeclaration {
         return texteEstNumerique;
     }
 
-    private boolean formatAcceptePourOrdre() {
+    boolean formatAcceptePourOrdre() {
         boolean formatAccepte;
         String champsOrdre = "ordre";
         if (champsTexteExiste(champsOrdre)) {
@@ -136,14 +116,14 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
     
-    private static boolean ordreReconnu(String ordre) {
+    static boolean ordreReconnu(String ordre) {
         return ordre.equals("architectes")
                 || ordre.equals("géologues")
                 || ordre.equals("psychologues")
                 || ordre.equals("podiatres");
     }
     
-    private boolean formatAcceptePourPrenomOuNom(String nomChamps) {
+    boolean formatAcceptePourPrenomOuNom(String nomChamps) {
         boolean formatAccepte;
         if (champsTexteExiste(nomChamps)) {
             String champs = declaration.getString(nomChamps);
@@ -155,7 +135,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
     
-    private boolean formatAcceptePourSexe() {
+    boolean formatAcceptePourSexe() {
         boolean formatAccepte;
         String champsSexe = "sexe";
         if (champsNumeriqueExiste(champsSexe)) {
@@ -169,16 +149,16 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }   
 
-    private static boolean sexeReconnu(int sexe) {
+    static boolean sexeReconnu(int sexe) {
         return sexe == 0 || sexe == 1 || sexe == 2;
     }
 
-    private boolean formatAcceptePourCycle() {
+    boolean formatAcceptePourCycle() {
         String champsCycle = "cycle";
         return champsTexteExiste(champsCycle);
     }
 
-    private boolean formatAcceptePourHeuresTransfereesSelonOrdre() {
+    boolean formatAcceptePourHeuresTransfereesSelonOrdre() {
         boolean formatAccepte;
         String champsHeuresTransferees = "heures_transferees_du_cycle_precedent";
         String ordre = declaration.getString("ordre");
@@ -190,7 +170,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean champsNumeriqueExiste(String nomChamps) {
+    boolean champsNumeriqueExiste(String nomChamps) {
         boolean champsNumeriqueExiste;
         try {
             declaration.getInt(nomChamps);
@@ -203,7 +183,7 @@ public class LecteurDeDeclaration {
         return champsNumeriqueExiste;
     }
 
-    private boolean formatAcceptePourTableauActivites() {
+    boolean formatAcceptePourTableauActivites() {
         boolean formatAccepte;
         String champsActivites = "activites";
         if (champsTableauJSONExiste(champsActivites)) {
@@ -215,7 +195,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean champsTableauJSONExiste(String nomChamps) {
+    boolean champsTableauJSONExiste(String nomChamps) {
         boolean champsTableauJSONExiste;
         try {
             declaration.getJSONArray(nomChamps);
@@ -226,7 +206,7 @@ public class LecteurDeDeclaration {
         return champsTableauJSONExiste;
     }
 
-    private boolean formatAcceptePourChaqueActivite(JSONArray activites) {
+    boolean formatAcceptePourChaqueActivite(JSONArray activites) {
         boolean formatAccepte = true;
         for (int i = 0; i < activites.size(); i++) {
             JSONObject activiteCourante = activites.getJSONObject(i);
@@ -238,14 +218,14 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private boolean formatAcceptePourActivite(JSONObject activite) {
+    boolean formatAcceptePourActivite(JSONObject activite) {
         return formatAcceptePourDescription(activite)
                 && formatAcceptePourCategorie(activite)
                 && formatAcceptePourHeures(activite)
                 && formatAcceptePourDate(activite);
     }
 
-    private boolean formatAcceptePourDescription(JSONObject activite) {
+    boolean formatAcceptePourDescription(JSONObject activite) {
         boolean formatAccepte;
         String champsDescription = "description";
         if (champsTexteExistePourActivite(champsDescription, activite)) {
@@ -259,7 +239,7 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private static boolean champsTexteExistePourActivite(String nomChamps, JSONObject activite) {
+    static boolean champsTexteExistePourActivite(String nomChamps, JSONObject activite) {
         boolean champsTexteExistePourActivite;
         try {
             activite.getString(nomChamps);
@@ -270,16 +250,16 @@ public class LecteurDeDeclaration {
         return champsTexteExistePourActivite;
     }
 
-    private static boolean descriptionReconnu(String description) {
+    static boolean descriptionReconnu(String description) {
         return description.length() > 20;
     }
 
-    private static boolean formatAcceptePourCategorie(JSONObject activite) {
+    static boolean formatAcceptePourCategorie(JSONObject activite) {
         String champsCategorie = "categorie";
         return champsTexteExistePourActivite(champsCategorie, activite);
     }
 
-    private boolean formatAcceptePourHeures(JSONObject activite) {
+    boolean formatAcceptePourHeures(JSONObject activite) {
         boolean formatAccepte;
         String champsHeures = "heures";
         if (champsNumeriqueExistePourActivite(champsHeures, activite)) {
@@ -292,10 +272,10 @@ public class LecteurDeDeclaration {
         return formatAccepte;
     }
 
-    private static boolean champsNumeriqueExistePourActivite(String nomChamps, JSONObject activite) {
+    static boolean champsNumeriqueExistePourActivite(String nomChamps, JSONObject activite) {
         boolean champsNumeriqueExistePourActivite;
         try {
-            activite.getInt(nomChamps);
+            activite.getString(nomChamps);
             champsNumeriqueExistePourActivite = true;
         } catch (Exception e) {
             champsNumeriqueExistePourActivite = false;
@@ -303,11 +283,11 @@ public class LecteurDeDeclaration {
         return champsNumeriqueExistePourActivite;
     }
 
-    private static boolean heuresValidesPourActivite(int heures) {
+    static boolean heuresValidesPourActivite(int heures) {
         return heures > 0;
     }
 
-    private boolean formatAcceptePourDate(JSONObject activite) {
+    boolean formatAcceptePourDate(JSONObject activite) {
         boolean formatAccepte;
         String champsDate = "date";
         if (champsTexteExistePourActivite(champsDate, activite)) {
@@ -322,25 +302,25 @@ public class LecteurDeDeclaration {
     }
 
     // Le format de date reconnu est ISO-8601: AAAA-MM-JJ
-    private static boolean dateEnFormatReconnu(String date) {
+    static boolean dateEnFormatReconnu(String date) {
         return dateALongueurValide(date) && dateAContenuValide(date);
     }
 
-    private static boolean dateALongueurValide(String date) {
+    static boolean dateALongueurValide(String date) {
         return date.length() == 10;
     }
 
-    private static boolean dateAContenuValide(String date) {
+    static boolean dateAContenuValide(String date) {
         return dateASeperateursValides(date) && dateAComposantesNumeriquesValides(date);
     }
 
-    private static boolean dateASeperateursValides(String date) {
+    static boolean dateASeperateursValides(String date) {
         char premierTiret = date.charAt(4);
         char deuxiemeTiret = date.charAt(7);
         return premierTiret == '-' && deuxiemeTiret == '-';
     }
 
-    private static boolean dateAComposantesNumeriquesValides(String date) {
+    static boolean dateAComposantesNumeriquesValides(String date) {
         String anneeEnTexte = date.substring(0, 4);
         String moisEnTexte = date.substring(5, 7);
         String jourEnTexte = date.substring(8, 10);
@@ -349,7 +329,7 @@ public class LecteurDeDeclaration {
                 && dateAUnJourValide(jourEnTexte);
     }
 
-    private static boolean dateAUneAnneeValide(String anneeEnTexte) {
+    static boolean dateAUneAnneeValide(String anneeEnTexte) {
         boolean anneeValide;
         if (texteEstNumerique(anneeEnTexte)) {
             int annee = Integer.parseInt(anneeEnTexte);
@@ -360,7 +340,7 @@ public class LecteurDeDeclaration {
         return anneeValide;
     }
 
-    private static boolean dateAUnMoisValide(String moisEnTexte) {
+    static boolean dateAUnMoisValide(String moisEnTexte) {
         boolean moisValide;
         if (texteEstNumerique(moisEnTexte)) {
             int mois = Integer.parseInt(moisEnTexte);
@@ -371,7 +351,7 @@ public class LecteurDeDeclaration {
         return moisValide;
     }
 
-    private static boolean dateAUnJourValide(String jourEnTexte) {
+    static boolean dateAUnJourValide(String jourEnTexte) {
         boolean jourValide;
         if (texteEstNumerique(jourEnTexte)) {
             int jour = Integer.parseInt(jourEnTexte);
