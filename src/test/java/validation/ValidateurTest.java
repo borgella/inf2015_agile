@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import professionnels.Membre;
+import professionnels.*;
 
 /**
  *
@@ -55,6 +55,23 @@ public class ValidateurTest {
         Validateur expResult = Validateur.genererValidateur(membre);
         Validateur result = expResult;
         assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testFabriqueValidateur() {
+        Validateur unValidateur;
+        
+        unValidateur = Validateur.genererValidateur(new Architecte("cycle quelconque"));
+        assertTrue(unValidateur instanceof ValidateurArchitecte);
+        
+        unValidateur = Validateur.genererValidateur(new Geologue());
+        assertTrue(unValidateur instanceof ValidateurGeologue);
+        
+        unValidateur = Validateur.genererValidateur(new Psychologue());
+        assertTrue(unValidateur instanceof ValidateurPsychologue);
+        
+        unValidateur = Validateur.genererValidateur(new Podiatre());
+        assertTrue(unValidateur instanceof ValidateurPodiatre);
     }
 
     /**
