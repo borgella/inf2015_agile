@@ -30,8 +30,8 @@ public class ValidateurGeologue extends Validateur {
     public void construireMessagesDErreur() {
         messageErreurSiLeCycleEstInvalide();
         if (validerLeCycle()) {
-            messageInvalidePourCategorieNonReconnue();
-            messageErreurPourDateInvalide();
+            messageInvalidePourCategorieNonReconnue(membre);
+            messageErreurPourDateInvalide(membre);
             messageErreurPourHeuresManquantes();
             messageErreurPourHeuresInsuffisantesParCategorie();
         }
@@ -51,19 +51,6 @@ public class ValidateurGeologue extends Validateur {
     }
 
     @Override
-    public void messageInvalidePourCategorieNonReconnue() {
-        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste, membre);
-        int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
-        String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-        if (nombreDActivitesNonReconnues > 0) {
-            ecrireMessageDErreurPourCategoriesNonReconnues(nombreDActivitesNonReconnues, activitesErronees);
-        }
-    }
-
- 
-
-    @Override
     public void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {
         String messageSortie;
         if (nombreDActivites > 1) {
@@ -74,17 +61,6 @@ public class ValidateurGeologue extends Validateur {
                     + "Elle sera ignorée.";
         }
         messagesErreurs.add(messageSortie);
-    }
-
-    @Override
-    public void messageErreurPourDateInvalide() {
-        ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste, membre);
-        int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
-        String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
-        if (nombreDActivitesNonReconnues > 0) {
-            ecrireMessageDErreurPourDatesInvalides(nombreDActivitesNonReconnues, activitesErronees);
-        }
     }
 
     @Override

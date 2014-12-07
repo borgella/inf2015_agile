@@ -6,6 +6,7 @@
 package professionnels;
 
 import inf2015_projet.MockJson;
+import java.util.ArrayList;
 import net.sf.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -173,6 +174,11 @@ public class MembreTest {
 
         public boolean dateValidePourMembre(String date) {
             return false;
+        }
+
+        @Override
+        public ArrayList getActivitesRefusees() {
+            return null;
         }
     }
     

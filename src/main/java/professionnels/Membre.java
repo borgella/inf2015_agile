@@ -5,6 +5,7 @@
  */
 package professionnels;
 
+import java.util.ArrayList;
 import net.sf.json.JSONObject;
 
 /**
@@ -105,6 +106,8 @@ public abstract class Membre {
         }
         return temporaire;
     }
+    
+    public abstract ArrayList getActivitesRefusees();
     
     public abstract boolean dateValidePourMembre(String date);
 
