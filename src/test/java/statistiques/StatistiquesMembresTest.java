@@ -1,37 +1,44 @@
 package statistiques;
 
+import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import professionnels.*;
 
 /**
- *
- * @author User
+ * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class StatistiquesMembresTest {
 
-    int codeHomme = 1;
-    int codeFemme = 2;
+    int codeSexeHomme = 1;
+    int codeSexeFemme = 2;
     int codeSexeInconnu = 0;
-    
+
     StatistiquesMembres statistiques;
-    IEcriveurStatistiques ecriveurStatistiques;
 
     @Before
     public void setUp() {
-        ecriveurStatistiques = new MockEcriveurStatistiques();
         statistiques = new StatistiquesMembres(null);
     }
 
     @After
     public void tearDown() {
-        ecriveurStatistiques = null;
         statistiques = null;
+    }
+    
+    private JSONObject creerActiviteSelonCategoriePourArchitecte2012A2014(String categorie) {
+        JSONObject activite = new JSONObject();
+        activite.accumulate("description", "activite numéro ");
+        activite.accumulate("categorie", categorie);
+        activite.accumulate("heures", 3);
+        activite.accumulate("date", "2013-01-01");
+        return activite;
     }
 
     @Test
-    public void testEnregistrerNombreDeDeclarationsTraitees() {
+    public void testEnregistrerTraitementsDeDeclarations() {
 
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraitees();
         assertEquals(0, resultat1);
@@ -48,7 +55,7 @@ public class StatistiquesMembresTest {
     }
 
     @Test
-    public void testEnregistrerNombreTotalDeDeclarationsValidesEtCompletes() {
+    public void testEnregistrerDeclarationsValidesEtCompletes() {
         int resultat1 = statistiques.obtenirNombreTotalDeDeclarationsValidesEtCompletes();
         assertEquals(0, resultat1);
 
@@ -62,9 +69,9 @@ public class StatistiquesMembresTest {
         int resultat3 = statistiques.obtenirNombreTotalDeDeclarationsValidesEtCompletes();
         assertEquals(3, resultat3);
     }
-    
+
     @Test
-    public void testEnregistrerNombreDeDeclarationsValidesEtCompletesSelonOrdre() {
+    public void testEnregistrerDeclarationsValidesEtCompletesSelonOrdre() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes("architectes");
         assertEquals(0, resultat1);
 
@@ -80,7 +87,7 @@ public class StatistiquesMembresTest {
     }
 
     @Test
-    public void testEnregistrerNombreTotalDeDeclarationsValidesEtIncompletes() {
+    public void testEnregistrerDeclarationsValidesEtIncompletes() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre("architectes");
         assertEquals(0, resultat1);
 
@@ -100,7 +107,7 @@ public class StatistiquesMembresTest {
     }
 
     @Test
-    public void testEnregistrerNombreDeDeclarationsValidesEtIncompletesSelonOrdre() {
+    public void testEnregistrerDeclarationsValidesEtIncompletesSelonOrdre() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre("architectes");
         assertEquals(0, resultat1);
 
@@ -114,9 +121,9 @@ public class StatistiquesMembresTest {
         int resultat3 = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre("podiatres");
         assertEquals(2, resultat3);
     }
-    
+
     @Test
-    public void testEnregistrerNombreDeDeclarationsInvalides() {
+    public void testEnregistrerDeclarationsInvalides() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsInvalidesOuIncompletes();
         assertEquals(0, resultat1);
 
@@ -130,67 +137,49 @@ public class StatistiquesMembresTest {
         int resultat3 = statistiques.obtenirNombreDeDeclarationsInvalidesOuIncompletes();
         assertEquals(4, resultat3);
     }
-    
-    @Test
-    public void testEnregistrerDeclarationAyantUnNumeroDePermisInvalide() {
-        int resultat1 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
-        assertEquals(0, resultat1);
-
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
-        int resultat2 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
-        assertEquals(1, resultat2);
-
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
-        int resultat3 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
-        assertEquals(3, resultat3);
-    }
 
     @Test
-    public void testEnregistrerDeclarationParUnHomme() {
-
+    public void testEnregistrerDeclarationsParDesHommes() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraiteesParHommes();
         assertEquals(0, resultat1);
 
-        statistiques.enregistrerTraitementDeDeclaration(codeHomme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeHomme);
         int resultat2 = statistiques.obtenirNombreDeDeclarationsTraiteesParHommes();
         assertEquals(1, resultat2);
 
-        statistiques.enregistrerTraitementDeDeclaration(codeHomme);
-        statistiques.enregistrerTraitementDeDeclaration(codeHomme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeHomme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeHomme);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsTraiteesParHommes();
         assertEquals(3, resultat3);
 
-        statistiques.enregistrerTraitementDeDeclaration(codeFemme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeFemme);
         statistiques.enregistrerTraitementDeDeclaration(codeSexeInconnu);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsTraiteesParHommes();
         assertEquals(3, resultat4);
     }
 
     @Test
-    public void testEnregistrerDeclarationParUneFemme() {
-
+    public void testEnregistrerDeclarationsParDesFemmes() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes();
         assertEquals(0, resultat1);
 
-        statistiques.enregistrerTraitementDeDeclaration(codeFemme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeFemme);
         int resultat2 = statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes();
         assertEquals(1, resultat2);
 
-        statistiques.enregistrerTraitementDeDeclaration(codeFemme);
-        statistiques.enregistrerTraitementDeDeclaration(codeFemme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeFemme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeFemme);
         int resultat3 = statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes();
         assertEquals(3, resultat3);
 
-        statistiques.enregistrerTraitementDeDeclaration(codeHomme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeHomme);
         statistiques.enregistrerTraitementDeDeclaration(codeSexeInconnu);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes();
         assertEquals(3, resultat4);
     }
 
     @Test
-    public void testEnregistrerDeclarationParUnePersonneDeSexeInconnu() {
-
+    public void testEnregistrerDeclarationsParDesGensDeSexeInconnu() {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu();
         assertEquals(0, resultat1);
 
@@ -203,10 +192,60 @@ public class StatistiquesMembresTest {
         int resultat3 = statistiques.obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu();
         assertEquals(3, resultat3);
 
-        statistiques.enregistrerTraitementDeDeclaration(codeHomme);
-        statistiques.enregistrerTraitementDeDeclaration(codeFemme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeHomme);
+        statistiques.enregistrerTraitementDeDeclaration(codeSexeFemme);
         int resultat4 = statistiques.obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu();
         assertEquals(3, resultat4);
+    }
+
+    @Test
+    public void testEnregistrerNombresTotauxActivitesValides() {
+        String cycleValideArchitecte = "2012-2014";
+        Membre membre = new Architecte(cycleValideArchitecte);
+        
+        assertEquals(0, statistiques.obtenirNombreTotalActivitesValides());
+        
+        membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("cours"));
+        membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("cours"));
+        membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("atelier"));
+        
+        statistiques.enregistrerNombreTotalActivitesValides(membre);
+        assertEquals(3, statistiques.obtenirNombreTotalActivitesValides());
+    }
+
+    @Test
+    public void testEnregistrerNombresActivitesValidesParCategories() {
+        String cycleValideArchitecte = "2012-2014";
+        Membre membre = new Architecte(cycleValideArchitecte);
+        
+        assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("cours"));
+        assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("atelier"));
+        assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("séminaire"));       
+        
+        membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("cours"));
+        membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("atelier"));
+        membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("atelier"));
+        
+        
+        statistiques.enregistrerNombreActivitesValidesParCategorieIndividuelle(membre);
+        assertEquals(1, statistiques.obtenirActivitesValidesParCategorie("cours"));
+        assertEquals(2, statistiques.obtenirActivitesValidesParCategorie("atelier"));
+        assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("séminaire"));
+    }
+
+    @Test
+    public void testEnregistrerDeclarationsAvecNumeroDePermisInvalide() {
+        int resultat1 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
+        assertEquals(0, resultat1);
+
+        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
+        int resultat2 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
+        assertEquals(1, resultat2);
+
+        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
+        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
+        int resultat3 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
+        assertEquals(3, resultat3);
     }
 
 }

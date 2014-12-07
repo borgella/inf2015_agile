@@ -60,14 +60,9 @@ public class StatistiquesMembres {
     }
 
     public void enregistrerNombreTotalActivitesValides(Membre membre) {
-        String[] categoriesReconnues = nomsDesCategoriesReconnues();
-        int nombreTotalActivitesValides = 0;
-        for (String categorie : categoriesReconnues) {
-            int nombreActivitesValides = membre.obtenirNombreActivitesValidesParCategorie(categorie);
-            nombreTotalActivitesValides += nombreActivitesValides;
-        }
+        int nombreActivites = membre.obtenirNombreActivitesValides();
         donneesStatistiques.incrementerStatistique
-            ("activites_valides_dans_les_declarations", nombreTotalActivitesValides);
+            ("activites_valides_dans_les_declarations", nombreActivites);
     }
 
     public void enregistrerNombreActivitesValidesParCategorieIndividuelle(Membre membre) {
@@ -83,10 +78,12 @@ public class StatistiquesMembres {
     public void enregistrerCompletudeDeDeclarationValide(boolean formationComplete, String ordre) {
         if (formationComplete) {
             donneesStatistiques.incrementerStatistique("declarations_completes");
-            donneesStatistiques.incrementerStatistiqueSousCategorie("declarations_valides_et_completes_par_ordre", ordre);
+            donneesStatistiques.incrementerStatistiqueSousCategorie
+                ("declarations_valides_et_completes_par_ordre", ordre);
         } else {
             donneesStatistiques.incrementerStatistique("declarations_incompletes_ou_invalides");
-            donneesStatistiques.incrementerStatistiqueSousCategorie("declarations_valides_et_incompletes_par_ordre", ordre);
+            donneesStatistiques.incrementerStatistiqueSousCategorie
+                ("declarations_valides_et_incompletes_par_ordre", ordre);
         }
     }
 
@@ -112,10 +109,6 @@ public class StatistiquesMembres {
 
     public int obtenirNombreDeDeclarationsTraitees() {
         return donneesStatistiques.obtenirStatistique("declarations_traitees");
-    }
-
-    public int obtenirNombreDeDeclarationsCompletes() {
-        return donneesStatistiques.obtenirStatistique("declarations_completes");
     }
 
     public int obtenirNombreDeDeclarationsTraiteesParHommes() {

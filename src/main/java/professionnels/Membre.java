@@ -32,7 +32,7 @@ public abstract class Membre {
     }
 
     public abstract void ajouterActivitePourMembre(JSONObject activite);
-
+    
     public static Membre genererMembre(JSONObject declaration) {
         String ordre = declaration.getString("ordre");
         Membre membreGenere = fabriqueMembre(ordre, declaration);

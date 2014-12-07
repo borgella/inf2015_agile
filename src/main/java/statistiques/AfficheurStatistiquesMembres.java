@@ -12,80 +12,109 @@ public class AfficheurStatistiquesMembres {
     }
 
     public void afficher() {
-        afficherNombreDeclarationsTraitees();
-        afficherNombreDeclarationsCompletes();
-        afficherNombreDeclarationsIncompletesOuInvalides();
-        afficherNombreDeclarationsFaitesParHommes();
-        afficherNombreDeclarationsFaitesParFemmes();
-        afficherNombreDeclarationsParGensDeSexeInconnu();
-        afficherNombreTotalActivitesValidesDeclarees();
-        afficherNombreActivitesValidesDeclareesSelonCategorie();
-        afficherNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre();
-        afficherNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre();
+        afficherStatistiquesGeneralesSurLesDeclarations();
+        afficherStatistiquesSurLesActivitesValidesParCategorie();
+        afficherStatistiquesSurLesDeclarationsValideEtCompletesSelonOrdre();
+        afficherStatistiquesSurLesDeclarationsValideEtIncompletesSelonOrdre();
+        afficherStatistiquesSurLesDeclarationsAvecNumeroDePermisInvalide();
     }
 
-    private void afficherNombreDeclarationsTraitees() {
-        System.out.println("Nombre total de déclarations traitées: "
+    public void afficherStatistiquesGeneralesSurLesDeclarations() {
+        System.out.println(messageNombreDeclarationsTraitees());
+        System.out.println(messageNombreDeclarationsValidesEtCompletes());
+        System.out.println(messageNombreDeclarationsIncompletesOuInvalides());
+        System.out.println(messageNombreDeclarationsFaitesParHommes());
+        System.out.println(messageNombreDeclarationsFaitesParFemmes());
+        System.out.println(messageNombreDeclarationsParGensDeSexeInconnu());
+    }
+
+    public String messageNombreDeclarationsTraitees() {
+        return ("Nombre total de déclarations traitées: "
                 + statistiques.obtenirNombreDeDeclarationsTraitees());
     }
 
-    private void afficherNombreDeclarationsCompletes() {
-        System.out.println("Nombre total de déclarations complètes: "
-                + statistiques.obtenirNombreDeDeclarationsCompletes());
+    public String messageNombreDeclarationsValidesEtCompletes() {
+        return ("Nombre total de déclarations complètes: "
+                + statistiques.obtenirNombreTotalDeDeclarationsValidesEtCompletes());
     }
 
-    private void afficherNombreDeclarationsIncompletesOuInvalides() {
-        System.out.println("Nombre total de déclarations incomplètes ou invalides: "
+    public String messageNombreDeclarationsIncompletesOuInvalides() {
+        return ("Nombre total de déclarations incomplètes ou invalides: "
                 + statistiques.obtenirNombreDeDeclarationsInvalidesOuIncompletes());
     }
 
-    private void afficherNombreDeclarationsFaitesParHommes() {
-        System.out.println("Nombre total de déclarations faites par des hommes: "
+    public String messageNombreDeclarationsFaitesParHommes() {
+        return ("Nombre total de déclarations faites par des hommes: "
                 + statistiques.obtenirNombreDeDeclarationsTraiteesParHommes());
     }
 
-    private void afficherNombreDeclarationsFaitesParFemmes() {
-        System.out.println("Nombre total de déclarations faites par des femmes: "
+    public String messageNombreDeclarationsFaitesParFemmes() {
+        return ("Nombre total de déclarations faites par des femmes: "
                 + statistiques.obtenirNombreDeDeclarationsTraiteesParFemmes());
     }
 
-    private void afficherNombreDeclarationsParGensDeSexeInconnu() {
-        System.out.println("Nombre total de déclarations faites par des gens de sexe inconnu: "
+    public String messageNombreDeclarationsParGensDeSexeInconnu() {
+        return ("Nombre total de déclarations faites par des gens de sexe inconnu: "
                 + statistiques.obtenirNombreDeDeclarationsTraiteesParGensDeSexeInconnu());
     }
 
-    private void afficherNombreTotalActivitesValidesDeclarees() {
-        System.out.println("Nombre total d'activités valides dans les déclarations: "
+    public void afficherStatistiquesSurLesActivitesValidesParCategorie() {
+        System.out.println(messageNombreTotalActivitesValidesDeclarees());
+        System.out.println(messageNombreActivitesValidesDeclareesSelonCategorie());
+    }
+
+    public String messageNombreTotalActivitesValidesDeclarees() {
+        return ("Nombre total d'activités valides dans les déclarations: "
                 + statistiques.obtenirNombreTotalActivitesValides());
     }
 
-    private void afficherNombreActivitesValidesDeclareesSelonCategorie() {
-        System.out.println("Nombre d'activités valides par catégorie: ");
+    public String messageNombreActivitesValidesDeclareesSelonCategorie() {
+        String message = "Nombre d'activités valides par catégorie: ";
         String[] categoriesReconnues = StatistiquesMembres.nomsDesCategoriesReconnues();
         String tabulation = "    ";
         for (String categorieActivites : categoriesReconnues) {
             int activitesValidesPourCategorie = statistiques.obtenirActivitesValidesParCategorie(categorieActivites);
-            System.out.println(tabulation + '\"' + categorieActivites + '\"' + ": " + activitesValidesPourCategorie);
+            message += '\n' + tabulation + '\"' + categorieActivites + '\"' + ": " + activitesValidesPourCategorie;
         }
+        return message;
     }
 
-    private void afficherNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre() {
-        System.out.println("Nombre de déclarations complètes par ordre: ");
+    public void afficherStatistiquesSurLesDeclarationsValideEtCompletesSelonOrdre() {
+        System.out.println(messageNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre());
+    }
+
+    public String messageNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre() {
+        String message = "Nombre de déclarations valides et complètes par ordre: ";
         String[] ordresReconnus = StatistiquesMembres.nomsDesOrdresReconnus();
         String tabulation = "    ";
         for (String ordre : ordresReconnus) {
             int declarationsCompletesPourOrdre = statistiques.obtenirNombreDeDeclarationsValidesEtCompletes(ordre);
-            System.out.println(tabulation + '\"' + ordre + '\"' + ": " + declarationsCompletesPourOrdre);
+            message += '\n' + tabulation + '\"' + ordre + '\"' + ": " + declarationsCompletesPourOrdre;
         }
+        return message;
     }
 
-    private void afficherNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre() {
-        System.out.println("Nombre de déclarations incomplètes par ordre: ");
+    public void afficherStatistiquesSurLesDeclarationsValideEtIncompletesSelonOrdre() {
+        System.out.println(messageNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre());
+    }
+
+    public String messageNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre() {
+        String message = "Nombre de déclarations valides et incomplètes par ordre: ";
         String[] ordresReconnus = StatistiquesMembres.nomsDesOrdresReconnus();
         String tabulation = "    ";
         for (String ordre : ordresReconnus) {
             int nombDeclarations = statistiques.obtenirNombreDeDeclarationsValidesEtIncompletesSelonOrdre(ordre);
-            System.out.println(tabulation + '\"' + ordre + '\"' + ": " + nombDeclarations);
+            message += '\n' + tabulation + '\"' + ordre + '\"' + ": " + nombDeclarations;
         }
+        return message;
+    }
+
+    public void afficherStatistiquesSurLesDeclarationsAvecNumeroDePermisInvalide() {
+        System.out.println(messageNombreDeDeclarationsAvecNumeroDePermisInvalide());
+    }  
+    
+    public String messageNombreDeDeclarationsAvecNumeroDePermisInvalide() {
+        return ("Nombre de déclarations soumises avec un numéro de permis invalide: "
+                + statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide());
     }
 }
