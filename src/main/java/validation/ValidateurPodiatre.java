@@ -19,9 +19,9 @@ public class ValidateurPodiatre extends ValidateurGeologue {
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
         int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");
         // Le nombre d'heures manquantes est la somme des heures manquantes par catégorie, si supérieure au total brut
-        int grandMaximum = maximumParmisQuatreSansNuls(heuresManquantesEnGeneral, heuresManquantesCours,
+        int grandMaximum = maximumEntreUnNombreEtUnTripletSomme(heuresManquantesEnGeneral, heuresManquantesCours,
                 heuresManquantesRecherche, heuresManquantesDiscussion);
-        ecrireMessageErreurPourHeuresManquantesSiApplicable(grandMaximum);
+        ecrireMessageErreurPourHeuresManquantes(grandMaximum);
     }
 
     @Override

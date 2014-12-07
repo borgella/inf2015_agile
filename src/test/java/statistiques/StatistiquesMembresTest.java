@@ -27,10 +27,10 @@ public class StatistiquesMembresTest {
     public void tearDown() {
         statistiques = null;
     }
-    
+
     private JSONObject creerActiviteSelonCategoriePourArchitecte2012A2014(String categorie) {
         JSONObject activite = new JSONObject();
-        activite.accumulate("description", "activite numéro ");
+        activite.accumulate("description", "Une activité quelconque");
         activite.accumulate("categorie", categorie);
         activite.accumulate("heures", 3);
         activite.accumulate("date", "2013-01-01");
@@ -202,13 +202,13 @@ public class StatistiquesMembresTest {
     public void testEnregistrerNombresTotauxActivitesValides() {
         String cycleValideArchitecte = "2012-2014";
         Membre membre = new Architecte(cycleValideArchitecte);
-        
+
         assertEquals(0, statistiques.obtenirNombreTotalActivitesValides());
-        
+
         membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("cours"));
         membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("cours"));
         membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("atelier"));
-        
+
         statistiques.enregistrerNombreTotalActivitesValides(membre);
         assertEquals(3, statistiques.obtenirNombreTotalActivitesValides());
     }
@@ -217,16 +217,15 @@ public class StatistiquesMembresTest {
     public void testEnregistrerNombresActivitesValidesParCategories() {
         String cycleValideArchitecte = "2012-2014";
         Membre membre = new Architecte(cycleValideArchitecte);
-        
+
         assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("cours"));
         assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("atelier"));
-        assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("séminaire"));       
-        
+        assertEquals(0, statistiques.obtenirActivitesValidesParCategorie("séminaire"));
+
         membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("cours"));
         membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("atelier"));
         membre.ajouterActivitePourMembre(creerActiviteSelonCategoriePourArchitecte2012A2014("atelier"));
-        
-        
+
         statistiques.enregistrerNombreActivitesValidesParCategorieIndividuelle(membre);
         assertEquals(1, statistiques.obtenirActivitesValidesParCategorie("cours"));
         assertEquals(2, statistiques.obtenirActivitesValidesParCategorie("atelier"));
@@ -238,12 +237,12 @@ public class StatistiquesMembresTest {
         int resultat1 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
         assertEquals(0, resultat1);
 
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
+        statistiques.enregistrerDeclarationAvecNumeroDePermisInvalide();
         int resultat2 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
         assertEquals(1, resultat2);
 
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
+        statistiques.enregistrerDeclarationAvecNumeroDePermisInvalide();
+        statistiques.enregistrerDeclarationAvecNumeroDePermisInvalide();
         int resultat3 = statistiques.obtenirNombreDeDeclarationsAvecNumeroDePermisInvalide();
         assertEquals(3, resultat3);
     }

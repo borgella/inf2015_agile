@@ -87,7 +87,7 @@ public class StatistiquesMembres {
         }
     }
 
-    public void enregistrerDeclarationsAvecNumeroDePermisInvalide() {
+    public void enregistrerDeclarationAvecNumeroDePermisInvalide() {
         donneesStatistiques.incrementerStatistique("declarations_avec_numero_de_permis_invalide");
     }
 

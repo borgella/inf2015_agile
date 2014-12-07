@@ -18,10 +18,16 @@ public class Geologue extends Membre {
 
     public Geologue() {
         super("géologues");
+        cycle = "2013-2016";
+        activitesAcceptees = new ArrayList(1);
+        activitesRefusees = new ArrayList(1);
     }
     
-    public Geologue(String ordre) {
+    public Geologue(String ordre, String cycle) {
         super(ordre);
+        this.cycle = cycle;
+        activitesAcceptees = new ArrayList(1);
+        activitesRefusees = new ArrayList(1);
     }
 
     public Geologue(JSONObject activiteJson) {

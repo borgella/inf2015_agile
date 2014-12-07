@@ -13,7 +13,7 @@ import net.sf.json.JSONObject;
 public class Podiatre extends Geologue {
     
     public Podiatre() {
-        super("podiatres");
+        super("podiatres", "2013-2016");
     }
     
     public Podiatre(JSONObject activiteJson) {

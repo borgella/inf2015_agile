@@ -124,29 +124,32 @@ public class ValidateurGeologue extends Validateur {
 
     @Override
     public void messageErreurPourHeuresManquantes() {
+        int heuresManquantes = calculerHeuresManquantes();
+        if (heuresManquantes > 0) {
+            ecrireMessageErreurPourHeuresManquantes(heuresManquantes);
+        }
+    }
+
+    public int calculerHeuresManquantes() {
         int heuresManquantesEnGeneral = 55 - heuresTotalesFormation();
         int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
         int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");
         // Le nombre d'heures manquantes est la somme des heures manquantes par catégorie, si supérieure au total brut
-        int grandMaximum = maximumParmisQuatreSansNuls(heuresManquantesEnGeneral, heuresManquantesCours,
-                 heuresManquantesRecherche, heuresManquantesDiscussion);
-        ecrireMessageErreurPourHeuresManquantesSiApplicable(grandMaximum);
+        int grandMaximum = maximumEntreUnNombreEtUnTripletSomme(heuresManquantesEnGeneral, heuresManquantesCours,
+                heuresManquantesRecherche, heuresManquantesDiscussion);
+        return grandMaximum;
     }
 
     @Override
     public int heuresTotalesFormation() {
-        int heuresSeptCategories = heuresTotalesPourRegroupementDesSeptCategories();
+        int heuresSeptCategories = nombreDHeuresSelonRegroupement(1);
         int heuresPresentation = heuresBrutesSelonCategorie("cours");
         int heuresRecherche = heuresBrutesSelonCategorie("projet de recherche");
         int heuresDiscussion = heuresBrutesSelonCategorie("groupe de discussion");
 
         return heuresTotal = heuresSeptCategories
                 + heuresPresentation + heuresRecherche + heuresDiscussion;
-    }
-
-    public int heuresTotalesPourRegroupementDesSeptCategories() {
-        return nombreDHeuresSelonRegroupement(1);
     }
 
     @Override
@@ -176,15 +179,16 @@ public class ValidateurGeologue extends Validateur {
     }
     
     // Donne le maximum entre un "grand nombre" et trois autres nombres non négatifs
-    public int maximumParmisQuatreSansNuls(int grandNombre, int nombreUn, int nombreDeux, int nombreTrois) {
-        int grandNombreNonNegatif = rendrePositifOuNul(grandNombre);
-        int nombreUnNonNegatif = rendrePositifOuNul(nombreUn);
-        int nombreDeuxNonNegatif = rendrePositifOuNul(nombreDeux);
-        int nombreTroisNonNegatif = rendrePositifOuNul(nombreTrois);
+    public static int 
+        maximumEntreUnNombreEtUnTripletSomme(int grandNombre, int nombreUn, int nombreDeux, int nombreTrois) {
+        int grandNombreNonNegatif = rendreEntierNulSiNegatif(grandNombre);
+        int nombreUnNonNegatif = rendreEntierNulSiNegatif(nombreUn);
+        int nombreDeuxNonNegatif = rendreEntierNulSiNegatif(nombreDeux);
+        int nombreTroisNonNegatif = rendreEntierNulSiNegatif(nombreTrois);
         return Integer.max(grandNombreNonNegatif, nombreUnNonNegatif + nombreDeuxNonNegatif + nombreTroisNonNegatif);
     }
     
-    public int rendrePositifOuNul(int nombre) {
+    public static int rendreEntierNulSiNegatif(int nombre) {
         int nombrePositifOuNul = nombre;
         if (nombre < 0) {
             nombrePositifOuNul = 0;
@@ -192,12 +196,10 @@ public class ValidateurGeologue extends Validateur {
         return nombrePositifOuNul;
     }
 
-    public void ecrireMessageErreurPourHeuresManquantesSiApplicable(int heuresManquantes) {
-        if (heuresManquantes > 0) {
-            String messageHeuresManquantes = "Il manque un total de " + heuresManquantes
-                    + " heure(s) de formation pour compléter le cycle.";
+    public void ecrireMessageErreurPourHeuresManquantes(int heuresManquantes) {
+        String messageHeuresManquantes = "Il manque un total de " + heuresManquantes 
+                + " heure(s) de formation pour compléter le cycle.";
         messagesErreurs.add(messageHeuresManquantes);
-        }
     }
 
     public void messageErreurPourHeuresInsuffisantesParCategorie() {

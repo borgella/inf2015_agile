@@ -214,12 +214,12 @@ public class AfficheurStatistiquesMembresTest {
         assertEquals("Nombre de déclarations soumises avec un numéro de permis invalide: 0",
                 afficheur.messageNombreDeDeclarationsAvecNumeroDePermisInvalide());
 
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
+        statistiques.enregistrerDeclarationAvecNumeroDePermisInvalide();
         assertEquals("Nombre de déclarations soumises avec un numéro de permis invalide: 1",
                 afficheur.messageNombreDeDeclarationsAvecNumeroDePermisInvalide());
 
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
-        statistiques.enregistrerDeclarationsAvecNumeroDePermisInvalide();
+        statistiques.enregistrerDeclarationAvecNumeroDePermisInvalide();
+        statistiques.enregistrerDeclarationAvecNumeroDePermisInvalide();
         assertEquals("Nombre de déclarations soumises avec un numéro de permis invalide: 3",
                 afficheur.messageNombreDeDeclarationsAvecNumeroDePermisInvalide());
     }
