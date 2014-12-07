@@ -52,7 +52,7 @@ public abstract class Membre {
         }
         return membreGenere;
     }
-
+    
     public abstract String getCycle();
 
     public String getOrdre() {
@@ -105,6 +105,8 @@ public abstract class Membre {
         }
         return temporaire;
     }
+    
+    public abstract boolean dateValidePourMembre(String date);
 
     public abstract int obtenirNombreActivitesValides();
 

@@ -214,14 +214,6 @@ public class ValidateurTest {
      */
     @Test
     public void testDescriptionsDActivitesAvecDateInvalide() {
-        System.out.println("descriptionsDActivitesAvecDateInvalide");
-        ArrayList<JSONObject> liste = null;
-        Validateur instance = new ValidateurImpl();
-        ArrayList<String> expResult = null;
-        ArrayList<String> result = instance.descriptionsDActivitesAvecDateInvalide(liste);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -229,13 +221,7 @@ public class ValidateurTest {
      */
     @Test
     public void testEcrireMessageDErreurPourDatesInvalides() {
-        System.out.println("ecrireMessageDErreurPourDatesInvalides");
-        int nombreDActivites = 0;
-        String activitesErronees = "";
-        Validateur instance = new ValidateurImpl();
-        instance.ecrireMessageDErreurPourDatesInvalides(nombreDActivites, activitesErronees);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -243,11 +229,7 @@ public class ValidateurTest {
      */
     @Test
     public void testMessageErreurPourHeuresManquantes() {
-        System.out.println("messageErreurPourHeuresManquantes");
-        Validateur instance = new ValidateurImpl();
-        instance.messageErreurPourHeuresManquantes();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -255,13 +237,7 @@ public class ValidateurTest {
      */
     @Test
     public void testHeuresTotalesFormation() {
-        System.out.println("heuresTotalesFormation");
-        Validateur instance = new ValidateurImpl();
-        int expResult = 0;
-        int result = instance.heuresTotalesFormation();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -269,14 +245,7 @@ public class ValidateurTest {
      */
     @Test
     public void testNombreDHeuresSelonRegroupement() {
-        System.out.println("nombreDHeuresSelonRegroupement");
-        int codeDuRegroupement = 0;
-        Validateur instance = new ValidateurImpl();
-        int expResult = 0;
-        int result = instance.nombreDHeuresSelonRegroupement(codeDuRegroupement);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -284,14 +253,7 @@ public class ValidateurTest {
      */
     @Test
     public void testHeuresBrutesSelonCategorie() {
-        System.out.println("heuresBrutesSelonCategorie");
-        String categorie = "";
-        Validateur instance = new ValidateurImpl();
-        int expResult = 0;
-        int result = instance.heuresBrutesSelonCategorie(categorie);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -299,13 +261,7 @@ public class ValidateurTest {
      */
     @Test
     public void testFormationComplete() {
-        System.out.println("formationComplete");
-        Validateur instance = new ValidateurImpl();
-        boolean expResult = false;
-        boolean result = instance.formationComplete();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     public class ValidateurImpl extends Validateur {

@@ -74,7 +74,16 @@ public abstract class Validateur {
 
     public abstract void messageErreurPourDateInvalide();
 
-    public abstract ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste);
+    public ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste, Membre membre) {
+        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
+        for (int i = 0; i < liste.size(); ++i) {
+            JSONObject activite = liste.get(i);
+            if (!membre.dateValidePourMembre(activite.getString("date"))) {
+                descriptionsDesActivites.add(activite.getString("description"));
+            }
+        }
+        return descriptionsDesActivites;
+    }
 
     public abstract void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees);
 

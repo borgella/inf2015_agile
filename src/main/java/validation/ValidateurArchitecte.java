@@ -103,24 +103,12 @@ public class ValidateurArchitecte extends Validateur {
     @Override
     public void messageErreurPourDateInvalide() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste);
+        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecDateInvalide(liste, membre);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
         String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
         if (nombreDActivitesNonReconnues > 0) {
             ecrireMessageDErreurPourDatesInvalides(nombreDActivitesNonReconnues, activitesErronees);
         }
-    }
-
-    @Override
-    public ArrayList<String> descriptionsDActivitesAvecDateInvalide(ArrayList<JSONObject> liste) {
-        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
-        for (int i = 0; i < liste.size(); ++i) {
-            JSONObject activite = liste.get(i);
-            if (!membre.dateValidePourMembre(activite.getString("date"))) {
-                descriptionsDesActivites.add(activite.getString("description"));
-            }
-        }
-        return descriptionsDesActivites;
     }
 
     @Override

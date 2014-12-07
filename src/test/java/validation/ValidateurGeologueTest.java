@@ -86,10 +86,6 @@ public class ValidateurGeologueTest {
     }
 
     @Test
-    public void testDescriptionsDActivitesAvecDateInvalide() {
-    }
-
-    @Test
     public void testEcrireMessageDErreurPourDatesInvalides() {
     }
 
@@ -117,10 +113,19 @@ public class ValidateurGeologueTest {
 
     @Test
     public void testHeuresTotalesFormation() {
-    }
-
-    @Test
-    public void testHeuresTotalesPourRegroupementDesSeptCategories() {
+        assertEquals(0, validateur.heuresTotalesFormation());
+        
+        int heuresValidesUn = 1;
+        int heuresValidesDeux = 2;
+        int heuresValidesTrois = 4;
+        int heuresInvalides = 99;
+        
+        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresValidesUn, "atelier"));
+        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresValidesDeux, "atelier"));
+        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresValidesTrois, "cours"));
+        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresInvalides, "invalide"));
+        
+        assertEquals(heuresValidesUn + heuresValidesDeux + heuresValidesTrois, validateur.heuresTotalesFormation());
     }
 
     @Test

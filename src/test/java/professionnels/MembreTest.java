@@ -170,6 +170,10 @@ public class MembreTest {
         public int obtenirNombreActivitesValidesParCategorie(String categorie) {
             return 0;
         }
+
+        public boolean dateValidePourMembre(String date) {
+            return false;
+        }
     }
     
 }
