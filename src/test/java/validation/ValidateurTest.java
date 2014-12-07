@@ -143,14 +143,7 @@ public class ValidateurTest {
      */
     @Test
     public void testDescriptionsDActivitesAvecCategorieNonReconnue() {
-        System.out.println("descriptionsDActivitesAvecCategorieNonReconnue");
-        ArrayList<JSONObject> liste = null;
-        Validateur instance = new ValidateurImpl();
-        ArrayList<String> expResult = null;
-        ArrayList<String> result = instance.descriptionsDActivitesAvecCategorieNonReconnue(liste);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -158,29 +151,36 @@ public class ValidateurTest {
      */
     @Test
     public void testConvertirDescriptionsEnPhrase() {
-        System.out.println("convertirDescriptionsEnPhrase");
-        ArrayList<String> descriptions = null;
-        Validateur instance = new ValidateurImpl();
-        String expResult = "";
-        String result = instance.convertirDescriptionsEnPhrase(descriptions);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<String> descriptions = new ArrayList<>();
+        assertEquals("", Validateur.convertirDescriptionsEnPhrase(descriptions));
+        
+        descriptions.add("Première description");
+        descriptions.add("Deuxième description");
+        descriptions.add("Troisième description");
+        
+        String phraseATroisDescriptions = "Première description, Deuxième description et Troisième description";
+        assertEquals(phraseATroisDescriptions, Validateur.convertirDescriptionsEnPhrase(descriptions));
     }
 
     /**
-     * Test of construirePhraseAvecDescriptions method, of class Validateur.
+     * Test of construirePhraseAvecAuMoinsUneDescription method, of class Validateur.
      */
     @Test
     public void testConstruirePhraseAvecDescriptions() {
-        System.out.println("construirePhraseAvecDescriptions");
-        ArrayList<String> descriptions = null;
-        Validateur instance = new ValidateurImpl();
-        String expResult = "";
-        String result = instance.construirePhraseAvecDescriptions(descriptions);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<String> descriptions = new ArrayList<>();
+        
+        descriptions.add("Première description");
+        assertEquals("Première description", Validateur.construirePhraseAvecAuMoinsUneDescription(descriptions));
+        
+        descriptions.add("Deuxième description");
+        String phraseADeuxDescriptions = "Première description et Deuxième description";
+        assertEquals(phraseADeuxDescriptions, Validateur.construirePhraseAvecAuMoinsUneDescription(descriptions));
+        
+        descriptions.add("Troisième description");
+        descriptions.add("Quatrième description");
+        String phraseAQuatreDescriptions = 
+                "Première description, Deuxième description, Troisième description et Quatrième description";
+        assertEquals(phraseAQuatreDescriptions, Validateur.construirePhraseAvecAuMoinsUneDescription(descriptions));
     }
 
     /**
@@ -188,13 +188,7 @@ public class ValidateurTest {
      */
     @Test
     public void testEcrireMessageDErreurPourCategoriesNonReconnues() {
-        System.out.println("ecrireMessageDErreurPourCategoriesNonReconnues");
-        int nombreDActivites = 0;
-        String activitesErronees = "";
-        Validateur instance = new ValidateurImpl();
-        instance.ecrireMessageDErreurPourCategoriesNonReconnues(nombreDActivites, activitesErronees);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -202,11 +196,7 @@ public class ValidateurTest {
      */
     @Test
     public void testMessageErreurPourDateInvalide() {
-        System.out.println("messageErreurPourDateInvalide");
-        Validateur instance = new ValidateurImpl();
-        instance.messageErreurPourDateInvalide();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**

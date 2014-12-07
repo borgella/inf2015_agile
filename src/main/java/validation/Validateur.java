@@ -47,18 +47,16 @@ public abstract class Validateur {
 
     public abstract void messageInvalidePourCategorieNonReconnue();
 
-    public abstract ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste);
-
-    public String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
+    public static String convertirDescriptionsEnPhrase(ArrayList<String> descriptions) {
         int nombreDeDescriptions = descriptions.size();
         String phraseDeRetour = "";
         if (nombreDeDescriptions > 0) {
-            phraseDeRetour = construirePhraseAvecDescriptions(descriptions);
+            phraseDeRetour = construirePhraseAvecAuMoinsUneDescription(descriptions);
         }
         return phraseDeRetour;
     }
 
-    public String construirePhraseAvecDescriptions(ArrayList<String> descriptions) {
+    public static String construirePhraseAvecAuMoinsUneDescription(ArrayList<String> descriptions) {
         String phraseDeRetour = descriptions.get(0);
         int nombreDeDescriptions = descriptions.size();
         for (int i = 1; i < nombreDeDescriptions - 1; i++) {
@@ -79,6 +77,19 @@ public abstract class Validateur {
         for (int i = 0; i < liste.size(); ++i) {
             JSONObject activite = liste.get(i);
             if (!membre.dateValidePourMembre(activite.getString("date"))) {
+                descriptionsDesActivites.add(activite.getString("description"));
+            }
+        }
+        return descriptionsDesActivites;
+    }
+    
+ 
+    public ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste, Membre membre) {
+        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
+        for (int i = 0; i < liste.size(); ++i) {
+            JSONObject activite = liste.get(i);
+            int codeRegroupement = membre.regroupementDesCategories(activite.getString("categorie"));
+            if (codeRegroupement == -1) {
                 descriptionsDesActivites.add(activite.getString("description"));
             }
         }

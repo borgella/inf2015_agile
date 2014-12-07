@@ -53,7 +53,7 @@ public class ValidateurGeologue extends Validateur {
     @Override
     public void messageInvalidePourCategorieNonReconnue() {
         ArrayList<JSONObject> liste = membre.getActivitesRefusees();
-        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste);
+        ArrayList<String> descriptionsDesActivites = descriptionsDActivitesAvecCategorieNonReconnue(liste, membre);
         int nombreDActivitesNonReconnues = descriptionsDesActivites.size();
         String activitesErronees = convertirDescriptionsEnPhrase(descriptionsDesActivites);
         if (nombreDActivitesNonReconnues > 0) {
@@ -61,18 +61,7 @@ public class ValidateurGeologue extends Validateur {
         }
     }
 
-    @Override
-    public ArrayList<String> descriptionsDActivitesAvecCategorieNonReconnue(ArrayList<JSONObject> liste) {
-        ArrayList<String> descriptionsDesActivites = new ArrayList(1);
-        for (int i = 0; i < liste.size(); ++i) {
-            JSONObject activite = liste.get(i);
-            int codeRegroupement = membre.regroupementDesCategories(activite.getString("categorie"));
-            if (codeRegroupement == -1) {
-                descriptionsDesActivites.add(activite.getString("description"));
-            }
-        }
-        return descriptionsDesActivites;
-    }
+ 
 
     @Override
     public void ecrireMessageDErreurPourCategoriesNonReconnues(int nombreDActivites, String activitesErronees) {

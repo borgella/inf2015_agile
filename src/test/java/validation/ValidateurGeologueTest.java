@@ -74,10 +74,6 @@ public class ValidateurGeologueTest {
     }
 
     @Test
-    public void testDescriptionsDActivitesAvecCategorieNonReconnue() {
-    }
-
-    @Test
     public void testEcrireMessageDErreurPourCategoriesNonReconnues() {
     }
 
