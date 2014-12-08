@@ -43,14 +43,6 @@ public class ValidateurGeologueTest {
     }
 
     @Test
-    public void testProduireRapport() {
-    }
-
-    @Test
-    public void testConstruireMessagesDErreur() {
-    }
-
-    @Test
     public void testValiderLeCycle() {
         String bonCyclePourGeologue = "2013-2016";
         Membre geologueBonCycle = new Geologue("géologues", bonCyclePourGeologue);
@@ -63,26 +55,6 @@ public class ValidateurGeologueTest {
         Validateur validateurMauvaisCycle = new ValidateurGeologue(geologueMauvaisCycle);
         
         assertFalse(validateurMauvaisCycle.validerLeCycle());
-    }
-
-    @Test
-    public void testMessageErreurSiLeCycleEstInvalide() {
-    }
-
-    @Test
-    public void testMessageInvalidePourCategorieNonReconnue() {
-    }
-
-    @Test
-    public void testEcrireMessageDErreurPourCategoriesNonReconnues() {
-    }
-
-    @Test
-    public void testMessageErreurPourDateInvalide() {
-    }
-
-    @Test
-    public void testEcrireMessageDErreurPourDatesInvalides() {
     }
 
     @Test
@@ -180,26 +152,6 @@ public class ValidateurGeologueTest {
     }
 
     @Test
-    public void testEcrireMessageErreurPourHeuresManquantesSiApplicable() {
-    }
-
-    @Test
-    public void testMessageErreurPourHeuresInsuffisantesParCategorie() {
-    }
-
-    @Test
-    public void testMessageErreurPourHeuresInsuffisantesCours() {
-    }
-
-    @Test
-    public void testMessageErreurPourHeuresInsuffisantesRecherche() {
-    }
-
-    @Test
-    public void testMessageErreurPourHeuresInsuffisantesDiscussion() {
-    }
-
-    @Test
     public void testFormationComplete() {
         assertFalse(validateur.formationComplete());
         
@@ -221,5 +173,4 @@ public class ValidateurGeologueTest {
             (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresGroupe, "groupe de discussion"));
         assertTrue(validateur.formationComplete());
     }
-    
 }
