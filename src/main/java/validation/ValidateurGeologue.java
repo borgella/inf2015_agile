@@ -197,7 +197,7 @@ public class ValidateurGeologue extends Validateur {
         boolean critereCours = heuresBrutesSelonCategorie("cours") >= 22;
         boolean critereRecherche = heuresBrutesSelonCategorie("projet de recherche") >= 3;
         boolean critereDiscussion = heuresBrutesSelonCategorie("groupe de discussion") >= 1;
-        boolean critereDHeuresTotales = heuresTotal >= 55;
+        boolean critereDHeuresTotales = 55 <= heuresTotalesFormation();
         return validerLeCycle() && critereCours && critereRecherche
                 && critereDiscussion && critereDHeuresTotales;
     }

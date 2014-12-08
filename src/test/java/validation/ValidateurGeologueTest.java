@@ -201,6 +201,25 @@ public class ValidateurGeologueTest {
 
     @Test
     public void testFormationComplete() {
+        assertFalse(validateur.formationComplete());
+        
+        int heuresInsuffantes = (minimumHeuresTotales - 1);
+        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresInsuffantes, "atelier"));
+        assertFalse(validateur.formationComplete());
+        
+        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(1, "atelier"));
+        assertFalse(validateur.formationComplete());
+        
+        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresCours, "cours"));
+        assertFalse(validateur.formationComplete());
+        
+        geologue.ajouterActivitePourMembre
+            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresProjet, "projet de recherche"));
+        assertFalse(validateur.formationComplete());
+        
+        geologue.ajouterActivitePourMembre
+            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresGroupe, "groupe de discussion"));
+        assertTrue(validateur.formationComplete());
     }
     
 }
