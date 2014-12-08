@@ -41,6 +41,28 @@ public class ValidateurPodiatreTest {
         activite.accumulate("date", "2015-01-01");
         return activite;
     }
+    
+    @Test
+    public void testCalculerHeuresManquantes() {
+        assertEquals(minimumHeuresTotales, validateur.calculerHeuresManquantes());
+        
+        podiatre.ajouterActivitePourMembre
+            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresTotales, "atelier"));
+        assertEquals
+            (minimumHeuresCours + minimumHeuresProjet + minimumHeuresGroupe, validateur.calculerHeuresManquantes());
+        
+        podiatre.ajouterActivitePourMembre
+            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresCours, "cours"));
+        assertEquals(minimumHeuresProjet + minimumHeuresGroupe, validateur.calculerHeuresManquantes());
+        
+        podiatre.ajouterActivitePourMembre
+            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresProjet, "projet de recherche"));
+        assertEquals(minimumHeuresGroupe, validateur.calculerHeuresManquantes());
+        
+        podiatre.ajouterActivitePourMembre
+            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresProjet, "groupe de discussion"));
+        assertEquals(0, validateur.calculerHeuresManquantes());
+    }
 
     @Test
     public void testFormationComplete() {
@@ -64,5 +86,4 @@ public class ValidateurPodiatreTest {
             (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresGroupe, "groupe de discussion"));
         assertTrue(validateur.formationComplete());
     }
-    
 }

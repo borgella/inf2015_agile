@@ -11,9 +11,9 @@ public class ValidateurPodiatre extends ValidateurGeologue {
     public ValidateurPodiatre(Membre podiatre) {
         super(podiatre);
     }
-
+    
     @Override
-    public void messageErreurPourHeuresManquantes() {
+    public int calculerHeuresManquantes() {
         int heuresManquantesEnGeneral = 60 - heuresTotalesFormation();
         int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
         int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
@@ -21,7 +21,7 @@ public class ValidateurPodiatre extends ValidateurGeologue {
         // Le nombre d'heures manquantes est la somme des heures manquantes par catégorie, si supérieure au total brut
         int grandMaximum = maximumEntreUnNombreEtUnTripletSomme(heuresManquantesEnGeneral, heuresManquantesCours,
                 heuresManquantesRecherche, heuresManquantesDiscussion);
-        ecrireMessageErreurPourHeuresManquantes(grandMaximum);
+        return grandMaximum;
     }
 
     @Override
@@ -33,5 +33,4 @@ public class ValidateurPodiatre extends ValidateurGeologue {
         return validerLeCycle() && critereCours && critereRecherche
                 && critereDiscussion && critereDHeuresTotales;
     }
-
 }

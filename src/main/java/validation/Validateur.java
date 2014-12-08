@@ -112,9 +112,18 @@ public abstract class Validateur {
     }
 
     public abstract void ecrireMessageDErreurPourDatesInvalides(int nombreDActivites, String activitesErronees);
+    
+    public void messageErreurPourHeuresManquantes() {
+        int heuresManquantes = calculerHeuresManquantes();
+        if (heuresManquantes > 0) {
+            ecrireMessageErreurPourHeuresManquantes(heuresManquantes);
+        }
+    }
+    
+    public abstract int calculerHeuresManquantes();
 
-    public abstract void messageErreurPourHeuresManquantes();
-
+    public abstract void ecrireMessageErreurPourHeuresManquantes(int heuresManquantes);
+    
     public abstract int heuresTotalesFormation();
 
     public abstract int nombreDHeuresSelonRegroupement(int codeDuRegroupement);
@@ -122,5 +131,7 @@ public abstract class Validateur {
     public abstract int heuresBrutesSelonCategorie(String categorie);
 
     public abstract boolean formationComplete();
+
+    
 
 }

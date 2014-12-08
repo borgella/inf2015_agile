@@ -76,13 +76,6 @@ public class ValidateurGeologue extends Validateur {
     }
 
     @Override
-    public void messageErreurPourHeuresManquantes() {
-        int heuresManquantes = calculerHeuresManquantes();
-        if (heuresManquantes > 0) {
-            ecrireMessageErreurPourHeuresManquantes(heuresManquantes);
-        }
-    }
-
     public int calculerHeuresManquantes() {
         int heuresManquantesEnGeneral = 55 - heuresTotalesFormation();
         int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
@@ -149,6 +142,7 @@ public class ValidateurGeologue extends Validateur {
         return nombrePositifOuNul;
     }
 
+    @Override
     public void ecrireMessageErreurPourHeuresManquantes(int heuresManquantes) {
         String messageHeuresManquantes = "Il manque un total de " + heuresManquantes 
                 + " heure(s) de formation pour compléter le cycle.";

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import net.sf.json.JSONObject;
 import professionnels.Psychologue;
 import professionnels.Membre;
+
 /**
  *
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
@@ -19,7 +20,7 @@ public class ValidateurPsychologue extends Validateur {
         messagesErreurs = new ArrayList(1);
         heuresTotal = 0;
     }
-    
+
     @Override
     public JSONObject produireRapport() {
         return produireRapport(messagesErreurs);
@@ -75,15 +76,14 @@ public class ValidateurPsychologue extends Validateur {
     }
 
     @Override
-    public void messageErreurPourHeuresManquantes() {
+    public int calculerHeuresManquantes() {
+        int heuresManquantesPourLeCycle = 0;
         int heuresManquantesEnGeneral = 90 - heuresTotalesFormation();
         int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
         if (heuresManquantesEnGeneral > 0 || heuresManquantesCours > 0) {
-            int heuresManquantesPourLeCycle = Integer.max(heuresManquantesEnGeneral, heuresManquantesCours);
-            String messageHeuresManquantes = "Il manque un total de " + heuresManquantesPourLeCycle
-                    + " heure(s) de formation pour compléter le cycle.";
-            messagesErreurs.add(messageHeuresManquantes);
+            heuresManquantesPourLeCycle = Integer.max(heuresManquantesEnGeneral, heuresManquantesCours);
         }
+        return heuresManquantesPourLeCycle;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ValidateurPsychologue extends Validateur {
         }
         return somme;
     }
-    
+
     private int heuresEffectivesSelonCategorie(String categorie) {
         int heuresBrutes = heuresBrutesSelonCategorie(categorie);
         int maximumHeures = maximumHeuresSelonCategorie(categorie);
@@ -136,6 +136,13 @@ public class ValidateurPsychologue extends Validateur {
         return nombreMaximumHeures;
     }
 
+    @Override
+    public void ecrireMessageErreurPourHeuresManquantes(int heuresManquantes) {
+        String messageHeuresManquantes = "Il manque un total de " + heuresManquantes
+                + " heure(s) de formation pour compléter le cycle.";
+        messagesErreurs.add(messageHeuresManquantes);
+    }
+
     private void messageErreurPourHeuresInsuffisantesCours() {
         String messageHeuresManquantes = "";
         int heuresManquantesCours = 25 - nombreDHeuresSelonRegroupement(1);
@@ -149,7 +156,7 @@ public class ValidateurPsychologue extends Validateur {
     @Override
     public boolean formationComplete() {
         boolean critereCours = nombreDHeuresSelonRegroupement(1) >= 25;
-        boolean critereDHeuresTotales = heuresTotal >= 90;
+        boolean critereDHeuresTotales = 90 <= heuresTotalesFormation();
         return validerLeCycle() && critereCours && critereDHeuresTotales;
     }
 

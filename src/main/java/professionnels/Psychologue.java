@@ -20,6 +20,13 @@ public class Psychologue extends Membre {
         super("psychologues");
     }
     
+    public Psychologue(String cycle) {
+        super("psychologues");
+        this.cycle = cycle;
+        activitesAcceptees = new ArrayList(1);
+        activitesRefusees = new ArrayList(1);
+    }
+    
     public Psychologue(JSONObject activiteJson) {
         super(activiteJson);
         this.cycle = activiteJson.getString("cycle");

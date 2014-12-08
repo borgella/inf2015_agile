@@ -247,6 +247,16 @@ public class ValidateurTest {
         public boolean formationComplete() {
             return false;
         }
+
+        @Override
+        public int calculerHeuresManquantes() {
+            return 0;
+        }
+
+        @Override
+        public void ecrireMessageErreurPourHeuresManquantes(int heuresManquantes) {
+            // Ne rien faire
+        }
     }
 
 }

@@ -87,17 +87,16 @@ public class ValidateurArchitecte extends Validateur {
         }
         messagesErreurs.add(messageSortie);
     }
-
+    
     @Override
-    public void messageErreurPourHeuresManquantes() {
+    public int calculerHeuresManquantes() {
+       int heuresManquantesPourLeCycle = 0;
         int heuresManquantesEnGeneral = nombreDHeuresRequisParCycle() - heuresTotalesFormation();
         int heuresManquantesSixCategories = 17 - heuresTotalesPourRegroupementDesSixCategories();
         if (heuresManquantesEnGeneral > 0 || heuresManquantesSixCategories > 0) {
-            int heuresManquantesPourLeCycle = Integer.max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
-            String messageHeuresManquantes =  "Il manque un total de " + heuresManquantesPourLeCycle
-                    + " heure(s) de formation pour compléter le cycle.";
-            messagesErreurs.add(messageHeuresManquantes);
+            heuresManquantesPourLeCycle = Integer.max(heuresManquantesEnGeneral, heuresManquantesSixCategories);
         }
+        return heuresManquantesPourLeCycle;
     }
 
     private int nombreDHeuresRequisParCycle() {
@@ -179,6 +178,13 @@ public class ValidateurArchitecte extends Validateur {
             nombreMaximumHeures = 17;
         }
         return nombreMaximumHeures;
+    }
+    
+    @Override
+    public void ecrireMessageErreurPourHeuresManquantes(int heuresManquantes) {
+        String messageHeuresManquantes = "Il manque un total de " + heuresManquantes 
+                + " heure(s) de formation pour compléter le cycle.";
+        messagesErreurs.add(messageHeuresManquantes);
     }
 
     private void messageErreurPourHeuresInsuffisantesSixCategories() {
