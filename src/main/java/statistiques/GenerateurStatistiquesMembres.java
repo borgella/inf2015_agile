@@ -46,20 +46,18 @@ public class GenerateurStatistiquesMembres {
         initialiserStatistiquesPourDeclarationsCompletesSelonOrdre(EnsembleStatistique statistiques) {
         String categorieStatistique = "declarations_valides_et_completes_par_ordre";
         statistiques.ajouterCategorieDeChampsStatistiques(categorieStatistique);
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "architectes");
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "géologues");
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "psychologues");
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "podiatres");
+        for (String ordre: StatistiquesMembres.nomsDesOrdresReconnus()) {
+            statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, ordre);
+        }
     }
 
     private static void 
         initialiserStatistiquesPourDeclarationsIncompletesSelonOrdre(EnsembleStatistique statistiques) {
         String categorieStatistique = "declarations_valides_et_incompletes_par_ordre";
         statistiques.ajouterCategorieDeChampsStatistiques(categorieStatistique);
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "architectes");
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "géologues");
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "psychologues");
-        statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, "podiatres");
+        for (String ordre: StatistiquesMembres.nomsDesOrdresReconnus()) {
+            statistiques.ajouterChampsStatistiqueSousCategorie(categorieStatistique, ordre);
+        }
     }
 
     private static void 

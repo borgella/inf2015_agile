@@ -17,10 +17,21 @@ import static org.junit.Assert.*;
  * @author QQ1403
  */
 public class GeologueTest {
+
     //variable utilitaire pour tester les methodes de la classe
     MockJson jsongenere = new MockJson();
-    JSONArray liste_activite = jsongenere.getActivites();  
+    JSONArray liste_activite = jsongenere.getActivites();
+
     public GeologueTest() {
+    }
+
+    private JSONObject creerActiviteValideSelonCategorie(String categorie) {
+        JSONObject activite = new JSONObject();
+        activite.accumulate("description", "Une activité quelconque");
+        activite.accumulate("categorie", categorie);
+        activite.accumulate("heures", 1);
+        activite.accumulate("date", "2015-01-01");
+        return activite;
     }
 
     /**
@@ -29,13 +40,13 @@ public class GeologueTest {
     @Test
     public void testAjouterActivitePourMembre() {
         System.out.println("ajouterActivitePourMembre");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         JSONObject activite = liste_activite.getJSONObject(0);
         Geologue instance = (Geologue) membre;
         instance.ajouterActivitePourMembre(activite);
-        
+
     }
 
     /**
@@ -44,7 +55,7 @@ public class GeologueTest {
     @Test
     public void testPremiereCategorie() {
         System.out.println("premiereCategorie");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         JSONObject declaration = liste_activite.getJSONObject(0);
@@ -61,7 +72,7 @@ public class GeologueTest {
     @Test
     public void testDeuxiemeCategorie() {
         System.out.println("deuxiemeCategorie");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         JSONObject declaration = liste_activite.getJSONObject(0);
@@ -78,7 +89,7 @@ public class GeologueTest {
     @Test
     public void testDateValidePourMembre() {
         System.out.println("dateValidePourMembre");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         JSONObject declaration = liste_activite.getJSONObject(0);
@@ -88,16 +99,16 @@ public class GeologueTest {
         boolean result = instance.dateValidePourMembre(date);
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void testDateValidePourMembre2() {
         Geologue geologue = new Geologue();
-        
+
         assertFalse(geologue.dateValidePourMembre("20012-01-01"));
         assertFalse(geologue.dateValidePourMembre("2013-05-31"));
 
         String debutCycleGeologue = "2013-06-01";
-        String finCycleGeologue = "2006-06-01";
+        String finCycleGeologue = "2016-06-01";
 
         assertTrue(geologue.dateValidePourMembre(debutCycleGeologue));
         assertTrue(geologue.dateValidePourMembre("2014-04-02"));
@@ -115,7 +126,7 @@ public class GeologueTest {
     @Test
     public void testGetCycle() {
         System.out.println("getCycle");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         Geologue instance = (Geologue) membre;
@@ -128,9 +139,9 @@ public class GeologueTest {
      * Test of getActivitesRefusees method, of class Geologue.
      */
     @Test
-    public void testGetActivitesRefusees(){
+    public void testGetActivitesRefusees() {
         System.out.println("getActivitesRefusees");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         Geologue instance = (Geologue) membre;
@@ -148,7 +159,7 @@ public class GeologueTest {
     @Test
     public void testGetActivitesAcceptees() {
         System.out.println("getActivitesAcceptees");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         Geologue instance = (Geologue) membre;
@@ -166,7 +177,7 @@ public class GeologueTest {
     @Test
     public void testObtenirNombreActivitesValides() {
         System.out.println("obtenirNombreActivitesValides");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         Geologue instance = (Geologue) membre;
@@ -183,7 +194,7 @@ public class GeologueTest {
     @Test
     public void testObtenirNombreActivitesValidesParCategorie() {
         System.out.println("obtenirNombreActivitesValidesParCategorie");
-        jsongenere.setOrdre("geologues");
+        jsongenere.setOrdre("géologues");
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         JSONObject une_activite = liste_activite.getJSONObject(0);
@@ -194,5 +205,26 @@ public class GeologueTest {
         int result = instance.obtenirNombreActivitesValidesParCategorie(categorie);
         assertEquals(expResult, result);
     }
-    
+
+    @Test
+    public void testObtenirNombreActivitesValidesParCategorie2() {
+        Membre geologue = new Geologue();
+        
+        String categorieValideUn = "cours";
+        String categorieValideDeux = "atelier";
+        String categorieInvalide = "invalide";
+                
+        assertEquals(0, geologue.obtenirNombreActivitesValidesParCategorie(categorieValideUn));
+        assertEquals(0, geologue.obtenirNombreActivitesValidesParCategorie(categorieValideDeux));
+        assertEquals(0, geologue.obtenirNombreActivitesValidesParCategorie(categorieInvalide));
+        
+        geologue.ajouterActivitePourMembre(creerActiviteValideSelonCategorie(categorieValideUn));
+        geologue.ajouterActivitePourMembre(creerActiviteValideSelonCategorie(categorieValideUn));
+        geologue.ajouterActivitePourMembre(creerActiviteValideSelonCategorie(categorieValideDeux));
+        geologue.ajouterActivitePourMembre(creerActiviteValideSelonCategorie(categorieInvalide));
+        
+        assertEquals(2, geologue.obtenirNombreActivitesValidesParCategorie(categorieValideUn));
+        assertEquals(1, geologue.obtenirNombreActivitesValidesParCategorie(categorieValideDeux));
+        assertEquals(0, geologue.obtenirNombreActivitesValidesParCategorie(categorieInvalide));
+    }
 }
