@@ -94,7 +94,7 @@ public class ValidateurArchitecteTest {
     public void testMessageInvalidePourCategorieNonReconnue() {
         System.out.println("messageInvalidePourCategorieNonReconnue");
         ValidateurArchitecte instance = validateur;
-        instance.messageInvalidePourCategorieNonReconnue();
+        instance.messageInvalidePourCategorieNonReconnue(architecte);
     }
 
     /**
@@ -103,13 +103,10 @@ public class ValidateurArchitecteTest {
     @Test
     public void testDescriptionsDActivitesAvecCategorieNonReconnue() {
         System.out.println("descriptionsDActivitesAvecCategorieNonReconnue");
-        ArrayList<JSONObject> liste = null;
-        ValidateurArchitecte instance = null;
-        ArrayList<String> expResult = null;
-        ArrayList<String> result = instance.descriptionsDActivitesAvecCategorieNonReconnue(liste);
+        ValidateurArchitecte instance = validateur;
+        ArrayList<String> expResult = new ArrayList(1);
+        ArrayList<String> result = instance.descriptionsDActivitesAvecCategorieNonReconnue(architecte);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -120,10 +117,8 @@ public class ValidateurArchitecteTest {
         System.out.println("ecrireMessageDErreurPourCategoriesNonReconnues");
         int nombreDActivites = 0;
         String activitesErronees = "";
-        ValidateurArchitecte instance = null;
+        ValidateurArchitecte instance = validateur;
         instance.ecrireMessageDErreurPourCategoriesNonReconnues(nombreDActivites, activitesErronees);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -132,10 +127,9 @@ public class ValidateurArchitecteTest {
     @Test
     public void testMessageErreurPourDateInvalide() {
         System.out.println("messageErreurPourDateInvalide");
-        ValidateurArchitecte instance = null;
-        instance.messageErreurPourDateInvalide();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ValidateurArchitecte instance = validateur;
+        instance.messageErreurPourDateInvalide(architecte);
+        
     }
 
     /**
@@ -144,13 +138,10 @@ public class ValidateurArchitecteTest {
     @Test
     public void testDescriptionsDActivitesAvecDateInvalide() {
         System.out.println("descriptionsDActivitesAvecDateInvalide");
-        ArrayList<JSONObject> liste = null;
-        ValidateurArchitecte instance = null;
-        ArrayList<String> expResult = null;
-        ArrayList<String> result = instance.descriptionsDActivitesAvecDateInvalide(liste);
+        ValidateurArchitecte instance = validateur;
+        ArrayList<String> expResult = new ArrayList();
+        ArrayList<String> result = instance.descriptionsDActivitesAvecDateInvalide(architecte);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -161,11 +152,9 @@ public class ValidateurArchitecteTest {
         System.out.println("ecrireMessageDErreurPourDatesInvalides");
         int nombreDActivites = 0;
         String activitesErronees = "";
-        ValidateurArchitecte instance = null;
+        ValidateurArchitecte instance = validateur;
         instance.ecrireMessageDErreurPourDatesInvalides(nombreDActivites, activitesErronees);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+     }
 
     /**
      * Test of messageErreurPourHeuresManquantes method, of class ValidateurArchitecte.
@@ -173,10 +162,8 @@ public class ValidateurArchitecteTest {
     @Test
     public void testMessageErreurPourHeuresManquantes() {
         System.out.println("messageErreurPourHeuresManquantes");
-        ValidateurArchitecte instance = null;
+        ValidateurArchitecte instance = validateur;
         instance.messageErreurPourHeuresManquantes();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -185,12 +172,10 @@ public class ValidateurArchitecteTest {
     @Test
     public void testHeuresTotalesFormation() {
         System.out.println("heuresTotalesFormation");
-        ValidateurArchitecte instance = null;
-        int expResult = 0;
+        ValidateurArchitecte instance = validateur;
+        int expResult = 2;
         int result = instance.heuresTotalesFormation();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -200,12 +185,10 @@ public class ValidateurArchitecteTest {
     public void testNombreDHeuresSelonRegroupement() {
         System.out.println("nombreDHeuresSelonRegroupement");
         int codeDuRegroupement = 0;
-        ValidateurArchitecte instance = null;
+        ValidateurArchitecte instance = validateur;
         int expResult = 0;
         int result = instance.nombreDHeuresSelonRegroupement(codeDuRegroupement);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -215,12 +198,10 @@ public class ValidateurArchitecteTest {
     public void testHeuresBrutesSelonCategorie() {
         System.out.println("heuresBrutesSelonCategorie");
         String categorie = "";
-        ValidateurArchitecte instance = null;
+        ValidateurArchitecte instance = validateur;
         int expResult = 0;
         int result = instance.heuresBrutesSelonCategorie(categorie);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -229,12 +210,10 @@ public class ValidateurArchitecteTest {
     @Test
     public void testFormationComplete() {
         System.out.println("formationComplete");
-        ValidateurArchitecte instance = null;
+        ValidateurArchitecte instance = validateur;
         boolean expResult = false;
         boolean result = instance.formationComplete();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
