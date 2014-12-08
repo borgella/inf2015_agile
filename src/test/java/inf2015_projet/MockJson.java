@@ -88,9 +88,23 @@ public class MockJson {
         
         activite =  new JSONObject();
         activite.accumulate("description","Participation à un groupe de discussion");
+        activite.accumulate("categorie","cours");
+        activite.accumulate("heures",6);
+        activite.accumulate("date","2010-06-22");
+        activites_json.add(activite);
+        
+        activite =  new JSONObject();
+        activite.accumulate("description","Participation à un groupe de discussion");
+        activite.accumulate("categorie","cours");
+        activite.accumulate("heures",6);
+        activite.accumulate("date","2008-07-20");
+        activites_json.add(activite);
+        
+        activite =  new JSONObject();
+        activite.accumulate("description","Participation à un groupe de discussion");
         activite.accumulate("categorie","voyage");
         activite.accumulate("heures",6);
-        activite.accumulate("date","2013-04-01");
+        activite.accumulate("date","2013-06-01");
         activites_json.add(activite);
         
         return activites_json;

@@ -38,6 +38,31 @@ public class ArchitecteTest {
         JSONObject activite = liste_activite.getJSONObject(0);
         Architecte instance = (Architecte)membre;
         instance.ajouterActivitePourMembre(activite);
+      
+    }
+    
+    /**
+     * Test of ajouterActivitePourMembre method, of class Architecte.
+     */
+    @Test
+    public void testAjouterActivitePourMembre1() {
+        System.out.println("ajouterActivitePourMembre");
+        JSONObject activite = liste_activite.getJSONObject(4);
+        Architecte instance = (Architecte)membre;
+        instance.ajouterActivitePourMembre(activite);
+        
+    }
+    
+    
+    /**
+     * Test of ajouterActivitePourMembre method, of class Architecte.
+     */
+    @Test
+    public void testAjouterActivitePourMembre2() {
+        System.out.println("ajouterActivitePourMembre");
+        JSONObject activite = liste_activite.getJSONObject(5);
+        Architecte instance = (Architecte)membre;
+        instance.ajouterActivitePourMembre(activite);
         
     }
 
@@ -45,23 +70,23 @@ public class ArchitecteTest {
      * Test of dateValidePourMembre method, of class Architecte.
      */
     @Test
-    public void testDateValidePourMembre() {
+    public void testDateValidePourMembre2() {
         System.out.println("dateValidePourMembre");
         JSONObject json = liste_activite.getJSONObject(0);
         String date = json.getString("date");
         Architecte instance = (Architecte) membre;
-        boolean expResult = true;
+       boolean expResult = true;
         boolean result = instance.dateValidePourMembre(date);
-        assertEquals(expResult, result);
+        assertEquals(expResult, result);     
     }
-
+    
+    
     /**
      * Test of getHeuresTransferees method, of class Architecte.
      */
     @Test
     public void testGetHeuresTransferees() {
         System.out.println("getHeuresTransferees");
-        //Membre membre = Membre.genererMembre(declaration_json);
         Architecte instance = (Architecte) membre;
         int expResult = 2;
         int result = instance.getHeuresTransferees();
@@ -86,7 +111,7 @@ public class ArchitecteTest {
     @Test
     public void testGetActivitesRefusees() {
         System.out.println("getActivitesRefusees");
-        JSONObject une_activite = liste_activite.getJSONObject(4);
+        JSONObject une_activite = liste_activite.getJSONObject(6);
         Architecte instance = (Architecte)membre;
         instance.ajouterActivitePourMembre(une_activite);
         ArrayList expResult = new ArrayList(1);

@@ -5,12 +5,10 @@
  */
 package professionnels;
 
+import inf2015_projet.MockJson;
 import java.util.ArrayList;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,24 +17,11 @@ import static org.junit.Assert.*;
  * @author QQ1403
  */
 public class PsychologueTest {
+    MockJson jsongenere = new MockJson();
+    JSONArray liste_activite = jsongenere.getActivites();
+       
     
     public PsychologueTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
@@ -45,11 +30,12 @@ public class PsychologueTest {
     @Test
     public void testAjouterActivitePourMembre() {
         System.out.println("ajouterActivitePourMembre");
-        JSONObject activite = null;
-        Psychologue instance = new Psychologue();
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        JSONObject activite = liste_activite.getJSONObject(0);
+        Psychologue instance = (Psychologue)membre;
         instance.ajouterActivitePourMembre(activite);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -58,13 +44,15 @@ public class PsychologueTest {
     @Test
     public void testDateValidePourMembre() {
         System.out.println("dateValidePourMembre");
-        String date = "";
-        Psychologue instance = new Psychologue();
-        boolean expResult = false;
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        JSONObject declaration = liste_activite.getJSONObject(0);
+        String date = declaration.getString("date");
+        Psychologue instance = (Psychologue)membre;
+        boolean expResult = true;
         boolean result = instance.dateValidePourMembre(date);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -73,12 +61,13 @@ public class PsychologueTest {
     @Test
     public void testGetCycle() {
         System.out.println("getCycle");
-        Psychologue instance = new Psychologue();
-        String expResult = "";
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        Psychologue instance = (Psychologue)membre;
+        String expResult = jsongenere.getCycle();
         String result = instance.getCycle();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -86,14 +75,16 @@ public class PsychologueTest {
      */
     @Test
     public void testPremiereCategorie() {
-        System.out.println("premiereCategorie");
-        String categorie = "";
-        Psychologue instance = new Psychologue();
-        int expResult = 0;
+        System.out.println("premiereCategorie");   
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        JSONObject declaration = liste_activite.getJSONObject(0);
+        String categorie = declaration.getString("categorie");
+        Psychologue instance = (Psychologue)membre;
+        int expResult = 1;
         int result = instance.premiereCategorie(categorie);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -101,14 +92,16 @@ public class PsychologueTest {
      */
     @Test
     public void testDeuxiemeCategorie() {
-        System.out.println("deuxiemeCategorie");
-        String categorie = "";
-        Psychologue instance = new Psychologue();
+        System.out.println("deuxiemeCategorie");   
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        JSONObject declaration = liste_activite.getJSONObject(3);
+        String categorie = declaration.getString("categorie");
+        Psychologue instance = (Psychologue)membre;
         int expResult = 0;
-        int result = instance.deuxiemeCategorie(categorie);
+        int result = instance.premiereCategorie(categorie);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -117,13 +110,15 @@ public class PsychologueTest {
     @Test
     public void testTroisiemeCategorie() {
         System.out.println("troisiemeCategorie");
-        String categorie = "";
-        Psychologue instance = new Psychologue();
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        JSONObject declaration = liste_activite.getJSONObject(3);
+        String categorie = declaration.getString("categorie");
+        Psychologue instance = (Psychologue)membre;
         int expResult = 0;
-        int result = instance.troisiemeCategorie(categorie);
+        int result = instance.premiereCategorie(categorie);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -132,12 +127,16 @@ public class PsychologueTest {
     @Test
     public void testGetActivitesRefusees() {
         System.out.println("getActivitesRefusees");
-        Psychologue instance = new Psychologue();
-        ArrayList expResult = null;
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        Psychologue instance = (Psychologue) membre;
+        JSONObject une_activite = liste_activite.getJSONObject(6);
+        instance.ajouterActivitePourMembre(une_activite);
+        ArrayList expResult = new ArrayList(1);
+        expResult.add(une_activite);
         ArrayList result = instance.getActivitesRefusees();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -146,12 +145,16 @@ public class PsychologueTest {
     @Test
     public void testGetActivitesAcceptees() {
         System.out.println("getActivitesAcceptees");
-        Psychologue instance = new Psychologue();
-        ArrayList expResult = null;
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        Psychologue instance = (Psychologue) membre;
+        JSONObject une_activite = liste_activite.getJSONObject(1);
+        instance.ajouterActivitePourMembre(une_activite);
+        ArrayList expResult = new ArrayList(1);
+        expResult.add(une_activite);
         ArrayList result = instance.getActivitesAcceptees();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -160,12 +163,15 @@ public class PsychologueTest {
     @Test
     public void testObtenirNombreActivitesValides() {
         System.out.println("obtenirNombreActivitesValides");
-        Psychologue instance = new Psychologue();
-        int expResult = 0;
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        Psychologue instance = (Psychologue) membre;
+        JSONObject une_activite = liste_activite.getJSONObject(0);
+        instance.ajouterActivitePourMembre(une_activite);
+        int expResult = 1;
         int result = instance.obtenirNombreActivitesValides();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -174,13 +180,16 @@ public class PsychologueTest {
     @Test
     public void testObtenirNombreActivitesValidesParCategorie() {
         System.out.println("obtenirNombreActivitesValidesParCategorie");
-        String categorie = "";
-        Psychologue instance = new Psychologue();
-        int expResult = 0;
+        jsongenere.setOrdre("psychologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre membre = Membre.genererMembre(declaration_json);
+        JSONObject une_activite = liste_activite.getJSONObject(0);
+        String categorie = une_activite.getString("categorie");
+        Psychologue instance = (Psychologue) membre;
+        instance.ajouterActivitePourMembre(une_activite);
+        int expResult = 1;
         int result = instance.obtenirNombreActivitesValidesParCategorie(categorie);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

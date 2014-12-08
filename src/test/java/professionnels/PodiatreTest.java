@@ -117,8 +117,8 @@ public class PodiatreTest {
         jsongenere.setOrdre("podiatres");
         JSONObject une_declaration = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(une_declaration);
-        JSONObject une_activite = liste_activite.getJSONObject(3);
         Podiatre instance = (Podiatre) membre;
+        JSONObject une_activite = liste_activite.getJSONObject(1);
         instance.ajouterActivitePourMembre(une_activite);
         ArrayList expResult = new ArrayList(1);
         expResult.add(une_activite);
