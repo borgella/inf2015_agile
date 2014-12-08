@@ -150,41 +150,20 @@ public class ValidateurGeologue extends Validateur {
     }
 
     public void messageErreurPourHeuresInsuffisantesParCategorie() {
-        messageErreurPourHeuresInsuffisantesCours();
-        messageErreurPourHeuresInsuffisantesRecherche();
-        messageErreurPourHeuresInsuffisantesDiscussion();
+        messageErreurPourHeuresInsuffisantesSelonCategorie(22, "cours");
+        messageErreurPourHeuresInsuffisantesSelonCategorie(3, "projet de recherche");
+        messageErreurPourHeuresInsuffisantesSelonCategorie(1, "groupe de discussion");
     }
-
-    public void messageErreurPourHeuresInsuffisantesCours() {
+    
+    public void messageErreurPourHeuresInsuffisantesSelonCategorie(int heuresRequises, String categorie) {
         String messageHeuresManquantes = "";
-        int heuresManquantesCours = 22 - heuresBrutesSelonCategorie("cours");
-        if (heuresManquantesCours > 0) {
-            messageHeuresManquantes += "En particulier, il manque " + heuresManquantesCours
-                    + " heure(s) de formation à compléter sous la catégorie cours.";
-            messagesErreurs.add(messageHeuresManquantes);
-        }
-    }
-
-    public void messageErreurPourHeuresInsuffisantesRecherche() {
-        String messageHeuresManquantes = "";
-        int heuresManquantesRecherche = 3 - heuresBrutesSelonCategorie("projet de recherche");
+        int heuresManquantesRecherche = heuresRequises - heuresBrutesSelonCategorie(categorie);
         if (heuresManquantesRecherche > 0) {
             messageHeuresManquantes += "En particulier, il manque " + heuresManquantesRecherche
-                    + " heure(s) de formation à compléter sous la catégorie projet de recherche.";
+                    + " heure(s) de formation à compléter sous la catégorie " + categorie + ".";
             messagesErreurs.add(messageHeuresManquantes);
         }
     }
-
-    public void messageErreurPourHeuresInsuffisantesDiscussion() {
-        String messageHeuresManquantes = "";
-        int heuresManquantesDiscussion = 1 - heuresBrutesSelonCategorie("groupe de discussion");
-        if (heuresManquantesDiscussion > 0) {
-            messageHeuresManquantes += "En particulier, il manque " + heuresManquantesDiscussion
-                    + " heure de formation à compléter sous la catégorie groupe de discussion.";
-            messagesErreurs.add(messageHeuresManquantes);
-        }
-    }
-
     
     @Override
     public boolean formationComplete() {
