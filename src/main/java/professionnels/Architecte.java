@@ -43,7 +43,7 @@ public class Architecte extends Membre {
         }
     }
 
-    private void ajouterActivitePourArchitecte12_14(JSONObject activite) {
+    public void ajouterActivitePourArchitecte12_14(JSONObject activite) {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2012_2014(activite.getString("date")) && temporaire != -1) {
@@ -53,7 +53,7 @@ public class Architecte extends Membre {
         }
     }
 
-    private void ajouterActivitePourArchitecte10_12(JSONObject activite) {
+    public void ajouterActivitePourArchitecte10_12(JSONObject activite) {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2010_2012(activite.getString("date")) && temporaire != -1) {
@@ -63,7 +63,7 @@ public class Architecte extends Membre {
         }
     }
 
-    private void ajouterActivitePourArchitecte08_10(JSONObject activite) {
+    public void ajouterActivitePourArchitecte08_10(JSONObject activite) {
         String categorie = activite.getString("categorie");
         int temporaire = regroupementDesCategories(categorie);
         if (dateValidePourCycle2008_2010(activite.getString("date")) && temporaire != -1) {
@@ -85,7 +85,7 @@ public class Architecte extends Membre {
         return dateValide;
     }
 
-    private boolean dateValidePourCycle2008_2010(String date) {
+    public static boolean dateValidePourCycle2008_2010(String date) {
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         Date dateLue = null;
         Date min = null;
@@ -100,7 +100,7 @@ public class Architecte extends Membre {
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
 
-    private boolean dateValidePourCycle2010_2012(String date) {
+    public static boolean dateValidePourCycle2010_2012(String date) {
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         Date dateLue = null;
         Date min = null;
@@ -115,7 +115,7 @@ public class Architecte extends Membre {
         return ((dateLue.compareTo(min) >= 0) && (dateLue.compareTo(max) <= 0));
     }
 
-    private boolean dateValidePourCycle2012_2014(String date) {
+    public static boolean dateValidePourCycle2012_2014(String date) {
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");
         Date dateLue = null;
         Date min = null;
