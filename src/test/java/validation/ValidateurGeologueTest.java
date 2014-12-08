@@ -46,7 +46,7 @@ public class ValidateurGeologueTest {
     public void testProduireRapport() {
         System.out.println("produireRapport");
         ValidateurGeologue instance = validateur;
-        JSONObject expResult = null;
+        JSONObject expResult = new JSONObject();
         JSONObject result = instance.produireRapport();
         assertEquals(expResult, result);
     }
