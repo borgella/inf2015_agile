@@ -132,11 +132,11 @@ public class GeologueTest {
         JSONObject declaration_json = jsongenere.retournerUnJSONObject();
         Membre membre = Membre.genererMembre(declaration_json);
         Geologue instance = (Geologue) membre;
-        JSONObject une_activite = liste_activite.getJSONObject(1);
+        JSONObject une_activite = liste_activite.getJSONObject(0);
         instance.ajouterActivitePourMembre(une_activite);
         ArrayList expResult = new ArrayList(1);
         expResult.add(une_activite);
-        ArrayList result = instance.getActivitesAcceptees();
+        ArrayList result = instance.getActivitesRefusees();
         assertEquals(expResult, result);
     }
 
