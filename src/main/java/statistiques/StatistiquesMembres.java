@@ -66,9 +66,8 @@ public class StatistiquesMembres {
     }
 
     public void enregistrerNombreActivitesValidesParCategorieIndividuelle(Membre membre) {
-        String[] categoriesReconnues = nomsDesCategoriesReconnues();
         String categorieStatistique = "activites_valides_par_categorie";
-        for (String categorie : categoriesReconnues) {
+        for (String categorie : nomsDesCategoriesReconnues()) {
             int nombreActivitesValides = membre.obtenirNombreActivitesValidesParCategorie(categorie);
             donneesStatistiques.incrementerStatistiqueSousCategorie
                 (categorieStatistique, categorie, nombreActivitesValides);

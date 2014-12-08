@@ -88,6 +88,26 @@ public class GeologueTest {
         boolean result = instance.dateValidePourMembre(date);
         assertEquals(expResult, result);
     }
+    
+    @Test
+    public void testDateValidePourMembre2() {
+        Geologue geologue = new Geologue();
+        
+        assertFalse(geologue.dateValidePourMembre("20012-01-01"));
+        assertFalse(geologue.dateValidePourMembre("2013-05-31"));
+
+        String debutCycleGeologue = "2013-06-01";
+        String finCycleGeologue = "2006-06-01";
+
+        assertTrue(geologue.dateValidePourMembre(debutCycleGeologue));
+        assertTrue(geologue.dateValidePourMembre("2014-04-02"));
+        assertTrue(geologue.dateValidePourMembre("2015-02-04"));
+        assertTrue(geologue.dateValidePourMembre("2016-05-31"));
+        assertTrue(geologue.dateValidePourMembre(finCycleGeologue));
+
+        assertFalse(geologue.dateValidePourMembre("2016-06-02"));
+        assertFalse(geologue.dateValidePourMembre("2017-12-13"));
+    }
 
     /**
      * Test of getCycle method, of class Geologue.

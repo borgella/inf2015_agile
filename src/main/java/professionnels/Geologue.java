@@ -76,6 +76,7 @@ public class Geologue extends Membre {
         return temporaire;
     }
 
+    @Override
     public boolean dateValidePourMembre(String date) {
         boolean validiteDate;
         SimpleDateFormat formatISO8601 = new SimpleDateFormat("yyyy-MM-dd");

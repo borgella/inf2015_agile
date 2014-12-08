@@ -12,6 +12,11 @@ public class AfficheurStatistiquesMembres {
     }
 
     public void afficher() {
+        afficherStatistiquesGeneralesSurDeclarationsEtActivites();
+        afficherStatistiquesParticulieresSurDeclarationsEtNumeroDePermis();
+    }
+    
+    public void afficherStatistiquesGeneralesSurDeclarationsEtActivites() {
         System.out.println(messageNombreDeclarationsTraitees());
         System.out.println(messageNombreDeclarationsValidesEtCompletes());
         System.out.println(messageNombreDeclarationsIncompletesOuInvalides());
@@ -20,6 +25,9 @@ public class AfficheurStatistiquesMembres {
         System.out.println(messageNombreDeclarationsParGensDeSexeInconnu());
         System.out.println(messageNombreTotalActivitesValidesDeclarees());
         System.out.println(messageNombreActivitesValidesDeclareesSelonCategorie());
+    }
+    
+    public void afficherStatistiquesParticulieresSurDeclarationsEtNumeroDePermis() {
         System.out.println(messageNombreDeclarationsValidesEtCompletesDeclareesSelonOrdre());
         System.out.println(messageNombreDeclarationsValidesEtIncompletesDeclareesSelonOrdre());
         System.out.println(messageNombreDeDeclarationsAvecNumeroDePermisInvalide());
