@@ -1,5 +1,6 @@
 package validation;
 
+import inf2015_projet.MockJson;
 import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +12,8 @@ import professionnels.*;
  * @author Chelny Duplan, Jason Drake, Jean Mary Borgella
  */
 public class ValidateurGeologueTest {
+    MockJson jsongenere = new MockJson();
+    ValidateurGeologue validateur;
     
     int minimumHeuresTotales = 55;
     
@@ -18,13 +21,15 @@ public class ValidateurGeologueTest {
     int minimumHeuresProjet = 3;
     int minimumHeuresGroupe = 1;
     
-    ValidateurGeologue validateur;
+    
     Membre geologue;
     
     @Before
     public void setUp() {
-        geologue = new Geologue();
-        validateur = new ValidateurGeologue(geologue);
+        jsongenere.setOrdre("geologues");
+        JSONObject declaration_json = jsongenere.retournerUnJSONObject();
+        Membre geologues = Membre.genererMembre(declaration_json);
+        validateur = new ValidateurGeologue(geologues);
     }
     
     @After
@@ -33,144 +38,94 @@ public class ValidateurGeologueTest {
         validateur = null;
     }
     
-    private JSONObject creerActiviteDeNHeuresValideSelonCategorie(int heures, String categorie) {
-        JSONObject activite = new JSONObject();
-        activite.accumulate("description", "Une activité quelconque");
-        activite.accumulate("categorie", categorie);
-        activite.accumulate("heures", heures);
-        activite.accumulate("date", "2015-01-01");
-        return activite;
+   
+    /**
+     * Test of produireRapport method, of class ValidateurGeologue.
+     */
+    @Test
+    public void testProduireRapport() {
+        System.out.println("produireRapport");
+        ValidateurGeologue instance = validateur;
+        JSONObject expResult = null;
+        JSONObject result = instance.produireRapport();
+        assertEquals(expResult, result);
     }
 
+    /**
+     * Test of construireMessagesDErreur method, of class ValidateurGeologue.
+     */
     @Test
-    public void testValiderLeCycle() {
-        String bonCyclePourGeologue = "2013-2016";
-        Membre geologueBonCycle = new Geologue("géologues", bonCyclePourGeologue);
-        Validateur validateurBonCycle = new ValidateurGeologue(geologueBonCycle);
+    public void testConstruireMessagesDErreur() {
+        System.out.println("construireMessagesDErreur");
+        ValidateurGeologue instance = validateur;
+        instance.construireMessagesDErreur();
         
-        assertTrue(validateurBonCycle.validerLeCycle());
-        
-        String mauvaisCyclePourGeologue = "2012-2015";
-        Membre geologueMauvaisCycle = new Geologue("géologues", mauvaisCyclePourGeologue);
-        Validateur validateurMauvaisCycle = new ValidateurGeologue(geologueMauvaisCycle);
-        
-        assertFalse(validateurMauvaisCycle.validerLeCycle());
     }
 
+    /**
+     * Test of messageErreurSiLeCycleEstInvalide method, of class ValidateurGeologue.
+     */
     @Test
-    public void testCalculerHeuresManquantes() {
-        assertEquals(minimumHeuresTotales, validateur.calculerHeuresManquantes());
-        
-        geologue.ajouterActivitePourMembre
-            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresTotales, "atelier"));
-        assertEquals
-            (minimumHeuresCours + minimumHeuresProjet + minimumHeuresGroupe, validateur.calculerHeuresManquantes());
-        
-        geologue.ajouterActivitePourMembre
-            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresCours, "cours"));
-        assertEquals(minimumHeuresProjet + minimumHeuresGroupe, validateur.calculerHeuresManquantes());
-        
-        geologue.ajouterActivitePourMembre
-            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresProjet, "projet de recherche"));
-        assertEquals(minimumHeuresGroupe, validateur.calculerHeuresManquantes());
-        
-        geologue.ajouterActivitePourMembre
-            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresProjet, "groupe de discussion"));
-        assertEquals(0, validateur.calculerHeuresManquantes());
+    public void testMessageErreurSiLeCycleEstInvalide() {
+        System.out.println("messageErreurSiLeCycleEstInvalide");
+        ValidateurGeologue instance = validateur;
+        instance.messageErreurSiLeCycleEstInvalide();
     }
 
+    /**
+     * Test of ecrireMessageDErreurPourCategoriesNonReconnues method, of class ValidateurGeologue.
+     */
     @Test
-    public void testHeuresTotalesFormation() {
-        assertEquals(0, validateur.heuresTotalesFormation());
-        
-        int heuresValidesUn = 1;
-        int heuresValidesDeux = 2;
-        int heuresValidesTrois = 4;
-        int heuresInvalides = 99;
-        
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresValidesUn, "atelier"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresValidesDeux, "atelier"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresValidesTrois, "cours"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresInvalides, "invalide"));
-        
-        assertEquals(heuresValidesUn + heuresValidesDeux + heuresValidesTrois, validateur.heuresTotalesFormation());
+    public void testEcrireMessageDErreurPourCategoriesNonReconnues() {
+        System.out.println("ecrireMessageDErreurPourCategoriesNonReconnues");
+        int nombreDActivites = 0;
+        String activitesErronees = "";
+        ValidateurGeologue instance = validateur;
+        instance.ecrireMessageDErreurPourCategoriesNonReconnues(nombreDActivites, activitesErronees);
     }
 
+    /**
+     * Test of ecrireMessageDErreurPourDatesInvalides method, of class ValidateurGeologue.
+     */
     @Test
-    public void testNombreDHeuresSelonRegroupement() {
-        int codeToutSaufCoursProjetEtGroupe = 1;
-        int codeCoursProjetOuGroupe = 2;
-        
-        assertEquals(0, validateur.nombreDHeuresSelonRegroupement(codeToutSaufCoursProjetEtGroupe));
-        assertEquals(0, validateur.nombreDHeuresSelonRegroupement(codeCoursProjetOuGroupe));
-        
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(3, "atelier"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(3, "cours"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(3, "projet de recherche"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(3, "groupe de discussion"));
-        
-        assertEquals(3, validateur.nombreDHeuresSelonRegroupement(codeToutSaufCoursProjetEtGroupe));
-        assertEquals(9, validateur.nombreDHeuresSelonRegroupement(codeCoursProjetOuGroupe));
+    public void testEcrireMessageDErreurPourDatesInvalides() {
+        System.out.println("ecrireMessageDErreurPourDatesInvalides");
+        int nombreDActivites = 0;
+        String activitesErronees = "";
+        ValidateurGeologue instance = validateur;
+        instance.ecrireMessageDErreurPourDatesInvalides(nombreDActivites, activitesErronees);
     }
 
+    /**
+     * Test of ecrireMessageErreurPourHeuresManquantes method, of class ValidateurGeologue.
+     */
     @Test
-    public void testHeuresBrutesSelonCategorie() {
-        assertEquals(0, validateur.heuresBrutesSelonCategorie("cours"));
-        assertEquals(0, validateur.heuresBrutesSelonCategorie("atelier"));
-        assertEquals(0, validateur.heuresBrutesSelonCategorie("projet de recherche"));
-        
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(3, "cours"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(3, "cours"));
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(3, "atelier"));
-
-        assertEquals(6, validateur.heuresBrutesSelonCategorie("cours"));
-        assertEquals(3, validateur.heuresBrutesSelonCategorie("atelier"));
-        assertEquals(0, validateur.heuresBrutesSelonCategorie("projet de recherche"));
+    public void testEcrireMessageErreurPourHeuresManquantes() {
+        System.out.println("ecrireMessageErreurPourHeuresManquantes");
+        int heuresManquantes = 0;
+        ValidateurGeologue instance = validateur;
+        instance.ecrireMessageErreurPourHeuresManquantes(heuresManquantes);
     }
 
+    /**
+     * Test of messageErreurPourHeuresInsuffisantesParCategorie method, of class ValidateurGeologue.
+     */
     @Test
-    public void testMaximumEntreUnNombreEtUnTripletSomme() {
-        int premierNombreSeul = 4;
-        int maximumUn = ValidateurGeologue.maximumEntreUnNombreEtUnTripletSomme(premierNombreSeul, 1, 2, 3);
-        assertEquals(1 + 2 + 3, maximumUn);
-        
-        int deuxiemeNombreSeul = 1;
-        int maximumDeux = ValidateurGeologue.maximumEntreUnNombreEtUnTripletSomme(deuxiemeNombreSeul, 2, -2, 0);
-        assertEquals(2 + 0 + 0, maximumDeux);
+    public void testMessageErreurPourHeuresInsuffisantesParCategorie() {
+        System.out.println("messageErreurPourHeuresInsuffisantesParCategorie");
+        ValidateurGeologue instance = validateur;
+        instance.messageErreurPourHeuresInsuffisantesParCategorie();
     }
 
+    /**
+     * Test of messageErreurPourHeuresInsuffisantesSelonCategorie method, of class ValidateurGeologue.
+     */
     @Test
-    public void testRendreEntierNulSiNegatif() {
-        int nombreNegatif = -5;
-        assertEquals(0, ValidateurGeologue.rendreEntierNulSiNegatif(nombreNegatif));
-        
-        int nombreZero = 0;
-        assertEquals(0, ValidateurGeologue.rendreEntierNulSiNegatif(nombreZero));
-        
-        int nombrePositif = 6;
-        assertEquals(6, ValidateurGeologue.rendreEntierNulSiNegatif(nombrePositif));
-    }
-
-    @Test
-    public void testFormationComplete() {
-        assertFalse(validateur.formationComplete());
-        
-        int heuresInsuffantes = (minimumHeuresTotales - 1);
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(heuresInsuffantes, "atelier"));
-        assertFalse(validateur.formationComplete());
-        
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(1, "atelier"));
-        assertFalse(validateur.formationComplete());
-        
-        geologue.ajouterActivitePourMembre(creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresCours, "cours"));
-        assertFalse(validateur.formationComplete());
-        
-        geologue.ajouterActivitePourMembre
-            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresProjet, "projet de recherche"));
-        assertFalse(validateur.formationComplete());
-        
-        geologue.ajouterActivitePourMembre
-            (creerActiviteDeNHeuresValideSelonCategorie(minimumHeuresGroupe, "groupe de discussion"));
-        assertTrue(validateur.formationComplete());
+    public void testMessageErreurPourHeuresInsuffisantesSelonCategorie() {
+        System.out.println("messageErreurPourHeuresInsuffisantesSelonCategorie");
+        int heuresRequises = 0;
+        String categorie = "";
+        ValidateurGeologue instance = validateur;
+        instance.messageErreurPourHeuresInsuffisantesSelonCategorie(heuresRequises, categorie);
     }
 }

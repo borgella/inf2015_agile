@@ -25,7 +25,6 @@ public class ValidateurArchitecteTest {
     
     MockJson jsongenere = new MockJson();
     JSONObject declaration_json = jsongenere.retournerUnJSONObject();
-    JSONArray liste_activite = jsongenere.getActivites();
     Membre architecte = Membre.genererMembre(declaration_json);
     ValidateurArchitecte validateur;
     
